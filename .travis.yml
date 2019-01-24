@@ -10,7 +10,14 @@ script:
 
 notifications:
   email: false
-  slack: simplauto-projet4:foNTuvnQQK9jRkASWg6Y4Htz
+  slack: 
+    rooms: 
+      simplauto-projet4:foNTuvnQQK9jRkASWg6Y4Htz
+    template:
+        - "`%{repository_name}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) by *%{author}*."
+        - "Branch: `%{branch}`"
+        - "Execution time: *%{duration}*"
+
 deploy:
   provider: heroku
   app: simplauto-frontend
