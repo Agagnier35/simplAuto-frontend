@@ -9,6 +9,7 @@
     "start": "next start -p $PORT",
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
+    "test-ci": "NODE_ENV=test jest",
     "heroku-postbuild": "next build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
