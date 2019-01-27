@@ -3,7 +3,6 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "lib": ["dom", "es2017"],
-    "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "noUnusedLocals": true,
@@ -13,6 +12,9 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "target": "esnext",
     "plugins": [
       {

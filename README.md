@@ -44,13 +44,15 @@ React boilerplate using cutting edge web technologies
 
 1. Create a folder named _YourComponentName_
 2. Write your component in a **index.tsx**
-3. To help you develop your component, create a **index.stories.tsx.**
-4. Create as many story to cover the important use cases of your new component
+3. Write your custom styles in a **styles.tsx**
+4. To help you develop your component, create a **_YourComponentName_.stories.tsx.**
+5. Create as many stories to cover the important use cases of your new component
 
 Example:
 
 ```Javascript
 storiesOf('Button', module)
+  .addParameters({ jest: ['YourComponentName.test.ts'] })
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => (
     <Button onClick={action('clicked')}>
@@ -61,21 +63,26 @@ storiesOf('Button', module)
   ));
 ```
 
+```Shell
+npm run storybook
+```
+
 5. You can now run :
 
 ```Shell
 npm run storybook
 ```
 
-6. Test your component in a index.test.tsx file if needed.
+6. Test your component in a _YourComponentName_.test.tsx file if needed.
 
 Component directory example:
 
 - /**components**
   - /_YourComponentName_
     - /index.**tsx**
-    - /index.**stories.tsx**
-    - /index.**test.tsx**
+    - /styles.**tsx**
+    - /_YourComponentName_.**stories.tsx**
+    - /_YourComponentName_.**test.tsx**
 
 ### Motivation
 
@@ -91,10 +98,8 @@ Component directory example:
 
 ## TODOS
 
-1. Enable **TypeScript** with **Jest**
-2. Integrate **Jest** with **Storybook**
-3. Setup **nProgress** (Loading bar + spinner on page transitions)
-4. More **docs** + example on key features
+1. Setup **nProgress** (Loading bar + spinner on page transitions)
+2. More **docs** + example on key features
 
 ---
 

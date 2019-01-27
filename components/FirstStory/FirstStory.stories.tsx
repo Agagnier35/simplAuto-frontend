@@ -11,6 +11,7 @@ storiesOf('Welcome', module).add('to Storybook', () => (
 ));
 
 storiesOf('Button', module)
+  .addParameters({ jest: ['FirstStory.test.ts'] })
   .add('with text', () => (
     <Button onClick={action('clicked')}>Hello Button</Button>
   ))

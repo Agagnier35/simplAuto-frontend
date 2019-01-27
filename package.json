@@ -10,13 +10,16 @@
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
     "test-ci": "NODE_ENV=test jest",
-    "heroku-postbuild": "next build",
+    "test:generate-output": "jest --json --outputFile=jest-test-results.json || true",
+    "prebuild:storybook": "npm run test:generate-output",
     "storybook": "start-storybook -p 6006",
+    "heroku-postbuild": "next build",
     "build-storybook": "build-storybook"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@storybook/addon-jest": "^4.1.11",
     "@types/react": "^16.7.21",
     "@types/storybook__addon-actions": "^3.4.1",
     "@types/storybook__addon-links": "^3.3.3",
