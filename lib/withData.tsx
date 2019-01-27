@@ -1,16 +1,16 @@
-import withApollo from 'next-with-apollo';
+import withApollo, { InitApolloOptions } from 'next-with-apollo';
 import ApolloClient from 'apollo-boost';
 import { endpoint, prodEndpoint } from '../config';
 
-function createClient({ headers }) {
+function createClient({ headers }: InitApolloOptions<{}>) {
   return new ApolloClient({
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
-    request: operation => {
-      operation.setContext({
+    request: async operation => {
+      await operation.setContext({
+        headers,
         fetchOptions: {
           credentials: 'include',
         },
-        headers,
       });
     },
   });

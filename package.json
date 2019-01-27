@@ -18,6 +18,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/react": "^16.7.21",
+    "@types/storybook__addon-actions": "^3.4.1",
+    "@types/storybook__addon-links": "^3.3.3",
     "@zeit/next-typescript": "^1.1.1",
     "apollo-boost": "^0.1.16",
     "apollo-client": "^2.4.2",
