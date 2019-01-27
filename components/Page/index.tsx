@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 
 import Meta from '../Meta';
-import { StyledPage, Inner } from './style';
+import { StyledPage, Inner } from './styles';
 
 // Add other properties shared across the app
 const theme = {

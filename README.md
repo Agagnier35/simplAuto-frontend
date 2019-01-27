@@ -52,8 +52,17 @@ Example:
 
 ```Javascript
 storiesOf('Button', module)
-  .addParameters({ jest: ['YourComponentName.test.ts'] })
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
+  .addParameters({
+    jest: ['FirstStory.test.ts'],
+    info: {
+      text: `
+        This is description or documentation about my component
+      `,
+    },
+  })
+  .add('with text', () => (
+    <Button onClick={action('clicked')}>Hello Button</Button>
+  ))
   .add('with some emoji', () => (
     <Button onClick={action('clicked')}>
       <span role="img" aria-label="so cool">
@@ -63,9 +72,7 @@ storiesOf('Button', module)
   ));
 ```
 
-```Shell
-npm run storybook
-```
+The _**.addParameters**_ decorator lets you add your **tests results** and a **description** to you Stories.
 
 5. You can now run :
 
