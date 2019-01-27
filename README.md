@@ -8,6 +8,7 @@ React boilerplate using cutting edge web technologies
 - [TODOS](#TODOS)
 
 ## What's included and Why
+
 - [React](https://reactjs.org/) (Building the user interface)
 - [Apollo](https://www.apollographql.com/) (Data Management with GraphQL)
 - [Next.js](https://nextjs.org/) (Server Side Rendering and Code Splitting)
@@ -16,6 +17,7 @@ React boilerplate using cutting edge web technologies
 - [Enzyme](https://airbnb.io/enzyme/) (React components testing)
 
 ### General
+
 - [GraphQL](https://graphql.org/) (REST alternative / querying data)
 - [TypeScript](https://www.typescriptlang.org/) (Type system for JavaScript)
 - [Jest](https://jestjs.io/) (Test runner)
@@ -24,6 +26,7 @@ React boilerplate using cutting edge web technologies
 ---
 
 ## Project Structure
+
 - **.storybook** : Storybook's configuration
 - **components** : Every React Component that isn't a page
 - **lib** : Reusable utility functions
@@ -39,12 +42,12 @@ React boilerplate using cutting edge web technologies
 
 ## How to create a new component
 
-1. Create a folder named *YourComponentName*
-2. Write your component in a *YourComponentName.tsx*
-3. To help you develop your component, create a *YourComponentName.stories.tsx*. 
+1. Create a folder named _YourComponentName_
+2. Write your component in a **index.tsx**
+3. To help you develop your component, create a **index.stories.tsx.**
 4. Create as many story to cover the important use cases of your new component
 
-Example: 
+Example:
 
 ```Javascript
 storiesOf('Button', module)
@@ -64,15 +67,15 @@ storiesOf('Button', module)
 npm run storybook
 ```
 
-6. Test your component in a *YourComponentName.test.tsx* file if needed.
+6. Test your component in a index.test.tsx file if needed.
 
 Component directory example:
 
 - /**components**
-  - /*YourComponentName*
-    - /YourComponentName.**tsx**
-    - /YourComponentName.**stories.tsx**
-    - /YourComponentName.**test.tsx**
+  - /_YourComponentName_
+    - /index.**tsx**
+    - /index.**stories.tsx**
+    - /index.**test.tsx**
 
 ### Motivation
 
@@ -87,18 +90,15 @@ Component directory example:
 ---
 
 ## TODOS
+
 1. Enable **TypeScript** with **Jest**
 2. Integrate **Jest** with **Storybook**
-3. Setup **TypeScript** properly (**@types**)
-4. Make sure TSLint rules are being respected
-5. Fix current TSLint errors
-6. Setup **nProgress** (Loading bar + spinner on page transitions)
-7. **Extension pack** for VSCode
-8. More **docs** + example on key features
+3. Setup **nProgress** (Loading bar + spinner on page transitions)
+4. More **docs** + example on key features
 
 ---
 
-##Useful links
+## Useful links
 
 - [React TypeScript Guide](https://github.com/piotrwitek/react-redux-typescript-guide#tslintjson)
 - [Authentication in GraphQL](https://www.youtube.com/watch?v=4_Bcw7BULC8)

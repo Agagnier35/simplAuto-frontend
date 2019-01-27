@@ -51,7 +51,7 @@
     "@storybook/addon-links": "^4.1.4",
     "@storybook/addons": "^4.1.4",
     "@storybook/react": "^4.1.4",
-    "@types/jest": "^23.3.12",
+    "@types/jest": "^23.3.13",
     "@types/storybook__react": "^4.0.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.5",
@@ -72,21 +72,5 @@
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.4",
     "typescript-tslint-plugin": "^0.3.0"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
-    "testMatch": [
-      "**/__tests__ /**/*.ts?(x)",
-      "**/?(*.)+(spec|test).js?(x)"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/.next/",
-      "<rootDir>/node_modules/"
-    ],
-    "transform": {
-      "\\.(gql|graphql)$": "jest-transform-graphql",
-      ".*": "babel-jest",
-      "^.+\\.js?$": "babel-jest"
-    }
   }
 }
