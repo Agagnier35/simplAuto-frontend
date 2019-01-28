@@ -6,6 +6,7 @@ React boilerplate using cutting edge web technologies
 - [Project Structure](#Project-Structure)
 - [How to start](#How-To-Start)
 - [How to create a new component](#How-to-create-a-new-component)
+- [Plugins](#Plugins)
 - [TODOS](#TODOS)
 
 ## What's included and Why
@@ -117,6 +118,17 @@ Component directory example:
 - Build in **isolation**
 - Hot Module Replacement **speeds up** the development process
 - **No component duplicates**
+
+---
+
+## Plugins for VS Code
+
+- Debugger for Chrome
+- ES7 React/Redux/GraphQL/React-Native
+- Prettier - Code formatter
+- stylelint
+- Typescript React code snippets
+- TypeScript TSLint Plugin
 
 ---
 
