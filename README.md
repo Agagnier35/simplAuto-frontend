@@ -4,6 +4,7 @@ React boilerplate using cutting edge web technologies
 
 - [What's included and Why](#What's-included-and-Why)
 - [Project Structure](#Project-Structure)
+- [How to start](#How-To-Start)
 - [How to create a new component](#How-to-create-a-new-component)
 - [TODOS](#TODOS)
 
@@ -24,6 +25,22 @@ React boilerplate using cutting edge web technologies
 - [GraphQL Code Generator](https://graphql-code-generator.com/) (Generate TypeScript definitions from GraphQL)
 
 ---
+
+## How To Start
+
+Install the dependencies by running :
+
+```Shell
+npm install
+```
+
+You can now start the app with :
+
+```Shell
+npm run dev
+```
+
+The project will be available at http://localhost:7777
 
 ## Project Structure
 
@@ -106,7 +123,8 @@ Component directory example:
 ## TODOS
 
 1. Setup **nProgress** (Loading bar + spinner on page transitions)
-2. More **docs** + example on key features
+2. Setup multilang (Using React-intl api)
+3. More **docs** + example on key features
 
 ---
 
@@ -114,3 +132,4 @@ Component directory example:
 
 - [React TypeScript Guide](https://github.com/piotrwitek/react-redux-typescript-guide#tslintjson)
 - [Authentication in GraphQL](https://www.youtube.com/watch?v=4_Bcw7BULC8)
+- [Multilang](https://medium.freecodecamp.org/internationalization-in-react-7264738274a0)
