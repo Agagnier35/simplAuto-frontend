@@ -1,0 +1,105 @@
+import React, { ReactNode } from 'react';
+import Translations from './locales/types';
+
+// Initialize the context
+const MultiLangContext = React.createContext({});
+
+const MultiLangConsumer = MultiLangContext.Consumer;
+
+interface MultiLangProps {
+  initialLocale: string;
+  children: ReactNode;
+}
+
+interface MultiLangState {
+  currentLocale: string;
+}
+
+export enum Languages {
+  French = 'fr',
+  English = 'en',
+}
+
+export interface MultiProps {
+  translations: Translations;
+  changeLocale: (locale: string) => void;
+  currentLocale: string;
+}
+
+export default class MultiLang extends React.Component<
+  MultiLangProps,
+  MultiLangState
+> {
+  constructor(props: MultiLangProps) {
+    super(props);
+    this.state = {
+      currentLocale: 'en',
+    };
+
+    this.changeLocale = this.changeLocale.bind(this);
+  }
+
+  componentDidMount() {
+    const { initialLocale } = this.props;
+    this.setState({ currentLocale: initialLocale });
+  }
+
+  changeLocale(language: Languages) {
+    this.setState({ currentLocale: language });
+  }
+
+  public render() {
+    const { children } = this.props;
+    const { currentLocale } = this.state;
+    const translations = require(`./locales/${currentLocale}.ts`);
+
+    return (
+      <MultiLangContext.Provider
+        value={{ translations, currentLocale, changeLocale: this.changeLocale }}
+      >
+        {children}
+      </MultiLangContext.Provider>
+    );
+  }
+}
+
+// HOC for exposing the translations
+// Should be used 99% of the time
+export function multi(WrappedComponent: any) {
+  return class extends React.Component {
+    render() {
+      return (
+        <MultiLangConsumer>
+          {({ translations, currentLocale }: any) => (
+            <WrappedComponent
+              {...this.props}
+              translations={translations}
+              currentLocale={currentLocale}
+            />
+          )}
+        </MultiLangConsumer>
+      );
+    }
+  };
+}
+
+// HOC for exposing the translations and the updater function
+// ** Only use when you need to change the locale
+export function multiUpdater(WrappedComponent: any) {
+  return class extends React.Component {
+    render() {
+      return (
+        <MultiLangConsumer>
+          {({ translations, changeLocale, currentLocale }: any) => (
+            <WrappedComponent
+              {...this.props}
+              translations={translations}
+              changeLocale={changeLocale}
+              currentLocale={currentLocale}
+            />
+          )}
+        </MultiLangConsumer>
+      );
+    }
+  };
+}

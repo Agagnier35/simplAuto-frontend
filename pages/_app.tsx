@@ -6,6 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 import Page from '../components/Page';
 import withData from '../lib/withData';
 import { ApolloClient } from 'apollo-boost';
+import MultiLang from '../lib/MultiLang';
 
 interface PageProps {
   query?: any;
@@ -34,9 +35,11 @@ class MyApp extends App<Props> {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <MultiLang initialLocale="en">
+            <Page>
+              <Component {...pageProps} />
+            </Page>
+          </MultiLang>
         </ApolloProvider>
       </Container>
     );
