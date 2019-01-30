@@ -1,7 +1,17 @@
-import React from "react";
+import React from 'react';
+import { multiUpdater, MultiProps } from '../lib/MultiLang';
 
-const Home = () => {
-  return <div>Home page</div>;
+const Home = ({ translations, changeLocale, currentLocale }: MultiProps) => {
+  return (
+    <div>
+      {translations.hello}
+      <button
+        onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}
+      >
+        Click me
+      </button>
+    </div>
+  );
 };
 
-export default Home;
+export default multiUpdater(Home);

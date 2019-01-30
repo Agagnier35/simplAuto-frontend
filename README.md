@@ -6,7 +6,8 @@ React boilerplate using cutting edge web technologies
 - [Project Structure](#Project-Structure)
 - [How to start](#How-To-Start)
 - [How to create a new component](#How-to-create-a-new-component)
-- [Plugins](#Plugins)
+- [Translations](#Translations)
+- [Plugins](#Plugins-for-VS-Code)
 - [TODOS](#TODOS)
 
 ## What's included and Why
@@ -118,6 +119,43 @@ Component directory example:
 - Build in **isolation**
 - Hot Module Replacement **speeds up** the development process
 - **No component duplicates**
+
+---
+
+## Translations
+
+### To add a new translation (or just any string)
+
+1. Go to /lib/MultiLang/locales
+2. Open types.ts
+3. Add your new key of type _string_
+4. Open all of the langages files (ie en.ts)
+5. Add your new translation (yourKey: 'Your String')
+
+### To use a translated string in your component
+
+1. Import the higher order component from the /lib directory
+
+```TypeScript
+import { multi } from '../lib/MultiLang'; // Your path can change
+```
+
+2. Wrap the default export of your component with the multi function
+
+```TypeScript
+export default multi(YourComponent);
+```
+
+3. Thats it! You now have access to these as props:
+
+   - translations (a dictionary with [yourKey]:'Your String')
+   - currentLocale (the identifier of the current locale ie "en" or "fr")
+
+4. Just write
+
+```
+  {translations.yourKey}
+```
 
 ---
 
