@@ -1,28 +1,24 @@
 import React from 'react';
-import StyledError from './styles';
+import { multi } from '../../lib/MultiLang';
+import SingleError from './SingleError';
 
-const ErrorMessage = ({ error }: any) => {
+const ErrorMessage = ({ error }: { error: any }) => {
+  // Render nothing if no errors
   if (!error || !error.message) return null;
   if (
     error.networkError &&
     error.networkError.result &&
     error.networkError.result.errors.length
   ) {
-    return error.networkError.result.errors.map((errorItem: any, i: number) => (
-      <StyledError key={i}>
-        <p data-test="graphql-error">
-          {errorItem.message.replace('GraphQL error: ', '')}
-        </p>
-      </StyledError>
-    ));
+    // If it's an array
+    // => loop and render all of them
+    return error.networkError.result.errors.map((errorItem: any, i: number) => {
+      <SingleError error={errorItem} key={i} />;
+    });
   }
-  return (
-    <StyledError>
-      <p data-test="graphql-error">
-        {error.message.replace('GraphQL error: ', '')}
-      </p>
-    </StyledError>
-  );
+
+  // If there's only one render it
+  return <SingleError error={error} />;
 };
 
-export default ErrorMessage;
+export default multi(ErrorMessage);
