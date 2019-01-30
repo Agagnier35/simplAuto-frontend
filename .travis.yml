@@ -7,14 +7,9 @@ cache:
 script:
   - npm run test-ci
   - npm run build
-branches:
-  only:
-    -master
-    -develop
 notifications:
   email: false
   slack:
-    on_pull_requests: false
     rooms:
       - secure: CTiWLlA+Xpys/6g5D1SrMjmGTtvc9f1nZUEs6XgQ7F54LSmxy3ORPUXeYXXfyZk7+l5ObYgNasN1KnyyeGw5zM3qVv+im1SSjT8zoZJvfQNujRz3+MbD4CDTk9Tnw4EHx+yupggBTFoCDESxHN4F9jWFxCJ0Q9pZ2fTMhllDd87B9pbc/JnO4oMXFRcM+yfGD/hsoK2pApWanKprDgkVS3CoM4yU+yptVF1VOq8WtvrVz64hugcotZpiVKHwHnE21GR9YNgiLn4Kl6L/dWJ7kUMnkqzzMz742WOfjWpNjdmc3QLT3dn4vMA5UV2WB7DdQCLhbK8MEX7L6NHWK/7M0EPOjwJP/m0Veps8yJmzlLNtDP2xcZiVzal3DFWQ7VSckOo5bcYoF1KnIGcW1+R+xbqIKSPrZFCBIePPKXYiVPyKUhCUtWrMHgZVG8ZHTJPIT7j6v7Te41af8K2cn4DNcTbvSZ+pmXozXK4qqiAlV/eYjXbf8WIPWZ6tuwawuPS75pLymY16DqtpB0VXZ3dJWhWmLqNRgRdX2hoQq5ZvjBzAhXAGqmh4mjS6KO64UO36/PPzjn6su+/w0Vxqd/6M+EonYYc9W3EsxSIHSCXtiDT68NVJSSTFqLmdKD89t1ehp3tNYN43USt6JNk3DzD0mssFRVVcB/Lb6z4XiS8GCBg=
     template:
