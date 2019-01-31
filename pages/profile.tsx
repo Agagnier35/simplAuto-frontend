@@ -15,7 +15,6 @@ const Home = ({
           onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}>
           {general.changeLangage}
         </button>
-        <ProfileAccess />
       </div>
       
       <Login />
