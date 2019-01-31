@@ -65,41 +65,33 @@ export default class MultiLang extends React.Component<
 
 // HOC for exposing the translations
 // Should be used 99% of the time
-export function multi(WrappedComponent: any) {
-  return class extends React.Component {
-    render() {
-      return (
-        <MultiLangConsumer>
-          {({ translations, currentLocale }: any) => (
-            <WrappedComponent
-              {...this.props}
-              translations={translations}
-              currentLocale={currentLocale}
-            />
-          )}
-        </MultiLangConsumer>
-      );
-    }
-  };
-}
+export const multi = (WrappedComponent: any) => (props: any) => {
+  return (
+    <MultiLangConsumer>
+      {({ translations, currentLocale }: any) => (
+        <WrappedComponent
+          {...props}
+          translations={translations}
+          currentLocale={currentLocale}
+        />
+      )}
+    </MultiLangConsumer>
+  );
+};
 
 // HOC for exposing the translations and the updater function
 // ** Only use when you need to change the locale
-export function multiUpdater(WrappedComponent: any) {
-  return class extends React.Component {
-    render() {
-      return (
-        <MultiLangConsumer>
-          {({ translations, changeLocale, currentLocale }: any) => (
-            <WrappedComponent
-              {...this.props}
-              translations={translations}
-              changeLocale={changeLocale}
-              currentLocale={currentLocale}
-            />
-          )}
-        </MultiLangConsumer>
-      );
-    }
-  };
-}
+export const multiUpdater = (WrappedComponent: any) => (props: any) => {
+  return (
+    <MultiLangConsumer>
+      {({ translations, changeLocale, currentLocale }: any) => (
+        <WrappedComponent
+          {...props}
+          translations={translations}
+          changeLocale={changeLocale}
+          currentLocale={currentLocale}
+        />
+      )}
+    </MultiLangConsumer>
+  );
+};

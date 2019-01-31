@@ -1,3 +1,15 @@
 export default interface Translations {
-  hello: string;
+  login: {
+    title: string;
+  };
+  general: {
+    email: string;
+    password: string;
+    changeLangage: string;
+  };
+  errors: {
+    invalidEmail: string;
+    invalidPassword: string;
+    authError: string;
+  };
 }
