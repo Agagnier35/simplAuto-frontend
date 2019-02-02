@@ -5,10 +5,6 @@ import Link from 'next/link'
 
 class ProfileAccess extends Component<MultiProps>{
 
-  handleAccessProfile = () => {
-
-  }
-
   render() {
     return (
         <Form>
