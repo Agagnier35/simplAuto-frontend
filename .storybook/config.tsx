@@ -5,6 +5,7 @@ import results from '../jest-test-results.json';
 import 'bootstrap/dist/css/bootstrap.css';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import { theme, globalStyles } from '../components/Page';
+import MultiLang from '../lib/MultiLang';
 
 injectGlobal`
   ${globalStyles}
@@ -24,6 +25,10 @@ addDecorator(
   }),
 );
 
-addDecorator(story => <ThemeProvider theme={theme}>{story()}</ThemeProvider>);
+addDecorator(story => (
+  <ThemeProvider theme={theme}>
+    <MultiLang initialLocale="en">{story()}</MultiLang>
+  </ThemeProvider>
+));
 
 configure(loadStories, module);
