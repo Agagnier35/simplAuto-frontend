@@ -8,6 +8,8 @@ import withData from '../lib/withData';
 import { ApolloClient } from 'apollo-boost';
 import MultiLang from '../lib/MultiLang';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 interface PageProps {
   query?: any;
 }

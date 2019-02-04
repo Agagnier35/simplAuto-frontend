@@ -23,7 +23,6 @@
       ]
     }],
     "block-closing-brace-empty-line-before": "never",
-    "rule-empty-line-before": ["always-multi-line"],
     "number-max-precision" : 2,
   }
 }
