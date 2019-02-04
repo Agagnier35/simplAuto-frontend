@@ -23,8 +23,8 @@ const Form = styled.form`
   img {
     float:left;
     background-color: coral;
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 10%;
+    max-height: 20%;
     border-radius: 50%;
   }
 
@@ -40,9 +40,8 @@ const Form = styled.form`
   }
 
   .firstInfoSection {
-    height: auto;
+    min-height: 110px;
     position: relative;
-    background-color: coral;
     display: block;
   }
 

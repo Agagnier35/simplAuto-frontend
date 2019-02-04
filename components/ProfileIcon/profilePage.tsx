@@ -92,6 +92,7 @@ class ProfilePage extends Component<MultiProps>{
         </fieldset>
             
         </Form>
+        
     );
   }
 }
