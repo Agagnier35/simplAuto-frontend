@@ -1,6 +1,7 @@
 import React from 'react';
 import { multiUpdater, MultiProps } from '../lib/MultiLang';
 import Login from '../components/Login';
+import Signup from "../components/Signup";
 
 const Home = ({
   translations: { general },
@@ -15,6 +16,7 @@ const Home = ({
         {general.changeLangage}
       </button>
       <Login />
+      <Signup/>
     </div>
   );
 };

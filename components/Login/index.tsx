@@ -27,6 +27,7 @@ class Login extends Component<MultiProps, LoginState> {
   handleLogin = async (e: FormEvent<HTMLFormElement>, login: () => void) => {
     e.preventDefault();
     await login();
+    // Renvoie d'un JWTtoken qu'on stockera dans les cookies.
     this.setState({ email: '', password: '' });
   };
 
@@ -38,6 +39,7 @@ class Login extends Component<MultiProps, LoginState> {
     const {
       translations: { login, general },
     } = this.props;
+
     return (
       <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
         {(handleMutation, { loading, error }) => (
