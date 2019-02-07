@@ -59,7 +59,7 @@ class Signup extends Component<MultiProps, SignupState> {
     
     render() {  
         const {
-            translations: { login, general },
+            translations: { signup, general },
         } = this.props;
         return (
             <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
@@ -69,25 +69,25 @@ class Signup extends Component<MultiProps, SignupState> {
                   onSubmit={e => this.handleSignup(e, handleMutation)}
                 >
                   <fieldset disabled={loading} aria-busy={loading}>
-                    <h2>Signup</h2>
+                    <h2>{signup.title}</h2>
 
                     <label htmlFor="firstName">
-                        First Name
+                        {general.firstName}
                       <input
                         type="firstName"
                         name="firstName"
-                        placeholder="First Name"
+                        placeholder={general.firstName}
                         value={this.state.firstName}
                         onChange={this.handleChange}
                       />
                     </label>
 
                     <label htmlFor="lastName">
-                      Last Name
+                    {general.lastName}
                       <input
                         type="lastName"
                         name="lastName"
-                        placeholder="Last Name"
+                        placeholder={general.lastName}
                         value={this.state.lastName}
                         onChange={this.handleChange}
                       />
@@ -125,7 +125,7 @@ class Signup extends Component<MultiProps, SignupState> {
                       />
                     </label>
       
-                    <button type="submit">{login.title}</button>
+                    <button type="submit">{signup.title}</button>
                   </fieldset>
                   <ErrorMessage error={error} />
                 </Form>

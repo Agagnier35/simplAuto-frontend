@@ -11,6 +11,8 @@ export default interface Translations {
     changeLangage: string;
     becomePremium: string;
     or: string;
+    firstName: string;
+    lastName: string
   };
   errors: {
     invalidEmail: string;

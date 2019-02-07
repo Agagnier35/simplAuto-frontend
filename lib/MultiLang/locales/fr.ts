@@ -13,6 +13,8 @@ const translations: Translations = {
     changeLangage: 'Changer de langue',
     becomePremium: 'Devenir Premium',
     or: 'ou',
+    firstName: "Prénom",
+    lastName: "Nom de famille"
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
