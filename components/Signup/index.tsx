@@ -41,13 +41,8 @@ class Signup extends Component<MultiProps, SignupState> {
 
     handleSignup = async (e: FormEvent<HTMLFormElement>, signup: () => void) => {
         e.preventDefault();
-        if(this.isStateSignupValid()) {
-            await signup();
-        } else {
-            // Message = Le status n'est pas valide.
-            console.log("State not valid.");
-        }
-        
+
+        this.isStateSignupValid ? await signup() : console.log("State not valid.");
         // On va devoir envoyer un mail de vérification à la personne
         // lorsqu'elle se crée un compte.
         this.setState({ firstName: "", lastName: "", email: "", password: "" });
