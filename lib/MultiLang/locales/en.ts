@@ -10,6 +10,7 @@ const translations: Translations = {
   general: {
     email: 'Email',
     password: 'Password',
+    confirmPassword: "Confirm password",
     changeLangage: 'Change langage',
     becomePremium: 'Go Premium',
     or: 'or',

@@ -8,6 +8,7 @@ export default interface Translations {
   general: {
     email: string;
     password: string;
+    confirmPassword: string;
     changeLangage: string;
     becomePremium: string;
     or: string;

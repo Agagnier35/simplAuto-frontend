@@ -6,9 +6,9 @@ import gql from 'graphql-tag';
 import ErrorMessage from '../ErrorMessage/index';
 
 
-const LOGIN_MUTATION = gql`
-  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+const SIGNUP_MUTATION = gql`
+  mutation SIGNUP_MUTATION($email: String!, $password: String!, $name: String!) {
+    signup(email: $email, password: $password, name: $name) {
       id
     }
   }
@@ -50,7 +50,7 @@ class Signup extends Component<MultiProps, SignupState> {
         
         // On va devoir envoyer un mail de vérification à la personne
         // lorsqu'elle se crée un compte.
-        this.setState({ firstName: "", lastName: "", email: '', password: '' });
+        this.setState({ firstName: "", lastName: "", email: "", password: "" });
       };
     
       handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -62,7 +62,7 @@ class Signup extends Component<MultiProps, SignupState> {
             translations: { signup, general },
         } = this.props;
         return (
-            <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
+            <Mutation mutation={SIGNUP_MUTATION} variables={this.state}>
               {(handleMutation, { loading, error }) => (
                 <Form
                   method="post"
@@ -115,11 +115,11 @@ class Signup extends Component<MultiProps, SignupState> {
                     </label>
 
                     <label htmlFor="confirmPassword">
-                      Confirm Password
+                      {general.confirmPassword}
                       <input
                         type="confirmPassword"
                         name="confirmPassword"
-                        placeholder={general.password}
+                        placeholder={general.confirmPassword}
                         value={this.state.confirmPassword}
                         onChange={this.handleChange}
                       />
