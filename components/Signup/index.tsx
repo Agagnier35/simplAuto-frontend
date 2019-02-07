@@ -32,9 +32,22 @@ class Signup extends Component<MultiProps, SignupState> {
         confirmPassword: ""
     }
 
+    isStateSignupValid = () => {
+        return this.state.firstName != "" &&
+               this.state.lastName != ""  &&
+               this.state.email != ""     &&
+               this.state.password === this.state.confirmPassword;
+    }
+
     handleSignup = async (e: FormEvent<HTMLFormElement>, signup: () => void) => {
         e.preventDefault();
-        await signup();
+        if(this.isStateSignupValid()) {
+            await signup();
+        } else {
+            // Message = Le status n'est pas valide.
+            console.log("State not valid.");
+        }
+        
         // On va devoir envoyer un mail de vérification à la personne
         // lorsqu'elle se crée un compte.
         this.setState({ firstName: "", lastName: "", email: '', password: '' });
@@ -101,13 +114,13 @@ class Signup extends Component<MultiProps, SignupState> {
                       />
                     </label>
 
-                    <label htmlFor="password">
-                      {general.password}
+                    <label htmlFor="confirmPassword">
+                      Confirm Password
                       <input
-                        type="password"
-                        name="password"
+                        type="confirmPassword"
+                        name="confirmPassword"
                         placeholder={general.password}
-                        value={this.state.password}
+                        value={this.state.confirmPassword}
                         onChange={this.handleChange}
                       />
                     </label>
