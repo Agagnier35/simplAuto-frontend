@@ -24,29 +24,31 @@ const Form = styled.form`
     float:left;
     background-color: coral;
     max-width: 10%;
-    max-height: 20%;
+    max-height: 10%;
     border-radius: 50%;
   }
 
   .inputNeedSpace {
-      max-width: 20%;
-      margin-right: 5%;
+    max-width: 20%;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+    margin-right: 2%;
   }
 
   .inlinePart {
     float:left;
     position: relative;
-    width: 15%;
+    width: 10%;
   }
 
   .firstInfoSection {
-    min-height: 110px;
+    width: auto;
     position: relative;
-    display: block;
   }
 
   .vertical-center {
-    margin: auto;
+    min-height: 40%;
+    vertical-align: middle;
   }
 
 `;

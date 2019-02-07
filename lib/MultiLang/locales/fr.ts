@@ -7,6 +7,18 @@ const translations: Translations = {
   signup: {
     title: 'Créer un compte',
   },
+  profile: {
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    location: 'Votre position',
+    sex: 'Sexe',
+    save: 'Enregistrer',
+    search: 'Rechercher',
+    birth: 'Date de naissance',
+    male: 'homme',
+    female: 'femme',
+    other: 'autre',
+  },
   general: {
     email: 'Courriel',
     password: 'Mot de passe',

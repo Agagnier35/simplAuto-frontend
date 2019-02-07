@@ -40,7 +40,7 @@ class Login extends Component<MultiProps, LoginState> {
     } = this.props;
     return (
       <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
-        {(handleMutation, { loading, error }) => (
+        {(handleMutation, { loading, error, data }) => (
           <Form
             method="post"
             onSubmit={e => this.handleLogin(e, handleMutation)}

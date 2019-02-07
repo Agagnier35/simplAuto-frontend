@@ -5,6 +5,18 @@ export default interface Translations {
   signup: {
     title: string;
   };
+  profile: {
+    firstName: string;
+    lastName: string;
+    location: string;
+    sex: string;
+    save: string;
+    search: string;
+    birth: string;
+    male: string;
+    female: string;
+    other: string;
+  };
   general: {
     email: string;
     password: string;
