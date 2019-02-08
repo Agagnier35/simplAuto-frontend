@@ -18,6 +18,7 @@ const translations: Translations = {
     male: 'homme',
     female: 'femme',
     other: 'autre',
+    address: 'Entrée votre adresse',
   },
   general: {
     email: 'Courriel',

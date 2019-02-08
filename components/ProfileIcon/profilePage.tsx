@@ -24,48 +24,33 @@ query {
 
 class ProfilePage extends Component<MultiProps>{
 
-    getDayCount = (data:any) => {
+    onSuggestSelect(GeosuggestData:any) {
+        //GeosuggestData.susuggestions = [];
+    }
+
+    getDayCount = () => {
         let items = [];         
         for (let i = 1; i <= 31; i++) {      
-          if(i == data.me.birthDate.day){
-            items.push(<option key={i} value={i} selected>{i}</option>);
-          }
-          else{
             items.push(<option key={i} value={i} >{i}</option>);
-          }
         }
         return items;
     }  
 
-    getMonthCount = (data:any) => {
+    getMonthCount = () => {
         let items = [];         
         for (let i = 1; i <= 12; i++) {             
-            if(i == data.me.birthDate.month){
-              items.push(<option key={i} value={i} selected>{i}</option>);
-            }
-            else{
-              items.push(<option key={i} value={i} >{i}</option>);
-            }
+            items.push(<option key={i} value={i} >{i}</option>);
         }
         return items;
     }
 
-    getYearCount = (data:any) => {
+    getYearCount = () => {
         let year = new Date().getFullYear();
         let items = [];         
         for (let i = year; i >= year - 110; i--) {             
-            if(i == data.me.birthDate.year){
-              items.push(<option key={i} value={i} selected>{i}</option>);
-            }
-            else{
-              items.push(<option key={i} value={i} >{i}</option>);
-            }
+            items.push(<option key={i} value={i} >{i}</option>);
         }
         return items;
-    }
-
-    clickSearchPosition = () => {
-
     }
 
     handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -108,22 +93,23 @@ class ProfilePage extends Component<MultiProps>{
                 {/*location*/}
                 <div>
                     <p>{profile.location}: </p>
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnA1LKUbgzzYRpC-kuD_FQzQM8GE1VTZA&libraries=places"></script>
-                    <Geosuggest />
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places"></script>
+                    <Geosuggest initialValue={data.me.location}
+                        placeholder={profile.address}/>
                 </div>
                 {/*birth date*/}
                 <div>
                     <p>{profile.birth}: </p>
-                    <select>
-                        {this.getDayCount(data)}
+                    <select defaultValue={data.me.birthDate.day}>
+                        {this.getDayCount()}
                     </select>
                     <p> / </p>
-                    <select>
-                        {this.getMonthCount(data)}
+                    <select defaultValue={data.me.birthDate.month}>
+                        {this.getMonthCount()}
                     </select>
                     <p> / </p>
-                    <select>
-                        {this.getYearCount(data)}
+                    <select defaultValue={data.me.birthDate.year}>
+                        {this.getYearCount()}
                     </select>
                 </div>
                 {/*sex*/}
@@ -137,7 +123,7 @@ class ProfilePage extends Component<MultiProps>{
                     <p className="inputNeedSpace">{profile.other} </p>
                 </div>
             </div>
-            <button onClick={this.clickSearchPosition}>{profile.save}</button>
+            <button >{profile.save}</button>
         </fieldset>
             
         </Form>

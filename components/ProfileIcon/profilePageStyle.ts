@@ -35,6 +35,12 @@ const Form = styled.form`
     margin-right: 2%;
   }
 
+  .geosuggest__suggests--hidden {
+    max-height: 0;
+    overflow: hidden;
+    border-width: 0;
+  }
+
   .inlinePart {
     float:left;
     position: relative;

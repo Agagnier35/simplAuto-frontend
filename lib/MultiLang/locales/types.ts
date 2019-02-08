@@ -16,6 +16,7 @@ export default interface Translations {
     male: string;
     female: string;
     other: string;
+    address: string;
   };
   general: {
     email: string;
