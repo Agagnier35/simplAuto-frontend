@@ -3,6 +3,7 @@ import Form from './profilePageStyle';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
+import Geosuggest from 'react-geosuggest';
 
 const myQuery = gql`
 query {
@@ -11,35 +12,54 @@ query {
         lastName
         email
         location
-        age
+        birthDate{
+          day
+          month
+          year
+        }
         gender
-    }
+      }
   }
 `;
 
 class ProfilePage extends Component<MultiProps>{
 
-    getDayCount() {
+    getDayCount = (data:any) => {
         let items = [];         
-        for (let i = 1; i <= 31; i++) {             
-          items.push(<option key={i} value={i} >{i}</option>);
+        for (let i = 1; i <= 31; i++) {      
+          if(i == data.me.birthDate.day){
+            items.push(<option key={i} value={i} selected>{i}</option>);
+          }
+          else{
+            items.push(<option key={i} value={i} >{i}</option>);
+          }
         }
         return items;
     }  
 
-    getMonthCount = () => {
+    getMonthCount = (data:any) => {
         let items = [];         
         for (let i = 1; i <= 12; i++) {             
-          items.push(<option key={i} value={i}>{i}</option>);
+            if(i == data.me.birthDate.month){
+              items.push(<option key={i} value={i} selected>{i}</option>);
+            }
+            else{
+              items.push(<option key={i} value={i} >{i}</option>);
+            }
         }
         return items;
     }
 
-    getYearCount = () => {
+    getYearCount = (data:any) => {
         let year = new Date().getFullYear();
         let items = [];         
         for (let i = year; i >= year - 110; i--) {             
-          items.push(<option key={i} value={i}>{i}</option>);
+            if(i == data.me.birthDate.year){
+              items.push(<option key={i} value={i} selected>{i}</option>);
+            }
+            else{
+              items.push(<option key={i} value={i} >{i}</option>);
+            }
         }
         return items;
     }
@@ -87,23 +107,23 @@ class ProfilePage extends Component<MultiProps>{
             <div>
                 {/*location*/}
                 <div>
-                    <p>{profile.location}: </p><input className="inputNeedSpace" 
-                                type="text" name="FirstName" defaultValue={data.me.location}/>
-                    <button>{profile.search}</button>
+                    <p>{profile.location}: </p>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnA1LKUbgzzYRpC-kuD_FQzQM8GE1VTZA&libraries=places"></script>
+                    <Geosuggest />
                 </div>
                 {/*birth date*/}
                 <div>
                     <p>{profile.birth}: </p>
                     <select>
-                        {this.getDayCount()}
+                        {this.getDayCount(data)}
                     </select>
                     <p> / </p>
                     <select>
-                        {this.getMonthCount()}
+                        {this.getMonthCount(data)}
                     </select>
                     <p> / </p>
                     <select>
-                        {this.getYearCount()}
+                        {this.getYearCount(data)}
                     </select>
                 </div>
                 {/*sex*/}
