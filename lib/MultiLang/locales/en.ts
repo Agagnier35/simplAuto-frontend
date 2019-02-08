@@ -19,6 +19,7 @@ const translations: Translations = {
     female: 'female',
     other: 'other',
     address: 'Type your address',
+    changePassword: 'Change your password',
   },
   general: {
     email: 'Email',

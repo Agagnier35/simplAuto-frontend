@@ -6,6 +6,12 @@ const Form = styled.form`
   fieldset {
     border: 1px solid gray;
     border-radius: 1rem;
+    text-align: center;
+  }
+
+  fieldset > div {
+    display: inline-block;
+    text-align: left;
   }
 
   h1{
@@ -20,12 +26,23 @@ const Form = styled.form`
     display: inline;
   }
 
+  button {
+    margin: 0.5%;
+    display: inline-block;
+    border-radius: 30%;
+  }
+
   img {
-    float:left;
+    float: left;
+    margin-top: 1%;
+    margin-left: 1%;
     background-color: coral;
-    max-width: 10%;
-    max-height: 10%;
+    width: 10%;
     border-radius: 50%;
+  }
+
+  .geoLoc{
+    width: 400px;
   }
 
   .inputNeedSpace {
@@ -41,6 +58,17 @@ const Form = styled.form`
     border-width: 0;
   }
 
+  .buttonSection {
+    display: block;
+  }
+
+  .imageSection {
+    width:10%;
+    margin: 1%;
+    display: inline-block;
+    flex-wrap: wrap;
+  }
+
   .inlinePart {
     float:left;
     position: relative;
@@ -48,13 +76,17 @@ const Form = styled.form`
   }
 
   .firstInfoSection {
-    width: auto;
+    text-align: center;
+    margin-bottom: 0.5%;
     position: relative;
+    display: block;
   }
 
-  .vertical-center {
-    min-height: 40%;
-    vertical-align: middle;
+  .nameSection {
+    text-align: left;
+    display: inline-block;
+    padding-left:1%;
+    padding-top:1%;
   }
 
 `;

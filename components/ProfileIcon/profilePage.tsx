@@ -71,7 +71,8 @@ class ProfilePage extends Component<MultiProps>{
             {/*Section of first, last nam and email*/}
             <div className="firstInfoSection">
                 <img className="profileButton" src="../static/profileImage.png" />
-                <div className="vertical-center">
+                
+                <div className="nameSection">
                     <div>
                         {/*full name*/}
                         <p>{profile.firstName}: </p><input className="inputNeedSpace" 
@@ -95,7 +96,8 @@ class ProfilePage extends Component<MultiProps>{
                     <p>{profile.location}: </p>
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places"></script>
                     <Geosuggest initialValue={data.me.location}
-                        placeholder={profile.address}/>
+                        placeholder={profile.address}
+                        className="geoLoc"/>
                 </div>
                 {/*birth date*/}
                 <div>
@@ -123,7 +125,10 @@ class ProfilePage extends Component<MultiProps>{
                     <p className="inputNeedSpace">{profile.other} </p>
                 </div>
             </div>
-            <button >{profile.save}</button>
+            <div className="buttonSection">
+                <button >{profile.save}</button>
+                <button >{profile.changePassword}</button>
+            </div>
         </fieldset>
             
         </Form>
