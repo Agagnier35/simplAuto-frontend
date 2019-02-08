@@ -13,7 +13,13 @@ export default interface Translations {
     becomePremium: string;
     or: string;
     firstName: string;
-    lastName: string
+    lastName: string;
+    gender: string;
+    birthDate: {
+      day: string,
+      month: string,
+      year: string
+    };
   };
   errors: {
     invalidEmail: string;

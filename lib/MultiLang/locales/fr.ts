@@ -15,7 +15,13 @@ const translations: Translations = {
     becomePremium: 'Devenir Premium',
     or: 'ou',
     firstName: "Prénom",
-    lastName: "Nom de famille"
+    lastName: "Nom de famille",
+    gender: "genre",
+    birthDate: {
+      day: "Jour",
+      month: "Mois",
+      year: "Année"
+    }
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',

@@ -1,5 +1,5 @@
 import React, { Component, FormEvent } from "react";
-import { multi, MultiProps } from "../../lib/MultiLang";
+import { multi, MultiProps, Gender } from "../../lib/MultiLang";
 import { Mutation } from "react-apollo";
 import Form from "../Login/Form";
 import gql from 'graphql-tag';
@@ -7,13 +7,15 @@ import ErrorMessage from '../ErrorMessage/index';
 
 
 const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
+  mutation SIGNUP_MUTATION($data: data) {
+    signup(data: $data) {
       id
     }
   }
 `;
-
+// Faire la totalité du shit puis demander à Alexandre pour faire la connexion avec le backend.
+// Pour la location, utiliser une API. ou quelque chose
+  
 
 interface SignupState {
     firstName: string,
@@ -21,7 +23,14 @@ interface SignupState {
     email: string;
     password: string;
     confirmPassword: string;
+    gender: Gender;
+    birthDate: {
+      day: number,
+      month: number,
+      year: number
+    };
   }
+
 
 class Signup extends Component<MultiProps, SignupState> {
     state : SignupState = {
@@ -29,7 +38,13 @@ class Signup extends Component<MultiProps, SignupState> {
         lastName: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        gender: Gender.Other,
+        birthDate: {
+          day: 2,
+          month: 2,
+          year: 2019
+        }
     }
 
     isStateSignupValid = () => {
@@ -42,14 +57,15 @@ class Signup extends Component<MultiProps, SignupState> {
     handleSignup = async (e: FormEvent<HTMLFormElement>, signup: () => void) => {
         e.preventDefault();
 
-        this.isStateSignupValid ? await signup() : console.log("State not valid.");
+        this.isStateSignupValid() ? await signup() : console.log("State not valid."); // Renvoyer une erreur au lieu d'un console.log
         // On va devoir envoyer un mail de vérification à la personne
         // lorsqu'elle se crée un compte.
-        this.setState({ firstName: "", lastName: "", email: "", password: "" });
+        this.setState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: ""});
       };
     
       handleChange = (e: FormEvent<HTMLInputElement>) => {
         this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
+        console.log(this.state);
       };
     
     render() {  
@@ -112,14 +128,28 @@ class Signup extends Component<MultiProps, SignupState> {
                     <label htmlFor="confirmPassword">
                       {general.confirmPassword}
                       <input
-                        type="confirmPassword"
+                        type="password"
                         name="confirmPassword"
                         placeholder={general.confirmPassword}
                         value={this.state.confirmPassword}
                         onChange={this.handleChange}
                       />
                     </label>
-      
+
+                    <label htmlFor="gender">
+                      {general.gender}  
+                      <input type="radio" name="gender" onChange={this.handleChange} value={Gender.Male}  />{Gender.Male}
+                      <input type="radio" name="gender" onChange={this.handleChange} value={Gender.Female}/>{Gender.Female}
+                      <input type="radio" name="gender" onChange={this.handleChange} value={Gender.Other} />{Gender.Other}
+                    </label>
+                   
+                    <label htmlFor="birthDate">
+                      Birth Date
+                      <input type="number" onChange={this.handleChange} name={general.birthDate.day} value={this.state.birthDate.day}/>
+                      <input type="number" onChange={this.handleChange} name={general.birthDate.month} value={this.state.birthDate.month}/>
+                      <input type="number" onChange={this.handleChange} name={general.birthDate.year} value={this.state.birthDate.year}/>
+                    </label> 
+
                     <button type="submit">{signup.title}</button>
                   </fieldset>
                   <ErrorMessage error={error} />
