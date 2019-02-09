@@ -8,6 +8,7 @@ export const theme = {
     secondaryDarker: '#aeb2b7',
     secondaryHighlight: '#fd397a',
     secondaryHighlightDarker: '#fd1361',
+    dark: '#353540',
   },
 };
 

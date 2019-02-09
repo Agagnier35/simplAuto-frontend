@@ -10,14 +10,18 @@ import {
 import Link from 'next/link';
 import StyledNav from './styles';
 import { multiUpdater, MultiProps } from '../../lib/MultiLang';
+import { IoMdCar } from 'react-icons/io';
 
 const Header: React.SFC<MultiProps> = ({ translations }) => {
   return (
     <StyledNav>
+      <Link href="/" passHref>
+        <Navbar.Brand>
+          <IoMdCar />
+          Simplauto
+        </Navbar.Brand>
+      </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
-        <Link href="/" passHref>
-          <Navbar.Brand>Simplauto</Navbar.Brand>
-        </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
           <Nav className="mr-auto">{/* TODO Add routes when logged in */}</Nav>
