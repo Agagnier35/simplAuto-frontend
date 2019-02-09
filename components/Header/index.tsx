@@ -19,7 +19,6 @@ import Router from 'next/router';
 
 
 const  handleLogout = async (logout: () => void) => {
-  console.log("Gi");
   await logout();
   Router.push('/');
 }
