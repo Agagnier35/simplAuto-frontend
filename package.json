@@ -51,6 +51,7 @@
     "react-geosuggest": "^2.10.0",
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.5.0",
+    "sendemail": "^3.4.0",
     "styled-components": "^3.4.9",
     "tslint-react": "^3.6.0",
     "waait": "^1.0.2"

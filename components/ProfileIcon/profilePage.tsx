@@ -4,10 +4,17 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
+import { Button } from 'react-bootstrap';
+
+const MAX_DAY = 31;
+const MAX_MONTh = 12;
+const MAX_YEAR = new Date().getFullYear();
+const MAX_YEAR_GAP = 110;
 
 const myQuery = gql`
 query {
     me {
+        id
         firstName
         lastName
         email
@@ -18,19 +25,54 @@ query {
           year
         }
         gender
+        permissions
       }
   }
 `;
 
+const UPDATEUSER_MUTATION = gql`
+  mutation UPDATEUSER_MUTATION($UserUpdateInput: UserUpdateInput!) {
+    updateUser(data: $UserUpdateInput) {
+      id
+    }
+  }
+`;
+
+interface ProfileInfo {
+    firstName: string;
+    lastName: string;
+    email: string;
+    location: string;
+    day: string;
+    month: string;
+    year: string;
+    gender: string;
+  }
+
 class ProfilePage extends Component<MultiProps>{
 
-    onSuggestSelect(GeosuggestData:any) {
-        //GeosuggestData.susuggestions = [];
+    state: ProfileInfo = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        location: '',
+        day: '',
+        month: '',
+        year: '',
+        gender: '',
+    };
+
+    handleSaveClick = () => {
+        
+    }
+
+    handlePasswordChange = () => {
+        
     }
 
     getDayCount = () => {
         let items = [];         
-        for (let i = 1; i <= 31; i++) {      
+        for (let i = 1; i <= MAX_DAY; i++) {      
             items.push(<option key={i} value={i} >{i}</option>);
         }
         return items;
@@ -38,7 +80,7 @@ class ProfilePage extends Component<MultiProps>{
 
     getMonthCount = () => {
         let items = [];         
-        for (let i = 1; i <= 12; i++) {             
+        for (let i = 1; i <= MAX_MONTh; i++) {             
             items.push(<option key={i} value={i} >{i}</option>);
         }
         return items;
@@ -47,7 +89,7 @@ class ProfilePage extends Component<MultiProps>{
     getYearCount = () => {
         let year = new Date().getFullYear();
         let items = [];         
-        for (let i = year; i >= year - 110; i--) {             
+        for (let i = year; i >= MAX_YEAR - MAX_YEAR_GAP; i--) {             
             items.push(<option key={i} value={i} >{i}</option>);
         }
         return items;
@@ -66,19 +108,19 @@ class ProfilePage extends Component<MultiProps>{
     {({data}) => (
     <Form>
         <h1>Mon profil</h1>
+        <img className="profileButton" src="../static/profileImage.png" />
         <fieldset>
 
-            {/*Section of first, last nam and email*/}
+            {/*Section of first, last name and email*/}
             <div className="firstInfoSection">
-                <img className="profileButton" src="../static/profileImage.png" />
                 
                 <div className="nameSection">
                     <div>
                         {/*full name*/}
                         <p>{profile.firstName}: </p><input className="inputNeedSpace" 
-                                type="text" name="FirstName" defaultValue={data.me.firstName}/>
+                                type="text" id="FirstName" defaultValue={data.me.firstName}/>
                         <p>{profile.lastName}: </p><input className="inputNeedSpace" 
-                                type="text" name="LastName" defaultValue={data.me.lastName}/>
+                                type="text" id="LastName" defaultValue={data.me.lastName}/>
                     </div>
                     {/*email*/}
                     <p>{general.email}: </p><input className="inputNeedSpace" type="email"
@@ -96,6 +138,7 @@ class ProfilePage extends Component<MultiProps>{
                     <p>{profile.location}: </p>
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places"></script>
                     <Geosuggest initialValue={data.me.location}
+                        
                         placeholder={profile.address}
                         className="geoLoc"/>
                 </div>
@@ -126,8 +169,8 @@ class ProfilePage extends Component<MultiProps>{
                 </div>
             </div>
             <div className="buttonSection">
-                <button >{profile.save}</button>
-                <button >{profile.changePassword}</button>
+                <Button variant="primary" onClick={this.handleSaveClick}>{profile.save}</Button>
+                <Button variant="primary" onClick={this.handlePasswordChange}>{profile.changePassword}</Button>
             </div>
         </fieldset>
             

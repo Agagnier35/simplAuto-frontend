@@ -16,6 +16,7 @@ const Form = styled.form`
 
   h1{
     margin-bottom: 0;
+    display: inline-block;
   }
 
   h2 {
@@ -28,28 +29,17 @@ const Form = styled.form`
 
   button {
     margin: 0.5%;
-    display: inline-block;
-    border-radius: 30%;
   }
 
   img {
-    float: left;
     margin-top: 1%;
     margin-left: 1%;
-    background-color: coral;
-    width: 10%;
-    border-radius: 50%;
+    margin-bottom: 2%;
+    width: 4%;
   }
 
   .geoLoc{
     width: 400px;
-  }
-
-  .inputNeedSpace {
-    max-width: 20%;
-    margin-top: 1%;
-    margin-bottom: 0.5%;
-    margin-right: 2%;
   }
 
   .geosuggest__suggests--hidden {
@@ -58,15 +48,28 @@ const Form = styled.form`
     border-width: 0;
   }
 
-  .buttonSection {
-    display: block;
+  .geosuggest__input {
+    min-width: 64%;
   }
 
-  .imageSection {
-    width:10%;
-    margin: 1%;
-    display: inline-block;
-    flex-wrap: wrap;
+  .geosuggest__item:hover,
+  .geosuggest__item:focus {
+    background: #f5f5f5;
+  }
+  
+  .geosuggest__item__matched-text {
+    font-weight: bold;
+  }
+
+  .inputNeedSpace {
+    min-width: 20%;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+    margin-right: 2%;
+  }
+
+  .buttonSection {
+    display: block;
   }
 
   .inlinePart {
@@ -77,16 +80,16 @@ const Form = styled.form`
 
   .firstInfoSection {
     text-align: center;
-    margin-bottom: 0.5%;
-    position: relative;
     display: block;
   }
 
   .nameSection {
     text-align: left;
     display: inline-block;
-    padding-left:1%;
-    padding-top:1%;
+    padding-top: 1%;
+    padding-left: 14.5%;
+    margin-bottom: 0.5%;
+    position: relative;
   }
 
 `;
