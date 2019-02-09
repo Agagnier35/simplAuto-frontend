@@ -15,8 +15,8 @@ const Home = ({
       >
         {general.changeLangage}
       </button>
-      <Login />
-      <Signup/>
+      {/* <Login />
+      <Signup/> */}
     </div>
   );
 };
