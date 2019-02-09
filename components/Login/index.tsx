@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import ErrorMessage from '../ErrorMessage/index';
+import Router from 'next/router';
 
 interface LoginState {
   email: string;
@@ -28,6 +29,7 @@ class Login extends Component<MultiProps, LoginState> {
     e.preventDefault();
     await login();
     this.setState({ email: '', password: '' });
+    Router.push('/'); // On redirige l'utilisateur vers la home page après qu'il se soit connecté.
   };
 
   handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -38,6 +40,7 @@ class Login extends Component<MultiProps, LoginState> {
     const {
       translations: { login, general },
     } = this.props;
+
     return (
       <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
         {(handleMutation, { loading, error }) => (

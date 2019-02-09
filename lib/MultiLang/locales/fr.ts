@@ -10,9 +10,18 @@ const translations: Translations = {
   general: {
     email: 'Courriel',
     password: 'Mot de passe',
+    confirmPassword: "Confirmer mot de passe",
     changeLangage: 'Changer de langue',
     becomePremium: 'Devenir Premium',
     or: 'ou',
+    firstName: "Prénom",
+    lastName: "Nom de famille",
+    gender: "genre",
+    birthDate: {
+      day: "Jour",
+      month: "Mois",
+      year: "Année"
+    }
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
