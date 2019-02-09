@@ -6,8 +6,6 @@ import { StyledPage, Inner } from './styles';
 import Header from '../Header';
 import { globalStyles, theme } from '../Bootstrap/Theme';
 
-// Add other properties shared across the app
-
 injectGlobal`
   ${globalStyles}
 `;

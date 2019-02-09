@@ -125,4 +125,36 @@ export const globalStyles = `
       }
     }
   }
+
+  .dropdown {
+    &.show > .btn.dropdown-toggle {
+      background: ${theme.colors.secondary};
+      color: black;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .dropdown-item {
+      padding: 0.25rem 1rem;
+      font-size: 0.75rem;
+      font-weight: lighter;
+
+      &:active {
+        background: ${theme.colors.primary};
+      }
+    }
+
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  .card {
+    border: none;
+    box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+  }
 `;
