@@ -94,9 +94,13 @@ class ProfilePage extends Component<MultiProps>{
     handleChange = (e: FormEvent<HTMLInputElement>) => {
         this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
     };
+    
+    geoLocChange = (e: string) => {
+        this.state.location = e;
+    };
 
     optionChanged = (e: ChangeEvent<HTMLSelectElement>) => {
-        this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
+        this.setState({ loca: e.currentTarget.value } as any);
     };
 
     fillObjectToUpdate = (data:any) => {
@@ -174,10 +178,8 @@ class ProfilePage extends Component<MultiProps>{
                                 <p>{profile.location}: </p>
                                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places"></script>
                                 <Geosuggest initialValue={data.me.location}
-                                    name="location"
-                                    onChange={this.handleChange}
-                                    placeholder={profile.address}
-                                    className="geoLoc"/>
+                                    onChange={this.geoLocChange}
+                                    placeholder={profile.address}/>
                             </div>
                             {/*birth date*/}
                             <div>

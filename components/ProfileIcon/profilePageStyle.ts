@@ -38,10 +38,6 @@ const Form = styled.form`
     width: 4%;
   }
 
-  .geoLoc{
-    width: 400px;
-  }
-
   .geosuggest__suggests--hidden {
     max-height: 0;
     overflow: hidden;
@@ -49,7 +45,8 @@ const Form = styled.form`
   }
 
   .geosuggest__input {
-    min-width: 64%;
+    max-width: 65%;
+    min-width: 65%;
   }
 
   .geosuggest__item:hover,
