@@ -1,6 +1,6 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
-import Router from 'next/router';
+// import Router from 'next/router';
 import { Query } from 'react-apollo';
 import Loading from '../Loading';
 
