@@ -3,5 +3,8 @@
 
 .next
 
-#testing
+# testing
 jest-test-results.json
+
+# generated stuff
+/generated
