@@ -19,6 +19,7 @@ const IsNotLoggedIn = ({ children }: { children: React.ReactNode }) => {
           return <Loading />;
         }
         if (error) {
+            console.log('NOT LOGGED IN');
             return children;
         } else {
             // Router.push('/');

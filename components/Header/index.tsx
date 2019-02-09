@@ -13,8 +13,16 @@ import gql from 'graphql-tag';
 import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import IsLoggedIn from '../IsLoggedIn';
 import IsNotLoggedIn from '../IsNotLoggedIn';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import Loading from '../Loading';
+import Router from 'next/router';
+
+
+const  handleLogout = async (logout: () => void) => {
+  console.log("Gi");
+  await logout();
+  Router.push('/');
+}
 
 const Header: React.SFC<MultiProps> = ({ translations }) => {
   const LOGGED_IN_QUERY = gql`
@@ -24,6 +32,11 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
                       firstName, 
                       lastName
                     }
+                  }
+                            `;
+  const LOGOUT_MUTATION = gql`
+                  mutation {
+                    logout
                   }
                             `;
 
@@ -46,6 +59,13 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
                 return (
                   <div>
                     <h3>Bonjour {data.me.firstName} {data.me.lastName} </h3>
+                    <Mutation mutation={LOGOUT_MUTATION}>
+                    {(handleMutation) => (
+                      <button onClick={e =>  handleLogout(handleMutation)}
+                      >Se déconnecter</button>
+                    )}
+                     
+                    </Mutation>
                   </div>
                 );
               }}
