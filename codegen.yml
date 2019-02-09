@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'http://localhost:4000'
+schema: 'https://simplauto-backend.herokuapp.com/' # switch to this if you need to test with your current backend: http://localhost:4000
 documents: '**/*.graphql'
 generates:
   generated/graphql.ts:
