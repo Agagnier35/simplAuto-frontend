@@ -1,7 +1,7 @@
 import React from 'react';
-import { multi, MultiProps } from '../lib/MultiLang';
+import { multi } from '../lib/MultiLang';
 import IsNotLoggedIn from '../components/IsNotLoggedIn';
-import IsLoggedIn from '../components/IsLoggedIn';
+// import IsLoggedIn from '../components/IsLoggedIn';
 import Login from '../components/Login';
 
 
