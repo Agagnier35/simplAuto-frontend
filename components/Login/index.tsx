@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import ErrorMessage from '../ErrorMessage/index';
+import Router from 'next/router';
 
 interface LoginState {
   email: string;
@@ -27,8 +28,8 @@ class Login extends Component<MultiProps, LoginState> {
   handleLogin = async (e: FormEvent<HTMLFormElement>, login: () => void) => {
     e.preventDefault();
     await login();
-    // Renvoie d'un JWTtoken qu'on stockera dans les cookies.
     this.setState({ email: '', password: '' });
+    Router.push('/'); // On redirige l'utilisateur vers la home page après qu'il se soit connecté.
   };
 
   handleChange = (e: FormEvent<HTMLInputElement>) => {
