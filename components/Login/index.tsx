@@ -28,10 +28,8 @@ class Login extends Component<MultiProps, LoginState> {
   handleLogin = async (e: FormEvent<HTMLFormElement>, login: () => void) => {
     e.preventDefault();
     await login();
-    // Renvoie d'un JWTtoken qu'on stockera dans les cookies.
-    // Router.push('/');
-    Router.push('/');
     this.setState({ email: '', password: '' });
+    Router.push('/'); // On redirige l'utilisateur vers la home page après qu'il se soit connecté.
   };
 
   handleChange = (e: FormEvent<HTMLInputElement>) => {
