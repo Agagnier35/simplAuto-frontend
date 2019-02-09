@@ -7,4 +7,4 @@
 jest-test-results.json
 
 # generated stuff
-/generated
+/generated/graphql.ts
