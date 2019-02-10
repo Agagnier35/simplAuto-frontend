@@ -12,8 +12,8 @@ const MAX_MONTh = 12;
 const MAX_YEAR = new Date().getFullYear();
 const MAX_YEAR_GAP = 110;
 
-const GOOGLEMAPAPIACCESS =
-  'https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places';
+//const GOOGLEMAPAPIACCESS =
+//  'https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places';
 
 const myQuery = gql`
   query {
@@ -29,7 +29,6 @@ const myQuery = gql`
         year
       }
       gender
-      permissions
     }
   }
 `;
@@ -101,29 +100,55 @@ class ProfilePage extends Component<MultiProps> {
   };
 
   optionChanged = (e: ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ loca: e.currentTarget.value } as any);
+    this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
 
-  fillObjectToUpdate = (data: any) => {
-    return {
-      data: {
-        id: data.me.id,
-        lastName: data.me.lastName === 'Bergeron' ? 'Test' : 'Bergeron',
-      },
-    };
-  };
+  fillObjectToUpdate = (dataQ: any) => {
+    let item = {};
+    let data = {};
 
-  onFetchDataCompleted = (data: any) => {
-    this.setState({
-      firstName: data.me.firstName,
-      lastName: data.me.lastName,
-      email: data.me.email,
-      location: data.me.location,
-      day: data.me.birthDate.day,
-      month: data.me.birthDate.month,
-      year: data.me.birthDate.year,
-      gender: data.me.gender,
-    });
+    //set client's id
+    Object.defineProperty(data, 'id', {value : dataQ.me.id,
+                            writable : true,});
+    
+    //set client's first name
+    if(this.state.firstName != ''){
+        Object.defineProperty(data, 'firstName', {value : this.state.firstName,
+                                writable : true,});
+    }
+    
+    //set client's last name
+    if(this.state.lastName != ''){
+        Object.defineProperty(data, 'lastName', {value : this.state.lastName,
+                                writable : true,});
+    }
+    
+    //set client's birth date
+    if(this.state.day != '' || this.state.month != '' || this.state.year != ''){
+        let day = this.state.day;
+        let month = this.state.month;
+        let year = this.state.year;
+        Object.defineProperty(data, 'birthDate', 
+                                {value : {'day': day, 'month': month, 'year': year},
+                                writable : true,});
+    }
+    
+    //set client's gender
+    if(this.state.gender != ''){
+        Object.defineProperty(data, 'gender', {value : this.state.gender,
+                                writable : true,});
+    }
+    
+    //set client's location
+    if(this.state.location != ''){
+        Object.defineProperty(data, 'location', {value : this.state.location,
+                                writable : true,});
+    }
+    
+    Object.defineProperty(item, 'data', {value : data,
+        writable : true,});
+    console.log(item);
+    return item;
   };
 
   handleUpdateUser = async (
@@ -153,7 +178,7 @@ class ProfilePage extends Component<MultiProps> {
         <Head>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places" />
         </Head>
-        <Query query={myQuery}>
+        <Query query={myQuery} >
           {({ data, loading }) => {
             if (loading) return 'loading...';
             return (
