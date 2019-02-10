@@ -104,51 +104,48 @@ class ProfilePage extends Component<MultiProps> {
   };
 
   fillObjectToUpdate = (dataQ: any) => {
-    let item = {};
-    let data = {};
+    const data: any = {}; // TODO Shouldnt be any
 
     //set client's id
-    Object.defineProperty(data, 'id', {value : dataQ.me.id,
-                            writable : true,});
-    
+    data.id = dataQ.me.id;
+
     //set client's first name
-    if(this.state.firstName != ''){
-        Object.defineProperty(data, 'firstName', {value : this.state.firstName,
-                                writable : true,});
+    if (this.state.firstName !== '') {
+      data.firstName = this.state.firstName;
     }
-    
+
     //set client's last name
-    if(this.state.lastName != ''){
-        Object.defineProperty(data, 'lastName', {value : this.state.lastName,
-                                writable : true,});
+    if (this.state.lastName !== '') {
+      data.lastName = this.state.lastName;
     }
-    
+
     //set client's birth date
-    if(this.state.day != '' || this.state.month != '' || this.state.year != ''){
-        let day = this.state.day;
-        let month = this.state.month;
-        let year = this.state.year;
-        Object.defineProperty(data, 'birthDate', 
-                                {value : {'day': day, 'month': month, 'year': year},
-                                writable : true,});
+    if (
+      this.state.day !== '' ||
+      this.state.month !== '' ||
+      this.state.year !== ''
+    ) {
+      const day = this.state.day;
+      const month = this.state.month;
+      const year = this.state.year;
+      data.birthDate = {
+        day,
+        month,
+        year,
+      };
     }
-    
+
     //set client's gender
-    if(this.state.gender != ''){
-        Object.defineProperty(data, 'gender', {value : this.state.gender,
-                                writable : true,});
+    if (this.state.gender !== '') {
+      data.gender = this.state.gender;
     }
-    
+
     //set client's location
-    if(this.state.location != ''){
-        Object.defineProperty(data, 'location', {value : this.state.location,
-                                writable : true,});
+    if (this.state.location !== '') {
+      data.location = this.state.location;
     }
-    
-    Object.defineProperty(item, 'data', {value : data,
-        writable : true,});
-    console.log(item);
-    return item;
+
+    return { data };
   };
 
   handleUpdateUser = async (
@@ -178,7 +175,7 @@ class ProfilePage extends Component<MultiProps> {
         <Head>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places" />
         </Head>
-        <Query query={myQuery} >
+        <Query query={myQuery}>
           {({ data, loading }) => {
             if (loading) return 'loading...';
             return (
