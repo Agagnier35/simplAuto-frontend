@@ -14,7 +14,9 @@
     "prebuild:storybook": "npm run test:generate-output",
     "storybook": "start-storybook -p 6006",
     "heroku-postbuild": "next build",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "init-codegen": "gql-gen init",
+    "generate": "gql-gen --config codegen.yml"
   },
   "author": "",
   "license": "ISC",
@@ -34,7 +36,7 @@
     "downshift": "^2.2.3",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
-    "graphql": "^14.0.2",
+    "graphql": "^14.1.1",
     "graphql-tag": "^2.9.2",
     "lodash.debounce": "^4.0.8",
     "next": "^7.0.0",
@@ -46,6 +48,7 @@
     "react-apollo": "^2.2.1",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.5.2",
+    "react-icons": "^3.3.0",
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.5.0",
     "styled-components": "^3.4.9",
@@ -65,6 +68,7 @@
     "babel-plugin-module-resolver": "^3.1.1",
     "casual": "^1.5.19",
     "enzyme-to-json": "^3.3.4",
+    "graphql-code-generator": "^0.16.0",
     "graphql-tools": "^4.0.0",
     "jest": "^23.6.0",
     "jest-transform-graphql": "^2.1.0",
@@ -78,6 +82,9 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.4",
-    "typescript-tslint-plugin": "^0.3.0"
+    "typescript-tslint-plugin": "^0.3.0",
+    "graphql-codegen-typescript-common": "0.16.0",
+    "graphql-codegen-typescript-client": "0.16.0",
+    "graphql-codegen-typescript-server": "0.16.0"
   }
 }
