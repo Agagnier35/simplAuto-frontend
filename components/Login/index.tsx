@@ -126,39 +126,3 @@ class Login extends Component<MultiProps, LoginState> {
 }
 
 export default multi(Login);
-
-{
-  /* <Form
-  method="post"
-  onSubmit={e => this.handleLogin(e, handleMutation)}
->
-  <Card>
-    <fieldset disabled={loading} aria-busy={loading}>
-      <h2>{login.title}</h2>
-      <label htmlFor="email">
-        {general.email}
-        <input
-          type="email"
-          name="email"
-          placeholder={general.email}
-          value={this.state.email}
-          onChange={this.handleChange}
-        />
-      </label>
-      <label htmlFor="password">
-        {general.password}
-        <input
-          type="password"
-          name="password"
-          placeholder={general.password}
-          value={this.state.password}
-          onChange={this.handleChange}
-        />
-      </label>
-
-      <button type="submit">{login.title}</button>
-    </fieldset>
-  </Card>
-  <ErrorMessage error={error} />
-</Form> */
-}
