@@ -8,6 +8,7 @@ const translations: Translations = {
     title: 'Create an account',
   },
   profile: {
+    profilePage: 'My profile',
     firstName: 'First name',
     lastName: 'Last name',
     location: 'Your position',

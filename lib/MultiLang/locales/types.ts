@@ -6,6 +6,7 @@ export default interface Translations {
     title: string;
   };
   profile: {
+    profilePage: string;
     firstName: string;
     lastName: string;
     location: string;

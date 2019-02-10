@@ -11,6 +11,8 @@ const MAX_MONTh = 12;
 const MAX_YEAR = new Date().getFullYear();
 const MAX_YEAR_GAP = 110;
 
+const GOOGLEMAPAPIACCESS = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places";
+
 const myQuery = gql`
 query {
     me {
@@ -66,21 +68,13 @@ class ProfilePage extends Component<MultiProps>{
         
     }
 
-    getDayCount = () => {
+    getTimeCount = (maxValue:any) => {
         let items = [];         
-        for (let i = 1; i <= MAX_DAY; i++) {      
+        for (let i = 1; i <= maxValue; i++) {      
             items.push(<option key={i} value={i} >{i}</option>);
         }
         return items;
     }  
-
-    getMonthCount = () => {
-        let items = [];         
-        for (let i = 1; i <= MAX_MONTh; i++) {             
-            items.push(<option key={i} value={i} >{i}</option>);
-        }
-        return items;
-    }
 
     getYearCount = () => {
         let year = new Date().getFullYear();
@@ -104,6 +98,11 @@ class ProfilePage extends Component<MultiProps>{
     };
 
     fillObjectToUpdate = (data:any) => {
+        //let item = {};
+        //Object.defineProperty(item, 'id', {value : data.me.id,
+        //writable : true,});
+        //Object.defineProperty(item, 'email', string);
+        //console.log(item);
         return {
             id: data.me.id,
             email: data.me.email,
@@ -114,6 +113,20 @@ class ProfilePage extends Component<MultiProps>{
             gender: data.me.gender,
             permissions: data.me.permissions,
         }
+    }
+
+    onFetchDataCompleted = (data:any) =>{
+        
+        console.log("lol");
+        this.setState({
+            firstName: data.me.firstName,
+            lastName: data.me.lastName,
+            email: data.me.email,
+            location: data.me.location,
+            day: data.me.birthDate.day,
+            month: data.me.birthDate.month,
+            year: data.me.birthDate.year,
+            gender: data.me.gender, });
     }
 
     handleUpdateUser = async (e: FormEvent<HTMLFormElement>, update: () => void) => {
@@ -141,9 +154,9 @@ class ProfilePage extends Component<MultiProps>{
             <Mutation mutation={UPDATEUSER_MUTATION} variables={this.fillObjectToUpdate(data)}>
             {(handleMutation) => (
                 <Style
-                    method="post"
+                    method="put"
                     onSubmit={e => this.handleUpdateUser(e, handleMutation)}>
-                    <h1>Mon profil</h1>
+                    <h1>{ profile.profilePage }</h1>
                     <img className="profileButton" src="../static/profileImage.png" />
                     <fieldset>
 
@@ -187,13 +200,13 @@ class ProfilePage extends Component<MultiProps>{
                                 <select defaultValue={data.me.birthDate.day}
                                         name="day"
                                         onChange={this.optionChanged}>
-                                    {this.getDayCount()}
+                                    {this.getTimeCount(MAX_DAY)}
                                 </select>
                                 <p> / </p>
                                 <select defaultValue={data.me.birthDate.month}
                                         name="month"
                                         onChange={this.optionChanged}>
-                                    {this.getMonthCount()}
+                                    {this.getTimeCount(MAX_MONTh)}
                                 </select>
                                 <p> / </p>
                                 <select defaultValue={data.me.birthDate.year}
@@ -205,11 +218,11 @@ class ProfilePage extends Component<MultiProps>{
                             {/*sex*/}
                             <div>
                                 <p>{profile.sex}: </p>
-                                <input type="radio" name="gender" value="MALE" checked={data.me.gender === 'MALE'} onChange={this.handleChange}/> 
+                                <input type="radio" name="gender" value="MALE" checked={this.state.gender === 'MALE'} onChange={this.handleChange}/> 
                                 <p className="inputNeedSpace">{profile.male} </p>
-                                <input type="radio" name="gender" value="FEMALE" checked={data.me.gender === 'FEMALE'} onChange={this.handleChange}/> 
+                                <input type="radio" name="gender" value="FEMALE" checked={this.state.gender === 'FEMALE'} onChange={this.handleChange}/> 
                                 <p className="inputNeedSpace">{profile.female} </p>
-                                <input type="radio" name="gender" value="OTHER" checked={data.me.gender === 'OTHER'} onChange={this.handleChange}/> 
+                                <input type="radio" name="gender" value="OTHER" checked={this.state.gender === 'OTHER'} onChange={this.handleChange}/> 
                                 <p className="inputNeedSpace">{profile.other} </p>
                             </div>
                         </div>

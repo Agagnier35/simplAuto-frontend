@@ -49,6 +49,11 @@ const Form = styled.form`
     min-width: 65%;
   }
 
+  .geosuggest__suggests {
+    max-width: 65%;
+    min-width: 65%;
+  }
+
   .geosuggest__item:hover,
   .geosuggest__item:focus {
     background: #f5f5f5;
