@@ -15,7 +15,7 @@ export const theme = {
 export const globalStyles = `
   
   @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600');
-
+  
   html {
     box-sizing: border-box;
     font-size: 16px;
@@ -40,6 +40,7 @@ export const globalStyles = `
   .btn {
     font-size: .75rem;
     padding: .55rem .75rem;
+    transition: text-decoration 0s;
 
     &-lg {
       padding: 0.75rem 1rem;
@@ -72,6 +73,7 @@ export const globalStyles = `
       background: ${theme.colors.secondary};
       color: black;
       border: none;
+      text-transform: uppercase;
 
       &:hover {
         background: ${theme.colors.primary};

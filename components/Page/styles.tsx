@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledPage = styled.div`
-  background: white;
+  min-height: 100vh;
+  background: ${props => props.theme.colors.secondary};
 `;
 
 export const Inner = styled.div`

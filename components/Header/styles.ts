@@ -3,13 +3,14 @@ import styled from 'styled-components';
 const StyledNav = styled.div`
   background-color: ${props => props.theme.colors.dark};
   display: flex;
+  position: relative;
 
   nav {
     width: 100%;
-    max-width: 1200px;
-    margin: auto;
+    max-width: 900px;
     background: none !important; /* No choice to overwrite bootstrap */
     padding: 0;
+    margin: 10.5px auto;
   }
 
   .navbar-brand {
@@ -22,6 +23,7 @@ const StyledNav = styled.div`
     display: flex;
     align-items: center;
     margin-right: 0;
+    font-size: 1.35rem;
 
     &:hover {
       color: white;
@@ -50,6 +52,29 @@ const StyledNav = styled.div`
     &.collapse,
     &.collapsing {
       text-align: center !important;
+    }
+
+    &.collapsing,
+    &.collapse.show {
+      .btn-primary {
+        margin-top: 1rem;
+      }
+
+      .logged-out {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 0;
+        transition: none;
+
+        a {
+          font-size: 1.25rem;
+        }
+
+        span {
+          display: none;
+        }
+      }
     }
   }
 

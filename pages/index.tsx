@@ -9,11 +9,6 @@ const Home = ({
 }: MultiProps) => {
   return (
     <div>
-      <button
-        onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}
-      >
-        {general.changeLangage}
-      </button>
       <Login />
     </div>
   );
