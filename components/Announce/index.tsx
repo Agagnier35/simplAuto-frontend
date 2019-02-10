@@ -15,7 +15,6 @@ class AllAnnounces extends Component<MultiProps, AllAnnouncesCharacteristic> {
     render(){
     return(
         <div>
-            <h2>IMAGE DE CHAR</h2> 
             <Announces></Announces>
         </div>
     )

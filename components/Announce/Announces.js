@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import Announce from "./Announce";
+import Announce from "./Announce"
 
 const Announces = () => (
     <Query
@@ -9,16 +9,16 @@ const Announces = () => (
       query{
         ads{
           id
+          priceLowerBoundFeature{price}
+          priceHigherBoundFeature{price}
+          manufacturerFeature{manufacturer{name}}
+          modelFeature{model{name}}
+          categoryFeature{category{name}}
+          mileageLowerBoundFeature{mileage}
+          mileageHigherBoundFeature{mileage}
+          yearLowerBoundFeature{year}
+          yearHigherBoundFeature{year}
           features{feature{name,category{name}}}
-          priceLowerBound
-          priceHigherBound
-          manufacturer{name}
-          model{name}
-          category{name}
-          mileageLowerBound
-          mileageHigherBound
-          yearLowerBound
-          yearHigherBound
           isUrgent
           isFirst
           status
@@ -36,4 +36,5 @@ const Announces = () => (
       }}
     </Query>
   );
-  export default Announces;
+  export default Announces
+  

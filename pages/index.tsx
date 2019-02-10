@@ -1,6 +1,7 @@
 import React from 'react';
 import { multiUpdater, MultiProps } from '../lib/MultiLang';
 import Login from '../components/Login';
+import Announce from '../components/Announce';
 
 const Home = ({
   translations: { general },
