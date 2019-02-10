@@ -70,7 +70,6 @@ class Login extends Component<MultiProps, LoginState> {
                   onChange={this.handleChange}
                 />
               </label>
-
               <button type="submit">{login.title}</button>
             </fieldset>
             <ErrorMessage error={error} />
