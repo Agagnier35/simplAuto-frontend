@@ -21,7 +21,8 @@ const translations: Translations = {
       day: "Jour",
       month: "Mois",
       year: "Année"
-    }
+    },
+    resetPw: "Réinitialiser le mot de passe"
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',

@@ -20,6 +20,7 @@ export default interface Translations {
       month: string,
       year: string
     };
+    resetPw: string;
   };
   errors: {
     invalidEmail: string;

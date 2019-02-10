@@ -21,7 +21,8 @@ const translations: Translations = {
       day: "Day",
       month: "Month",
       year: "Year"
-    }
+    },
+    resetPw: "Reset password"
   },
   errors: {
     invalidEmail: 'Invalid email',
