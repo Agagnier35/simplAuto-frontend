@@ -6,6 +6,7 @@ import { multi, MultiProps } from '../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
 import { Button } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
+import Loading from '../Loading';
 
 
 const GET_USER_INFO_QUERY = gql`
@@ -138,7 +139,7 @@ class ProfilePage extends Component<MultiProps> {
       <>
         <Query query={GET_USER_INFO_QUERY}>
           {({ data, loading, error }) => {
-            if (loading) return 'loading...';
+            if (loading) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return (
               <Mutation
