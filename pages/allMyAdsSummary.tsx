@@ -7,9 +7,9 @@ import ErrorMessage from "../components/ErrorMessage";
 import Loading from '../components/Loading';
 import GenerateAllAd from '../components/AllAds'
 
-const Ads = ({ translations }: MultiProps) => {
+const MyAds = ({ translations }: MultiProps) => {
 
-    const ALL_ADS_QUERY = gql` 
+    const ALL_MY_ADS_QUERY = gql` 
     query{
         me{
             ads{
@@ -33,11 +33,11 @@ const Ads = ({ translations }: MultiProps) => {
     `;
 
   return(
-        <Query query={ALL_ADS_QUERY} >
+        <Query query={ALL_MY_ADS_QUERY} >
         {({ data, loading, error }) => {
             if (loading) return <Loading></Loading>;
             if (error) return <ErrorMessage></ErrorMessage>;
-            return data.ads.me.map((currentAd : any) => (
+            return data.me.ads.map((currentAd : any) => (
                 <GenerateAllAd key={currentAd.id} data={currentAd} />
             ));
         }}
@@ -45,4 +45,4 @@ const Ads = ({ translations }: MultiProps) => {
   );
 };
 
-export default multi(Ads);
+export default multi(MyAds);
