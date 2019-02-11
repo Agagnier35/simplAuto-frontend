@@ -2,10 +2,7 @@ import * as React from 'react';
 import {
   Navbar,
   Nav,
-  Form,
-  FormControl,
-  Button,
-  ButtonToolbar,
+  Button
 } from 'react-bootstrap';
 import Link from 'next/link';
 import StyledNav from './styles';
@@ -50,7 +47,7 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
           <Nav className="mr-auto">{/* TODO Add routes when logged in */}</Nav>
           <IsLoggedIn>
             <Query query={LOGGED_IN_QUERY}>
-              {({ data, loading, error }) => {
+              {({ data, loading }) => {
                 if (loading) {
                   return (<Loading/>); 
                 }
@@ -60,7 +57,7 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
                     <h3>Bonjour {data.me.firstName} {data.me.lastName} </h3>
                     <Mutation mutation={LOGOUT_MUTATION}>
                     {(handleMutation) => (
-                      <button onClick={e =>  handleLogout(handleMutation)}
+                      <button onClick={() =>  handleLogout(handleMutation)}
                       >Se déconnecter</button>
                     )}
                      
