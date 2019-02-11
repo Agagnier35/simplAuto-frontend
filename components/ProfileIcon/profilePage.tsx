@@ -120,14 +120,33 @@ class ProfilePage extends Component<MultiProps> {
     }
 
     //set client's birth date
-    if (
-      this.state.day !== '' ||
-      this.state.month !== '' ||
-      this.state.year !== ''
-    ) {
-      const day = this.state.day;
-      const month = this.state.month;
-      const year = this.state.year;
+    if (this.state.day !== '') {
+      dataQ.me.birthDate.day = this.state.day;
+      const day = parseInt(dataQ.me.birthDate.day);
+      const month = parseInt(dataQ.me.birthDate.month);
+      const year = parseInt(dataQ.me.birthDate.year);
+      data.birthDate = {
+        day,
+        month,
+        year,
+      };
+    }
+    if (this.state.month !== '') {
+      dataQ.me.birthDate.month = this.state.month;
+      const day = parseInt(dataQ.me.birthDate.day);
+      const month = parseInt(dataQ.me.birthDate.month);
+      const year = parseInt(dataQ.me.birthDate.year);
+      data.birthDate = {
+        day,
+        month,
+        year,
+      };
+    }
+    if (this.state.year !== '') {
+      dataQ.me.birthDate.year = this.state.year;
+      const day = parseInt(dataQ.me.birthDate.day);
+      const month = parseInt(dataQ.me.birthDate.month);
+      const year = parseInt(dataQ.me.birthDate.year);
       data.birthDate = {
         day,
         month,
@@ -277,7 +296,7 @@ class ProfilePage extends Component<MultiProps> {
                             type="radio"
                             name="gender"
                             value="MALE"
-                            checked={this.state.gender === 'MALE'}
+                            checked={this.state.gender === 'MALE' || (this.state.gender === '' && data.me.gender === 'MALE')}
                             onChange={this.handleChange}
                           />
                           <p className="inputNeedSpace">{profile.male} </p>
@@ -285,7 +304,7 @@ class ProfilePage extends Component<MultiProps> {
                             type="radio"
                             name="gender"
                             value="FEMALE"
-                            checked={this.state.gender === 'FEMALE'}
+                            checked={this.state.gender === 'FEMALE' || (this.state.gender === '' && data.me.gender === 'FEMALE')}
                             onChange={this.handleChange}
                           />
                           <p className="inputNeedSpace">{profile.female} </p>
@@ -293,7 +312,7 @@ class ProfilePage extends Component<MultiProps> {
                             type="radio"
                             name="gender"
                             value="OTHER"
-                            checked={this.state.gender === 'OTHER'}
+                            checked={this.state.gender === 'OTHER' || (this.state.gender === '' && data.me.gender === 'OTHER')}
                             onChange={this.handleChange}
                           />
                           <p className="inputNeedSpace">{profile.other} </p>
