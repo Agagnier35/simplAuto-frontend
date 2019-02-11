@@ -7,6 +7,7 @@ import Geosuggest from 'react-geosuggest';
 import { Button } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
+import { timesSeries } from 'async';
 
 
 const GET_USER_INFO_QUERY = gql`
@@ -36,7 +37,7 @@ const UPDATE_USER_MUTATION = gql`
 `;
 
 interface ProfileInfo {
-  firstName: string;
+  [firstName: string]: string;
   lastName: string;
   email: string;
   location: string;
@@ -65,9 +66,9 @@ class ProfilePage extends Component<MultiProps> {
   handleChange = (e: FormEvent<HTMLInputElement>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
-
-  handleChangeValue = (value: any, name: string) => {
-    this.setState({ [name]: value } as any);
+  
+  handleChangeGeoLoc = (e: string) => {
+    this.setState({ 'location': e } as any);
   };
 
   optionChanged = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -80,37 +81,21 @@ class ProfilePage extends Component<MultiProps> {
     //set client's id
     data.id = dataQuery.me.id;
 
-    //set client's first name
-    if (this.state.firstName !== '') {
-      data.firstName = this.state.firstName;
-    }
-
-    //set client's last name
-    if (this.state.lastName !== '') {
-      data.lastName = this.state.lastName;
-    }
-
-    //set client's birth date
-    if (this.state.birthDate !== '') {
-      const day = parseInt(this.state.birthDate.substr(8,2));
-      const month = parseInt(this.state.birthDate.substr(5,2));
-      const year = parseInt(this.state.birthDate.substr(0,4));
-      data.birthDate = {
-        day,
-        month,
-        year,
-      };
-    }
-
-    //set client's gender
-    if (this.state.gender !== '') {
-      data.gender = this.state.gender;
-    }
-
-    //set client's location
-    if (this.state.location !== '') {
-      data.location = this.state.location;
-    }
+    Object.keys(this.state).map((item)=> {
+      if(item === 'birthDate' && this.state[item] !== ''){
+        const day = parseInt(this.state[item].substr(8,2));
+        const month = parseInt(this.state[item].substr(5,2));
+        const year = parseInt(this.state[item].substr(0,4));
+        data.birthDate = {
+          day,
+          month,
+          year,
+        };
+      }
+      else if(item !== 'birthDate' && this.state[item] !== ''){
+        data[item] = this.state[item];
+      }
+    });
 
     return { data };
   };
@@ -200,7 +185,8 @@ class ProfilePage extends Component<MultiProps> {
                           <p>{profile.location}: </p>
                           <Geosuggest
                             initialValue={data.me.location}
-                            onChange={e => this.handleChangeValue(e, 'location')}
+                            onChange={this.handleChangeGeoLoc}
+                            onSuggestSelect={ (suggest) => this.handleChangeGeoLoc(suggest.label) }
                             placeholder={profile.address}
                           />
                         </div>
