@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
-import Translations from '../../lib/MultiLang/locales/types';
-import { multi } from '../../lib/MultiLang';
+import Translations from '../lib/MultiLang/locales/types';
+import { multi } from '../lib/MultiLang';
 
 export interface GenerateAdProps {
     translations: Translations;
