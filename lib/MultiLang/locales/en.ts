@@ -36,7 +36,7 @@ const translations: Translations = {
     fuelType: 'Fuel Type',
     doorNumber: 'Door Number',
     seatNumber: 'Seat Number',
-    driveTrain: 'Drive Train',
+    drivetrain: 'Drive Train',
     transmission: 'Transmission',
     sunroof: 'Sun Roof',
     cruiseControl: 'Cruise Control',

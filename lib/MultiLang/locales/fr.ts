@@ -36,7 +36,7 @@ const translations: Translations = {
     fuelType: "Type d'essence",
     doorNumber: 'Nombre de portes',
     seatNumber: 'Nombre de sièges',
-    driveTrain: 'Roues motrices',
+    drivetrain: 'Roues motrices',
     transmission: 'Transmission',
     sunroof: 'Toit ouvrant',
     cruiseControl: 'Régulateur de vitesse',

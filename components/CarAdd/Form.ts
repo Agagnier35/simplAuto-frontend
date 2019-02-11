@@ -55,8 +55,9 @@ const Form = styled.form`
   select:disabled { color: gray; }
   
   img {
-    max-width:300px;
-    height:auto;
+    max-width: 3000 px;
+    max-height: 50 px;
+    
   }
 
   .features {

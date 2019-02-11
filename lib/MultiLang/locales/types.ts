@@ -44,7 +44,7 @@ export default interface Translations {
     color: string,
     doors: string,
     seats: string,
-    driveTrain: string,
+    drivetrain: string,
     type: string,
     transmission: string,
     fuel: string,
@@ -53,17 +53,4 @@ export default interface Translations {
     addons: string,
     uploadLength: string,
   },
-  condition: {
-    brandNew: string,
-    used: string,
-    lease: string,
-  }
-  transmission: {
-    manual: string,
-    automatic: string,
-  }
-  fuel: {
-    gas: string,
-    diesel: string,
-  }
 }

@@ -1,5 +1,15 @@
 import Carousel from 'react-bootstrap/Carousel'
-class CustomCarousel extends React.Component {
+import React from 'react';
+
+interface CustomCarouselProps {
+  items: string[]
+}
+
+interface CustomCarouselState {
+  index: number
+}
+
+class CustomCarousel extends React.Component<CustomCarouselProps, CustomCarouselState> {
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -9,9 +19,9 @@ class CustomCarousel extends React.Component {
       index: 0,
     };
   }
-  handleSelect(selectedIndex: any) {
+  handleSelect() {
     this.setState({
-      index: selectedIndex,
+      index: 0,
       });
   }
 
@@ -22,7 +32,7 @@ class CustomCarousel extends React.Component {
       sources = this.props.items;
     }
     return (
-      <Carousel onChange={this.handleSelect} interval={false}>
+      <Carousel onChange={this.handleSelect} interval={0}>
         {sources.map(item => { return ( <Carousel.Item> <img className="d-block w-100"src={item}/></Carousel.Item> )})}
         </Carousel>
       );
