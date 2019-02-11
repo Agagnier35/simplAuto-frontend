@@ -1,13 +1,9 @@
 import React, { FormEvent, Component } from 'react';
-// import { Mutation } from 'react-apollo';
-// import gql from 'graphql-tag';
 import gql from 'graphql-tag';
 import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import ErrorMessage from '../ErrorMessage';
-
-// import ErrorMessage from '../ErrorMessage';
 
 
 const RESET_PW_MUTATION = gql`
@@ -49,7 +45,7 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
 
     return (
       <Mutation mutation={RESET_PW_MUTATION} variables={this.state}>
-        {(handleMutation, { loading, error }) => (
+        {(handleMutation, { error }) => (
           <Form method="post"
           onSubmit={e => this.handleResetPw(e, handleMutation)}>
             <fieldset>
