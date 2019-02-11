@@ -13,8 +13,6 @@ const SIGNUP_MUTATION = gql`
     }
   }
 `;
-// Faire la totalité du shit puis demander à Alexandre pour faire la connexion avec le backend.
-// Pour la location, utiliser une API. ou quelque chose
 
 interface BirthDate {
   day: number;
