@@ -48,12 +48,7 @@ class Signup extends Component<MultiProps, SignupState> {
   };
 
   isBirthDateValid = () => {
-    const date = new Date(
-      this.state.birthDate.year,
-      this.state.birthDate.month,
-      this.state.birthDate.day,
-    );
-    return date.toString() !== 'Invalid Date';
+    return new Date(this.state.birthDate.year, this.state.birthDate.month, this.state.birthDate.day,).toString() !== 'Invalid Date';
   };
 
   isStateSignupValid = () => {
