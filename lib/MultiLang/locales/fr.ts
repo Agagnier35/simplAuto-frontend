@@ -14,6 +14,8 @@ const translations: Translations = {
     changeLangage: 'Changer de langue',
     becomePremium: 'Devenir Premium',
     or: 'ou',
+    defaultDropdown: 'Sélectionnez',
+    other: "Autre",
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
@@ -47,6 +49,40 @@ const translations: Translations = {
     sedan: 'sedan',
   },
   carFeature: {},
+  carLabel: {
+    title: 'Veuillez remplir les informations conçernant la voiture',
+    general: "Informations générales",
+    description: "Description du véhicule",
+    condition: 'Condition',
+    upload: "Téléverser jusqu'à 7 photos",
+    uploadBtn: "Sélectionner une image",
+    year: 'Année',
+    make: 'Marque',
+    model: 'Modèle',
+    color: 'Couleur',
+    seats: "Nbr de sieges",
+    doors: "Nbr de portes",
+    driveTrain: "Boite à vitesse",
+    type: 'Type',
+    transmission: 'Transmission',
+    fuel: 'Type de moteur',
+    kilometers: 'Kilometrage',
+    addons: 'Ajouts',
+    uploadLength: 'Veuillez sélectionner 7 fichiers au maximum',
+  },
+  condition: {
+    brandNew: 'Neuf',
+    used: 'Usagé',
+    lease: 'Fin de location',
+  },
+  transmission: {
+    manual: 'Manuelle',
+    automatic: 'Automatique',
+  },
+  fuel: {
+    gas: 'Gas',
+    diesel: 'Diesel',
+  }
 };
 
 module.exports = translations;

@@ -12,6 +12,8 @@ export default interface Translations {
     changeLangage: string;
     becomePremium: string;
     or: string;
+    defaultDropdown: string;
+    other: string;
   };
   errors: {
     invalidEmail: string;
@@ -30,4 +32,38 @@ export default interface Translations {
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
   carFeature: { [key: string]: string };
+  carLabel: {
+    title: string,
+    general: string,
+    description: string,
+    uploadBtn: string,
+    condition: string,
+    year: string,
+    make: string,
+    model: string,
+    color: string,
+    doors: string,
+    seats: string,
+    driveTrain: string,
+    type: string,
+    transmission: string,
+    fuel: string,
+    kilometers: string,
+    upload: string,
+    addons: string,
+    uploadLength: string,
+  },
+  condition: {
+    brandNew: string,
+    used: string,
+    lease: string,
+  }
+  transmission: {
+    manual: string,
+    automatic: string,
+  }
+  fuel: {
+    gas: string,
+    diesel: string,
+  }
 }

@@ -14,6 +14,8 @@ const translations: Translations = {
     changeLangage: 'Change langage',
     becomePremium: 'Go Premium',
     or: 'or',
+    defaultDropdown: 'Please Select',
+    other: "Other",
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -47,6 +49,40 @@ const translations: Translations = {
     sedan: 'sedan',
   },
   carFeature: {},
+  carLabel: {
+    title: 'Please fill the information about your car',
+    general: "General information",
+    uploadBtn: "Select Image",
+    condition: 'Condition',
+    description: "Car Description",
+    year: 'Year',
+    make: 'Make',
+    model: 'Model',
+    color: 'Color',
+    seats: "Nbr of seats",
+    doors: "Nbr of doors",
+    driveTrain: "Drivetrain",
+    type: 'Type',
+    transmission: 'Transmission',
+    fuel: 'Fuel type',
+    kilometers: 'Kilometers',
+    addons: 'Add-ons',
+    upload: 'Upload up to 7 pictures',
+    uploadLength: 'Please select between 1 and 7 pictures',
+  },
+  condition: {
+    brandNew: 'New',
+    used: 'Used',
+    lease: 'Lease Takeover',
+  },
+  transmission: {
+    manual: 'Manual',
+    automatic: 'Automatic',
+  },
+  fuel: {
+    gas: 'Gas',
+    diesel: 'Diesel',
+  }
 };
 
 module.exports = translations;
