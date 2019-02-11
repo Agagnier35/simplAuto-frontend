@@ -12,7 +12,7 @@ import ErrorMessage from '../ErrorMessage';
 
 const RESET_PW_MUTATION = gql`
   mutation RESET_PW_MUTATION($email: String!) {
-    resetPasswordRequest(email: $email, password: $password) {
+    resetPasswordRequest(email: $email) {
       id
     }
   }
