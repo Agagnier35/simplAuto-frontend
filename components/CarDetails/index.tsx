@@ -3,10 +3,11 @@ import Translations from '../../lib/MultiLang/locales/types';
 import StyledCarDetails from './styles';
 import { multi } from '../../lib/MultiLang';
 import { Carousel, ListGroup } from 'react-bootstrap';
+import { Car } from '../../generated/graphql';
 
 export interface CarDetailsProps {
   translations: Translations;
-  car: any;
+  car: Car;
 }
 const CarDetails = ({ translations, car }: CarDetailsProps) => {
   return (
