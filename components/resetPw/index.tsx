@@ -1,10 +1,23 @@
 import React, { FormEvent, Component } from 'react';
 // import { Mutation } from 'react-apollo';
 // import gql from 'graphql-tag';
+import gql from 'graphql-tag';
 import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
+import { Mutation } from 'react-apollo';
+import ErrorMessage from '../ErrorMessage';
 
 // import ErrorMessage from '../ErrorMessage';
+
+
+const RESET_PW_MUTATION = gql`
+  mutation RESET_PW_MUTATION($email: String!) {
+    resetPasswordRequest(email: $email, password: $password) {
+      id
+    }
+  }
+`;
+
 
 interface ResetPwState {
   email: string;
@@ -15,11 +28,15 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
     email: ''
   };
 
-  handleResetPw = async (e: FormEvent<HTMLFormElement>, login: () => void) => {
+  handleResetPw = async (e: FormEvent<HTMLFormElement>, resetPw: () => void) => {
     e.preventDefault();
-    await login();
+    await resetPw();
     this.setState({ email: ''});
   };
+
+  isResetPwStateValid = () => {
+    return this.state.email != "";
+  }
 
   handleChange = (e: FormEvent<HTMLInputElement>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
@@ -31,7 +48,10 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
     } = this.props;
 
     return (
-          <Form method="post">
+      <Mutation mutation={RESET_PW_MUTATION} variables={this.state}>
+        {(handleMutation, { loading, error }) => (
+          <Form method="post"
+          onSubmit={e => this.handleResetPw(e, handleMutation)}>
             <fieldset>
               <h2>{general.resetPw}</h2>
               <label htmlFor="email">
@@ -46,8 +66,9 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
               </label>
               <button type="submit">{general.resetPw}</button>
             </fieldset>
-            {/* <ErrorMessage error={error} /> */}
-          </Form>
+            <ErrorMessage error={error} /> 
+          </Form>)}
+          </Mutation>
     );
   }
 }
