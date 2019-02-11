@@ -3,5 +3,9 @@
 
 .next
 
+package-lock.json
 #testing
 jest-test-results.json
+
+# generated stuff
+/generated/graphql.ts
