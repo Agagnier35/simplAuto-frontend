@@ -20,31 +20,32 @@ query{
 }`;
 
 const Features = ({
-    translations: { general, carFeatureCategory },
-    }: MultiProps) => (
+  handleChange,
+  translations: { general, carFeatureCategory },
+}: MultiProps) => (
     <Query query={GET_FEATURES}>
       {({ loading, error, data }) => {
         if (loading) return <Loading />;
         if (error) return <ErrorMessage />;
         return (
           <div>
-          {data.carFeatureCategories.map((category: any) => (
-          <tr>
-          <td>{carFeatureCategory[category.name]}</td>
-          <td>         
-            <select>
-                <option disabled selected hidden>{general.defaultDropdown}</option>
-                {category.features.map((feature: any) => (
-                <option key={feature.id} value={feature.id}>
-                    {feature.name}
-                </option>))}
-            </select>
-          </td>
-        </tr>
-          ))}
-        </div>);
+            {data.carFeatureCategories.map((category: any) => (
+              <tr>
+                <td>{carFeatureCategory[category.name]}</td>
+                <td>
+                  <select onChange={(e) => handleChange('features', { value: e.currentTarget.value, category: category.name })}>
+                    <option disabled selected hidden>{general.defaultDropdown}</option>
+                    {category.features.map((feature: any) => (
+                      <option key={feature.id} value={feature.id}>
+                        {feature.name}
+                      </option>))}
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </div>);
       }}
     </Query>
-);
+  );
 export default multi(Features);
 

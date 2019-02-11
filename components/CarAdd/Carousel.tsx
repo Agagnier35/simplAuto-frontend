@@ -22,20 +22,19 @@ class CustomCarousel extends React.Component<CustomCarouselProps, CustomCarousel
   handleSelect() {
     this.setState({
       index: 0,
-      });
+    });
   }
 
   render() {
     let sources = ["https://theme.zdassets.com/theme_assets/22351/0a5c59c344538bf6ed384ba542670d4443357575.png"];
-    if (this.props.items != null)
-    {
+    if (this.props.items != null) {
       sources = this.props.items;
     }
     return (
       <Carousel onChange={this.handleSelect} interval={0}>
-        {sources.map(item => { return ( <Carousel.Item> <img className="d-block w-100"src={item}/></Carousel.Item> )})}
-        </Carousel>
-      );
+        {sources.map(item => { return (<Carousel.Item> <img className="d-block w-100" src={item} /></Carousel.Item>) })}
+      </Carousel>
+    );
   }
 }
 export default CustomCarousel;

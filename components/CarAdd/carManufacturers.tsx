@@ -13,7 +13,7 @@ query{
     }
 }`;
 
-const Manufacturers  = ({
+const Manufacturers = ({
   translations: { general },
 }: MultiProps) => (
     <Query query={GET_MANUFACTURERS}>
@@ -23,7 +23,7 @@ const Manufacturers  = ({
         console.log(data);
         return (
           <select name="manufacturers">
-          <option disabled selected hidden>{general.defaultDropdown}</option>
+            <option disabled selected hidden>{general.defaultDropdown}</option>
             {data.manufacturers.map((manufacturers: any) => (
               <option key={manufacturers.id} value={manufacturers.id}>
                 {manufacturers.name}
@@ -33,8 +33,5 @@ const Manufacturers  = ({
         );
       }}
     </Query>
-);
+  );
 export default multi(Manufacturers);
-
-
-    
