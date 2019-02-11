@@ -4,7 +4,7 @@ import Login from '../components/Login';
 import Signup from "../components/Signup";
 
 const Home = ({
-  translations: { general },
+  translations: { general, cars },
   changeLocale,
   currentLocale,
 }: MultiProps) => {

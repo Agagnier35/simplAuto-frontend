@@ -1,4 +1,5 @@
 export default interface Translations {
+  loading: String;
   login: {
     title: string;
   };
@@ -27,4 +28,16 @@ export default interface Translations {
     invalidPassword: string;
     authError: string;
   };
+  cars: {
+    details: string;
+    title: string;
+    manufacturer: string;
+    model: string;
+    category: string;
+    year: string;
+    mileage: string;
+  };
+  carFeatureCategory: { [key: string]: string };
+  carCategory: { [key: string]: string };
+  carFeature: { [key: string]: string };
 }
