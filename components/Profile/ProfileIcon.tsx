@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import Form from './Form';
-import { multi, MultiProps } from '../../lib/MultiLang';
+import ProfileIconStyle from './ProfileIconStyle';
+import { MultiProps } from '../../lib/MultiLang';
 import Link from 'next/link'
 
 class ProfileAccess extends Component<MultiProps>{
 
   render() {
     return (
-        <Form>
+        <ProfileIconStyle>
           <Link href="/profile">
             <img className="profileButton" src="../static/profileImage.png" />
           </Link>
-        </Form>
+        </ProfileIconStyle>
     );
   }
 }
 
-export default multi(ProfileAccess);
+export default ProfileAccess;

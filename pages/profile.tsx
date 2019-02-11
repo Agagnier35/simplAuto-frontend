@@ -1,11 +1,9 @@
 import React from 'react';
-import { multiUpdater, MultiProps } from '../lib/MultiLang';
-import ProfilePage from '../components/ProfileIcon/profilePage';
+import { multi } from '../lib/MultiLang';
+import ProfilePage from '../components/Profile/profilePage';
 
 
-const Profile = ({
-  
-}: MultiProps) => {
+const Profile = () => {
   return (
     <div>
       <ProfilePage />
@@ -14,4 +12,4 @@ const Profile = ({
   );
 };
 
-export default multiUpdater(Profile);
+export default multi(Profile);

@@ -5,17 +5,10 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
 import { Button } from 'react-bootstrap';
-import Head from 'next/head';
+import ErrorMessage from '../ErrorMessage';
 
-const MAX_DAY = 31;
-const MAX_MONTh = 12;
-const MAX_YEAR = new Date().getFullYear();
-const MAX_YEAR_GAP = 110;
 
-//const GOOGLEMAPAPIACCESS =
-//  'https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places';
-
-const myQuery = gql`
+const GET_USER_INFO_QUERY = gql`
   query {
     me {
       id
@@ -33,7 +26,7 @@ const myQuery = gql`
   }
 `;
 
-const UPDATEUSER_MUTATION = gql`
+const UPDATE_USER_MUTATION = gql`
   mutation UPDATEUSER_MUTATION($data: UserUpdateInput!) {
     updateUser(data: $data) {
       id
@@ -46,9 +39,7 @@ interface ProfileInfo {
   lastName: string;
   email: string;
   location: string;
-  day: string;
-  month: string;
-  year: string;
+  birthDate: string;
   gender: string;
 }
 
@@ -58,56 +49,35 @@ class ProfilePage extends Component<MultiProps> {
     firstName: '',
     lastName: '',
     location: '',
-    day: '',
-    month: '',
-    year: '',
+    birthDate: '',
     gender: '',
   };
 
-  handlePasswordChange = () => {};
-
-  getTimeCount = (maxValue: any) => {
-    let items = [];
-    for (let i = 1; i <= maxValue; i++) {
-      items.push(
-        <option key={i} value={i}>
-          {i}
-        </option>,
-      );
-    }
-    return items;
-  };
-
-  getYearCount = () => {
-    let year = new Date().getFullYear();
-    let items = [];
-    for (let i = year; i >= MAX_YEAR - MAX_YEAR_GAP; i--) {
-      items.push(
-        <option key={i} value={i}>
-          {i}
-        </option>,
-      );
-    }
-    return items;
+  datePickerInput = (data: any) => {
+    let curr = new Date();
+    curr.setFullYear(parseInt(data.me.birthDate.year), parseInt(data.me.birthDate.month)-1, parseInt(data.me.birthDate.day));
+    let date = curr.toISOString().substr(0,10);
+    
+    return <input type="date" name="birthDate" defaultValue={date} onChange={this.handleChange}/>;
   };
 
   handleChange = (e: FormEvent<HTMLInputElement>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
 
-  geoLocChange = (e: string) => {
-    this.state.location = e;
+  handleChangeValue = (value: any, name: string) => {
+    this.setState({ [name]: value } as any);
   };
 
   optionChanged = (e: ChangeEvent<HTMLSelectElement>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
 
-  fillObjectToUpdate = (dataQ: any) => {
+  fillObjectToUpdate = (dataQuery: any) => {
     const data: any = {}; // TODO Shouldnt be any
 
     //set client's id
-    data.id = dataQ.me.id;
+    data.id = dataQuery.me.id;
 
     //set client's first name
     if (this.state.firstName !== '') {
@@ -120,33 +90,10 @@ class ProfilePage extends Component<MultiProps> {
     }
 
     //set client's birth date
-    if (this.state.day !== '') {
-      dataQ.me.birthDate.day = this.state.day;
-      const day = parseInt(dataQ.me.birthDate.day);
-      const month = parseInt(dataQ.me.birthDate.month);
-      const year = parseInt(dataQ.me.birthDate.year);
-      data.birthDate = {
-        day,
-        month,
-        year,
-      };
-    }
-    if (this.state.month !== '') {
-      dataQ.me.birthDate.month = this.state.month;
-      const day = parseInt(dataQ.me.birthDate.day);
-      const month = parseInt(dataQ.me.birthDate.month);
-      const year = parseInt(dataQ.me.birthDate.year);
-      data.birthDate = {
-        day,
-        month,
-        year,
-      };
-    }
-    if (this.state.year !== '') {
-      dataQ.me.birthDate.year = this.state.year;
-      const day = parseInt(dataQ.me.birthDate.day);
-      const month = parseInt(dataQ.me.birthDate.month);
-      const year = parseInt(dataQ.me.birthDate.year);
+    if (this.state.birthDate !== '') {
+      const day = parseInt(this.state.birthDate.substr(8,2));
+      const month = parseInt(this.state.birthDate.substr(5,2));
+      const year = parseInt(this.state.birthDate.substr(0,4));
       data.birthDate = {
         day,
         month,
@@ -178,9 +125,7 @@ class ProfilePage extends Component<MultiProps> {
       lastName: '',
       email: '',
       location: '',
-      day: '',
-      month: '',
-      year: '',
+      birthDate: '',
       gender: '',
     });
   };
@@ -191,28 +136,24 @@ class ProfilePage extends Component<MultiProps> {
     } = this.props;
     return (
       <>
-        <Head>
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo5qmk1ucd5sr6Jm-3SWVup3ZIhfjxtnU&libraries=places" />
-        </Head>
-        <Query query={myQuery}>
-          {({ data, loading }) => {
+        <Query query={GET_USER_INFO_QUERY}>
+          {({ data, loading, error }) => {
             if (loading) return 'loading...';
+            if (error) return <ErrorMessage error={error} />;
             return (
               <Mutation
-                mutation={UPDATEUSER_MUTATION}
+                mutation={UPDATE_USER_MUTATION}
                 variables={this.fillObjectToUpdate(data)}
-                refetchQueries={[{ query: myQuery }]}
+                refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
               >
-                {(handleMutation, { loading }) => (
+                {(handleMutation, { loading, error } ) => {
+                  if (error) return <ErrorMessage error={error} />;
+                return(
                   <Style
                     method="put"
                     onSubmit={e => this.handleUpdateUser(e, handleMutation)}
                   >
                     <h1>{profile.profilePage}</h1>
-                    <img
-                      className="profileButton"
-                      src="../static/profileImage.png"
-                    />
                     <fieldset disabled={loading} aria-busy={loading}>
                       {/*Section of first, last name and email*/}
                       <div className="firstInfoSection">
@@ -258,36 +199,14 @@ class ProfilePage extends Component<MultiProps> {
                           <p>{profile.location}: </p>
                           <Geosuggest
                             initialValue={data.me.location}
-                            onChange={this.geoLocChange}
+                            onChange={e => this.handleChangeValue(e, 'location')}
                             placeholder={profile.address}
                           />
                         </div>
                         {/*birth date*/}
                         <div>
                           <p>{profile.birth}: </p>
-                          <select
-                            defaultValue={data.me.birthDate.day}
-                            name="day"
-                            onChange={this.optionChanged}
-                          >
-                            {this.getTimeCount(MAX_DAY)}
-                          </select>
-                          <p> / </p>
-                          <select
-                            defaultValue={data.me.birthDate.month}
-                            name="month"
-                            onChange={this.optionChanged}
-                          >
-                            {this.getTimeCount(MAX_MONTh)}
-                          </select>
-                          <p> / </p>
-                          <select
-                            defaultValue={data.me.birthDate.year}
-                            name="year"
-                            onChange={this.optionChanged}
-                          >
-                            {this.getYearCount()}
-                          </select>
+                          {this.datePickerInput(data)}
                         </div>
                         {/*sex*/}
                         <div>
@@ -324,14 +243,13 @@ class ProfilePage extends Component<MultiProps> {
                         </Button>
                         <Button
                           variant="primary"
-                          onClick={this.handlePasswordChange}
                         >
                           {profile.changePassword}
                         </Button>
                       </div>
                     </fieldset>
                   </Style>
-                )}
+                )}}
               </Mutation>
             );
           }}

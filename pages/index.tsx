@@ -1,26 +1,14 @@
 import React from 'react';
-import { multiUpdater, MultiProps } from '../lib/MultiLang';
 import Login from '../components/Login';
-import ProfileAccess from '../components/ProfileIcon'
+import ProfileAccess from '../components/Profile/ProfileIcon'
 
-const Home = ({
-  translations: { general },
-  changeLocale,
-  currentLocale,
-}: MultiProps) => {
+const Home = () => {
   return (
     <div>
-      <div>
-        <button
-          onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}>
-          {general.changeLangage}
-        </button>
-        <ProfileAccess />
-      </div>
-      
+      <ProfileAccess />
       <Login />
     </div>
   );
 };
 
-export default multiUpdater(Home);
+export default Home;

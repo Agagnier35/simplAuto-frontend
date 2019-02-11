@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Form = styled.form`
+const ProfileStyle = styled.form`
   margin: 0;
 
   fieldset {
@@ -18,10 +18,6 @@ const Form = styled.form`
     margin-bottom: 0;
     display: inline-block;
   }
-
-  h2 {
-    margin-top: 0;
-  }
   
   p {
     display: inline;
@@ -29,13 +25,6 @@ const Form = styled.form`
 
   button {
     margin: 0.5%;
-  }
-
-  img {
-    margin-top: 1%;
-    margin-left: 1%;
-    margin-bottom: 2%;
-    width: 4%;
   }
 
   .geosuggest__suggests--hidden {
@@ -96,4 +85,4 @@ const Form = styled.form`
 
 `;
 
-export default Form;
+export default ProfileStyle;

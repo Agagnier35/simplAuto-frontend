@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Form = styled.form`
+const ProfileIconStyle = styled.form`
   margin: 0;
 
   link{
@@ -8,11 +8,9 @@ const Form = styled.form`
   }
 
   .profileButton {
-    background-color: coral;
     max-width: 20px;
     max-height: 20px;
-    border-radius: 50%;
   }
 `;
 
-export default Form;
+export default ProfileIconStyle;
