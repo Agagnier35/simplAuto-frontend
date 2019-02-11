@@ -21,9 +21,9 @@ export enum Languages {
 }
 
 export enum Gender {
-  Male = "Male",
-  Female = "Female",
-  Other = "Other"
+  Male = 'MALE',
+  Female = 'FEMALE',
+  Other = 'OTHER',
 }
 
 export interface MultiProps {
