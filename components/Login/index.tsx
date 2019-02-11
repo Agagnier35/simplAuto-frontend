@@ -8,6 +8,7 @@ import ErrorMessage from '../ErrorMessage/index';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import BrandHeader from './BrandHeader';
 import Link from 'next/link';
+import Router from "next/router";
 
 interface LoginState {
   email: string;

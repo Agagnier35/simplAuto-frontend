@@ -11,7 +11,6 @@ import IsLoggedIn from '../IsLoggedIn';
 import IsNotLoggedIn from '../IsNotLoggedIn';
 import { Query, Mutation } from 'react-apollo';
 import Loading from '../Loading';
-import Router from 'next/router';
 
 NProgress.configure({ showSpinner: false, parent: '#topbar' });
 
