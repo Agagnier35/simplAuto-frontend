@@ -9,7 +9,6 @@ export interface GenerateAdProps {
   }
 
 const GenerateAllAd = ({translations,data}: GenerateAdProps) => {
-    console.log(data)
     const features = data.features
     const featuresHTML: any = []
     if (features.length > 0){
