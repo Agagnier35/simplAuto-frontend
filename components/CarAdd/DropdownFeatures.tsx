@@ -41,7 +41,8 @@ const DropDownFeatures = ({
                     {category.features.map((feature: any) => 
                       <option key={feature.id} value={feature.id}>
                         {feature.name}
-                      </option>)}))}
+                      </option>)}
+                      <option>{general.none}</option>
                   </select>
                 </td>
               </tr>

@@ -14,6 +14,7 @@ export default interface Translations {
     or: string;
     defaultDropdown: string;
     other: string;
+    none: string;
   };
   errors: {
     invalidEmail: string;

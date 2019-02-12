@@ -16,6 +16,7 @@ const translations: Translations = {
     or: 'or',
     defaultDropdown: 'Please Select',
     other: "Other",
+    none: "Not specified",
   },
   errors: {
     invalidEmail: 'Invalid email',

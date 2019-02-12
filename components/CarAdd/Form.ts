@@ -50,6 +50,10 @@ const Form = styled.form`
       visibility: hidden;
       width: 0px;
   }
+
+  textarea {
+    resize: none;
+  }
   h1 {
     text-decoration: underline;
   }
@@ -58,10 +62,37 @@ const Form = styled.form`
   .features {
     margin-left: 5px;
   }
+
+  img {
+    object-fit: contain;
+    max-height: 175px;
+  }
+
+  .carousel-control-next-icon:after {
+    content: '>';
+    font-size: 55px;
+    color: red;
+  }
+
+  .carousel-control-prev-icon:after {
+    content: '<';
+    font-size: 55px;
+    color: red;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  background-image: none;
+}
   .carousel {
     max-width: 300px;
-    max-height: 200px;
-    height: auto;
+    max-height: 175px;
+    object-fit: contain;
   }
 
 `;

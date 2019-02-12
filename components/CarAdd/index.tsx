@@ -48,6 +48,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handlePictureChange(event: any) {
@@ -78,27 +79,40 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   handleCreateCar = async (e: any, createCar: any) => {
     e.preventDefault();
-    console.log(createCar);
     await createCar();
   };
 
+  handleInputChange = async (e: any) => {
+    this.setState({[e.target.id]: e.target.value});
+  };
+
   handleChange = (key: string, value: any) => {
+    const { translations } = this.props;
     if (key === 'features') {
       const featureIndex = this.state.features.findIndex(
         feature => feature.category === value.category,
       );
       //Feature exists and "id" must be overwritten
       if (featureIndex > -1) {
-        this.setState({
-          features: [
-            ...this.state.features.slice(0, featureIndex),
-            value,
-            ...this.state.features.slice(featureIndex + 1),
-          ],
-        });
-      }
+        if (value.value != (translations.general.none)) {
+          this.setState({
+            features: [
+              ...this.state.features.slice(0, featureIndex),
+              value,
+              ...this.state.features.slice(featureIndex + 1),
+            ],
+          })}
+          else {
+            this.setState({
+              features: [
+                ...this.state.features.slice(0, featureIndex),
+                ...this.state.features.slice(featureIndex + 1),
+              ],
+            });
+          }
+        }
       //Feature does not exist and can be added to the state
-      else {
+      else if (value.value != translations.general.none) {
         this.setState({
           features: [...this.state.features, value],
         });
@@ -107,6 +121,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     } else {
       this.setState({ [key]: value });
     }
+    console.log(this.state);
   };
 
   getCreateCarPayload = () => {
@@ -143,16 +158,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                 <Makes handleChange={this.handleChange} />
                 <DropdownFeatures handleChange={this.handleChange} />
                 <label>{cars.year}
-                <input
-                type="text"
-                id="year"
-                />
+                <input type="text" id="year" onChange={this.handleInputChange}/>
                 </label>
                 <label>{cars.mileage}
-                 <input
-                type="text"
-                id="mileage"
-                />
+                <input type="text" id="mileage" onChange={this.handleInputChange}/>
                 </label>
               </table>
             </div>
