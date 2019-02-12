@@ -19,11 +19,12 @@ const GenerateAllAd = ({translations,data}: GenerateAdProps) => {
         return( 
             <Card key={data.id}>
                 {data.priceHigherBoundFeature && <Card.Header>{translations.Ads.higherPrice}:{data.priceHigherBoundFeature.price}</Card.Header>}
-                <ListGroup>
-                    {data.manufacturerFeature && <ListGroup.Item>{translations.Ads.manufacturer}: {data.manufacturerFeature.manufacturer.name}</ListGroup.Item> }
-                    {data.modelFeature && <ListGroup.Item>{translations.Ads.model}: {data.modelFeature.model.name}</ListGroup.Item> }
-                    {data.categoryFeature &&  <ListGroup.Item>{translations.Ads.category}: {data.categoryFeature.category.name}</ListGroup.Item>}
-                </ListGroup>
+                    <ListGroup>
+                        {data.manufacturerFeature && <ListGroup.Item>{translations.Ads.manufacturer}: {data.manufacturerFeature.manufacturer.name}</ListGroup.Item> }
+                        {data.modelFeature && <ListGroup.Item>{translations.Ads.model}: {data.modelFeature.model.name}</ListGroup.Item> }
+                        {data.categoryFeature &&  <ListGroup.Item>{translations.Ads.category}: {data.categoryFeature.category.name}</ListGroup.Item>}
+                        {featuresHTML.length > 0 && featuresHTML}
+                    </ListGroup>
             </Card>
         )}
 

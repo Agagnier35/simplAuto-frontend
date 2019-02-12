@@ -2,10 +2,10 @@ import React from 'react';
 import { multi, MultiProps } from '../lib/MultiLang';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import IsLoggedIn from '../components/IsLoggedIn';
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from '../components/Loading';
 import GenerateAllAd from '../components/AllAds'
+import { CardDeck } from 'react-bootstrap';
 
 const Ads = ({ translations }: MultiProps) => {
 
@@ -31,15 +31,17 @@ const Ads = ({ translations }: MultiProps) => {
     `;
 
   return(
+    <CardDeck>
         <Query query={ALL_ADS_QUERY} >
         {({ data, loading, error }) => {
             if (loading) return <Loading></Loading>;
             if (error) return <ErrorMessage></ErrorMessage>;
-            return data.ads.map((currentAd : any) => (
-                <GenerateAllAd key={currentAd.id} data={currentAd} />
-            ));
+            return  data.ads.map((currentAd : any) => (
+                    <GenerateAllAd key={currentAd.id} data={currentAd} />
+                ));
         }}
         </Query>
+    </CardDeck>
   );
 };
 
