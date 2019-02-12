@@ -21,12 +21,18 @@ const GET_MODELS = gql`
 
 const Models = ({
   handleChange,
+  manufacturer, 
   translations: { general, cars },
 }: MultiProps) => (
   <Query query={GET_MODELS}>
     {({ loading, error, data }) => {
       if (loading) return <Loading />;
       if (error) return <ErrorMessage />;
+      let manufacturerIndex = data.manufacturers.findIndex(
+        manufacturerIndex => manufacturerIndex.id === manufacturer,
+      );
+      console.log(manufacturer);
+      if (manufacturerIndex == -1) {manufacturerIndex = 0};
       return (
         <div>
           <tr>
@@ -38,7 +44,7 @@ const Models = ({
                 <option disabled selected hidden>
                   {general.defaultDropdown}
                 </option>
-                {data.manufacturers[0].models.map((model: any) => (
+                {data.manufacturers[manufacturerIndex].models.map((model: any) => (
                   <option key={model.id} value={model.id}>
                     {model.name}
                   </option>

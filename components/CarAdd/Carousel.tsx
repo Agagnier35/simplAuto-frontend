@@ -27,11 +27,11 @@ class CustomCarousel extends React.Component<CustomCarouselProps, CustomCarousel
 
   render() {
     let sources = ["https://theme.zdassets.com/theme_assets/22351/0a5c59c344538bf6ed384ba542670d4443357575.png"];
-    if (this.props.items != null) {
+    if (this.props.items && this.props.items.length > 0) {
       sources = this.props.items;
     }
     return (
-      <Carousel onChange={this.handleSelect} interval={0}>
+      <Carousel className="carousel" onChange={this.handleSelect} interval={0}>
         {sources.map(item => { return (<Carousel.Item> <img className="d-block w-100" src={item} /></Carousel.Item>) })}
       </Carousel>
     );

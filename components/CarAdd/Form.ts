@@ -43,6 +43,7 @@ const Form = styled.form`
 
   textarea {
     margin-left: 5px;
+    margin-top: 5px;
   }
 
   #photos {
@@ -58,8 +59,9 @@ const Form = styled.form`
     margin-left: 5px;
   }
   .carousel {
-    width: 300px;
-    height: 200px;
+    max-width: 300px;
+    max-height: 200px;
+    height: auto;
   }
 
 `;

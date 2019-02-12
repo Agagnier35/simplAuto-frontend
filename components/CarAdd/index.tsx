@@ -5,7 +5,8 @@ import Carousel from './Carousel';
 import Makes from './carMakes';
 import Manufacturers from './carManufacturers';
 import Models from './carModels';
-import Features from './DropdownFeatures';
+import DropdownFeatures from './DropdownFeatures';
+import CheckboxFeatures from './CheckboxFeatures';
 import { Mutation } from 'react-apollo';
 import { CarCreateInput } from '../../generated/graphql';
 import gql from 'graphql-tag';
@@ -14,19 +15,12 @@ export type Maybe<T> = T | null;
 interface CarAddState {
   features: any[];
   [key: string]: any;
-
   manufacturerID: string;
-
   modelID: string;
-
   categoryID: string;
-
   year: number;
-
   mileage: number;
-
   photos: any;
-
   featuresIDs?: Maybe<string[]>;
 }
 
@@ -43,18 +37,13 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     super(props, context);
 
     this.state = {
-      photos: null,
+      photos: [],
       features: [],
       manufacturerID: '',
-
       modelID: '',
-
       categoryID: '',
-
       year: 0,
-
       mileage: 0,
-
       featuresIDs: null,
     };
 
@@ -71,6 +60,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       this.setState({
         photos: tempURLs,
       });
+
     } else if (event.target.files.length > 7) {
       alert(translations.carLabel.uploadLength);
       let tempURLs = Array.from(event.target.files).slice(0, 7);
@@ -78,6 +68,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       this.setState({
         photos: tempURLs,
       });
+
     } else {
       this.setState({
         photos: null,
@@ -89,7 +80,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     e.preventDefault();
     console.log(createCar);
     await createCar();
-    console.log('hooray !');
   };
 
   handleChange = (key: string, value: any) => {
@@ -97,14 +87,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       const featureIndex = this.state.features.findIndex(
         feature => feature.category === value.category,
       );
-      //Feature does not exist and can be added to the state
-      if (featureIndex > -1) {
-        this.setState({
-          features: [...this.state.features, value],
-        });
-      }
       //Feature exists and "id" must be overwritten
-      else {
+      if (featureIndex > -1) {
         this.setState({
           features: [
             ...this.state.features.slice(0, featureIndex),
@@ -113,6 +97,13 @@ class CarAdd extends Component<MultiProps, CarAddState> {
           ],
         });
       }
+      //Feature does not exist and can be added to the state
+      else {
+        this.setState({
+          features: [...this.state.features, value],
+        });
+      }
+
     } else {
       this.setState({ [key]: value });
     }
@@ -120,23 +111,15 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   getCreateCarPayload = () => {
     const featuresIDs = this.state.features.map(feature => feature.value);
-    console.log(featuresIDs);
     const data: CarCreateInput = {
       featuresIDs,
-
       manufacturerID: this.state.manufacturerID,
-
       modelID: this.state.modelID,
-
       categoryID: this.state.categoryID,
-
       year: this.state.year,
-
       mileage: this.state.mileage,
-
-      photos: [],
+      photos: this.state.photos,
     };
-    console.log(typeof data.manufacturerID);
     return { data };
   };
 
@@ -156,15 +139,15 @@ class CarAdd extends Component<MultiProps, CarAddState> {
             <div className="general">
               <table>
                 <Manufacturers handleChange={this.handleChange} />
-                <Models handleChange={this.handleChange} />
+                <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
                 <Makes handleChange={this.handleChange} />
-                <Features handleChange={this.handleChange} />
+                <DropdownFeatures handleChange={this.handleChange} />
               </table>
             </div>
             <h2>{carLabel.addons}</h2>
             <div className="addons">
               <fieldset>
-                <Features handleChange={this.handleChange} />
+              <CheckboxFeatures handleChange={this.handleChange} />
               </fieldset>
               <label>{cars.details}</label>
               <textarea name="other" id="other" cols={60} rows={2} />
