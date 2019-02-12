@@ -32,11 +32,13 @@ const CheckboxFeatures = ({
         });
         return (
           <div>
-            {checkboxChoiceFeatures.map((feature: any) => (
+            {checkboxChoiceFeatures.map((featureCategory: any) => (
               <tr>
-                <td>{carFeatureCategory[feature.name]}</td>
+                <td>{carFeatureCategory[featureCategory.name]}</td>
                 <td>
+                {featureCategory.features.slice(0,1).map((feature: any) => (
                     <input type="checkbox" name={feature.id} value={feature.id} onChange={(e) => handleChange('features',  {value: e.currentTarget.value, category: feature.name })}></input>
+                    ))}
                 </td>
               </tr>
             ))}

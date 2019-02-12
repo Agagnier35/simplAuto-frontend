@@ -142,6 +142,18 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                 <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
                 <Makes handleChange={this.handleChange} />
                 <DropdownFeatures handleChange={this.handleChange} />
+                <label>{cars.year}
+                <input
+                type="text"
+                id="year"
+                />
+                </label>
+                <label>{cars.mileage}
+                 <input
+                type="text"
+                id="mileage"
+                />
+                </label>
               </table>
             </div>
             <h2>{carLabel.addons}</h2>
