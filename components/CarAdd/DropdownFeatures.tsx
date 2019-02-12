@@ -5,12 +5,12 @@ import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
 
-
 const GET_FEATURES = gql`
 query{
     carFeatureCategories{
         id
         name
+        type
         features {
             id
             name
@@ -19,7 +19,7 @@ query{
     }
 }`;
 
-const Features = ({
+const DropDownFeatures = ({
   handleChange,
   translations: { general, carFeatureCategory },
 }: MultiProps) => (
@@ -47,5 +47,5 @@ const Features = ({
       }}
     </Query>
   );
-export default multi(Features);
+export default multi(DropDownFeatures);
 

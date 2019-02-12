@@ -45,7 +45,7 @@ const Form = styled.form`
     margin-left: 5px;
   }
 
-  #files {
+  #photos {
       visibility: hidden;
       width: 0px;
   }
@@ -54,9 +54,9 @@ const Form = styled.form`
   }
   select:disabled { color: gray; }
   
-  img {
-    max-width: 3000 px;
-    max-height: 50 px;
+  .d-block w-100 {
+    max-width: 300 px;
+    max-height: 150 px;
     
   }
 
@@ -65,7 +65,7 @@ const Form = styled.form`
   }
   .carousel {
     width: 300px;
-    height: 200px;
+    height: 150px;
 
     }
 `;

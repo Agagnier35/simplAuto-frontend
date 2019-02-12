@@ -2,8 +2,10 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
+import Loading from '../Loading';
+import ErrorMessage from '../ErrorMessage';
 
-//Fetch all manufacturers. TODO: Add translation to fix the default option value
+//Fetch all manufacturers
 
 const GET_MANUFACTURERS = gql`
 query{
@@ -14,24 +16,30 @@ query{
 }`;
 
 const Manufacturers = ({
-  translations: { general },
+  handleChange,
+  translations: { general, cars },
 }: MultiProps) => (
     <Query query={GET_MANUFACTURERS}>
       {({ loading, error, data }) => {
-        if (loading) return "Loading...";
-        if (error) return `Error! ${error.message}`;
-        console.log(data);
+        if (loading) return <Loading />;
+        if (error) return <ErrorMessage />;
         return (
-          <select name="manufacturers">
-            <option disabled selected hidden>{general.defaultDropdown}</option>
-            {data.manufacturers.map((manufacturers: any) => (
-              <option key={manufacturers.id} value={manufacturers.id}>
-                {manufacturers.name}
-              </option>
-            ))}
-          </select>
-        );
+          <div>
+              <tr>
+                <td>{cars.manufacturer}</td>
+                <td>
+                  <select onChange={(e) => handleChange('manufacturerID', { value: e.currentTarget.value})}>
+                    <option disabled selected hidden>{general.defaultDropdown}</option>
+                    {data.manufacturers.map((manufacturer: any) => (
+                      <option key={manufacturer.id} value={manufacturer.id}>
+                        {manufacturer.name}
+                      </option>))}
+                  </select>
+                </td>
+              </tr>
+          </div>);
       }}
     </Query>
   );
 export default multi(Manufacturers);
+
