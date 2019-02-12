@@ -34,16 +34,10 @@ export default interface Translations {
   carFeature: { [key: string]: string };
   carLabel: {
     title: string,
+    carAddSumbit: string;
     general: string,
     uploadBtn: string,
     condition: string,
-    color: string,
-    doors: string,
-    seats: string,
-    drivetrain: string,
-    type: string,
-    transmission: string,
-    fuel: string,
     upload: string,
     addons: string,
     uploadLength: string,

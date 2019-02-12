@@ -28,7 +28,7 @@ const Manufacturers = ({
               <tr>
                 <td>{cars.manufacturer}</td>
                 <td>
-                  <select onChange={(e) => handleChange('manufacturerID', { value: e.currentTarget.value})}>
+                  <select onChange={(e) => handleChange('manufacturerID', e.currentTarget.value)}>
                     <option disabled selected hidden>{general.defaultDropdown}</option>
                     {data.manufacturers.map((manufacturer: any) => (
                       <option key={manufacturer.id} value={manufacturer.id}>

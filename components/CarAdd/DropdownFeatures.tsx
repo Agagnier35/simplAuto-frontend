@@ -33,7 +33,7 @@ const DropDownFeatures = ({
               <tr>
                 <td>{carFeatureCategory[category.name]}</td>
                 <td>
-                  <select onChange={(e) => handleChange('features', { value: e.currentTarget.value, category: category.name })}>
+                  <select onChange={(e) => handleChange('features',  e.currentTarget.value, {category: category.name })}>
                     <option disabled selected hidden>{general.defaultDropdown}</option>
                     {category.features.map((feature: any) => (
                       <option key={feature.id} value={feature.id}>

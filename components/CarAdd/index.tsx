@@ -179,7 +179,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
             <div className="carousel">
               <Carousel items={this.state.photos} />
             </div>
-            <button type='submit'>YOLO00000000000000000000000000000000000000000000000000000000000000000000000000000000000000</button>
+            <button className="formSubmit" type='submit'>{carLabel.carAddSumbit}</button>
           </Form>
         )}
 

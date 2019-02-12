@@ -53,21 +53,15 @@ const Form = styled.form`
     text-decoration: underline;
   }
   select:disabled { color: gray; }
-  
-  .d-block w-100 {
-    max-width: 300 px;
-    max-height: 150 px;
-    
-  }
 
   .features {
     margin-left: 5px;
   }
   .carousel {
     width: 300px;
-    height: 150px;
+    height: 200px;
+  }
 
-    }
 `;
 
 export default Form;
