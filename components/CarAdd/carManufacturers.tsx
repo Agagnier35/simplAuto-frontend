@@ -34,9 +34,6 @@ const Manufacturers = ({
                   handleChange('manufacturerID', e.currentTarget.value)
                 }
               >
-                <option disabled selected hidden>
-                  {general.defaultDropdown}
-                </option>
                 {data.manufacturers.map((manufacturer: any) => (
                   <option key={manufacturer.id} value={manufacturer.id}>
                     {manufacturer.name}

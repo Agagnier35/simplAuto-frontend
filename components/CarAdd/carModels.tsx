@@ -5,7 +5,7 @@ import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
 
-//Fetch models for a manufacturer. TODO: pass the manufacturer to the query
+//Fetch models for a manufacturer
 const GET_MODELS = gql`
   query {
     manufacturers {
@@ -28,11 +28,9 @@ const Models = ({
     {({ loading, error, data }) => {
       if (loading) return <Loading />;
       if (error) return <ErrorMessage />;
-      let manufacturerIndex = data.manufacturers.findIndex(
-        manufacturerIndex => manufacturerIndex.id === manufacturer,
+      const manufacturerIndex = data.manufacturers.findIndex(
+        (manufacturerIndex: any) => manufacturerIndex.id === manufacturer,
       );
-      console.log(manufacturer);
-      if (manufacturerIndex == -1) {manufacturerIndex = 0};
       return (
         <div>
           <tr>

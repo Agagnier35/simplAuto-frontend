@@ -10,6 +10,7 @@ import CheckboxFeatures from './CheckboxFeatures';
 import { Mutation } from 'react-apollo';
 import { CarCreateInput } from '../../generated/graphql';
 import gql from 'graphql-tag';
+import { Table } from 'react-bootstrap';
 export type Maybe<T> = T | null;
 
 interface CarAddState {
@@ -121,7 +122,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     } else {
       this.setState({ [key]: value });
     }
-    console.log(this.state);
   };
 
   getCreateCarPayload = () => {
@@ -152,7 +152,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
             <h1>{carLabel.title}</h1>
             <h2>{carLabel.general}</h2>
             <div className="general">
-              <table>
+              <Table>
                 <Manufacturers handleChange={this.handleChange} />
                 <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
                 <Makes handleChange={this.handleChange} />
@@ -163,7 +163,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                 <label>{cars.mileage}
                 <input type="text" id="mileage" onChange={this.handleInputChange}/>
                 </label>
-              </table>
+              </Table>
             </div>
             <h2>{carLabel.addons}</h2>
             <div className="addons">
