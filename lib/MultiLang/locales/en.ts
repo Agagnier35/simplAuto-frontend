@@ -21,7 +21,11 @@ const translations: Translations = {
     female: 'female',
     other: 'other',
     address: 'Type your address',
-    changePassword: 'Change your password',
+    changePassword: 'new password',
+    confirmationChangePassword: 'confirm new password',
+    contactInfo: 'Contact Information',
+    genrealInfo: 'General Information',
+    newPWSection: 'New Password',
   },
   general: {
     email: 'Email',

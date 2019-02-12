@@ -20,6 +20,10 @@ export default interface Translations {
     other: string;
     address: string;
     changePassword: string;
+    confirmationChangePassword: string;
+    contactInfo: string;
+    genrealInfo: string;
+    newPWSection: string;
   };
   general: {
     email: string;

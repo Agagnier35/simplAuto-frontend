@@ -43,6 +43,8 @@ interface ProfileInfo {
   location: string;
   birthDate: string;
   gender: string;
+  newPassword: string;
+  confirmation: string;
 }
 
 class ProfilePage extends Component<MultiProps> {
@@ -53,26 +55,43 @@ class ProfilePage extends Component<MultiProps> {
     location: '',
     birthDate: '',
     gender: '',
+    newPassword: '',
+    confirmation: 'inputNeedSpace',
   };
 
+  //get the registered value of the user's birth date
   datePickerInput = (data: any) => {
     let curr = new Date();
     curr.setFullYear(parseInt(data.me.birthDate.year), parseInt(data.me.birthDate.month)-1, parseInt(data.me.birthDate.day));
     let date = curr.toISOString().substr(0,10);
     
-    return <input type="date" name="birthDate" defaultValue={date} onChange={this.handleChange}/>;
+    return <input type="date" name="birthDate" className="inputNeedSpace" defaultValue={date} onChange={this.handleChange}/>;
   };
 
+  //handle the change on most fields
   handleChange = (e: FormEvent<HTMLInputElement>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
   
+  //handle the changing value of location
   handleChangeGeoLoc = (e: string) => {
     this.setState({ 'location': e } as any);
   };
-
-  optionChanged = (e: ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
+  
+  //handle the user new password
+  handleConfirmationPW = (e: FormEvent<HTMLInputElement>) => {
+    if(e.currentTarget.name === 'newPassword'){
+      this.handleChange(e);
+      this.setState({ confirmation: 'wrongPW' } as any);
+    }
+    else{ // if e.currentTarget.name === 'confirmation'
+      if(e.currentTarget.value != this.state.newPassword){
+        this.setState({ [e.currentTarget.name]: 'wrongPW' } as any);
+      }
+      else{
+        this.setState({ [e.currentTarget.name]: 'inputNeedSpace' } as any);
+      }
+    }
   };
 
   fillObjectToUpdate = (dataQuery: any) => {
@@ -81,8 +100,16 @@ class ProfilePage extends Component<MultiProps> {
     //set client's id
     data.id = dataQuery.me.id;
 
+    //set every changed key  from state
     Object.keys(this.state).map((item)=> {
-      if(item === 'birthDate' && this.state[item] !== ''){
+      //special case if the user wants to change his PW
+      if(item === 'confirmation' || (item === 'newPassword' && this.state[item] !== '')){
+        if(this.state.confirmation == 'inputNeedSpace' && this.state.newPassword !== ''){
+          data.password = this.state.newPassword;
+        }
+      }
+      //special case if the user change his birth date
+      else if(item === 'birthDate' && this.state[item] !== ''){
         const day = parseInt(this.state[item].substr(8,2));
         const month = parseInt(this.state[item].substr(5,2));
         const year = parseInt(this.state[item].substr(0,4));
@@ -92,14 +119,15 @@ class ProfilePage extends Component<MultiProps> {
           year,
         };
       }
-      else if(item !== 'birthDate' && this.state[item] !== ''){
+      //every key left
+      else if(this.state[item] !== ''){
         data[item] = this.state[item];
       }
     });
-
     return { data };
   };
 
+  // handle the call to the server responsible to update user info
   handleUpdateUser = async (
     e: FormEvent<HTMLFormElement>,
     update: () => void,
@@ -113,6 +141,8 @@ class ProfilePage extends Component<MultiProps> {
       location: '',
       birthDate: '',
       gender: '',
+      newPassword: '',
+      confirmation: 'inputNeedSpace',
     });
   };
 
@@ -132,7 +162,7 @@ class ProfilePage extends Component<MultiProps> {
                 variables={this.fillObjectToUpdate(data)}
                 refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
               >
-                {(handleMutation, { loading, error } ) => {
+                {(handleMutation, { loading, error, called } ) => {
                   if (error) return <ErrorMessage error={error} />;
                 return(
                   <Style
@@ -144,9 +174,10 @@ class ProfilePage extends Component<MultiProps> {
                       {/*Section of first, last name and email*/}
                       <div className="firstInfoSection">
                         <div className="nameSection">
+                          <h5>{ profile.contactInfo }</h5>
                           <div>
                             {/*full name*/}
-                            <p>{profile.firstName}: </p>
+                            <p>{profile.firstName}:</p>
                             <input
                               className="inputNeedSpace"
                               type="text"
@@ -155,6 +186,7 @@ class ProfilePage extends Component<MultiProps> {
                               placeholder={profile.firstName}
                               onChange={this.handleChange}
                             />
+                            <br/>
                             <p>{profile.lastName}: </p>
                             <input
                               className="inputNeedSpace"
@@ -180,6 +212,9 @@ class ProfilePage extends Component<MultiProps> {
 
                       {/*Section of every info */}
                       <div>
+                      <div className="secondInfoSection">
+                        <hr />
+                        <h5>{ profile.genrealInfo }</h5>
                         {/*location*/}
                         <div>
                           <p>{profile.location}: </p>
@@ -205,7 +240,7 @@ class ProfilePage extends Component<MultiProps> {
                             checked={this.state.gender === 'MALE' || (this.state.gender === '' && data.me.gender === 'MALE')}
                             onChange={this.handleChange}
                           />
-                          <p className="inputNeedSpace">{profile.male} </p>
+                          <p className="radioNeedSpace">{profile.male} </p>
                           <input
                             type="radio"
                             name="gender"
@@ -213,7 +248,7 @@ class ProfilePage extends Component<MultiProps> {
                             checked={this.state.gender === 'FEMALE' || (this.state.gender === '' && data.me.gender === 'FEMALE')}
                             onChange={this.handleChange}
                           />
-                          <p className="inputNeedSpace">{profile.female} </p>
+                          <p className="radioNeedSpace">{profile.female} </p>
                           <input
                             type="radio"
                             name="gender"
@@ -221,17 +256,37 @@ class ProfilePage extends Component<MultiProps> {
                             checked={this.state.gender === 'OTHER' || (this.state.gender === '' && data.me.gender === 'OTHER')}
                             onChange={this.handleChange}
                           />
-                          <p className="inputNeedSpace">{profile.other} </p>
+                          <p className="radioNeedSpace">{profile.other} </p>
                         </div>
+                        
+                        {/*New password section */}
+                        <div>
+                          <hr />
+                          <h5>{ profile.newPWSection }</h5>
+                          <p>{profile.changePassword}: </p>
+                            <input
+                              className="inputNeedSpace"
+                              type="password"
+                              name="newPassword"
+                              placeholder={profile.changePassword}
+                              onChange={this.handleConfirmationPW}
+                            />
+                            <br/>
+                            <p>{profile.confirmationChangePassword}: </p>
+                            <input
+                              className={this.state.confirmation} 
+                              type="password"
+                              name="confirmation"
+                              placeholder={profile.confirmationChangePassword}
+                              onChange={this.handleConfirmationPW}
+                            />
+                        </div>
+
+                      </div>
                       </div>
                       <div className="buttonSection">
                         <Button variant="primary" type="submit">
                           {profile.save}
-                        </Button>
-                        <Button
-                          variant="primary"
-                        >
-                          {profile.changePassword}
                         </Button>
                       </div>
                     </fieldset>

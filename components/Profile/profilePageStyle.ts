@@ -8,10 +8,14 @@ const ProfileStyle = styled.form`
     border-radius: 1rem;
     text-align: center;
   }
+  
+  hr {
+    border: 1px solid gray;
+  }
 
   fieldset > div {
     display: inline-block;
-    text-align: left;
+    text-align: center;
   }
 
   h1{
@@ -20,11 +24,19 @@ const ProfileStyle = styled.form`
   }
   
   p {
-    display: inline;
+    display: inline-block;
+  }
+  
+  input {
+    display: inline-block;
   }
 
   button {
     margin: 0.5%;
+  }
+
+  input {
+    margin-left: 2%;
   }
 
   .geosuggest__suggests--hidden {
@@ -34,8 +46,8 @@ const ProfileStyle = styled.form`
   }
 
   .geosuggest__input {
-    max-width: 65%;
-    min-width: 65%;
+    max-width: 60%;
+    min-width: 60%;
   }
 
   .geosuggest__suggests {
@@ -53,6 +65,19 @@ const ProfileStyle = styled.form`
   }
 
   .inputNeedSpace {
+    min-width: 55%;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+  }
+
+  .radioNeedSpace {
+    min-width: 7%;
+    margin-right: 2%;
+    margin-left: 1%;
+  }
+
+  .wrongPW {
+    background-color: coral;
     min-width: 20%;
     margin-top: 1%;
     margin-bottom: 0.5%;
@@ -61,6 +86,9 @@ const ProfileStyle = styled.form`
 
   .buttonSection {
     display: block;
+    text-align: left;
+    margin-bottom: 0.5%;
+    margin-left: 1%;
   }
 
   .inlinePart {
@@ -75,12 +103,17 @@ const ProfileStyle = styled.form`
   }
 
   .nameSection {
+    width: 35%;
     text-align: left;
     display: inline-block;
     padding-top: 1%;
-    padding-left: 14.5%;
     margin-bottom: 0.5%;
     position: relative;
+  }
+
+  .secondInfoSection {
+    text-align: left;
+    display: block;
   }
 
 `;
