@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from '../components/Loading';
-import GenerateAllAd from '../components/AllAds'
+import AdSummary from '../components/AdSummary'
 import { CardDeck } from 'react-bootstrap';
 
 const Ads = ({ translations }: MultiProps) => {
@@ -37,7 +37,7 @@ const Ads = ({ translations }: MultiProps) => {
             if (loading) return <Loading></Loading>;
             if (error) return <ErrorMessage></ErrorMessage>;
             return  data.ads.map((currentAd : any) => (
-                    <GenerateAllAd key={currentAd.id} data={currentAd} />
+                    <AdSummary key={currentAd.id} ad={currentAd} />
                 ));
         }}
         </Query>

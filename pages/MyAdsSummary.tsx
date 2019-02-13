@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import IsLoggedIn from '../components/IsLoggedIn';
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from '../components/Loading';
-import GenerateAllAd from '../components/AllAds'
+import AdSummary from '../components/AdSummary'
 import { CardDeck } from 'react-bootstrap';
 
 const MyAds = ({ translations }: MultiProps) => {
@@ -41,7 +41,7 @@ const MyAds = ({ translations }: MultiProps) => {
             if (error) return <ErrorMessage></ErrorMessage>;
             if (data.me == null) return null
             return data.me.ads.map((currentAd : any) => (
-                <GenerateAllAd key={currentAd.id} data={currentAd} />
+                <AdSummary key={currentAd.id} data={currentAd} />
             ));
         }}
         </Query>
