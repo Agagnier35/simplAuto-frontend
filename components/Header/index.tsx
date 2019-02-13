@@ -9,6 +9,7 @@ import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Loading from '../Loading';
+import ErrorMessage from '../ErrorMessage';
 
 const LOGGED_IN_QUERY = gql`
                       {me
@@ -59,11 +60,10 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
           <Nav className="mr-auto">{/* TODO Add routes when logged in */}</Nav>
             <Query query={LOGGED_IN_QUERY}>
               {({ data, loading, error }) => {
-                if (loading) {
-                  return (<Loading/>); 
-                }
+                if (loading) return (<Loading/>); 
+                
                 if (error) {
-                  return (
+                  return error.name === "authError" ? (
                     <div>
                       <p className="logged-out">
                         <Link href="/login" passHref>
@@ -81,7 +81,7 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
                           </Button>
                         </a>
                       </Link>
-                    </div>);
+                    </div>): (<ErrorMessage error={error}/>);
                 } else {
                   return (
                     <div>
