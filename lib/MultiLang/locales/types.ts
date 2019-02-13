@@ -15,11 +15,15 @@ export default interface Translations {
     defaultDropdown: string;
     other: string;
     none: string;
+    features: string;
+    submit: string;
+    images: string;
   };
   errors: {
     invalidEmail: string;
     invalidPassword: string;
     authError: string;
+    carLimitReached: string;
   };
   cars: {
     details: string;
@@ -34,13 +38,13 @@ export default interface Translations {
   carCategory: { [key: string]: string };
   carFeature: { [key: string]: string };
   carLabel: {
-    title: string,
+    title: string;
     carAddSumbit: string;
-    general: string,
-    uploadBtn: string,
-    condition: string,
-    upload: string,
-    addons: string,
-    uploadLength: string,
-  },
+    general: string;
+    uploadBtn: string;
+    condition: string;
+    upload: string;
+    addons: string;
+    uploadLength: string;
+  };
 }
