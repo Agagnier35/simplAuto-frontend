@@ -171,53 +171,53 @@ class CarAdd extends Component<MultiProps, CarAddState> {
             .filter((category: any) => category.type === 'TRUE_FALSE');
           fetchedDropdownFeatures = data.carFeatureCategories
             .filter((category: any) => category.type === 'MULTIPLE_CHOICE');
-            return(
-          <Mutation
-            mutation={CARADD_MUTATION}
-            variables={this.getCreateCarPayload()}
-          >
-            {createCar => (
-              <Form onSubmit={e => this.handleCreateCar(e, createCar)}>
-                <h1>{carLabel.title}</h1>
-                <h2>{carLabel.general}</h2>
-                <div className="general">
-                  <Table>
-                    <Manufacturers handleChange={this.handleChange} />
-                    <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
-                    <Categories handleChange={this.handleChange} />
-                    <DropdownFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
-                    <label>{cars.year}
-                      <input type="text" id="year" onChange={this.handleInputChange} />
-                    </label>
-                    <label>{cars.mileage}
-                      <input type="text" id="mileage" onChange={this.handleInputChange} />
-                    </label>
-                  </Table>
-                </div>
-                <h2>{carLabel.addons}</h2>
-                <div className="addons">
-                  <CheckboxFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
-                  <label>{cars.details}</label>
-                  <textarea name="other" id="other" cols={60} rows={2} />
-                </div>
-                <h2>{carLabel.upload}</h2>
-                <label className="btn">
-                  {carLabel.uploadBtn}
-                  <input
-                    id="photos"
-                    type="file"
-                    accept="x-png,image/jpeg"
-                    multiple
-                    onChange={this.handlePictureChange}
-                  />
-                </label>
-                <div className="carousel">
-                  <Carousel items={this.state.photos} />
-                </div>
-                <button className="formSubmit" type='submit'>{carLabel.carAddSumbit}</button>
-              </Form>
-            )}
-          </Mutation>);
+          return (
+            <Mutation
+              mutation={CARADD_MUTATION}
+              variables={this.getCreateCarPayload()}
+            >
+              {createCar => (
+                <Form onSubmit={e => this.handleCreateCar(e, createCar)}>
+                  <h1>{carLabel.title}</h1>
+                  <h2>{carLabel.general}</h2>
+                  <div className="general">
+                    <Table>
+                      <Manufacturers handleChange={this.handleChange} />
+                      <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
+                      <Categories handleChange={this.handleChange} />
+                      <DropdownFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
+                      <label>{cars.year}
+                        <input type="text" id="year" onChange={this.handleInputChange} />
+                      </label>
+                      <label>{cars.mileage}
+                        <input type="text" id="mileage" onChange={this.handleInputChange} />
+                      </label>
+                    </Table>
+                  </div>
+                  <h2>{carLabel.addons}</h2>
+                  <div className="addons">
+                    <CheckboxFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
+                    <label>{cars.details}</label>
+                    <textarea name="other" id="other" cols={60} rows={2} />
+                  </div>
+                  <h2>{carLabel.upload}</h2>
+                  <label className="btn">
+                    {carLabel.uploadBtn}
+                    <input
+                      id="photos"
+                      type="file"
+                      accept="x-png,image/jpeg"
+                      multiple
+                      onChange={this.handlePictureChange}
+                    />
+                  </label>
+                  <div className="carousel">
+                    <Carousel items={this.state.photos} />
+                  </div>
+                  <button className="formSubmit" type='submit'>{carLabel.carAddSumbit}</button>
+                </Form>
+              )}
+            </Mutation>);
         }}
       </Query>
     );
