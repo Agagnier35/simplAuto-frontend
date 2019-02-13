@@ -57,8 +57,8 @@ const translations: Translations = {
     higherMileage: 'Higher Mileage',
     lowerYear: 'Lower Year',
     higherYear: 'Higher Year',
-    features: 'features'
-  }
+    features: 'features',
+  },
 };
 
 module.exports = translations;

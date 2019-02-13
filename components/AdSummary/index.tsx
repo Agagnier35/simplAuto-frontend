@@ -10,7 +10,7 @@ export interface AdSummaryProps {
 }
 
 const AdSummary = ({ translations, ad }: AdSummaryProps) => {
-  const { Ads } = translations;
+  const { Ads, carCategory, carFeatureCategory, carFeature } = translations;
   return (
     <div>
       {ad ? (
@@ -33,13 +33,16 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
             )}
             {ad.categoryFeature && (
               <ListGroup.Item>
-                {Ads.category}: {ad.categoryFeature.category.name}
+                {Ads.category}:{' '}
+                {carCategory[ad.categoryFeature.category.name] ||
+                  ad.categoryFeature.category.name}
               </ListGroup.Item>
             )}
             {ad.features
               ? ad.features.map((feature: AdCarFeature) => (
-                  <ListGroup.Item key={feature.id}>
-                    {Ads.features}: {feature.feature.name}
+                  <ListGroup.Item>
+                    {carFeatureCategory[feature.feature.category.name]}:{' '}
+                    {carFeature[feature.feature.name] || feature.feature.name}
                   </ListGroup.Item>
                 ))
               : null}
