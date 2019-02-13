@@ -15,7 +15,7 @@ export interface CarPageProps {
 const newPw = ({query}) => {
   return (
     <IsNotLoggedIn>
-        <ResetPw query={query}></ResetPw>
+        <ResetPw query={query.resetToken}></ResetPw>
     </IsNotLoggedIn >
   );
 };

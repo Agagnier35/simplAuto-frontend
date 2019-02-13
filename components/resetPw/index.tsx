@@ -67,8 +67,8 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
     } = this.props;
 
     return  () => {
-      if (this.props.query.resetToken) {
-        return (  <Mutation mutation={RESET_PW_MUTATION} variables={{resetToken: this.props.query.resetToken,
+      if (this.props.resetToken) {
+        return (  <Mutation mutation={RESET_PW_MUTATION} variables={{resetToken: this.props.resetToken,
                                                                     password: this.state.newPassword}}>
           {(handleMutation, { loading, error }) => (
             <StyledLogin>
