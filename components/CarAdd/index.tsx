@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import Carousel from './Carousel';
-import Makes from './carMakes';
+import Categories from './carCategories';
 import Manufacturers from './carManufacturers';
 import Models from './carModels';
 import DropdownFeatures from './DropdownFeatures';
 import CheckboxFeatures from './CheckboxFeatures';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { CarCreateInput } from '../../generated/graphql';
 import gql from 'graphql-tag';
 import { Table } from 'react-bootstrap';
+import Loading from '../Loading';
+import ErrorMessage from '../ErrorMessage';
 export type Maybe<T> = T | null;
 
 interface CarAddState {
@@ -24,6 +26,20 @@ interface CarAddState {
   photos: any;
   featuresIDs?: Maybe<string[]>;
 }
+
+const GET_FEATURES_QUERY = gql`
+query{
+    carFeatureCategories{
+        id
+        name
+        type
+        features {
+            id
+            name
+        }
+
+    }
+}`;
 
 const CARADD_MUTATION = gql`
   mutation CARADD_MUTATION($data: CarCreateInput!) {
@@ -54,18 +70,18 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   handlePictureChange(event: any) {
     const { translations } = this.props;
-    if (event.target.files.length <= 7 && event.target.files.length > 0) {
-      const tempURLs = Array.from(event.target.files).map((file: any) =>
-        URL.createObjectURL(file),
-      );
+    const { files } = event.target.files;
+    if (files.length <= 7 && files.length > 0) {
+      const tempURLs = Array.from(files).map((file: any) =>
+        URL.createObjectURL(file));
 
       this.setState({
         photos: tempURLs,
       });
 
-    } else if (event.target.files.length > 7) {
+    } else if (files.length > 7) {
       alert(translations.carLabel.uploadLength);
-      let tempURLs = Array.from(event.target.files).slice(0, 7);
+      let tempURLs = Array.from(files).slice(0, 7);
       tempURLs = tempURLs.map((file: any) => URL.createObjectURL(file));
       this.setState({
         photos: tempURLs,
@@ -83,39 +99,41 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     await createCar();
   };
 
-  handleInputChange = async (e: any) => {
-    this.setState({[e.target.id]: e.target.value});
+  handleInputChange = (e: any) => {
+    this.setState({ [e.target.id]: Number(e.target.value) });
   };
 
   handleChange = (key: string, value: any) => {
     const { translations } = this.props;
+    const { state } = this.state;
     if (key === 'features') {
-      const featureIndex = this.state.features.findIndex(
-        feature => feature.category === value.category,
+      const featureIndex = state.features.findIndex(
+        (feature: any) => feature.category === value.category,
       );
       //Feature exists and "id" must be overwritten
       if (featureIndex > -1) {
         if (value.value != (translations.general.none)) {
           this.setState({
             features: [
-              ...this.state.features.slice(0, featureIndex),
+              ...state.features.slice(0, featureIndex),
               value,
-              ...this.state.features.slice(featureIndex + 1),
+              ...state.features.slice(featureIndex + 1),
             ],
-          })}
-          else {
-            this.setState({
-              features: [
-                ...this.state.features.slice(0, featureIndex),
-                ...this.state.features.slice(featureIndex + 1),
-              ],
-            });
-          }
+          })
         }
+        else {
+          this.setState({
+            features: [
+              ...state.features.slice(0, featureIndex),
+              ...state.features.slice(featureIndex + 1),
+            ],
+          });
+        }
+      }
       //Feature does not exist and can be added to the state
       else if (value.value != translations.general.none) {
         this.setState({
-          features: [...this.state.features, value],
+          features: [...state.features, value],
         });
       }
 
@@ -142,55 +160,66 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     const {
       translations: { carLabel, cars },
     } = this.props;
+    let fetchedCheckboxFeatures: any;
+    let fetchedDropdownFeatures: any;
     return (
-      <Mutation
-        mutation={CARADD_MUTATION}
-        variables={this.getCreateCarPayload()}
-      >
-        {createCar => (
-          <Form onSubmit={e => this.handleCreateCar(e, createCar)}>
-            <h1>{carLabel.title}</h1>
-            <h2>{carLabel.general}</h2>
-            <div className="general">
-              <Table>
-                <Manufacturers handleChange={this.handleChange} />
-                <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
-                <Makes handleChange={this.handleChange} />
-                <DropdownFeatures handleChange={this.handleChange} />
-                <label>{cars.year}
-                <input type="text" id="year" onChange={this.handleInputChange}/>
+      <Query query={GET_FEATURES_QUERY}>
+        {({ loading, error, data }) => {
+          if (loading) return <Loading />;
+          if (error) return <ErrorMessage />;
+          fetchedCheckboxFeatures = data.carFeatureCategories
+            .filter((category: any) => category.type === 'TRUE_FALSE');
+          fetchedDropdownFeatures = data.carFeatureCategories
+            .filter((category: any) => category.type === 'MULTIPLE_CHOICE');
+            return(
+          <Mutation
+            mutation={CARADD_MUTATION}
+            variables={this.getCreateCarPayload()}
+          >
+            {createCar => (
+              <Form onSubmit={e => this.handleCreateCar(e, createCar)}>
+                <h1>{carLabel.title}</h1>
+                <h2>{carLabel.general}</h2>
+                <div className="general">
+                  <Table>
+                    <Manufacturers handleChange={this.handleChange} />
+                    <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
+                    <Categories handleChange={this.handleChange} />
+                    <DropdownFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
+                    <label>{cars.year}
+                      <input type="text" id="year" onChange={this.handleInputChange} />
+                    </label>
+                    <label>{cars.mileage}
+                      <input type="text" id="mileage" onChange={this.handleInputChange} />
+                    </label>
+                  </Table>
+                </div>
+                <h2>{carLabel.addons}</h2>
+                <div className="addons">
+                  <CheckboxFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
+                  <label>{cars.details}</label>
+                  <textarea name="other" id="other" cols={60} rows={2} />
+                </div>
+                <h2>{carLabel.upload}</h2>
+                <label className="btn">
+                  {carLabel.uploadBtn}
+                  <input
+                    id="photos"
+                    type="file"
+                    accept="x-png,image/jpeg"
+                    multiple
+                    onChange={this.handlePictureChange}
+                  />
                 </label>
-                <label>{cars.mileage}
-                <input type="text" id="mileage" onChange={this.handleInputChange}/>
-                </label>
-              </Table>
-            </div>
-            <h2>{carLabel.addons}</h2>
-            <div className="addons">
-              <fieldset>
-              <CheckboxFeatures handleChange={this.handleChange} />
-              </fieldset>
-              <label>{cars.details}</label>
-              <textarea name="other" id="other" cols={60} rows={2} />
-            </div>
-            <h2>{carLabel.upload}</h2>
-            <label className="btn">
-              {carLabel.uploadBtn}
-              <input
-                id="photos"
-                type="file"
-                accept="x-png,image/jpeg"
-                multiple
-                onChange={this.handlePictureChange}
-              />
-            </label>
-            <div className="carousel">
-              <Carousel items={this.state.photos} />
-            </div>
-            <button className="formSubmit" type='submit'>{carLabel.carAddSumbit}</button>
-          </Form>
-        )}
-      </Mutation>
+                <div className="carousel">
+                  <Carousel items={this.state.photos} />
+                </div>
+                <button className="formSubmit" type='submit'>{carLabel.carAddSumbit}</button>
+              </Form>
+            )}
+          </Mutation>);
+        }}
+      </Query>
     );
   }
 }

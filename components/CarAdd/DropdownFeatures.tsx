@@ -5,6 +5,11 @@ import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
 
+interface DropboxFeatureProps {
+  handleChange: any
+  features: any
+}
+
 const GET_FEATURES = gql`
 query{
     carFeatureCategories{
@@ -21,28 +26,26 @@ query{
 
 const DropDownFeatures = ({
   handleChange,
+  features,
   translations: { general, carFeatureCategory },
-}: MultiProps) => (
+}: MultiProps & DropboxFeatureProps) => (
     <Query query={GET_FEATURES}>
       {({ loading, error, data }) => {
         if (loading) return <Loading />;
         if (error) return <ErrorMessage />;
-        let multipleChoiceFeatures = data.carFeatureCategories.filter(function (el) {
-          return el.type === "MULTIPLE_CHOICE"
-        });
         return (
           <div>
-            {multipleChoiceFeatures.map((category: any) => (
+            {features.map((category: any) => (
               <tr>
                 <td>{carFeatureCategory[category.name]}</td>
                 <td>
-                  <select onChange={(e) => handleChange('features',  {value: e.currentTarget.value, category: category.name })}>
+                  <select onChange={(e) => handleChange('features', { value: e.currentTarget.value, category: category.name })}>
                     <option disabled selected hidden>{general.defaultDropdown}</option>
-                    {category.features.map((feature: any) => 
+                    {category.features.map((feature: any) =>
                       <option key={feature.id} value={feature.id}>
                         {feature.name}
                       </option>)}
-                      <option>{general.none}</option>
+                    <option>{general.none}</option>
                   </select>
                 </td>
               </tr>

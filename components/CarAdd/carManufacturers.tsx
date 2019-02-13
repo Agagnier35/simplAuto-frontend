@@ -6,8 +6,11 @@ import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 
 //Fetch all manufacturers
+interface ManufacturerProps {
+  handleChange: any
+}
 
-const GET_MANUFACTURERS = gql`
+const GET_MANUFACTURERS_QUERY = gql`
   query {
     manufacturers {
       id
@@ -18,33 +21,33 @@ const GET_MANUFACTURERS = gql`
 
 const Manufacturers = ({
   handleChange,
-  translations: { general, cars },
-}: MultiProps) => (
-  <Query query={GET_MANUFACTURERS}>
-    {({ loading, error, data }) => {
-      if (loading) return <Loading />;
-      if (error) return <ErrorMessage />;
-      return (
-        <div>
-          <tr>
-            <td>{cars.manufacturer}</td>
-            <td>
-              <select
-                onChange={e =>
-                  handleChange('manufacturerID', e.currentTarget.value)
-                }
-              >
-                {data.manufacturers.map((manufacturer: any) => (
-                  <option key={manufacturer.id} value={manufacturer.id}>
-                    {manufacturer.name}
-                  </option>
-                ))}
-              </select>
-            </td>
-          </tr>
-        </div>
-      );
-    }}
-  </Query>
-);
+  translations: { cars },
+}: MultiProps & ManufacturerProps) => (
+    <Query query={GET_MANUFACTURERS_QUERY}>
+      {({ loading, error, data }) => {
+        if (loading) return <Loading />;
+        if (error) return <ErrorMessage />;
+        return (
+          <div>
+            <tr>
+              <td>{cars.manufacturer}</td>
+              <td>
+                <select
+                  onChange={e =>
+                    handleChange('manufacturerID', e.currentTarget.value)
+                  }
+                >
+                  {data.manufacturers.map((manufacturer: any) => (
+                    <option key={manufacturer.id} value={manufacturer.id}>
+                      {manufacturer.name}
+                    </option>
+                  ))}
+                </select>
+              </td>
+            </tr>
+          </div>
+        );
+      }}
+    </Query>
+  );
 export default multi(Manufacturers);

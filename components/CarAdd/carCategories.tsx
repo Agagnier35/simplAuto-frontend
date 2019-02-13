@@ -5,52 +5,44 @@ import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
 
-//Fetch models for a manufacturer
-
-interface ModelProps {
+//Fetch all car makes and add them to a dropdown menu
+interface CategoryProps {
   handleChange: any
-  manufacturer: string
 }
-const GET_MODELS_QUERY = gql`
+
+const GET_MAKES_QUERY = gql`
   query {
-    manufacturers {
+    carCategories {
       id
       name
-      models {
-        id
-        name
-      }
     }
   }
 `;
 
-const Models = ({
+const Categories = ({
   handleChange,
-  manufacturer,
   translations: { general, cars },
-}: MultiProps & ModelProps) => (
-    <Query query={GET_MODELS_QUERY}>
+}: MultiProps & CategoryProps) => (
+    <Query query={GET_MAKES_QUERY}>
       {({ loading, error, data }) => {
         if (loading) return <Loading />;
         if (error) return <ErrorMessage />;
-        let manufacturerIndex = data.manufacturers.findIndex(
-          (manufacturerIndex: any) => manufacturerIndex.id === manufacturer,
-        );
-        if (manufacturerIndex == -1) { manufacturerIndex = 0 };
         return (
           <div>
             <tr>
-              <td>{cars.model}</td>
+              <td>{cars.category}</td>
               <td>
                 <select
-                  onChange={e => handleChange('modelID', e.currentTarget.value)}
+                  onChange={e =>
+                    handleChange('categoryID', e.currentTarget.value)
+                  }
                 >
                   <option disabled selected hidden>
                     {general.defaultDropdown}
                   </option>
-                  {data.manufacturers[manufacturerIndex].models.map((model: any) => (
-                    <option key={model.id} value={model.id}>
-                      {model.name}
+                  {data.carCategories.map((category: any) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
                     </option>
                   ))}
                 </select>
@@ -61,4 +53,4 @@ const Models = ({
       }}
     </Query>
   );
-export default multi(Models);
+export default multi(Categories);
