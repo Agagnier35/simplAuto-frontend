@@ -88,23 +88,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     }
   }
 
-  // const photos = [];
-
-  // const data = new FormData();
-  // data.append('file', files[0]);
-  // data.append('upload_preset', 'Car Image');
-
-  // const res = await fetch(
-  //   'https://api.cloudinary.com/v1_1/simplauto/image/upload',
-  //   {
-  //     method: 'POST',
-  //     body: data,
-  //   },
-  // );
-  // const photo = await res.json();
-  // photos.push(photo.secure_url);
-  //   this.setState({ photos });
-
   getURLsFromCloud = async (files: any) => {
     const photos = [];
 
