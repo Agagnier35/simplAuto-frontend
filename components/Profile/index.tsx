@@ -161,7 +161,6 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
       }
     });
     data.id = dataQuery.me.id;
-    console.log({ data });
     return { data };
   };
 
@@ -273,19 +272,17 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
                                   profile.female,
                                   profile.other,
                                 ];
-                                console.log(data.me.gender);
-                                console.log(key);
                                 return [
                                   <Form.Control
                                     type="radio"
                                     name="gender"
                                     className="radioSelector"
-                                    key={key}
-                                    value={key}
+                                    key={Gender[key]}
+                                    value={Gender[key]}
                                     checked={
-                                      this.state.gender === key ||
+                                      this.state.gender === Gender[key] ||
                                       (this.state.gender === undefined &&
-                                        data.me.gender === key)
+                                        data.me.gender === Gender[key])
                                     }
                                     onChange={this.handleChange}
                                   />,
