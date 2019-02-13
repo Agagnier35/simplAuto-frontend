@@ -12,9 +12,7 @@ import { MdLockOutline } from 'react-icons/md';
 
 const RESET_PW_REQUEST_MUTATION = gql`
   mutation RESET_PW_REQUEST_MUTATION($email: String!) {
-    resetPasswordRequest(email: $email) {
-      id
-    }
+    resetPasswordRequest(email: $email) 
   }
 `;
 
@@ -113,7 +111,7 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
           </Mutation>)
     } else {
       return (
-        <Mutation mutation={RESET_PW_REQUEST_MUTATION} variables={this.state.email}>
+        <Mutation mutation={RESET_PW_REQUEST_MUTATION} variables={{email: this.state.email}}>
           {(handleMutation, { loading, error }) => (
            <StyledLogin>
            <Card>
