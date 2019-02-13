@@ -191,6 +191,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     const {
       translations: { carLabel, cars, general, carFeatureCategory },
     } = this.props;
+    const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     return (
@@ -237,6 +238,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           />
                           <Select
                             options={this.getModelsForManufacturer(data)}
+                            disabled={manufacturerID.length === 0}
                             accessor="name"
                             handleChange={(item: any) =>
                               this.handleChange('modelID', item.id)

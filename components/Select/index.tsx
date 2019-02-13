@@ -8,6 +8,7 @@ export interface SelectProps {
   handleChange: (...params: any) => void;
   accessor: string;
   label: string;
+  disabled: boolean;
   translations: Translations;
 }
 
@@ -32,6 +33,7 @@ class Select extends React.Component<SelectProps & MultiProps, SelectState> {
       label,
       options,
       accessor,
+      disabled,
       translations: { general },
     } = this.props;
     const { selectedValue } = this.state;
@@ -40,7 +42,11 @@ class Select extends React.Component<SelectProps & MultiProps, SelectState> {
       <label>
         {label}
         <BootStrapDropdown>
-          <BootStrapDropdown.Toggle variant="secondary" id="dropdown-basic">
+          <BootStrapDropdown.Toggle
+            disabled={disabled}
+            variant="secondary"
+            id="dropdown-basic"
+          >
             {selectedValue.length > 0 ? selectedValue : general.defaultDropdown}
           </BootStrapDropdown.Toggle>
           <BootStrapDropdown.Menu>
@@ -49,7 +55,7 @@ class Select extends React.Component<SelectProps & MultiProps, SelectState> {
                 key={index}
                 onClick={() => this.handleSelect(option)}
               >
-                {option[accessor]} // TODO translate keys if present else return
+                {option[accessor]}
               </BootStrapDropdown.Item>
             ))}
           </BootStrapDropdown.Menu>
