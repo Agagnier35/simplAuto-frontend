@@ -67,9 +67,22 @@ const translations: Translations = {
     addons: 'Ajouts',
     uploadLength: 'Veuillez sélectionner 7 fichiers au maximum',
   },
+
   ad: {
     createAdTitle: 'Veuillez remplir les informations conçernant votre annonce',
     createAdAction: 'Publier votre annonce',
+  },
+  Ads: {
+    lowerPrice: 'prix minimum',
+    higherPrice: 'prix maximum',
+    manufacturer: 'manufacturier',
+    model: 'modèle',
+    category: 'catégorie',
+    lowerMileage: 'kilométrage minimum',
+    higherMileage: 'kilométrage maximum',
+    lowerYear: 'année minimum',
+    higherYear: 'année maximum',
+    features: 'fonctionalités',
   },
 };
 

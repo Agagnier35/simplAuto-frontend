@@ -4,10 +4,11 @@ import Translations from '../../lib/MultiLang/locales/types';
 import StyledCarSummary from './styles';
 import Link from 'next/link';
 import { Card } from 'react-bootstrap';
+import { Car } from '../../generated/graphql';
 
 export interface CarSummaryProp {
   translations: Translations;
-  car: any;
+  car: Car;
 }
 
 const CarSummary = ({ translations, car }: CarSummaryProp) => {
