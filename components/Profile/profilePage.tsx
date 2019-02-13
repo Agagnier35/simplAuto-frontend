@@ -8,6 +8,8 @@ import { Button } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
 import { timesSeries } from 'async';
+import { Dictionnary } from '../../lib/Dictionnary';
+import { UserUpdateInput } from '../../generated/graphql';
 
 
 const GET_USER_INFO_QUERY = gql`
@@ -36,7 +38,7 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-interface ProfileInfo {
+interface ProfilePageState {
   [firstName: string]: string;
   lastName: string;
   email: string;
@@ -47,8 +49,8 @@ interface ProfileInfo {
   confirmation: string;
 }
 
-class ProfilePage extends Component<MultiProps> {
-  state: ProfileInfo = {
+class ProfilePage extends Component<MultiProps, Dictionnary<ProfilePageState>> {
+  state: Dictionnary<ProfilePageState> = {
     email: '',
     firstName: '',
     lastName: '',
@@ -95,10 +97,9 @@ class ProfilePage extends Component<MultiProps> {
   };
 
   fillObjectToUpdate = (dataQuery: any) => {
-    const data: any = {}; // TODO Shouldnt be any
-
-    //set client's id
-    data.id = dataQuery.me.id;
+    const data: Dictionnary<UserUpdateInput> = {
+      id: dataQuery.me.id,
+    }; 
 
     //set every changed key  from state
     Object.keys(this.state).map((item)=> {
