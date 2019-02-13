@@ -91,7 +91,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
   };
 
   handleConfirmationPassword = (e: FormEvent<any>) => {
-    if (e.currentTarget.name === 'newPassword') {
+    if (e.currentTarget.name === 'password') {
       this.handleChange(e);
       this.setState({ confirmation: 'wrongPW' });
     } else {
@@ -100,7 +100,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
         this.setState({ [e.currentTarget.name]: 'wrongPW' });
       } else {
         this.setState({
-          [e.currentTarget.name]: { CLASSNAME_INIT_CONFIRMATION },
+          [e.currentTarget.name]: CLASSNAME_INIT_CONFIRMATION,
         });
       }
     }
@@ -120,7 +120,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
 
   validatePassword = () => {
     return (
-      this.state.confirmation == { CLASSNAME_INIT_CONFIRMATION } &&
+      this.state.confirmation === CLASSNAME_INIT_CONFIRMATION &&
       this.state.password !== undefined
     );
   };
@@ -161,7 +161,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
       }
     });
     data.id = dataQuery.me.id;
-    console.log(data);
+    console.log({ data });
     return { data };
   };
 
@@ -303,7 +303,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
                               <Form.Control
                                 className="inputNeedSpace"
                                 type="password"
-                                name="newPassword"
+                                name="password"
                                 placeholder={profile.changePassword}
                                 onChange={this.handleConfirmationPassword}
                               />
