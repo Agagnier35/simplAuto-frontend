@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
+import { Table } from 'react-bootstrap';
 
 interface DropboxFeatureProps {
   handleChange: any
@@ -29,10 +30,8 @@ const DropDownFeatures = ({
   features,
   translations: { general, carFeatureCategory },
 }: MultiProps & DropboxFeatureProps) => (
-    <Query query={GET_FEATURES}>
-      {({ loading, error, data }) => {
-        if (loading) return <Loading />;
-        if (error) return <ErrorMessage />;
+    <Table>
+      {() => {
         return (
           <div>
             {features.map((category: any) => (
@@ -52,7 +51,6 @@ const DropDownFeatures = ({
             ))}
           </div>);
       }}
-    </Query>
+    </Table>
   );
 export default multi(DropDownFeatures);
-

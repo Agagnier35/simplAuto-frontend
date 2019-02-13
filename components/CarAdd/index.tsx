@@ -185,7 +185,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                       <Manufacturers handleChange={this.handleChange} />
                       <Models manufacturer={this.state.manufacturerID} handleChange={this.handleChange} />
                       <Categories handleChange={this.handleChange} />
-                      <DropdownFeatures features={fetchedCheckboxFeatures} handleChange={this.handleChange} />
+                      <DropdownFeatures features={fetchedDropdownFeatures} handleChange={this.handleChange} />
                       <label>{cars.year}
                         <input type="text" id="year" onChange={this.handleInputChange} />
                       </label>
