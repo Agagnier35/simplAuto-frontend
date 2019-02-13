@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
+import { AdFeatureImportance } from '../../generated/graphql';
 
 const GET_FEATURES = gql`
 query{
@@ -42,6 +43,16 @@ const DropDownFeatures = ({
                       <option key={feature.id} value={feature.id}>
                         {feature.name}
                       </option>)}))}
+                  </select>
+                </td>
+                <td>importance: </td>
+                <td>
+                  <select onChange={(e) => handleChange('featuresImportance', {value: e.currentTarget.value, category: category.name })}>
+                    {
+                      Object.keys(AdFeatureImportance).map((level:any)=>(
+                          <option key={level} value={level}>{level}</option>
+                      ))
+                    }    
                   </select>
                 </td>
               </tr>

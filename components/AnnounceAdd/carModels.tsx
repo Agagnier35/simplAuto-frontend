@@ -4,8 +4,9 @@ import gql from 'graphql-tag';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
+import { AdFeatureImportance } from '../../generated/graphql';
 
-//Fetch models for a manufacturer. TODO: pass the manufacturer to the query
+// Fetch models for a manufacturer. TODO: pass the manufacturer to the query
 const GET_MODELS = gql`
   query {
     manufacturers {
@@ -31,8 +32,7 @@ const Models = ({
       let manufacturerIndex = data.manufacturers.findIndex(
         manufacturerIndex => manufacturerIndex.id === manufacturer,
       );
-      console.log(manufacturer);
-      if (manufacturerIndex == -1) {manufacturerIndex = 0};
+      if (manufacturerIndex === -1) {manufacturerIndex = 0};
       return (
         <div>
           <tr>
@@ -49,6 +49,16 @@ const Models = ({
                     {model.name}
                   </option>
                 ))}
+              </select>
+            </td>
+            <td>importance: </td>
+            <td>
+              <select onChange={(e) => handleChange('modelImportance', e.currentTarget.value)}>
+                {
+                    Object.keys(AdFeatureImportance).map((level:any)=>(
+                        <option key={level} value={level}>{level}</option>
+                    ))
+                }    
               </select>
             </td>
           </tr>

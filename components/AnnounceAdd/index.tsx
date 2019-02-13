@@ -39,6 +39,8 @@ interface AnnounceAddState {
   mileageLowerBoundImportance: Maybe<AdFeatureImportance>;
   mileageHigherBound: number;
   mileageHigherBoundImportance: Maybe<AdFeatureImportance>;
+
+  [key: string]: any;
 }
 
 const ANNOUNCEADD_MUTATION = gql`
@@ -88,9 +90,9 @@ class AnnounceAdd extends Component<MultiProps, AnnounceAddState> {
   };
 
   handleChange = (key: string, value: any) => {
-      console.log(key)
-      console.log(value)
-  };
+    console.log(key)
+    console.log(value)
+    };
 
   getCreateAnnouncePayload = () => {
     const PriceLower:  PriceBoundFeatureInput = {

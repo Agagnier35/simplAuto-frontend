@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
+import { AdFeatureImportance } from '../../generated/graphql';
+
 
 //Fetch all manufacturers
 
@@ -41,6 +43,16 @@ const Manufacturers = ({
                     {manufacturer.name}
                   </option>
                 ))}
+              </select>
+            </td>
+            <td>importance: </td>
+            <td>
+              <select onChange={(e) => handleChange('manufacturerImportance', e.currentTarget.value)}>
+                {
+                    Object.keys(AdFeatureImportance).map((level:any)=>(
+                        <option key={level} value={level}>{level}</option>
+                    ))
+                }    
               </select>
             </td>
           </tr>
