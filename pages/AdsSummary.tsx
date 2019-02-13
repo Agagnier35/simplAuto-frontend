@@ -28,7 +28,7 @@ const Ads = ({ translations }: MultiProps) => {
             status
             }
         }
-    `;
+    `; 
 
   return(
     <CardDeck>
