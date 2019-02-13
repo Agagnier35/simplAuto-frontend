@@ -20,6 +20,8 @@ const translations: Translations = {
     features: 'Caractéristiques',
     submit: 'Sousmettre',
     images: 'Images',
+    max: 'max',
+    min: 'min',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
@@ -34,7 +36,8 @@ const translations: Translations = {
     model: 'Modèle',
     category: 'Catégorie',
     year: 'Année',
-    mileage: 'Distance',
+    mileage: 'Kilométrage',
+    price: 'Prix',
   },
   carFeatureCategory: {
     color: 'Couleur',
@@ -63,6 +66,10 @@ const translations: Translations = {
     uploadBtn: 'Sélectionner une image',
     addons: 'Ajouts',
     uploadLength: 'Veuillez sélectionner 7 fichiers au maximum',
+  },
+  ad: {
+    createAdTitle: 'Veuillez remplir les informations conçernant votre annonce',
+    createAdAction: 'Publier votre annonce',
   },
 };
 

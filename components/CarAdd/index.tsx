@@ -23,7 +23,7 @@ interface CarAddState {
   featuresIDs?: Maybe<string[]>;
 }
 
-const GET_FEATURES_QUERY = gql`
+export const GET_FEATURES_QUERY = gql`
   query {
     carFeatureCategories {
       id
@@ -283,7 +283,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           <span className="card-number">2</span>
                           {general.features}
                         </Card.Title>
-                        <div className="label-wrapper">
+                        <div className="label-wrapper no-grow">
                           {fetchedDropdownFeatures.map((feature: any) => (
                             <Select
                               key={feature.id}

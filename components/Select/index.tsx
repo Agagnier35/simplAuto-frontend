@@ -4,11 +4,11 @@ import { multi, MultiProps } from '../../lib/MultiLang';
 import Translations from '../../lib/MultiLang/locales/types';
 
 export interface SelectProps {
-  options: any[];
-  handleChange: (...params: any) => void;
-  accessor: string;
-  label: string;
-  disabled: boolean;
+  options: any[]; // What is being looped on
+  handleChange: (...params: any) => void; // Function called when an element is clicked
+  accessor: string; // The key of the item to display in the list items
+  label: string; // The value of the hovering label
+  disabled: boolean; // Blocks input if true
   translations: Translations;
 }
 

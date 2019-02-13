@@ -18,6 +18,8 @@ export default interface Translations {
     features: string;
     submit: string;
     images: string;
+    min: string;
+    max: string;
   };
   errors: {
     invalidEmail: string;
@@ -33,6 +35,7 @@ export default interface Translations {
     category: string;
     year: string;
     mileage: string;
+    price: string;
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
@@ -46,5 +49,9 @@ export default interface Translations {
     upload: string;
     addons: string;
     uploadLength: string;
+  };
+  ad: {
+    createAdTitle: string;
+    createAdAction: string;
   };
 }
