@@ -1,22 +1,21 @@
 import React from 'react';
 import { multi } from '../lib/MultiLang';
 import IsNotLoggedIn from '../components/IsNotLoggedIn';
-import ResetPw from "../components/resetPw";
+import ResetPw from '../components/resetPw';
 import Translations from '../lib/MultiLang/locales/types';
-
 
 export interface CarPageProps {
   translations: Translations;
   query: {
-    id: String;
+    resetToken: string;
   };
 }
 
-const newPw = ({query}) => {
+const newPw = ({ query }: CarPageProps) => {
   return (
     <IsNotLoggedIn>
-        <ResetPw query={query.resetToken}></ResetPw>
-    </IsNotLoggedIn >
+      <ResetPw resetToken={query.resetToken} />
+    </IsNotLoggedIn>
   );
 };
 
