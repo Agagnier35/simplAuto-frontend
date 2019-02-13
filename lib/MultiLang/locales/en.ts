@@ -63,6 +63,17 @@ const translations: Translations = {
     addons: 'Add-ons',
     upload: 'Upload up to 7 pictures',
     uploadLength: 'Please select between 1 and 7 pictures',
+  Ads: {
+    lowerPrice: 'Lower Price',
+    higherPrice: 'Higher Price',
+    manufacturer: 'Manufacturer',
+    model: 'Model',
+    category: 'Category',
+    lowerMileage: 'Lower Mileage',
+    higherMileage: 'Higher Mileage',
+    lowerYear: 'Lower Year',
+    higherYear: 'Higher Year',
+    features: 'features',
   },
 };
 

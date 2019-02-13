@@ -47,4 +47,16 @@ export default interface Translations {
     addons: string;
     uploadLength: string;
   };
+  Ads: {
+    lowerPrice: string;
+    higherPrice: string;
+    manufacturer: string;
+    model: string;
+    category: string;
+    lowerMileage: string;
+    higherMileage: string;
+    lowerYear: string;
+    higherYear: string;
+    features: string;
+  };
 }
