@@ -1,13 +1,9 @@
 import React from 'react';
 import { multi } from '../lib/MultiLang';
 import IsNotLoggedIn from '../components/IsNotLoggedIn';
-// import IsLoggedIn from '../components/IsLoggedIn';
 import Signup from '../components/Signup';
 
-
-
 const signup = () => {
-
   return (
     <IsNotLoggedIn>
         <Signup/>

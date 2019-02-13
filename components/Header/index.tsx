@@ -7,8 +7,6 @@ import NProgress from 'nprogress';
 import gql from 'graphql-tag';
 import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
-// import IsLoggedIn from '../IsLoggedIn';
-// import IsNotLoggedIn from '../IsNotLoggedIn';
 import { Query, Mutation } from 'react-apollo';
 import Loading from '../Loading';
 
@@ -61,13 +59,10 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
           <Nav className="mr-auto">{/* TODO Add routes when logged in */}</Nav>
             <Query query={LOGGED_IN_QUERY}>
               {({ data, loading, error }) => {
-                console.log('REFETCHING');
                 if (loading) {
-                  console.log("Loading");
                   return (<Loading/>); 
                 }
                 if (error) {
-                  console.log('Disconnected.');
                   return (
                     <div>
                       <p className="logged-out">
@@ -88,7 +83,6 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
                       </Link>
                     </div>);
                 } else {
-                  console.log('Connected.');
                   return (
                     <div>
                       <h3>Bonjour {data.me.firstName} {data.me.lastName} </h3>

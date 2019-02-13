@@ -1,8 +1,7 @@
 import React, { FormEvent, Component } from 'react';
 import gql from 'graphql-tag';
-// import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import StyledLogin from '../Login/styles';
@@ -39,7 +38,6 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
 
   handleResetPasswordRequest = async (e: FormEvent<any>, resetPasswordRequest: () => void) => {
     e.preventDefault();
-    console.log(this.state);
     this.isResetPasswordRequestValid() ? await resetPasswordRequest() : console.log(this.state);
     this.setState({ email: '' });
   };
