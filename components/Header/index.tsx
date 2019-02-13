@@ -10,6 +10,21 @@ import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Loading from '../Loading';
 
+const LOGGED_IN_QUERY = gql`
+                      {me
+                        {
+                          id, 
+                          firstName, 
+                          lastName
+                        }
+                      }
+                      `;
+const LOGOUT_MUTATION = gql`
+          mutation {
+            logout
+          }
+          `;
+
 NProgress.configure({ showSpinner: false, parent: '#topbar' });
 
 Router.onRouteChangeStart = () => {
@@ -30,21 +45,6 @@ const  handleLogout = async (logout: () => void) => {
 }
 
 const Header: React.SFC<MultiProps> = ({ translations }) => {
-  const LOGGED_IN_QUERY = gql`
-                  {me
-                    {
-                      id, 
-                      firstName, 
-                      lastName
-                    }
-                  }
-                            `;
-  const LOGOUT_MUTATION = gql`
-                  mutation {
-                    logout
-                  }
-                            `;
-
   return (
     <StyledNav id="topbar">
       <Link href="/" passHref>
