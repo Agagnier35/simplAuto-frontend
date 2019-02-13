@@ -28,9 +28,10 @@ const Models = ({
     {({ loading, error, data }) => {
       if (loading) return <Loading />;
       if (error) return <ErrorMessage />;
-      const manufacturerIndex = data.manufacturers.findIndex(
+      let manufacturerIndex = data.manufacturers.findIndex(
         (manufacturerIndex: any) => manufacturerIndex.id === manufacturer,
       );
+      if (manufacturerIndex == -1) {manufacturerIndex = 0};
       return (
         <div>
           <tr>
