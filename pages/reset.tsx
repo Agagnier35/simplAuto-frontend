@@ -2,16 +2,23 @@ import React from 'react';
 import { multi } from '../lib/MultiLang';
 import IsNotLoggedIn from '../components/IsNotLoggedIn';
 import ResetPw from "../components/resetPw";
+import { Query } from 'react-apollo';
+import Translations from '../lib/MultiLang/locales/types';
 
 // import IsLoggedIn from '../components/IsLoggedIn';
 // import Login from '../components/Login';
 
+export interface CarPageProps {
+  translations: Translations;
+  query: {
+    id: String;
+  };
+}
 
-const newPw = () => {
+const newPw = ({query}) => {
   return (
     <IsNotLoggedIn>
-        <ResetPw></ResetPw>
-        <h2>Si votre email est valide, un email de confirmation vous sera envoyé.</h2>
+        <ResetPw query={query}></ResetPw>
     </IsNotLoggedIn >
   );
 };
