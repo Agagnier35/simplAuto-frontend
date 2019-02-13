@@ -20,6 +20,8 @@ const translations: Translations = {
     features: 'Features',
     submit: 'Submit',
     images: 'Images',
+    max: 'max',
+    min: 'min',
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -35,6 +37,7 @@ const translations: Translations = {
     category: 'Category',
     year: 'Year',
     mileage: 'Mileage',
+    price: 'Price',
   },
   carFeatureCategory: {
     color: 'color',
@@ -74,6 +77,10 @@ const translations: Translations = {
     lowerYear: 'Lower Year',
     higherYear: 'Higher Year',
     features: 'features',
+  },
+  ad: {
+    createAdTitle: 'Please fill the information about your ad',
+    createAdAction: 'Publish your ad',
   },
 };
 

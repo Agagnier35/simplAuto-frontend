@@ -55,6 +55,10 @@ const Form = styled.form`
       margin: 0.5rem;
       flex-grow: 1;
     }
+
+    &.no-grow label {
+      flex-grow: 0;
+    }
   }
 
   #photos {
