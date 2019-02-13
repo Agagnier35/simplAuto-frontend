@@ -14,7 +14,7 @@ const IsNotLoggedIn = ({ children }: { children: React.ReactNode }) => {
             return children;
         } else {
             // Router.push('/');
-            return null;
+            return (<div><h2>You are not logged in...</h2></div>);
         }
       }}
     </Query>
