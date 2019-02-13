@@ -8,7 +8,7 @@ const ProfileStyle = styled.form`
     border-radius: 1rem;
     text-align: center;
   }
-  
+
   hr {
     border: 1px solid gray;
   }
@@ -18,15 +18,15 @@ const ProfileStyle = styled.form`
     text-align: center;
   }
 
-  h1{
+  h1 {
     margin-bottom: 0;
     display: inline-block;
   }
-  
+
   p {
     display: inline-block;
   }
-  
+
   input {
     display: inline-block;
   }
@@ -35,8 +35,8 @@ const ProfileStyle = styled.form`
     margin: 0.5%;
   }
 
-  input {
-    margin-left: 2%;
+  .radioSelector {
+    max-width: 3%;
   }
 
   .geosuggest__suggests--hidden {
@@ -59,7 +59,7 @@ const ProfileStyle = styled.form`
   .geosuggest__item:focus {
     background: #f5f5f5;
   }
-  
+
   .geosuggest__item__matched-text {
     font-weight: bold;
   }
@@ -92,7 +92,7 @@ const ProfileStyle = styled.form`
   }
 
   .inlinePart {
-    float:left;
+    float: left;
     position: relative;
     width: 10%;
   }
@@ -105,17 +105,13 @@ const ProfileStyle = styled.form`
   .nameSection {
     width: 35%;
     text-align: left;
-    display: inline-block;
-    padding-top: 1%;
-    margin-bottom: 0.5%;
-    position: relative;
+    display: block;
   }
 
   .secondInfoSection {
     text-align: left;
     display: block;
   }
-
 `;
 
 export default ProfileStyle;
