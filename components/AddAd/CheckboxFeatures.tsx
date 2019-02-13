@@ -32,7 +32,8 @@ const CheckboxFeatures = ({
           return el.type === "TRUE_FALSE"
         });
         return (
-          <div>
+          <table>
+            <tbody>
             {checkboxChoiceFeatures.map((featureCategory: any) => (
               <tr>
                 <td>{carFeatureCategory[featureCategory.name]}</td>
@@ -44,7 +45,7 @@ const CheckboxFeatures = ({
                 </td>
                 <td>importance: </td>
                 <td>
-                  <select onChange={(e) => handleChange('categoryImportance', e.currentTarget.value)}>
+                  <select onChange={(e) => handleChange('categoryImportance', {value: e.currentTarget.value, id: featureCategory.id})}>
                     {
                       Object.keys(AdFeatureImportance).map((level:any)=>(
                           <option key={level} value={level}>{level}</option>
@@ -54,7 +55,8 @@ const CheckboxFeatures = ({
                 </td>
               </tr>
             ))}
-          </div>);
+            </tbody>
+          </table>);
       }}
     </Query>
   );

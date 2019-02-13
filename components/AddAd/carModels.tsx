@@ -6,47 +6,53 @@ import ErrorMessage from '../ErrorMessage';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import { AdFeatureImportance } from '../../generated/graphql';
 
-//Fetch all car makes and add them to a dropdown menu
-const GET_MAKES = gql`
+// Fetch models for a manufacturer. TODO: pass the manufacturer to the query
+const GET_MODELS = gql`
   query {
-    carCategories {
+    manufacturers {
       id
       name
+      models {
+        id
+        name
+      }
     }
   }
 `;
 
-const Makes = ({
+const Models = ({
   handleChange,
+  manufacturer, 
   translations: { general, cars },
 }: MultiProps) => (
-  <Query query={GET_MAKES}>
+  <Query query={GET_MODELS}>
     {({ loading, error, data }) => {
       if (loading) return <Loading />;
       if (error) return <ErrorMessage />;
+      let manufacturerIndex = data.manufacturers.findIndex(
+        manufacturerIndex => manufacturerIndex.id === manufacturer,
+      );
+      if (manufacturerIndex === -1) {manufacturerIndex = 0};
       return (
-        <div>
           <tr>
-            <td>{cars.category}</td>
+            <td>{cars.model}</td>
             <td>
               <select
-                onChange={e =>
-                  handleChange('categoryID', e.currentTarget.value)
-                }
+                onChange={e => handleChange('modelID', e.currentTarget.value)}
               >
                 <option disabled selected hidden>
                   {general.defaultDropdown}
                 </option>
-                {data.carCategories.map((category: any) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
+                {data.manufacturers[manufacturerIndex].models.map((model: any) => (
+                  <option key={model.id} value={model.id}>
+                    {model.name}
                   </option>
                 ))}
               </select>
             </td>
             <td>importance: </td>
             <td>
-              <select onChange={(e) => handleChange('categoryImportance', e.currentTarget.value)}>
+              <select onChange={(e) => handleChange('modelImportance', e.currentTarget.value)}>
                 {
                     Object.keys(AdFeatureImportance).map((level:any)=>(
                         <option key={level} value={level}>{level}</option>
@@ -55,9 +61,8 @@ const Makes = ({
               </select>
             </td>
           </tr>
-        </div>
       );
     }}
   </Query>
 );
-export default multi(Makes);
+export default multi(Models);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { multiUpdater, MultiProps } from '../lib/MultiLang';
-import AnnounceAdd from '../components/AnnounceAdd';
+import AddAd from '../components/AddAd';
 
 const Home = ({
   translations: { general },
@@ -14,7 +14,7 @@ const Home = ({
       >
         {general.changeLangage}
       </button>
-      <AnnounceAdd />
+      <AddAd />
     </div>
 
   );

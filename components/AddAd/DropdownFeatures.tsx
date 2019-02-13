@@ -28,11 +28,13 @@ const DropDownFeatures = ({
       {({ loading, error, data }) => {
         if (loading) return <Loading />;
         if (error) return <ErrorMessage />;
-        let multipleChoiceFeatures = data.carFeatureCategories.filter(function (el) {
+        const multipleChoiceFeatures = data.carFeatureCategories.filter(function (el) {
           return el.type === "MULTIPLE_CHOICE"
-        });
+          
+        })
+        console.log(multipleChoiceFeatures);
         return (
-          <div>
+          <table>
             {multipleChoiceFeatures.map((category: any) => (
               <tr>
                 <td>{carFeatureCategory[category.name]}</td>
@@ -57,7 +59,8 @@ const DropDownFeatures = ({
                 </td>
               </tr>
             ))}
-          </div>);
+          </table>
+          );
       }}
     </Query>
   );
