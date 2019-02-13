@@ -74,13 +74,15 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
                           <a>{translations.signup.title}</a>
                         </Link>
                       </p>
-                      <Link href="/premium">
-                        <a>
-                          <Button variant="primary">
-                            {translations.general.becomePremium}
-                          </Button>
-                        </a>
-                      </Link>
+                      {data.me.permission === 'USER' ? ( 
+                            <Link href="/premium">
+                              <a>
+                                <Button variant="primary">
+                                  {translations.general.becomePremium}
+                                </Button>
+                              </a>
+                            </Link>) : (null)}
+                     
                     </div>): (<ErrorMessage error={error}/>);
                 } else {
                   return (
