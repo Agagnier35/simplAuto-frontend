@@ -71,7 +71,7 @@ class Signup extends Component<MultiProps, SignupState> {
 
     this.isStateSignupValid()
       ? await signup()
-      : console.log('State not valid.'); // Renvoyer une erreur au lieu d'un console.log
+      : this.setState({firstName: '', lastName: '', email: '', password: '',confirmPassword: '',});
     this.setState({
       firstName: '',
       lastName: '',

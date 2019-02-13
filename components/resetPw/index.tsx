@@ -38,7 +38,7 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
 
   handleResetPasswordRequest = async (e: FormEvent<any>, resetPasswordRequest: () => void) => {
     e.preventDefault();
-    this.isResetPasswordRequestValid() ? await resetPasswordRequest() : console.log(this.state);
+    this.isResetPasswordRequestValid() ? await resetPasswordRequest() : this.setState({email: ""});
     this.setState({ email: '' });
   };
 
@@ -48,7 +48,7 @@ class ResetPw extends Component<MultiProps, ResetPwState> {
 
   handleResetPassword = async (e: FormEvent<any>, resetPassword: () => void) => {
     e.preventDefault();
-    this.isResetPasswordValid() ? await resetPassword() : console.log("Not valid")
+    this.isResetPasswordValid() ? await resetPassword() : this.setState({ newPassword: '' });s
     this.setState({ newPassword: '' });
   };
 
