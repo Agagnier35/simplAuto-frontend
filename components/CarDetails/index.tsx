@@ -15,12 +15,9 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
     <StyledCarDetails>
       <Carousel>
         {car.photos.length > 0 ? (
-          car.photos.map((photo: String, i: number) => (
+          car.photos.map((photo: string, i: number) => (
             <Carousel.Item key={i}>
-              <img
-                className="d-block w-100"
-                src={`data:image/png;base64, ${photo}`}
-              />
+              <img className="d-block w-100" src={photo} />
             </Carousel.Item>
           ))
         ) : (

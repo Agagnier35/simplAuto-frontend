@@ -37,7 +37,7 @@ class MyApp extends App<Props> {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <MultiLang initialLocale="en">
+          <MultiLang initialLocale="fr">
             <Page>
               <Component {...pageProps} />
             </Page>

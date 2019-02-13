@@ -14,11 +14,18 @@ const translations: Translations = {
     changeLangage: 'Changer de langue',
     becomePremium: 'Devenir Premium',
     or: 'ou',
+    defaultDropdown: 'Sélectionnez',
+    other: 'Autre',
+    none: 'Non-spécifié',
+    features: 'Caractéristiques',
+    submit: 'Sousmettre',
+    images: 'Images',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
     invalidPassword: 'Mauvais mot de passe',
     authError: `Problème d'authentification`,
+    carLimitReached: 'Vous avez atteint la limite 2 véhicules permis',
   },
   cars: {
     details: "Détails de l'automobile",
@@ -34,7 +41,7 @@ const translations: Translations = {
     fuelType: "Type d'essence",
     doorNumber: 'Nombre de portes',
     seatNumber: 'Nombre de sièges',
-    driveTrain: 'Roues motrices',
+    drivetrain: 'Roues motrices',
     transmission: 'Transmission',
     sunroof: 'Toit ouvrant',
     cruiseControl: 'Régulateur de vitesse',
@@ -47,6 +54,16 @@ const translations: Translations = {
     sedan: 'sedan',
   },
   carFeature: {},
+  carLabel: {
+    title: 'Veuillez remplir les informations conçernant la voiture',
+    general: 'Informations générales',
+    carAddSumbit: 'Ajouter un véhicule',
+    condition: 'Condition',
+    upload: "Téléverser jusqu'à 7 photos",
+    uploadBtn: 'Sélectionner une image',
+    addons: 'Ajouts',
+    uploadLength: 'Veuillez sélectionner 7 fichiers au maximum',
+  },
   Ads: {
     lowerPrice: 'prix minimum',
     higherPrice: 'prix maximum',
@@ -58,7 +75,7 @@ const translations: Translations = {
     lowerYear: 'année minimum',
     higherYear: 'année maximum',
     features: 'fonctionalités',
-  }
+  },
 };
 
 module.exports = translations;

@@ -12,11 +12,18 @@ export default interface Translations {
     changeLangage: string;
     becomePremium: string;
     or: string;
+    defaultDropdown: string;
+    other: string;
+    none: string;
+    features: string;
+    submit: string;
+    images: string;
   };
   errors: {
     invalidEmail: string;
     invalidPassword: string;
     authError: string;
+    carLimitReached: string;
   };
   cars: {
     details: string;
@@ -30,7 +37,16 @@ export default interface Translations {
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
   carFeature: { [key: string]: string };
-
+  carLabel: {
+    title: string;
+    carAddSumbit: string;
+    general: string;
+    uploadBtn: string;
+    condition: string;
+    upload: string;
+    addons: string;
+    uploadLength: string;
+  };
   Ads: {
     lowerPrice: string;
     higherPrice: string;
@@ -42,5 +58,5 @@ export default interface Translations {
     lowerYear: string;
     higherYear: string;
     features: string;
-  }
+  };
 }

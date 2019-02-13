@@ -17,10 +17,7 @@ const CarSummary = ({ translations, car }: CarSummaryProp) => {
       <StyledCarSummary>
         <Card>
           {car.photos.length > 0 ? (
-            <Card.Img
-              variant="top"
-              src={`data:image/png;base64, ${car.photos[0]}`}
-            />
+            <Card.Img variant="top" src={car.photos[0]} />
           ) : (
             /* TODO: Change Placeholder */
             <Card.Img
