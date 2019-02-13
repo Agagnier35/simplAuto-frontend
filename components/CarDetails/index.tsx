@@ -10,6 +10,7 @@ export interface CarDetailsProps {
   car: Car;
 }
 const CarDetails = ({ translations, car }: CarDetailsProps) => {
+  const { cars, carCategory, carFeatureCategory, carFeature } = translations;
   return (
     <StyledCarDetails>
       <Carousel>
@@ -36,25 +37,24 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
 
       <ListGroup>
         <ListGroup.Item>
-          {translations.cars.manufacturer}: {car.manufacturer.name}
+          {cars.manufacturer}: {car.manufacturer.name}
         </ListGroup.Item>
         <ListGroup.Item>
-          {translations.cars.model}: {car.model.name}
+          {cars.model}: {car.model.name}
         </ListGroup.Item>
         <ListGroup.Item>
-          {translations.cars.category}:{' '}
-          {translations.carCategory[car.category.name] || car.category.name}
+          {cars.category}: {carCategory[car.category.name] || car.category.name}
         </ListGroup.Item>
         <ListGroup.Item>
-          {translations.cars.year}: {car.year}
+          {cars.year}: {car.year}
         </ListGroup.Item>
         <ListGroup.Item>
-          {translations.cars.mileage}: {car.mileage}
+          {cars.mileage}: {car.mileage}
         </ListGroup.Item>
         {car.features.map((f: any) => (
           <ListGroup.Item>
-            {translations.carFeatureCategory[f.category.name]}:{' '}
-            {translations.carFeature[f.name] || f.name}
+            {carFeatureCategory[f.category.name]}:{' '}
+            {carFeature[f.name] || f.name}
           </ListGroup.Item>
         ))}
       </ListGroup>

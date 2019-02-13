@@ -30,4 +30,17 @@ export default interface Translations {
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
   carFeature: { [key: string]: string };
+
+  Ads: {
+    lowerPrice: string;
+    higherPrice: string;
+    manufacturer: string;
+    model: string;
+    category: string;
+    lowerMileage: string;
+    higherMileage: string;
+    lowerYear: string;
+    higherYear: string;
+    features: string;
+  }
 }

@@ -47,6 +47,18 @@ const translations: Translations = {
     sedan: 'sedan',
   },
   carFeature: {},
+  Ads: {
+    lowerPrice: 'Lower Price',
+    higherPrice: 'Higher Price',
+    manufacturer: 'Manufacturer',
+    model: 'Model',
+    category: 'Category',
+    lowerMileage: 'Lower Mileage',
+    higherMileage: 'Higher Mileage',
+    lowerYear: 'Lower Year',
+    higherYear: 'Higher Year',
+    features: 'features',
+  },
 };
 
 module.exports = translations;

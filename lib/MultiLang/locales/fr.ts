@@ -47,6 +47,18 @@ const translations: Translations = {
     sedan: 'sedan',
   },
   carFeature: {},
+  Ads: {
+    lowerPrice: 'prix minimum',
+    higherPrice: 'prix maximum',
+    manufacturer: 'manufacturier',
+    model: 'modèle',
+    category: 'catégorie',
+    lowerMileage: 'kilométrage minimum',
+    higherMileage: 'kilométrage maximum',
+    lowerYear: 'année minimum',
+    higherYear: 'année maximum',
+    features: 'fonctionalités',
+  }
 };
 
 module.exports = translations;
