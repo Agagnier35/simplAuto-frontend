@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Form from './Form';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import Carousel from './Carousel';
-import Categories from './carCategories';
-import Manufacturers from './carManufacturers';
-import Models from './carModels';
+import Categories from './CarCategories';
+import Manufacturers from './CarManufacturers';
+import Models from './CarModels';
 import DropdownFeatures from './DropdownFeatures';
 import CheckboxFeatures from './CheckboxFeatures';
 import { Mutation, Query } from 'react-apollo';
@@ -70,7 +70,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   handlePictureChange(event: any) {
     const { translations } = this.props;
-    const { files } = event.target.files;
+    const files = event.target.files;
     if (files.length <= 7 && files.length > 0) {
       const tempURLs = Array.from(files).map((file: any) =>
         URL.createObjectURL(file));
@@ -89,7 +89,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
     } else {
       this.setState({
-        photos: null,
+        photos: [],
       });
     }
   }
@@ -97,6 +97,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
   handleCreateCar = async (e: any, createCar: any) => {
     e.preventDefault();
     await createCar();
+    console.log("hooray");
   };
 
   handleInputChange = (e: any) => {
@@ -105,27 +106,28 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   handleChange = (key: string, value: any) => {
     const { translations } = this.props;
-    const { state } = this.state;
+    const features = this.state.features;
     if (key === 'features') {
-      const featureIndex = state.features.findIndex(
+      const featureIndex = features.findIndex(
         (feature: any) => feature.category === value.category,
       );
+
       //Feature exists and "id" must be overwritten
       if (featureIndex > -1) {
-        if (value.value != (translations.general.none)) {
+        if (value.value != (translations.general.none) && value.category != "false") {
           this.setState({
             features: [
-              ...state.features.slice(0, featureIndex),
+              ...features.slice(0, featureIndex),
               value,
-              ...state.features.slice(featureIndex + 1),
+              ...features.slice(featureIndex + 1),
             ],
           })
         }
         else {
           this.setState({
             features: [
-              ...state.features.slice(0, featureIndex),
-              ...state.features.slice(featureIndex + 1),
+              ...features.slice(0, featureIndex),
+              ...features.slice(featureIndex + 1),
             ],
           });
         }
@@ -133,7 +135,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       //Feature does not exist and can be added to the state
       else if (value.value != translations.general.none) {
         this.setState({
-          features: [...state.features, value],
+          features: [...features, value],
         });
       }
 
@@ -153,6 +155,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       mileage: this.state.mileage,
       photos: this.state.photos,
     };
+    console.log(data);
     return { data };
   };
 
