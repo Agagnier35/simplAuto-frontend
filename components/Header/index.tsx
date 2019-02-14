@@ -57,15 +57,6 @@ const Header: React.SFC<MultiProps> = ({
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {general.changeLangage}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
-            <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
         <Navbar.Collapse>
           <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
@@ -73,11 +64,6 @@ const Header: React.SFC<MultiProps> = ({
               if (data && data.me) {
                 return (
                   <>
-                   <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                  </Dropdown.Menu>
                     <Nav className="mr-auto">
                       <Link href="/ads" passHref>
                         <Nav.Item as="a">{general.buy}</Nav.Item>
@@ -108,7 +94,16 @@ const Header: React.SFC<MultiProps> = ({
                         </Button>
                       )}
                     </Mutation>
-                  </>
+                    <Dropdown>
+                      <Dropdown.Toggle size="sm" variant="primary" id="dropdown-basic">
+                        {currentLocale}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
+                        <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
+                      </Dropdown.Menu>
+                      </Dropdown>
+                    </>
                 );
               }
               return (
@@ -128,6 +123,15 @@ const Header: React.SFC<MultiProps> = ({
                       <Button variant="primary">{general.becomePremium}</Button>
                     </a>
                   </Link>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      {currentLocale}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
+                      <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </>
               );
             }}
