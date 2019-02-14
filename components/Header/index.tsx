@@ -59,11 +59,6 @@ const Header: React.SFC<MultiProps> = ({
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Button
-            onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}
-          >
-            {general.changeLangage}
-          </Button>
           <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
               if (loading) return <Loading />;
@@ -101,15 +96,23 @@ const Header: React.SFC<MultiProps> = ({
                       )}
                     </Mutation>
                     <Dropdown>
-                      <Dropdown.Toggle size="sm" variant="primary" id="dropdown-basic">
+                      <Dropdown.Toggle
+                        size="sm"
+                        variant="primary"
+                        id="dropdown-basic"
+                      >
                         {currentLocale}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
-                        <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
+                        <Dropdown.Item onClick={() => changeLocale('en')}>
+                          En
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => changeLocale('fr')}>
+                          Fr
+                        </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
-                    </>
+                  </>
                 );
               }
               return (
@@ -130,14 +133,22 @@ const Header: React.SFC<MultiProps> = ({
                     </a>
                   </Link>
                   <Dropdown>
-                      <Dropdown.Toggle size="sm" variant="primary" id="dropdown-basic">
-                        {currentLocale}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
-                        <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
+                    <Dropdown.Toggle
+                      size="sm"
+                      variant="primary"
+                      id="dropdown-basic"
+                    >
+                      {currentLocale}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => changeLocale('en')}>
+                        En
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => changeLocale('fr')}>
+                        Fr
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </>
               );
             }}
