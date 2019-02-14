@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const OtherStyle = styled.form`
+const OtherStyle = styled.div`
   .geosuggest__suggests--hidden {
     max-height: 0;
     overflow: hidden;
@@ -21,11 +21,10 @@ const OtherStyle = styled.form`
   .geosuggest__item:focus {
     background: #f5f5f5;
   }
-  
+
   .geosuggest__item__matched-text {
     font-weight: bold;
   }
-
 `;
 
 export default OtherStyle;

@@ -6,6 +6,25 @@ export default interface Translations {
   signup: {
     title: string;
   };
+  profile: {
+    profilePage: string;
+    firstName: string;
+    lastName: string;
+    location: string;
+    sex: string;
+    save: string;
+    search: string;
+    birth: string;
+    male: string;
+    female: string;
+    other: string;
+    address: string;
+    changePassword: string;
+    confirmationChangePassword: string;
+    contactInfo: string;
+    genrealInfo: string;
+    newPWSection: string;
+  };
   general: {
     email: string;
     password: string;
