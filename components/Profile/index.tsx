@@ -135,8 +135,8 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     );
   };
 
-  fillObjectToUpdate = (id: string) => {
-    const data: Dictionary<UserUpdateInput> = { id };
+  fillObjectToUpdate = (me: User) => {
+    const data: Dictionary<UserUpdateInput> = { id: me.id };
 
     Object.keys(this.state).map(item => {
       if (this.validatePasswordState(item)) {
@@ -191,7 +191,7 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
             return (
               <Mutation
                 mutation={UPDATE_USER_MUTATION}
-                variables={this.fillObjectToUpdate(data.me.id)}
+                variables={this.fillObjectToUpdate(data.me)}
                 refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
               >
                 {(handleMutation, { loading, error }) => {
