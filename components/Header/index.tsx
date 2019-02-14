@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
+import Loading from '../Loading';
 
 export const LOGGED_IN_QUERY = gql`
   {
@@ -44,6 +45,8 @@ const handleLogout = async (logout: () => void) => {
 
 const Header: React.SFC<MultiProps> = ({
   translations: { general, login, signup },
+  changeLocale,
+  currentLocale,
 }) => {
   return (
     <StyledNav id="topbar">
@@ -56,9 +59,14 @@ const Header: React.SFC<MultiProps> = ({
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
+          <Button
+            onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}
+          >
+            {general.changeLangage}
+          </Button>
           <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
-              if (loading) return null;
+              if (loading) return <Loading />;
               if (data && data.me) {
                 return (
                   <>

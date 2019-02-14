@@ -45,11 +45,6 @@ const ProfileStyle = styled.form`
     border-width: 0;
   }
 
-  .geosuggest__input {
-    max-width: 60%;
-    min-width: 60%;
-  }
-
   .geosuggest__suggests {
     max-width: 65%;
     min-width: 65%;
@@ -86,9 +81,7 @@ const ProfileStyle = styled.form`
 
   .buttonSection {
     display: block;
-    text-align: left;
-    margin-bottom: 0.5%;
-    margin-left: 1%;
+    text-align: center;
   }
 
   .inlinePart {
@@ -103,13 +96,13 @@ const ProfileStyle = styled.form`
   }
 
   .nameSection {
-    width: 35%;
+    width: 65%;
     text-align: left;
-    display: block;
+    display: inline-block;
   }
 
   .secondInfoSection {
-    text-align: left;
+    text-align: center;
     display: block;
   }
 `;

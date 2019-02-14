@@ -71,7 +71,7 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     const date = curr.toISOString().substr(0, 10);
 
     return (
-      <input
+      <Form.Control
         type="date"
         name="birthDate"
         className={CLASSNAME_INIT_CONFIRMATION}
@@ -81,7 +81,7 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     );
   };
 
-  handleChangeDate = (e: FormEvent<HTMLInputElement>) => {
+  handleChangeDate = (e: FormEvent<any>) => {
     const day = parseInt(e.currentTarget.value.substr(8, 2), 10);
     const month = parseInt(e.currentTarget.value.substr(5, 2), 10);
     const year = parseInt(e.currentTarget.value.substr(0, 4), 10);
@@ -238,9 +238,8 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
                             />
                           </div>
                         </div>
-
-                        <div>
-                          <div className="secondInfoSection">
+                        <div className="secondInfoSection">
+                          <div className="nameSection">
                             <hr />
                             <h5>{profile.genrealInfo}</h5>
                             <div>
