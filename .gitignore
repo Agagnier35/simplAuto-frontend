@@ -2,8 +2,6 @@
 /node_modules
 
 .next
-
-package-lock.json
 #testing
 jest-test-results.json
 
