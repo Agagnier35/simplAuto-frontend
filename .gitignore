@@ -8,4 +8,4 @@ package-lock.json
 jest-test-results.json
 
 # generated stuff
-/generated/graphql.ts
+/generated

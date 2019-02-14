@@ -5,6 +5,7 @@ cache:
   directories:
     - node_modules
 script:
+  - mkdir generated
   - npm run generate
   - npm run test-ci
   - npm run build
