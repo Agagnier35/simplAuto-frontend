@@ -7,12 +7,13 @@ import Geosuggest from 'react-geosuggest';
 import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
+import { Dictionary } from '../../lib/Dictionary';
 import {
   UserUpdateInput,
+  User,
   Gender,
   Date as SchemaDate,
 } from '../../generated/graphql';
-import { Dictionary } from '../../lib/Dictionary';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
