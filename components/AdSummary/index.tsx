@@ -40,7 +40,7 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
             )}
             {ad.features
               ? ad.features.map((feature: AdCarFeature) => (
-                  <ListGroup.Item>
+                  <ListGroup.Item key={feature.feature.category.name}>
                     {carFeatureCategory[feature.feature.category.name]}:{' '}
                     {carFeature[feature.feature.name] || feature.feature.name}
                   </ListGroup.Item>

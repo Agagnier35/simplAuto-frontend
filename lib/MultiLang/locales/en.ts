@@ -53,7 +53,7 @@ const translations: Translations = {
     resetPw: 'Reset password',
     buy: 'Buy',
     sell: 'Sell',
-    ads: 'Ads',
+    myAds: 'My ads',
     myCars: 'My cars',
     disconnect: 'Logout',
   },
@@ -64,6 +64,7 @@ const translations: Translations = {
     carLimitReached: 'You have reached the limit of cars you can create',
   },
   cars: {
+    addCar: 'Add a car',
     details: 'Car details',
     title: 'My Cars',
     manufacturer: 'Manufacturer',
@@ -112,6 +113,7 @@ const translations: Translations = {
     lowerYear: 'Lower Year',
     higherYear: 'Higher Year',
     features: 'features',
+    addAds: 'Add an Ad',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',

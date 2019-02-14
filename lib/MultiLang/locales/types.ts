@@ -52,7 +52,7 @@ export default interface Translations {
     buy: string;
     sell: string;
     myCars: string;
-    ads: string;
+    myAds: string;
     disconnect: string;
   };
   errors: {
@@ -62,6 +62,7 @@ export default interface Translations {
     carLimitReached: string;
   };
   cars: {
+    addCar: string;
     details: string;
     title: string;
     manufacturer: string;
@@ -99,5 +100,6 @@ export default interface Translations {
     lowerYear: string;
     higherYear: string;
     features: string;
+    addAds: string;
   };
 }

@@ -54,7 +54,7 @@ const translations: Translations = {
     buy: 'Acheter',
     sell: 'Vendre',
     myCars: 'Mes voitures',
-    ads: 'Annonces',
+    myAds: 'Mes annonces',
     disconnect: 'Déconnexion',
   },
   errors: {
@@ -64,6 +64,7 @@ const translations: Translations = {
     carLimitReached: 'Vous avez atteint la limite 2 véhicules permis',
   },
   cars: {
+    addCar: 'Ajouter un automobile',
     details: "Détails de l'automobile",
     title: 'Mes automobiles',
     manufacturer: 'Manufacturier',
@@ -117,6 +118,7 @@ const translations: Translations = {
     lowerYear: 'année minimum',
     higherYear: 'année maximum',
     features: 'fonctionalités',
+    addAds: 'Ajouter un annonce',
   },
 };
 

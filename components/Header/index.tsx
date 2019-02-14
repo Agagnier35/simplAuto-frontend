@@ -75,8 +75,8 @@ const Header: React.SFC<MultiProps> = ({
                       <Link href="/cars" passHref>
                         <Nav.Item as="a">{general.myCars}</Nav.Item>
                       </Link>
-                      <Link href="/ads" passHref>
-                        <Nav.Item as="a">{general.ads}</Nav.Item>
+                      <Link href="/myAds" passHref>
+                        <Nav.Item as="a">{general.myAds}</Nav.Item>
                       </Link>
                       <Link href="/profile" passHref>
                         <a className="firstName">{data.me.firstName}</a>

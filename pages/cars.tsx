@@ -6,6 +6,8 @@ import CarList from '../components/CarList';
 import IsLoggedIn from '../components/IsLoggedIn';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import { Button } from 'react-bootstrap';
+import Link from 'next/link';
 
 const MY_CARS_QUERY = gql`
   {
@@ -39,6 +41,9 @@ const Cars = ({ translations }: MultiProps) => {
           return (
             <div>
               <h2>{translations.cars.title}</h2>
+              <Link href="/addcar">
+                <Button>{translations.cars.addCar}</Button>
+              </Link>
               {<CarList cars={data.me.cars} />}
             </div>
           );
