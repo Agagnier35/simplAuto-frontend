@@ -67,24 +67,22 @@ const ALL_MY_ADS_QUERY = gql`
 
 const MyAds = ({ translations }: MultiProps) => {
   return (
-    <CardDeck>
-      <Query query={ALL_MY_ADS_QUERY}>
-        {({ data, loading, error }) => {
-          if (loading) return <Loading />;
-          if (error) return <ErrorMessage error={error} />;
-          return (
-            <>
-              <Link href="/createAd">
-                <Button>{translations.Ads.addAds}</Button>
-              </Link>
-              {data.me.ads.map((ad: Ad) => (
-                <AdSummary key={ad.id} ad={ad} />
-              ))}
-            </>
-          );
-        }}
-      </Query>
-    </CardDeck>
+    <>
+      <Link href="/createAd">
+        <Button>{translations.Ads.addAds}</Button>
+      </Link>
+      <CardDeck>
+        <Query query={ALL_MY_ADS_QUERY}>
+          {({ data, loading, error }) => {
+            if (loading) return <Loading />;
+            if (error) return <ErrorMessage error={error} />;
+            return data.me.ads.map((ad: Ad) => (
+              <AdSummary key={ad.id} ad={ad} />
+            ));
+          }}
+        </Query>
+      </CardDeck>
+    </>
   );
 };
 

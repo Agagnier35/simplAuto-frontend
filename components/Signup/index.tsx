@@ -48,7 +48,7 @@ class Signup extends Component<MultiProps, SignupState> {
     gender: Gender.Other,
     birthDate: {
       day: 1,
-      month: 1,
+      month: 0,
       year: 1900,
     },
   };
@@ -104,41 +104,31 @@ class Signup extends Component<MultiProps, SignupState> {
     this.state.location = e;
   };
 
-  handleBirthDateChange = (e: FormEvent<any>) => {
-    if (e.currentTarget.name === 'Day') {
-      const newDate: BirthDate = {
-        day:
-          parseInt(e.currentTarget.value, 10) >= 1 &&
-          parseInt(e.currentTarget, 10) <= 31
-            ? parseInt(e.currentTarget.value, 10)
-            : 1,
-        month: this.state.birthDate.month,
-        year: this.state.birthDate.year,
-      };
-      this.setState({ birthDate: newDate });
-    } else if (e.currentTarget.name === 'Month') {
-      const newDate: BirthDate = {
-        day: this.state.birthDate.day,
-        month:
-          parseInt(e.currentTarget.value, 10) >= 1 &&
-          parseInt(e.currentTarget.value, 10) <= 12
-            ? parseInt(e.currentTarget.value, 10)
-            : 1,
-        year: this.state.birthDate.year,
-      };
-      this.setState({ birthDate: newDate });
-    } else {
-      const newDate: BirthDate = {
-        day: this.state.birthDate.day,
-        month: this.state.birthDate.month,
-        year:
-          parseInt(e.currentTarget.value, 10) >= 1900 &&
-          parseInt(e.currentTarget.value, 10) <= 2010
-            ? parseInt(e.currentTarget.value, 10)
-            : 1900,
-      };
-      this.setState({ birthDate: newDate });
-    }
+  datePickerInput = () => {
+    const curr = new Date();
+    const { birthDate } = this.state;
+    curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
+    const date = curr.toISOString().substr(0, 10);
+    return (
+      <Form.Control
+        type="date"
+        name="birthDate"
+        className="inputNeedSpace"
+        defaultValue={date}
+        onChange={this.handleChangeDate}
+      />
+    );
+  };
+
+  handleChangeDate = (e: FormEvent<any>) => {
+    const day = parseInt(e.currentTarget.value.substr(8, 2), 10);
+    const month = parseInt(e.currentTarget.value.substr(5, 2), 10);
+    const year = parseInt(e.currentTarget.value.substr(0, 4), 10);
+    const curr = new Date();
+    curr.setFullYear(day, month, year);
+    this.setState({
+      birthDate: { day, month, year },
+    } as SignupState);
   };
 
   getSignupPayload = () => {
@@ -308,32 +298,7 @@ class Signup extends Component<MultiProps, SignupState> {
 
                     <Form.Group>
                       <Form.Label>Birth date</Form.Label>
-                      <InputGroup>
-                        <Form.Control
-                          aria-describedby="inputGroupPrepend"
-                          required
-                          type="number"
-                          name={general.birthDate.day}
-                          value={this.state.birthDate.day.toString()}
-                          onChange={this.handleBirthDateChange}
-                        />
-                        <Form.Control
-                          aria-describedby="inputGroupPrepend"
-                          required
-                          type="number"
-                          name={general.birthDate.month}
-                          value={this.state.birthDate.month.toString()}
-                          onChange={this.handleBirthDateChange}
-                        />
-                        <Form.Control
-                          aria-describedby="inputGroupPrepend"
-                          required
-                          type="number"
-                          name={general.birthDate.year}
-                          value={this.state.birthDate.year.toString()}
-                          onChange={this.handleBirthDateChange}
-                        />
-                      </InputGroup>
+                      <InputGroup>{this.datePickerInput()}</InputGroup>
                     </Form.Group>
 
                     <Button variant="primary" type="submit" block>
