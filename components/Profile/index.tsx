@@ -8,12 +8,7 @@ import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
 import { Dictionary } from '../../lib/Dictionary';
-import {
-  UserUpdateInput,
-  User,
-  Gender,
-  Date as SchemaDate,
-} from '../../generated/graphql';
+import { UserUpdateInput, User, Gender } from '../../generated/graphql';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
@@ -48,7 +43,7 @@ interface ProfileState {
   lastName: string;
   email: string;
   location: string;
-  birthDate: SchemaDate;
+  birthDate: any;
   gender: string;
   newPassword: string;
   confirmation: string;
@@ -66,7 +61,7 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     confirmation: CLASSNAME_INIT_CONFIRMATION,
   };
 
-  datePickerInput = (birthDate: SchemaDate) => {
+  datePickerInput = (birthDate: any) => {
     const curr = new Date();
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
     const date = curr.toISOString().substr(0, 10);
