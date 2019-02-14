@@ -30,21 +30,23 @@ const Cars = ({ translations }: MultiProps) => {
   `;
 
   return (
-    <IsLoggedIn>
-      <Query query={MY_CARS_QUERY}>
-        {({ data, loading, error }) => {
-          if (loading) {
-            return <Loading />;
-          }
-          return (
-            <div>
-              <h2>{translations.cars.title}</h2>
-              {<CarList cars={data.me.cars} />}
-            </div>
-          );
-        }}
-      </Query>
-    </IsLoggedIn>
+    <div>
+      <IsLoggedIn>
+        <Query query={MY_CARS_QUERY}>
+          {({ data, loading, error }) => {
+            if (loading) {
+              return <Loading />;
+            }
+            return (
+              <div>
+                <h2>{translations.cars.title}</h2>
+                {<CarList cars={data.me.cars} />}
+              </div>
+            );
+          }}
+        </Query>
+      </IsLoggedIn>
+    </div>
   );
 };
 

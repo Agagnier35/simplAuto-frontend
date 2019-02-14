@@ -9,15 +9,15 @@ const IsNotLoggedIn = ({ children }: { children: React.ReactNode }) => {
     <div>
       <Query query={LOGGED_IN_QUERY}>
         {({ loading, data }) => {
-          console.log(data);
           if (loading) {
             return <Loading />;
           }
-          if (data && data.me && data.me.id) {
-            Router.push('/'); // Redirect to Home if loggedIn
-            return null;
+          if (data && data.me === null) {
+            return children;
           }
-          return children;
+
+          Router.push('/'); // Redirect to Home if loggedIn
+          return null;
         }}
       </Query>
     </div>

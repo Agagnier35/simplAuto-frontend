@@ -6,8 +6,8 @@ import Signup from '../components/Signup';
 const signup = () => {
   return (
     <IsNotLoggedIn>
-        <Signup/>
-    </IsNotLoggedIn >
+      <Signup />
+    </IsNotLoggedIn>
   );
 };
 

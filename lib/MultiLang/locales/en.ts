@@ -11,19 +11,24 @@ const translations: Translations = {
   general: {
     email: 'Email',
     password: 'Password',
-    confirmPassword: "Confirm password",
+    confirmPassword: 'Confirm password',
     changeLangage: 'Change langage',
     becomePremium: 'Go Premium',
     or: 'or',
-    firstName: "First name",
-    lastName: "Last name",
-    gender: "Gender",
+    firstName: 'First name',
+    lastName: 'Last name',
+    gender: 'Gender',
     birthDate: {
-      day: "Day",
-      month: "Month",
-      year: "Year"
+      day: 'Day',
+      month: 'Month',
+      year: 'Year',
     },
-    resetPw: "Reset password"
+    resetPw: 'Reset password',
+    buy: 'Buy',
+    sell: 'Sell',
+    myCars: 'My cars',
+    ads: 'Ads',
+    disconnect: 'Logout',
   },
   errors: {
     invalidEmail: 'Invalid email',

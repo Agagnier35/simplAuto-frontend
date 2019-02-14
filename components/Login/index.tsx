@@ -8,8 +8,8 @@ import ErrorMessage from '../ErrorMessage/index';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import BrandHeader from './BrandHeader';
 import Link from 'next/link';
-import Router from "next/router";
-import { LOGGED_IN_QUERY } from '../IsLoggedIn';
+import Router from 'next/router';
+import { LOGGED_IN_QUERY } from '../Header';
 
 interface LoginState {
   email: string;
@@ -47,7 +47,11 @@ class Login extends Component<MultiProps, LoginState> {
     } = this.props;
 
     return (
-      <Mutation mutation={LOGIN_MUTATION} variables={this.state} refetchQueries={[{ query: LOGGED_IN_QUERY }]}>
+      <Mutation
+        mutation={LOGIN_MUTATION}
+        variables={this.state}
+        refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+      >
         {(handleMutation, { loading, error }) => (
           <StyledLogin>
             <Card>

@@ -4,11 +4,12 @@ import IsNotLoggedIn from '../components/IsNotLoggedIn';
 import Login from '../components/Login';
 
 const login = () => {
-
   return (
-    <IsNotLoggedIn>
-        <Login/>
-    </IsNotLoggedIn >
+    <div>
+      <IsNotLoggedIn>
+        <Login />
+      </IsNotLoggedIn>
+    </div>
   );
 };
 

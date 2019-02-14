@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Loading from '../components/Loading';
 import CarDetails from '../components/CarDetails';
+import IsLoggedIn from '../components/IsLoggedIn';
 
 export interface CarPageProps {
   translations: Translations;
@@ -40,19 +41,23 @@ const Car = ({ translations, query }: CarPageProps) => {
     }
   `;
   return (
-    <Query query={CAR_BY_ID} variables={{ id: query.id }}>
-      {({ loading, data, error }) => {
-        if (loading) {
-          return <Loading />;
-        }
-        return (
-          <div>
-            <h2>{translations.cars.details}</h2>
-            <CarDetails car={data.car} />
-          </div>
-        );
-      }}
-    </Query>
+    <div>
+      <IsLoggedIn>
+        <Query query={CAR_BY_ID} variables={{ id: query.id }}>
+          {({ loading, data }) => {
+            if (loading) {
+              return <Loading />;
+            }
+            return (
+              <div>
+                <h2>{translations.cars.details}</h2>
+                <CarDetails car={data.car} />
+              </div>
+            );
+          }}
+        </Query>
+      </IsLoggedIn>
+    </div>
   );
 };
 

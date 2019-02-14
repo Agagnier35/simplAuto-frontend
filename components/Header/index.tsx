@@ -9,7 +9,7 @@ import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 
-const LOGGED_IN_QUERY = gql`
+export const LOGGED_IN_QUERY = gql`
   {
     me {
       id
@@ -42,7 +42,9 @@ const handleLogout = async (logout: () => void) => {
   Router.push('/');
 };
 
-const Header: React.SFC<MultiProps> = ({ translations }) => {
+const Header: React.SFC<MultiProps> = ({
+  translations: { general, login, signup },
+}) => {
   return (
     <StyledNav id="topbar">
       <Link href="/" passHref>
@@ -54,43 +56,60 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Nav className="mr-auto">{/* TODO Add routes when logged in */}</Nav>
           <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
-              if (loading) return 'allo';
+              if (loading) return null;
               if (data && data.me) {
                 return (
-                  <div>
-                    <h3>{data.me.firstName}</h3>
+                  <>
+                    <Nav className="mr-auto">
+                      <Link href="/ads" passHref>
+                        <Nav.Item as="a">{general.buy}</Nav.Item>
+                      </Link>
+                      <Link href="/ads" passHref>
+                        <Nav.Item as="a">{general.sell}</Nav.Item>
+                      </Link>
+                      <Link href="/cars" passHref>
+                        <Nav.Item as="a">{general.myCars}</Nav.Item>
+                      </Link>
+                      <Link href="/ads" passHref>
+                        <Nav.Item as="a">{general.ads}</Nav.Item>
+                      </Link>
+                      <Link href="/profile" passHref>
+                        <a className="firstName">{data.me.firstName}</a>
+                      </Link>
+                    </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}
                       refetchQueries={[{ query: LOGGED_IN_QUERY }]}
                     >
                       {handleMutation => (
-                        <button onClick={() => handleLogout(handleMutation)}>
-                          Se déconnecter
-                        </button>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleLogout(handleMutation)}
+                        >
+                          {general.disconnect}
+                        </Button>
                       )}
                     </Mutation>
-                  </div>
+                  </>
                 );
               }
               return (
                 <>
+                  <Nav className="mr-auto" />
                   <p className="logged-out">
                     <Link href="/login" passHref>
-                      <a>{translations.login.title}</a>
+                      <a>{login.title}</a>
                     </Link>
-                    {` ${translations.general.or} `}
+                    {` ${general.or} `}
                     <Link href="/signup" passHref>
-                      <a>{translations.signup.title}</a>
+                      <a>{signup.title}</a>
                     </Link>
                   </p>
                   <Link href="/premium">
                     <a>
-                      <Button variant="primary">
-                        {translations.general.becomePremium}
-                      </Button>
+                      <Button variant="primary">{general.becomePremium}</Button>
                     </a>
                   </Link>
                 </>

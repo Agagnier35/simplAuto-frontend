@@ -17,11 +17,16 @@ export default interface Translations {
     lastName: string;
     gender: string;
     birthDate: {
-      day: string,
-      month: string,
-      year: string
+      day: string;
+      month: string;
+      year: string;
     };
     resetPw: string;
+    buy: string;
+    sell: string;
+    myCars: string;
+    ads: string;
+    disconnect: string;
   };
   errors: {
     invalidEmail: string;
