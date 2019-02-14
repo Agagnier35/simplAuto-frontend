@@ -8,8 +8,9 @@ import ErrorMessage from '../ErrorMessage/index';
 import Geosuggest from 'react-geosuggest';
 import { MdLockOutline } from 'react-icons/md';
 import BrandHeader from './BrandHeader';
-import OtherStyle from './otherstyle';
+import { LOGGED_IN_QUERY } from '../Header';
 import Router from 'next/router';
+import OtherStyle from './otherstyle';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -150,7 +151,11 @@ class Signup extends Component<MultiProps, SignupState> {
       translations: { signup, general },
     } = this.props;
     return (
-      <Mutation mutation={SIGNUP_MUTATION} variables={this.getSignupPayload()}>
+      <Mutation
+        mutation={SIGNUP_MUTATION}
+        variables={this.getSignupPayload()}
+        refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+      >
         {(handleMutation, { loading, error }) => (
           <StyledSignup>
             <Card>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import Link from 'next/link';
 import StyledNav from './styles';
 import Router from 'next/router';
@@ -58,6 +58,15 @@ const Header: React.SFC<MultiProps> = ({
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            {general.changeLangage}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => changeLocale('en')}>En</Dropdown.Item>
+            <Dropdown.Item onClick={() => changeLocale('fr')}>Fr</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         <Navbar.Collapse>
           <Button
             onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}
