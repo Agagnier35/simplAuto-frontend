@@ -7,6 +7,32 @@ import Loading from '../components/Loading';
 import CarDetails from '../components/CarDetails';
 import IsLoggedIn from '../components/IsLoggedIn';
 
+const CAR_BY_ID = gql`
+  query CAR_BY_ID($id: ID!) {
+    car(id: $id) {
+      id
+      manufacturer {
+        name
+      }
+      model {
+        name
+      }
+      category {
+        name
+      }
+      year
+      mileage
+      photos
+      features {
+        name
+        category {
+          name
+        }
+      }
+    }
+  }
+`;
+
 export interface CarPageProps {
   translations: Translations;
   query: {
@@ -15,49 +41,21 @@ export interface CarPageProps {
 }
 
 const Car = ({ translations, query }: CarPageProps) => {
-  const CAR_BY_ID = gql`
-    query CAR_BY_ID($id: ID!) {
-      car(id: $id) {
-        id
-        manufacturer {
-          name
-        }
-        model {
-          name
-        }
-        category {
-          name
-        }
-        year
-        mileage
-        photos
-        features {
-          name
-          category {
-            name
-          }
-        }
-      }
-    }
-  `;
   return (
-    <div>
-      <IsLoggedIn>
-        <Query query={CAR_BY_ID} variables={{ id: query.id }}>
-          {({ loading, data }) => {
-            if (loading) {
-              return <Loading />;
-            }
-            return (
-              <div>
-                <h2>{translations.cars.details}</h2>
-                <CarDetails car={data.car} />
-              </div>
-            );
-          }}
-        </Query>
-      </IsLoggedIn>
-    </div>
+    <IsLoggedIn>
+      <Query query={CAR_BY_ID} variables={{ id: query.id }}>
+        {({ loading, data, error }) => {
+          if (loading) return <Loading />;
+          if (error) return <ErrorMessage error={error} />;
+          return (
+            <div>
+              <h2>{translations.cars.details}</h2>
+              <CarDetails car={data.car} />
+            </div>
+          );
+        }}
+      </Query>
+    </IsLoggedIn>
   );
 };
 

@@ -13,6 +13,14 @@ export default interface Translations {
     changeLangage: string;
     becomePremium: string;
     or: string;
+    defaultDropdown: string;
+    other: string;
+    none: string;
+    features: string;
+    submit: string;
+    images: string;
+    min: string;
+    max: string;
     firstName: string;
     lastName: string;
     gender: string;
@@ -32,6 +40,7 @@ export default interface Translations {
     invalidEmail: string;
     invalidPassword: string;
     authError: string;
+    carLimitReached: string;
   };
   cars: {
     details: string;
@@ -41,8 +50,35 @@ export default interface Translations {
     category: string;
     year: string;
     mileage: string;
+    price: string;
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
   carFeature: { [key: string]: string };
+  carLabel: {
+    title: string;
+    carAddSumbit: string;
+    general: string;
+    uploadBtn: string;
+    condition: string;
+    upload: string;
+    addons: string;
+    uploadLength: string;
+  };
+  ad: {
+    createAdTitle: string;
+    createAdAction: string;
+  };
+  Ads: {
+    lowerPrice: string;
+    higherPrice: string;
+    manufacturer: string;
+    model: string;
+    category: string;
+    lowerMileage: string;
+    higherMileage: string;
+    lowerYear: string;
+    higherYear: string;
+    features: string;
+  };
 }
