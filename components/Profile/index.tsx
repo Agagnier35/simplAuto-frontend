@@ -7,10 +7,14 @@ import Geosuggest from 'react-geosuggest';
 import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
-import { UserUpdateInput, Gender } from '../../generated/graphql';
-import { Dictionnary } from '../../lib/Dictionnary';
+import {
+  UserUpdateInput,
+  Gender,
+  Date as SchemaDate,
+} from '../../generated/graphql';
+import { Dictionary } from '../../lib/Dictionary';
 
-const CLASSNAME_INIT_CONFIRMATION = 'inputNeedSpace';
+const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
 const GET_USER_INFO_QUERY = gql`
   query {
@@ -38,27 +42,33 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
-  state: Dictionnary<UserUpdateInput> = {
-    id: '',
-    email: undefined,
-    firstName: undefined,
-    lastName: undefined,
-    location: undefined,
+interface ProfileState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  location: string;
+  birthDate: SchemaDate;
+  gender: string;
+  newPassword: string;
+  confirmation: string;
+}
+
+class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
+  state: Dictionary<ProfileState> = {
+    email: '',
+    firstName: '',
+    lastName: '',
+    location: '',
     birthDate: { day: 0, month: 0, year: 0 },
-    gender: undefined,
-    password: undefined,
-    confirmation: { CLASSNAME_INIT_CONFIRMATION },
+    gender: '',
+    newPassword: '',
+    confirmation: CLASSNAME_INIT_CONFIRMATION,
   };
 
-  datePickerInput = (data: any) => {
+  datePickerInput = (birthDate: SchemaDate) => {
     const curr = new Date();
-    curr.setFullYear(
-      parseInt(data.me.birthDate.year, 10),
-      parseInt(data.me.birthDate.month, 10) - 1,
-      parseInt(data.me.birthDate.day, 10),
-    );
-    let date = curr.toISOString().substr(0, 10);
+    curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
+    const date = curr.toISOString().substr(0, 10);
 
     return (
       <input
@@ -71,23 +81,23 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
     );
   };
 
-  handleChangeDate = async (e: FormEvent<HTMLInputElement>) => {
+  handleChangeDate = (e: FormEvent<HTMLInputElement>) => {
     const day = parseInt(e.currentTarget.value.substr(8, 2), 10);
     const month = parseInt(e.currentTarget.value.substr(5, 2), 10);
     const year = parseInt(e.currentTarget.value.substr(0, 4), 10);
     const curr = new Date();
     curr.setFullYear(day, month, year);
-    await this.setState({
-      birthDate: { day: day, month: month, year: year },
-    } as any);
+    this.setState({
+      birthDate: { day, month, year },
+    } as Dictionary<ProfileState>);
   };
 
   handleChange = (e: FormEvent<any>) => {
-    this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
+    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
   };
 
   handleChangeGeoLoc = (e: string) => {
-    this.setState({ location: e } as any);
+    this.setState({ location: e });
   };
 
   handleConfirmationPassword = (e: FormEvent<any>) => {
@@ -95,8 +105,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
       this.handleChange(e);
       this.setState({ confirmation: 'wrongPW' });
     } else {
-      // if e.currentTarget.name === 'confirmation'
-      if (e.currentTarget.value != this.state.password) {
+      if (e.currentTarget.value !== this.state.password) {
         this.setState({ [e.currentTarget.name]: 'wrongPW' });
       } else {
         this.setState({
@@ -106,39 +115,28 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
     }
   };
 
-  notNullOrUndefined = (value: any) => {
-    return value !== null && value !== undefined;
-  };
-
   validatePasswordState = (item: string) => {
-    // magic numbers: variable name in state
-    return (
-      item === 'confirmation' ||
-      (item === 'password' && this.state[item] !== undefined)
-    );
+    return item === 'confirmation' || (item === 'password' && this.state[item]);
   };
 
   validatePassword = () => {
     return (
       this.state.confirmation === CLASSNAME_INIT_CONFIRMATION &&
-      this.state.password !== undefined
+      this.state.password
     );
   };
 
   validateBirthDate = (item: string) => {
-    // magic numbers: variable name in state
     return (
       item === 'birthDate' &&
-      this.state[item].day !== 0 &&
-      this.state[item].month !== 0 &&
-      this.state[item].year !== 0
+      this.state.birthDate.day !== 0 &&
+      this.state.birthDate.month !== 0 &&
+      this.state.birthDate.year !== 0
     );
   };
 
-  fillObjectToUpdate = (dataQuery: any) => {
-    const data: Dictionnary<UserUpdateInput> = {
-      id: dataQuery.me.id,
-    };
+  fillObjectToUpdate = (id: string) => {
+    const data: Dictionary<UserUpdateInput> = { id };
 
     Object.keys(this.state).map(item => {
       if (this.validatePasswordState(item)) {
@@ -154,13 +152,10 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
           month,
           year,
         };
-      }
-      // magic numbers: variable name in state
-      else if (item !== 'birthDate' && this.state[item] !== undefined) {
+      } else if (item !== 'birthDate' && this.state[item]) {
         data[item] = this.state[item];
       }
     });
-    data.id = dataQuery.me.id;
     return { data };
   };
 
@@ -172,15 +167,15 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
     await update();
     this.setState({
       id: '',
-      email: undefined,
-      firstName: undefined,
-      lastName: undefined,
-      location: undefined,
+      email: '',
+      firstName: '',
+      lastName: '',
+      location: '',
       birthDate: { day: 0, month: 0, year: 0 },
-      gender: undefined,
-      password: undefined,
-      confirmation: 'inputNeedSpace',
-    });
+      gender: '',
+      password: '',
+      confirmation: CLASSNAME_INIT_CONFIRMATION,
+    } as any);
   };
 
   render() {
@@ -196,12 +191,11 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
             return (
               <Mutation
                 mutation={UPDATE_USER_MUTATION}
-                variables={this.fillObjectToUpdate(data)}
+                variables={this.fillObjectToUpdate(data.me.id)}
                 refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
               >
-                {(handleMutation, { loading, error, called }) => {
+                {(handleMutation, { loading, error }) => {
                   if (error) return <ErrorMessage error={error} />;
-                  //if (called) return 'saved';
                   return (
                     <Style
                       method="put"
@@ -254,7 +248,7 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
                               <Geosuggest
                                 initialValue={data.me.location}
                                 onChange={this.handleChangeGeoLoc}
-                                onSuggestSelect={suggest =>
+                                onSuggestSelect={(suggest: any) =>
                                   this.handleChangeGeoLoc(suggest.label)
                                 }
                                 placeholder={profile.address}
@@ -262,37 +256,37 @@ class ProfilePage extends Component<MultiProps, Dictionnary<UserUpdateInput>> {
                             </div>
                             <div>
                               <p>{profile.birth}: </p>
-                              {this.datePickerInput(data)}
+                              {this.datePickerInput(data.me.birthDate)}
                             </div>
                             <div>
                               <p>{profile.sex}: </p>
-                              {Object.keys(Gender).map((key, i) => {
-                                const temp = [
-                                  profile.male,
-                                  profile.female,
-                                  profile.other,
-                                ];
-                                return [
-                                  <Form.Control
-                                    type="radio"
-                                    name="gender"
-                                    className="radioSelector"
-                                    key={Gender[key]}
-                                    value={Gender[key]}
-                                    checked={
-                                      this.state.gender === Gender[key] ||
-                                      (this.state.gender === undefined &&
-                                        data.me.gender === Gender[key])
-                                    }
-                                    onChange={this.handleChange}
-                                  />,
-                                  <p className="radioNeedSpace" key={i}>
-                                    {temp[i]}{' '}
-                                  </p>,
-                                ];
-                              })}
+                              {Object.values(Gender).map(
+                                (gender: Gender, i: number) => {
+                                  const temp = [
+                                    profile.male,
+                                    profile.female,
+                                    profile.other,
+                                  ];
+                                  return [
+                                    <Form.Control
+                                      type="radio"
+                                      name="gender"
+                                      className="radioSelector"
+                                      key={gender}
+                                      value={gender}
+                                      checked={
+                                        this.state.gender === gender ||
+                                        data.me.gender === gender
+                                      }
+                                      onChange={this.handleChange}
+                                    />,
+                                    <p className="radioNeedSpace" key={i}>
+                                      {temp[i]}{' '}
+                                    </p>,
+                                  ];
+                                },
+                              )}
                             </div>
-
                             <div>
                               <hr />
                               <h5>{profile.newPWSection}</h5>
