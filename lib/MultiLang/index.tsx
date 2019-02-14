@@ -20,6 +20,12 @@ export enum Languages {
   English = 'en',
 }
 
+export enum Gender {
+  Male = 'MALE',
+  Female = 'FEMALE',
+  Other = 'OTHER',
+}
+
 export interface MultiProps {
   translations: Translations;
   changeLocale: (locale: string) => void;

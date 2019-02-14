@@ -47,6 +47,17 @@ const StyledNav = styled.div`
 
     a {
       color: ${props => props.theme.colors.primary};
+
+      &.firstName {
+        margin: 0 1rem;
+        color: white;
+      }
+
+      &.nav-item {
+        margin: 0 0.5rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
     }
 
     &.collapse,

@@ -9,6 +9,7 @@ export default interface Translations {
   general: {
     email: string;
     password: string;
+    confirmPassword: string;
     changeLangage: string;
     becomePremium: string;
     or: string;
@@ -20,6 +21,20 @@ export default interface Translations {
     images: string;
     min: string;
     max: string;
+    firstName: string;
+    lastName: string;
+    gender: string;
+    birthDate: {
+      day: string;
+      month: string;
+      year: string;
+    };
+    resetPw: string;
+    buy: string;
+    sell: string;
+    myCars: string;
+    ads: string;
+    disconnect: string;
   };
   errors: {
     invalidEmail: string;

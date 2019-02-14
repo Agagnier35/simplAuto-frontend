@@ -4,8 +4,25 @@ import Link from 'next/link';
 import StyledNav from './styles';
 import Router from 'next/router';
 import NProgress from 'nprogress';
+import gql from 'graphql-tag';
 import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
+import { Query, Mutation } from 'react-apollo';
+
+export const LOGGED_IN_QUERY = gql`
+  {
+    me {
+      id
+      firstName
+      lastName
+    }
+  }
+`;
+const LOGOUT_MUTATION = gql`
+  mutation {
+    logout
+  }
+`;
 
 NProgress.configure({ showSpinner: false, parent: '#topbar' });
 
@@ -20,7 +37,14 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-const Header: React.SFC<MultiProps> = ({ translations }) => {
+const handleLogout = async (logout: () => void) => {
+  await logout();
+  Router.push('/');
+};
+
+const Header: React.SFC<MultiProps> = ({
+  translations: { general, login, signup },
+}) => {
   return (
     <StyledNav id="topbar">
       <Link href="/" passHref>
@@ -32,24 +56,66 @@ const Header: React.SFC<MultiProps> = ({ translations }) => {
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Nav className="mr-auto">{/* TODO Add routes when logged in */}</Nav>
-
-          <p className="logged-out">
-            <Link href="/login" passHref>
-              <a>{translations.login.title}</a>
-            </Link>
-            <span>{` ${translations.general.or} `}</span>
-            <Link href="/signup" passHref>
-              <a>{translations.signup.title}</a>
-            </Link>
-          </p>
-          <Link href="/premium">
-            <a>
-              <Button variant="primary">
-                {translations.general.becomePremium}
-              </Button>
-            </a>
-          </Link>
+          <Query query={LOGGED_IN_QUERY}>
+            {({ data, loading }) => {
+              if (loading) return null;
+              if (data && data.me) {
+                return (
+                  <>
+                    <Nav className="mr-auto">
+                      <Link href="/ads" passHref>
+                        <Nav.Item as="a">{general.buy}</Nav.Item>
+                      </Link>
+                      <Link href="/ads" passHref>
+                        <Nav.Item as="a">{general.sell}</Nav.Item>
+                      </Link>
+                      <Link href="/cars" passHref>
+                        <Nav.Item as="a">{general.myCars}</Nav.Item>
+                      </Link>
+                      <Link href="/ads" passHref>
+                        <Nav.Item as="a">{general.ads}</Nav.Item>
+                      </Link>
+                      <Link href="/profile" passHref>
+                        <a className="firstName">{data.me.firstName}</a>
+                      </Link>
+                    </Nav>
+                    <Mutation
+                      mutation={LOGOUT_MUTATION}
+                      refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+                    >
+                      {handleMutation => (
+                        <Button
+                          variant="primary"
+                          onClick={() => handleLogout(handleMutation)}
+                        >
+                          {general.disconnect}
+                        </Button>
+                      )}
+                    </Mutation>
+                  </>
+                );
+              }
+              return (
+                <>
+                  <Nav className="mr-auto" />
+                  <p className="logged-out">
+                    <Link href="/login" passHref>
+                      <a>{login.title}</a>
+                    </Link>
+                    {` ${general.or} `}
+                    <Link href="/signup" passHref>
+                      <a>{signup.title}</a>
+                    </Link>
+                  </p>
+                  <Link href="/premium">
+                    <a>
+                      <Button variant="primary">{general.becomePremium}</Button>
+                    </a>
+                  </Link>
+                </>
+              );
+            }}
+          </Query>
         </Navbar.Collapse>
       </Navbar>
     </StyledNav>

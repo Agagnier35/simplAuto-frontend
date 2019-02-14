@@ -11,6 +11,7 @@ const translations: Translations = {
   general: {
     email: 'Email',
     password: 'Password',
+    confirmPassword: 'Confirm password',
     changeLangage: 'Change langage',
     becomePremium: 'Go Premium',
     or: 'or',
@@ -22,6 +23,20 @@ const translations: Translations = {
     images: 'Images',
     max: 'max',
     min: 'min',
+    firstName: 'First name',
+    lastName: 'Last name',
+    gender: 'Gender',
+    birthDate: {
+      day: 'Day',
+      month: 'Month',
+      year: 'Year',
+    },
+    resetPw: 'Reset password',
+    buy: 'Buy',
+    sell: 'Sell',
+    ads: 'Ads',
+    myCars: 'My cars',
+    disconnect: 'Logout',
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -66,6 +81,7 @@ const translations: Translations = {
     addons: 'Add-ons',
     upload: 'Upload up to 7 pictures',
     uploadLength: 'Please select between 1 and 7 pictures',
+  },
   Ads: {
     lowerPrice: 'Lower Price',
     higherPrice: 'Higher Price',

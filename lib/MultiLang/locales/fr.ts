@@ -11,6 +11,7 @@ const translations: Translations = {
   general: {
     email: 'Courriel',
     password: 'Mot de passe',
+    confirmPassword: 'Confirmer mot de passe',
     changeLangage: 'Changer de langue',
     becomePremium: 'Devenir Premium',
     or: 'ou',
@@ -22,6 +23,20 @@ const translations: Translations = {
     images: 'Images',
     max: 'max',
     min: 'min',
+    firstName: 'Prénom',
+    lastName: 'Nom de famille',
+    gender: 'genre',
+    birthDate: {
+      day: 'Jour',
+      month: 'Mois',
+      year: 'Année',
+    },
+    resetPw: 'Réinitialiser le mot de passe',
+    buy: 'Acheter',
+    sell: 'Vendre',
+    myCars: 'Mes voitures',
+    ads: 'Annonces',
+    disconnect: 'Déconnexion',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',

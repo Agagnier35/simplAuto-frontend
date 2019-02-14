@@ -8,6 +8,8 @@ import ErrorMessage from '../ErrorMessage/index';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import BrandHeader from './BrandHeader';
 import Link from 'next/link';
+import Router from 'next/router';
+import { LOGGED_IN_QUERY } from '../Header';
 
 interface LoginState {
   email: string;
@@ -32,6 +34,7 @@ class Login extends Component<MultiProps, LoginState> {
     e.preventDefault();
     await login();
     this.setState({ email: '', password: '' });
+    Router.push('/'); // On redirige l'utilisateur vers la home page après qu'il se soit connecté.
   };
 
   handleChange = (e: FormEvent<any>) => {
@@ -42,8 +45,13 @@ class Login extends Component<MultiProps, LoginState> {
     const {
       translations: { login, general, signup },
     } = this.props;
+
     return (
-      <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
+      <Mutation
+        mutation={LOGIN_MUTATION}
+        variables={this.state}
+        refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+      >
         {(handleMutation, { loading, error }) => (
           <StyledLogin>
             <Card>
@@ -99,7 +107,7 @@ class Login extends Component<MultiProps, LoginState> {
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
-                    <Link href="/forgot">
+                    <Link href="/reset">
                       <a>Forgot your password ?</a>
                     </Link>
                     <Button variant="primary" type="submit" block>
