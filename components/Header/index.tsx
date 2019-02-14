@@ -102,7 +102,7 @@ const Header: React.SFC<MultiProps> = ({
                         <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
                         <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
                       </Dropdown.Menu>
-                      </Dropdown>
+                    </Dropdown>
                     </>
                 );
               }
@@ -124,14 +124,14 @@ const Header: React.SFC<MultiProps> = ({
                     </a>
                   </Link>
                   <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                      {currentLocale}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
-                      <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                      <Dropdown.Toggle size="sm" variant="primary" id="dropdown-basic">
+                        {currentLocale}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => changeLocale("en")}>En</Dropdown.Item>
+                        <Dropdown.Item  onClick={() => changeLocale("fr")}>Fr</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                 </>
               );
             }}
