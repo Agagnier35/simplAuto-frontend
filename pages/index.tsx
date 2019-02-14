@@ -1,10 +1,14 @@
 import React from 'react';
-import Login from '../components/Login';
+import { multiUpdater, MultiProps } from '../lib/MultiLang';
 
 const Home = () => {
   return (
     <div>
-      <Login />
+      <button
+        onClick={() => changeLocale(currentLocale === 'en' ? 'fr' : 'en')}
+      >
+        {general.changeLangage}
+      </button>
     </div>
   );
 };
