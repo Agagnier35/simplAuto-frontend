@@ -8,6 +8,7 @@ import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import { Button } from 'react-bootstrap';
 import Link from 'next/link';
+import { useQuery } from 'react-apollo-hooks';
 
 const MY_CARS_QUERY = gql`
   {
@@ -32,24 +33,19 @@ const MY_CARS_QUERY = gql`
 `;
 
 const Cars = ({ translations }: MultiProps) => {
+  const { data, error, loading } = useQuery(MY_CARS_QUERY);
+
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage error={error} />;
+
   return (
-    <IsLoggedIn>
-      <Query query={MY_CARS_QUERY}>
-        {({ data, loading, error }) => {
-          if (loading) return <Loading />;
-          if (error) return <ErrorMessage error={error} />;
-          return (
-            <div>
-              <h2>{translations.cars.title}</h2>
-              <Link href="/addcar">
-                <Button>{translations.cars.addCar}</Button>
-              </Link>
-              {<CarList cars={data.me.cars} />}
-            </div>
-          );
-        }}
-      </Query>
-    </IsLoggedIn>
+    <div>
+      <h2>{translations.cars.title}</h2>
+      <Link href="/addcar">
+        <Button>{translations.cars.addCar}</Button>
+      </Link>
+      {<CarList cars={data.me.cars} />}
+    </div>
   );
 };
 
