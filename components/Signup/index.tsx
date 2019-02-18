@@ -48,7 +48,7 @@ class Signup extends Component<MultiProps, SignupState> {
     gender: Gender.Other,
     birthDate: {
       day: 1,
-      month: 0,
+      month: 1,
       year: 1900,
     },
   };
