@@ -162,9 +162,6 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     return { data };
   };
 
-  modalClose = () => {
-    console.log('lolololololol');
-  };
   handleUpdateUser = async (
     e: FormEvent<HTMLFormElement>,
     update: () => void,
@@ -207,10 +204,6 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
                       method="put"
                       onSubmit={e => this.handleUpdateUser(e, handleMutation)}
                     >
-                      <SuppressionModalAccess
-                        myName="ad"
-                        onDelete={this.modalClose}
-                      />
                       <h1>{profile.profilePage}</h1>
                       <fieldset disabled={loading} aria-busy={loading}>
                         <div className="firstInfoSection">
