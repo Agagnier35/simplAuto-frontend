@@ -2,9 +2,15 @@ import * as React from 'react';
 import GoogleLogin from "react-google-login";
 
 function responseGoogle(response: any) {
-    console.log(response);
+    loginOrSignup(response);
 }
 
+const loginOrSignup = (response: any) => { 
+    console.log(response);
+    // Vérifier que le facebook user id ne se trouve pas dans la database.
+    //      S'il se trouve dans la database, login()
+    //      S'il ne se trouve pas dans la database, signup()
+}
 
 const googleLogin = () => {
     return ( <GoogleLogin
