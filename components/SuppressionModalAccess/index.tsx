@@ -1,5 +1,6 @@
 import React from 'react';
 import SuppressionModal from '../SuppressionModal';
+import SuppressBtnStyle from './style';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { MultiProps, multi } from '../../lib/MultiLang';
 
@@ -22,28 +23,35 @@ class SuppressionModalAccess extends React.Component<
 
   modalClose = () => this.setState({ modalShow: false });
 
+  modalDelete = () => {
+    this.props.onDelete();
+    this.modalClose();
+  };
+
   render() {
     const {
       translations: { DeleteModalContent },
-      onDelete,
       myName,
     } = this.props;
     return (
-      <ButtonToolbar>
-        <Button
-          variant="primary"
-          onClick={() => this.setState({ modalShow: true })}
-        >
-          Launch vertically centered modal
-        </Button>
+      <SuppressBtnStyle>
+        <ButtonToolbar>
+          <Button variant="light">
+            <img
+              src="../../static/delete.png"
+              alt="image"
+              onClick={() => this.setState({ modalShow: true })}
+            />
+          </Button>
 
-        <SuppressionModal
-          show={this.state.modalShow}
-          onHide={this.modalClose}
-          onDelete={onDelete}
-          myName={DeleteModalContent[myName]}
-        />
-      </ButtonToolbar>
+          <SuppressionModal
+            show={this.state.modalShow}
+            onHide={this.modalClose}
+            onDelete={this.modalDelete}
+            myName={DeleteModalContent[myName]}
+          />
+        </ButtonToolbar>
+      </SuppressBtnStyle>
     );
   }
 }

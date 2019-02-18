@@ -2,19 +2,29 @@ import React, { Component } from 'react';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import { Button, Modal } from 'react-bootstrap';
 
-class SuppressionModal extends Component<MultiProps> {
+interface ModalAccessProps {
+  myName: string;
+  show: boolean;
+  onDelete: any;
+  onHide: any;
+}
+
+class SuppressionModal extends Component<ModalAccessProps & MultiProps> {
   render() {
     const {
       translations: { DeleteModalContent },
+      show,
       onDelete,
+      onHide,
+      myName,
     } = this.props;
 
     return (
       <Modal
-        {...this.props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        show={show}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -25,17 +35,13 @@ class SuppressionModal extends Component<MultiProps> {
           <h4>{DeleteModalContent.messageTitle}</h4>
           <p>
             {DeleteModalContent.content}
-            {this.props.myName}
+            {myName}
             {DeleteModalContent.content2}
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.onHide}>
-            {DeleteModalContent.btnCancel}
-          </Button>
-          <Button onClick={this.props.onDelete}>
-            {DeleteModalContent.btnConfirm}
-          </Button>
+          <Button onClick={onHide}>{DeleteModalContent.btnCancel}</Button>
+          <Button onClick={onDelete}>{DeleteModalContent.btnConfirm}</Button>
         </Modal.Footer>
       </Modal>
     );
