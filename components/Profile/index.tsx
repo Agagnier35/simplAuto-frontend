@@ -8,11 +8,13 @@ import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
 import {
+  User,
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
 } from '../../generated/graphql';
 import { Dictionary } from '../../lib/Dictionary';
+import SuppressionModalAccess from '../SuppressionModalAccess';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
@@ -63,6 +65,7 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
+    modalShow: false,
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
@@ -159,6 +162,9 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     return { data };
   };
 
+  modalClose = () => {
+    console.log('lolololololol');
+  };
   handleUpdateUser = async (
     e: FormEvent<HTMLFormElement>,
     update: () => void,
@@ -201,6 +207,10 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
                       method="put"
                       onSubmit={e => this.handleUpdateUser(e, handleMutation)}
                     >
+                      <SuppressionModalAccess
+                        myName="ad"
+                        onDelete={this.modalClose}
+                      />
                       <h1>{profile.profilePage}</h1>
                       <fieldset disabled={loading} aria-busy={loading}>
                         <div className="firstInfoSection">

@@ -120,6 +120,17 @@ const translations: Translations = {
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
   },
+  DeleteModalContent: {
+    title: 'Boite de suppression',
+    messageTitle: 'Confirmation',
+    content: 'Êtes vous certain de vouloir supprimer votre ',
+    content2: '. Cette action sera définitive.',
+    btnCancel: 'Annuler',
+    btnConfirm: 'Supprimer',
+    car: 'voiture',
+    ad: 'annonce',
+    offer: 'offre',
+  },
 };
 
 module.exports = translations;

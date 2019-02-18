@@ -102,4 +102,16 @@ export default interface Translations {
     features: string;
     addAds: string;
   };
+  DeleteModalContent: {
+    [key: string]: any;
+    title: string;
+    messageTitle: string;
+    content: string;
+    content2: string;
+    btnCancel: string;
+    btnConfirm: string;
+    car: string;
+    ad: string;
+    offer: string;
+  };
 }
