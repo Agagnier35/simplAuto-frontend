@@ -1,9 +1,7 @@
 import React from 'react';
 import { multi, MultiProps } from '../lib/MultiLang';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import CarList from '../components/CarList';
-import IsLoggedIn from '../components/IsLoggedIn';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import { Button } from 'react-bootstrap';

@@ -25,9 +25,11 @@ interface Props {
 class MyApp extends App<Props> {
   static async getInitialProps({ Component, ctx }: AppComponentContext) {
     let pageProps: PageProps = {};
+
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+
     // Exposes the query to the user
     pageProps.query = ctx.query;
     return { pageProps };
