@@ -1,12 +1,29 @@
 import React from 'react';
-import App, { Container } from 'next/app';
-import Page from '../components/Page';
+import App, { Container, AppComponentContext } from 'next/app';
+import { NextComponentType, NextContext } from 'next';
 import { ApolloProvider } from 'react-apollo';
-import withData from '../lib/withData';
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+import Page from '../components/Page';
+import withData from '../lib/withData';
+import { ApolloClient } from 'apollo-boost';
+import MultiLang from '../lib/MultiLang';
+
+import 'bootstrap/dist/css/bootstrap.css';
+
+interface PageProps {
+  query?: any;
+}
+
+interface Props {
+  Component: NextComponentType;
+  pageProps: PageProps;
+  apollo: ApolloClient<{}>;
+  ctx: NextContext;
+}
+
+class MyApp extends App<Props> {
+  static async getInitialProps({ Component, ctx }: AppComponentContext) {
+    let pageProps: PageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
@@ -20,9 +37,11 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <MultiLang initialLocale="fr">
+            <Page>
+              <Component {...pageProps} />
+            </Page>
+          </MultiLang>
         </ApolloProvider>
       </Container>
     );

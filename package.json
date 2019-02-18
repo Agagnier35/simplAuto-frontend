@@ -10,24 +10,37 @@
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
     "test-ci": "NODE_ENV=test jest",
-    "heroku-postbuild": "next build",
+    "test:generate-output": "jest --json --outputFile=jest-test-results.json || true",
+    "prebuild:storybook": "npm run test:generate-output",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "heroku-postbuild": "next build",
+    "build-storybook": "build-storybook",
+    "init-codegen": "gql-gen init",
+    "generate": "gql-gen --config codegen.yml"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@storybook/addon-jest": "^4.1.11",
+    "@types/nprogress": "0.0.29",
+    "@types/google-maps-react": "^2.0.1",
     "@types/react": "^16.7.21",
+    "@types/react-geosuggest": "^2.7.8",
+    "@types/storybook__addon-actions": "^3.4.1",
+    "@types/storybook__addon-links": "^3.3.3",
+    "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
     "apollo-boost": "^0.1.16",
     "apollo-client": "^2.4.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-styled-components": "^1.7.1",
+    "bootstrap": "^4.2.1",
     "date-fns": "^2.0.0-alpha.7",
     "downshift": "^2.2.3",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
-    "graphql": "^14.0.2",
+    "google-maps-react": "^2.0.2",
+    "graphql": "^14.1.1",
     "graphql-tag": "^2.9.2",
     "lodash.debounce": "^4.0.8",
     "next": "^7.0.0",
@@ -37,7 +50,12 @@
     "react": "^16.5.2",
     "react-adopt": "^0.6.0",
     "react-apollo": "^2.2.1",
+    "react-bootstrap": "^1.0.0-beta.5",
+    "react-date-picker": "^7.2.0",
+    "react-datepicker": "^2.1.0",
     "react-dom": "^16.5.2",
+    "react-geosuggest": "^2.10.0",
+    "react-icons": "^3.3.0",
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.5.0",
     "styled-components": "^3.4.9",
@@ -46,16 +64,18 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.1.4",
+    "@storybook/addon-info": "^4.1.11",
     "@storybook/addon-links": "^4.1.4",
     "@storybook/addons": "^4.1.4",
     "@storybook/react": "^4.1.4",
-    "@types/jest": "^23.3.12",
+    "@types/jest": "^23.3.13",
     "@types/storybook__react": "^4.0.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-module-resolver": "^3.1.1",
     "casual": "^1.5.19",
     "enzyme-to-json": "^3.3.4",
+    "graphql-code-generator": "^0.16.0",
     "graphql-tools": "^4.0.0",
     "jest": "^23.6.0",
     "jest-transform-graphql": "^2.1.0",
@@ -69,76 +89,9 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.4",
-    "typescript-tslint-plugin": "^0.3.0"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
-    "testMatch": [
-      "**/__tests__ /**/*.ts?(x)",
-      "**/?(*.)+(spec|test).js?(x)"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/.next/",
-      "<rootDir>/node_modules/"
-    ],
-    "transform": {
-      "\\.(gql|graphql)$": "jest-transform-graphql",
-      ".*": "babel-jest",
-      "^.+\\.js?$": "babel-jest"
-    }
-  },
-  "babel": {
-    "env": {
-      "development": {
-        "presets": [
-          "next/babel",
-          "@zeit/next-typescript/babel"
-        ],
-        "plugins": [
-          [
-            "styled-components",
-            {
-              "ssr": true,
-              "displayName": true
-            }
-          ]
-        ]
-      },
-      "production": {
-        "presets": [
-          "next/babel"
-        ],
-        "plugins": [
-          [
-            "styled-components",
-            {
-              "ssr": true,
-              "displayName": true
-            }
-          ]
-        ]
-      },
-      "test": {
-        "presets": [
-          [
-            "next/babel",
-            {
-              "preset-env": {
-                "modules": "commonjs"
-              }
-            }
-          ]
-        ],
-        "plugins": [
-          [
-            "styled-components",
-            {
-              "ssr": true,
-              "displayName": true
-            }
-          ]
-        ]
-      }
-    }
+    "typescript-tslint-plugin": "^0.3.0",
+    "graphql-codegen-typescript-common": "0.16.0",
+    "graphql-codegen-typescript-client": "0.16.0",
+    "graphql-codegen-typescript-server": "0.16.0"
   }
 }
