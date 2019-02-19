@@ -1,14 +1,15 @@
 import React from 'react';
-import { multi } from '../lib/MultiLang';
 import ProfilePage from '../components/Profile';
-import IsLoggedIn from '../components/IsLoggedIn';
+import PrivateComponent from '../lib/Auth/PrivateComponent';
 
-const Profile = () => {
-  return (
-    <IsLoggedIn>
-      <ProfilePage />
-    </IsLoggedIn>
-  );
-};
+class LoginPage extends PrivateComponent {
+  render() {
+    return (
+      <div>
+        <ProfilePage />
+      </div>
+    );
+  }
+}
 
-export default multi(Profile);
+export default LoginPage;

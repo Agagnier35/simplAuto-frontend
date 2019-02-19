@@ -10,6 +10,7 @@ import ErrorMessage from '../ErrorMessage';
 import Select from '../Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../CarAdd';
+import { Dictionary } from '../../lib/Dictionary';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -19,11 +20,7 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-// to be removed
-type KeyValue = { [key: string]: any };
-type Dictionnary<T> = T & KeyValue;
-
-class CreateAd extends Component<MultiProps, Dictionnary<AdCreateInput>> {
+class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
   state: AdCreateInput = {
     features: null,
     manufacturerFeature: null,
