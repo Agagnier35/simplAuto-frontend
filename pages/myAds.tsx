@@ -8,7 +8,6 @@ import Loading from '../components/Loading';
 import AdSummary from '../components/AdSummary';
 import { CardDeck, Button } from 'react-bootstrap';
 import { Ad } from '../generated/graphql';
-import Translations from '../lib/MultiLang/locales/types';
 
 const ALL_MY_ADS_QUERY = gql`
   {
