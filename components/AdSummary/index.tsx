@@ -5,14 +5,15 @@ import { multi } from '../../lib/MultiLang';
 import { Ad, AdCarFeature } from '../../generated/graphql';
 import Select from '../Select';
 import gql from 'graphql-tag';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 
 export interface AdSummaryProps {
   translations: Translations;
   ad: Ad;
+  adsQuery: any;
 }
 
-const AdSummary = ({ translations, ad }: AdSummaryProps) => {
+const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
   const {
     Ads,
     carCategory,
@@ -34,11 +35,12 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
   }
 
   return (
-    <Mutation mutation={AD_DELETE_MUTATION} variables={{ id: ad.id }}>
-      {(deleteAd, mutation) => {
-        if (mutation.data) {
-          console.log('success');
-        }
+    <Mutation
+      mutation={AD_DELETE_MUTATION}
+      variables={{ id: ad.id }}
+      refetchQueries={[{ query: adsQuery }]}
+    >
+      {deleteAd => {
         return (
           <div>
             {ad ? (
