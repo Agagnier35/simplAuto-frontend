@@ -119,16 +119,19 @@ const translations: Translations = {
     createAdTitle: 'Please fill the information about your ad',
     createAdAction: 'Publish your ad',
   },
-  DeleteModalContent: {
-    title: 'Suppression Dialog',
-    messageTitle: 'Confirmation',
-    content: 'Are you sure you want to delete your ',
-    content2: '. This action can not be undone.',
+  GeneralModalContent: {
+    title: 'Confirmation Dialog',
+    content:
+      'Are you sure you want to do this action?\nThis action can not be undone. ',
     btnCancel: 'Cancel',
-    btnConfirm: 'Delete',
-    car: 'car',
-    ad: 'ad',
-    offer: 'offer',
+    btnConfirm: 'Confirm',
+    car: 'Car',
+    ad: 'Ad',
+    offer: 'Offer',
+    create: 'Create',
+    delete: 'Delete',
+    save: 'Save',
+    edit: 'Edit',
   },
 };
 
