@@ -14,7 +14,6 @@ import {
   Date as SchemaDate,
 } from '../../generated/graphql';
 import { Dictionary } from '../../lib/Dictionary';
-import SuppressionModalAccess from '../SuppressionModalAccess';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
@@ -65,7 +64,6 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
-    modalShow: false,
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
