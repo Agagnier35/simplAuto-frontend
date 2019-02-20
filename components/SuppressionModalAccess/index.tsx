@@ -1,20 +1,20 @@
 import React from 'react';
 import SuppressionModal from '../SuppressionModal';
-import SuppressBtnStyle from './style';
-import { Button, ButtonToolbar } from 'react-bootstrap';
-import { MultiProps, multi } from '../../lib/MultiLang';
+import { Button } from 'react-bootstrap';
+import Translations from '../../lib/MultiLang/locales/types';
 
 interface ModalAccessState {
   modalShow: boolean;
 }
 
 interface ModalAccessProps {
-  myName: string;
+  objToDeleteName: string;
   onDelete: any;
+  translations: Translations;
 }
 
 class SuppressionModalAccess extends React.Component<
-  ModalAccessProps & MultiProps,
+  ModalAccessProps,
   ModalAccessState
 > {
   state: ModalAccessState = {
@@ -29,31 +29,27 @@ class SuppressionModalAccess extends React.Component<
   };
 
   render() {
-    const {
-      translations: { DeleteModalContent },
-      myName,
-    } = this.props;
+    const { objToDeleteName, translations } = this.props;
     return (
-      <SuppressBtnStyle>
-        <ButtonToolbar>
-          <Button variant="light">
-            <img
-              src="../../static/delete.png"
-              alt="image"
-              onClick={() => this.setState({ modalShow: true })}
-            />
-          </Button>
-
-          <SuppressionModal
-            show={this.state.modalShow}
-            onHide={this.modalClose}
-            onDelete={this.modalDelete}
-            myName={DeleteModalContent[myName]}
+      <div>
+        <Button variant="light">
+          <img
+            src="../../static/delete.png"
+            alt="image"
+            onClick={() => this.setState({ modalShow: true })}
           />
-        </ButtonToolbar>
-      </SuppressBtnStyle>
+        </Button>
+
+        <SuppressionModal
+          show={this.state.modalShow}
+          onCancel={this.modalClose}
+          onDelete={this.modalDelete}
+          objToDeleteName={translations.DeleteModalContent[objToDeleteName]}
+          translations={this.props.translations}
+        />
+      </div>
     );
   }
 }
 
-export default multi(SuppressionModalAccess);
+export default SuppressionModalAccess;

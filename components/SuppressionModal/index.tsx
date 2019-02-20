@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-import { multi, MultiProps } from '../../lib/MultiLang';
+import { multi } from '../../lib/MultiLang';
 import { Button, Modal } from 'react-bootstrap';
+import Translations from '../../lib/MultiLang/locales/types';
 
-interface ModalAccessProps {
-  myName: string;
+interface SuppressModalProps {
+  objToDeleteName: string;
   show: boolean;
   onDelete: any;
-  onHide: any;
+  onCancel: any;
+  translations: Translations;
 }
 
-class SuppressionModal extends Component<ModalAccessProps & MultiProps> {
+class SuppressionModal extends Component<SuppressModalProps> {
   render() {
     const {
-      translations: { DeleteModalContent },
       show,
       onDelete,
-      onHide,
-      myName,
+      onCancel,
+      objToDeleteName,
+      translations,
     } = this.props;
 
     return (
@@ -28,20 +30,24 @@ class SuppressionModal extends Component<ModalAccessProps & MultiProps> {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {DeleteModalContent.title}
+            {translations.DeleteModalContent.title}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>{DeleteModalContent.messageTitle}</h4>
+          <h4>{translations.DeleteModalContent.messageTitle}</h4>
           <p>
-            {DeleteModalContent.content}
-            {myName}
-            {DeleteModalContent.content2}
+            {translations.DeleteModalContent.content}
+            {objToDeleteName}
+            {translations.DeleteModalContent.content2}
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={onHide}>{DeleteModalContent.btnCancel}</Button>
-          <Button onClick={onDelete}>{DeleteModalContent.btnConfirm}</Button>
+          <Button onClick={onCancel}>
+            {translations.DeleteModalContent.btnCancel}
+          </Button>
+          <Button onClick={onDelete}>
+            {translations.DeleteModalContent.btnConfirm}
+          </Button>
         </Modal.Footer>
       </Modal>
     );
