@@ -18,11 +18,11 @@ export enum ModalAction {
 }
 
 interface GeneralModalProps {
-  modalSubject: string;
-  actionType: string;
+  modalSubject: ModalConcern;
+  actionType: ModalAction;
   show: boolean;
-  onClose: any;
-  onConfirm: any;
+  onClose: () => void;
+  onConfirm: () => void;
   translations: Translations;
 }
 
