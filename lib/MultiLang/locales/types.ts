@@ -1,3 +1,5 @@
+import { StringLiteral } from "babel-types";
+
 export default interface Translations {
   loading: String;
   login: {
@@ -54,6 +56,8 @@ export default interface Translations {
     myCars: string;
     myAds: string;
     disconnect: string;
+    Ad: string;
+    offers: string; 
   };
   errors: {
     invalidEmail: string;

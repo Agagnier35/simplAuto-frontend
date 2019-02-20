@@ -56,6 +56,8 @@ const translations: Translations = {
     myAds: 'My ads',
     myCars: 'My cars',
     disconnect: 'Logout',
+    Ad: 'Announce',
+    offers: 'Offers',
   },
   errors: {
     invalidEmail: 'Invalid email',
