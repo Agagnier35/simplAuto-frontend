@@ -8,60 +8,96 @@ import AdDetail from '../components/AdDetail';
 import Translations from '../lib/MultiLang/locales/types';
 
 const AD_DETAIL_QUERY = gql`
-    query AD_DETAIL_QUERY($id: ID!){
-        ad(id: $id){
-    		id
-    		priceLowerBoundFeature{price}
-        priceHigherBoundFeature{price}
-        manufacturerFeature{manufacturer{name}}
-        modelFeature{model{name}}
-        categoryFeature{category{name}}
-        mileageLowerBoundFeature{mileage}
-        mileageHigherBoundFeature{mileage}
-        yearLowerBoundFeature{year}
-        yearHigherBoundFeature{year}
-        features{feature{name,category{name}}}
-        isUrgent
-        isFirst
-        status
-    		offers{
-        	car{
-                manufacturer{name}
-                model{name}
-                category{name}
-                year
-                mileage
-                photos
-								features{name,category{name}}
-              }
-            price
-              
+  {
+    ad(id: $id) {
+      id
+      priceLowerBoundFeature {
+        price
+      }
+      priceHigherBoundFeature {
+        price
+      }
+      manufacturerFeature {
+        manufacturer {
+          name
         }
-    	}
-    }`;
+      }
+      modelFeature {
+        model {
+          name
+        }
+      }
+      categoryFeature {
+        category {
+          name
+        }
+      }
+      mileageLowerBoundFeature {
+        mileage
+      }
+      mileageHigherBoundFeature {
+        mileage
+      }
+      yearLowerBoundFeature {
+        year
+      }
+      yearHigherBoundFeature {
+        year
+      }
+      features {
+        feature {
+          name
+          category {
+            name
+          }
+        }
+      }
+      isUrgent
+      isFirst
+      status
+      offers {
+        car {
+          manufacturer {
+            name
+          }
+          model {
+            name
+          }
+          category {
+            name
+          }
+          year
+          mileage
+          photos
+          features {
+            name
+            category {
+              name
+            }
+          }
+        }
+        price
+      }
+    }
+  }
+`;
 
 export interface AdDetailProps {
-    translations: Translations;
-    query: {
-      id: String;
-    };
-  }
-
-
-
-
-  
-const FullAd = ({ translations, query }: AdDetailProps) => {
-    return(
-        <div>    
-            <Query query={AD_DETAIL_QUERY} variables={{id: query.id}}>
-                {({ data, loading, error }) => {
-                if (loading) return <Loading />;
-                if (error) return <ErrorMessage error={error} />;
-                return <AdDetail key={data.ad.id} ad={data.ad} />;
-                }}
-            </Query>
-        </div>
-        )
+  translations: Translations;
+  id: string;
 }
-export default multi(FullAd)
+
+const FullAd = ({ translations, id }: AdDetailProps) => {
+  return (
+    <div>
+      <Query query={AD_DETAIL_QUERY} variables={{ id }}>
+        {({ data, loading, error }) => {
+          if (loading) return <Loading />;
+          if (error) return <ErrorMessage error={error} />;
+          return <AdDetail key={data.ad.id} ad={data.ad} />;
+        }}
+      </Query>
+    </div>
+  );
+};
+export default multi(FullAd);
