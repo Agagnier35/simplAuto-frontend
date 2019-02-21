@@ -33,5 +33,4 @@ const StyledSignup = styled.div`
   }
 `;
 
-
 export default StyledSignup;

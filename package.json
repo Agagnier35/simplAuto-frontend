@@ -16,7 +16,8 @@
     "heroku-postbuild": "next build",
     "build-storybook": "build-storybook",
     "init-codegen": "gql-gen init",
-    "generate": "gql-gen --config codegen.yml"
+    "generate": "gql-gen --config codegen.yml",
+    "prettierCI": "prettier-check **/*.{ts,tsx} !**/generated/**"
   },
   "author": "",
   "license": "ISC",
@@ -76,9 +77,14 @@
     "casual": "^1.5.19",
     "enzyme-to-json": "^3.3.4",
     "graphql-code-generator": "^0.16.0",
+    "graphql-codegen-typescript-client": "0.16.0",
+    "graphql-codegen-typescript-common": "0.16.0",
+    "graphql-codegen-typescript-server": "0.16.0",
     "graphql-tools": "^4.0.0",
     "jest": "^23.6.0",
     "jest-transform-graphql": "^2.1.0",
+    "prettier": "^1.16.4",
+    "prettier-check": "^2.0.0",
     "stylelint": "^9.9.0",
     "stylelint-config-recommended": "^2.1.0",
     "stylelint-config-standard": "^18.2.0",
@@ -89,9 +95,6 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.4",
-    "typescript-tslint-plugin": "^0.3.0",
-    "graphql-codegen-typescript-common": "0.16.0",
-    "graphql-codegen-typescript-client": "0.16.0",
-    "graphql-codegen-typescript-server": "0.16.0"
+    "typescript-tslint-plugin": "^0.3.0"
   }
 }
