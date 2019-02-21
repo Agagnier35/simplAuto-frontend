@@ -5,7 +5,7 @@ const translations: Translations = {
   login: {
     title: 'Se connecter',
     loginWithFacebook: 'Se connecter avec Facebook',
-    loginWithGoogle: 'Se connecter avec Google'
+    loginWithGoogle: 'Se connecter avec Google',
   },
   signup: {
     title: 'Créer un compte',
