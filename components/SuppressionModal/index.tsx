@@ -36,7 +36,6 @@ class SuppressionModal extends Component<GeneralModalProps> {
     const {
       show,
       onClose,
-      onConfirm,
       translations,
       actionType,
       modalSubject,
@@ -47,7 +46,7 @@ class SuppressionModal extends Component<GeneralModalProps> {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={this.props.onClose}
+        onHide={onClose}
         show={show}
       >
         <Modal.Header closeButton>
@@ -63,9 +62,7 @@ class SuppressionModal extends Component<GeneralModalProps> {
           <p>{GeneralModalContent.content}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.onClose}>
-            {GeneralModalContent.btnCancel}
-          </Button>
+          <Button onClick={onClose}>{GeneralModalContent.btnCancel}</Button>
           <Button onClick={this.modalConfirm}>
             {GeneralModalContent.btnConfirm}
           </Button>
