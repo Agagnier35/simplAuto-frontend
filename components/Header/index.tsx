@@ -8,7 +8,6 @@ import gql from 'graphql-tag';
 import { multiUpdater, MultiProps } from '../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
-import Loading from '../Loading';
 
 export const LOGGED_IN_QUERY = gql`
   {
@@ -61,21 +60,21 @@ const Header: React.SFC<MultiProps> = ({
         <Navbar.Collapse>
           <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
-              if (loading) return <Loading />;
+              if (loading) return null;
               if (data && data.me) {
                 return (
                   <>
                     <Nav className="mr-auto">
-                      <Link href="/ads" passHref>
+                      <Link href="/carAds" passHref prefetch>
                         <Nav.Item as="a">{general.buy}</Nav.Item>
                       </Link>
-                      <Link href="/ads" passHref>
+                      <Link href="/carAds" passHref prefetch>
                         <Nav.Item as="a">{general.sell}</Nav.Item>
                       </Link>
-                      <Link href="/cars" passHref>
+                      <Link href="/cars" passHref prefetch>
                         <Nav.Item as="a">{general.myCars}</Nav.Item>
                       </Link>
-                      <Link href="/myAds" passHref>
+                      <Link href="/myAds" passHref prefetch>
                         <Nav.Item as="a">{general.myAds}</Nav.Item>
                       </Link>
                       <Link href="/profile" passHref>
@@ -119,11 +118,11 @@ const Header: React.SFC<MultiProps> = ({
                 <>
                   <Nav className="mr-auto" />
                   <p className="logged-out">
-                    <Link href="/login" passHref>
+                    <Link href="/login" passHref prefetch>
                       <a>{login.title}</a>
                     </Link>
                     {` ${general.or} `}
-                    <Link href="/signup" passHref>
+                    <Link href="/signup" passHref prefetch>
                       <a>{signup.title}</a>
                     </Link>
                   </p>
