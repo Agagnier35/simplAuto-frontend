@@ -26,7 +26,7 @@ interface GeneralModalProps {
   translations: Translations;
 }
 
-class SuppressionModal extends Component<GeneralModalProps> {
+class GeneralModal extends Component<GeneralModalProps> {
   modalConfirm = () => {
     this.props.onConfirm();
     this.props.onClose();
@@ -72,4 +72,4 @@ class SuppressionModal extends Component<GeneralModalProps> {
   }
 }
 
-export default multi(SuppressionModal);
+export default multi(GeneralModal);
