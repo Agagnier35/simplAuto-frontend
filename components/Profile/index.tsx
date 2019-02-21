@@ -8,6 +8,7 @@ import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
 import {
+  User,
   UserUpdateInput,
   Gender,
   Date as SchemaDate,

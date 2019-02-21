@@ -119,6 +119,20 @@ const translations: Translations = {
     createAdTitle: 'Please fill the information about your ad',
     createAdAction: 'Publish your ad',
   },
+  GeneralModalContent: {
+    title: 'Confirmation Dialog',
+    content:
+      'Are you sure you want to do this action?\nThis action can not be undone. ',
+    btnCancel: 'Cancel',
+    btnConfirm: 'Confirm',
+    car: 'Car',
+    ad: 'Ad',
+    offer: 'Offer',
+    create: 'Create',
+    delete: 'Delete',
+    save: 'Save',
+    edit: 'Edit',
+  },
 };
 
 module.exports = translations;
