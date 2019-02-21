@@ -20,8 +20,10 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
-  state: AdCreateInput = {
+interface CreateAdState extends AdCreateInput {}
+
+class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
+  state: CreateAdState = {
     features: null,
     manufacturerFeature: null,
     modelFeature: null,

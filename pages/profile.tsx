@@ -1,15 +1,15 @@
 import React from 'react';
-import ProfilePage from '../components/Profile';
+import Profile from '../components/Profile';
 import PrivateComponent from '../lib/Auth/PrivateComponent';
 
-class LoginPage extends PrivateComponent {
+class ProfilePage extends PrivateComponent {
   render() {
     return (
       <div>
-        <ProfilePage />
+        <Profile />
       </div>
     );
   }
 }
 
-export default LoginPage;
+export default ProfilePage;
