@@ -6,7 +6,7 @@ class OfferPage extends PrivateComponent {
   render() {
     return (
       <div>
-        <Offer />
+        <Offer query={this.props.query} />
       </div>
     );
   }
