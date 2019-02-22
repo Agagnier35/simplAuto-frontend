@@ -14,9 +14,9 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
   const { Ads, carCategory, carFeatureCategory, carFeature } = translations;
   if (ad.status === 'PUBLISHED') {
     return (
-      <Card className="ml-2">
+      <Card>
         {ad ? (
-          <StyledAdSummary className="mr-2">
+          <StyledAdSummary>
             {ad.priceHigherBoundFeature && (
               <Card.Header>
                 {Ads.higherPrice}: {ad.priceHigherBoundFeature.price}

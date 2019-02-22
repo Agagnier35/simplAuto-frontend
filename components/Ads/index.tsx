@@ -3,7 +3,6 @@ import { multi } from '../../lib/MultiLang';
 import ErrorMessage from '../../components/ErrorMessage';
 import Loading from '../../components/Loading';
 import AdSummary from '../../components/AdSummary';
-import { CardDeck, CardGroup, CardColumns } from 'react-bootstrap';
 import { Ad } from '../../generated/graphql';
 import { ALL_ADS_QUERY } from './Queries';
 import { useQuery } from 'react-apollo-hooks';
@@ -17,11 +16,9 @@ const Ads = () => {
 
   return (
     <StyledAdsSummary>
-      <CardColumns>
-        {data.ads.map((ad: Ad) => (
-          <AdSummary key={ad.id} ad={ad} />
-        ))}
-      </CardColumns>
+      {data.ads.map((ad: Ad) => (
+        <AdSummary key={ad.id} ad={ad} />
+      ))}
     </StyledAdsSummary>
   );
 };
