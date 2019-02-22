@@ -6,6 +6,8 @@ import CarDetails from '../../components/CarDetails';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID } from './Queries';
+import { Card, CardDeck } from 'react-bootstrap';
+import Ads from '../Ads';
 
 export interface CarPageProps {
   translations: Translations;
@@ -23,10 +25,19 @@ const Car = ({ translations, query }: CarPageProps) => {
   if (error) return <ErrorMessage error={error} />;
 
   return (
-    <div>
-      <h2>{translations.cars.details}</h2>
-      <CarDetails car={data.car} />
-    </div>
+    <CardDeck>
+      <Card>
+        <div>
+          <h2>{translations.cars.details}</h2>
+          <CarDetails car={data.car} />
+        </div>
+      </Card>
+      <Card>
+        <Card.Body>
+          <Ads />
+        </Card.Body>
+      </Card>
+    </CardDeck>
   );
 };
 

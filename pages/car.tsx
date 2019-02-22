@@ -11,18 +11,7 @@ export interface CarPageProps {
 
 class CarPage extends PrivateComponent<CarPageProps> {
   render() {
-    return (
-      <CardDeck>
-        <Card>
-          <Car query={this.props.query} />
-        </Card>
-        <Card>
-          <Card.Body>
-            <Ads />
-          </Card.Body>
-        </Card>
-      </CardDeck>
-    );
+    return <Car query={this.props.query} />;
   }
 }
 
