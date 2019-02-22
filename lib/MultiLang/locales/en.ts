@@ -63,6 +63,9 @@ const translations: Translations = {
     authError: 'Authentification problem',
     carLimitReached: 'You have reached the limit of cars you can create',
   },
+  offers: {
+    title: 'Offer',
+  },
   cars: {
     addCar: 'Add a car',
     details: 'Car details',

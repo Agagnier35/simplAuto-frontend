@@ -61,6 +61,9 @@ export default interface Translations {
     authError: string;
     carLimitReached: string;
   };
+  offers: {
+    title: string;
+  };
   cars: {
     addCar: string;
     details: string;

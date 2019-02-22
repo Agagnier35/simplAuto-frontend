@@ -63,6 +63,9 @@ const translations: Translations = {
     authError: `Problème d'authentification`,
     carLimitReached: 'Vous avez atteint la limite 2 véhicules permis',
   },
+  offers: {
+    title: 'Offre',
+  },
   cars: {
     addCar: 'Ajouter un automobile',
     details: "Détails de l'automobile",

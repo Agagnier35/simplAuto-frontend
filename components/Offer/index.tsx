@@ -2,10 +2,11 @@ import React from 'react';
 import { multi } from '../../lib/MultiLang';
 import Translations from '../../lib/MultiLang/locales/types';
 import Loading from '../../components/Loading';
-import CarDetails from '../../components/CarDetails';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID } from '../Car/Queries';
+import Car from '../Car';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -15,7 +16,7 @@ export interface OfferPageProps {
 }
 
 const Offer = ({ translations, query }: OfferPageProps) => {
-  const { data, error, loading } = useQuery(CAR_BY_ID, {
+  const { error, loading } = useQuery(CAR_BY_ID, {
     variables: { id: query.id },
   });
 
@@ -24,8 +25,12 @@ const Offer = ({ translations, query }: OfferPageProps) => {
 
   return (
     <div>
-      <h2>{translations.cars.details}</h2>
-      <CarDetails car={data.car} />
+      <h1>{translations.offers.title}</h1>
+      <Car query={query} />
+      <ButtonToolbar>
+        <Button variant="light">open chat</Button>
+        <Button variant="light">reject offer</Button>
+      </ButtonToolbar>
     </div>
   );
 };
