@@ -126,6 +126,16 @@ export interface AdCarFeatureInput {
   importance?: Maybe<AdFeatureImportance>;
 }
 
+export interface OfferCreateInput {
+  creatorID: string;
+
+  adID: string;
+
+  carID?: Maybe<string>;
+
+  price: number;
+}
+
 export enum Gender {
   Male = 'MALE',
   Female = 'FEMALE',
@@ -155,6 +165,12 @@ export enum AdStatus {
   Deleted = 'DELETED',
 }
 
+export enum CarStatus {
+  Published = 'PUBLISHED',
+  Sold = 'SOLD',
+  Deleted = 'DELETED',
+}
+
 export enum OfferStatus {
   Published = 'PUBLISHED',
   Accepted = 'ACCEPTED',
@@ -175,6 +191,8 @@ export interface Query {
   me?: Maybe<User>;
 
   ads?: Maybe<Ad[]>;
+
+  ad?: Maybe<Ad>;
 
   car?: Maybe<Car>;
 
@@ -254,7 +272,7 @@ export interface Ad {
 
   creator?: Maybe<User>;
 
-  offers?: Maybe<Offer[]>;
+  offers: Offer[];
 
   priceLowerBoundFeature?: Maybe<PriceBoundFeature>;
 
@@ -383,6 +401,8 @@ export interface Car {
   photos: string[];
 
   features: CarFeature[];
+
+  status: CarStatus;
 }
 
 export interface Mutation {
@@ -398,7 +418,11 @@ export interface Mutation {
 
   createCar?: Maybe<Car>;
 
+  deleteCar?: Maybe<Car>;
+
   createAd?: Maybe<Ad>;
+
+  deleteAd?: Maybe<Ad>;
 
   publish: Post;
 
@@ -407,6 +431,10 @@ export interface Mutation {
   resetPasswordRequest: string;
 
   resetPassword: User;
+
+  createOffer?: Maybe<Offer>;
+
+  deleteOffer?: Maybe<Offer>;
 }
 
 export interface Subscription {
@@ -422,6 +450,9 @@ export interface PostQueryArgs {
 }
 export interface AdsQueryArgs {
   adFeaturesIDs?: Maybe<(Maybe<string>)[]>;
+}
+export interface AdQueryArgs {
+  id: string;
 }
 export interface CarQueryArgs {
   id: string;
@@ -448,8 +479,14 @@ export interface CreateDraftMutationArgs {
 export interface CreateCarMutationArgs {
   data: CarCreateInput;
 }
+export interface DeleteCarMutationArgs {
+  id: string;
+}
 export interface CreateAdMutationArgs {
   data: AdCreateInput;
+}
+export interface DeleteAdMutationArgs {
+  id: string;
 }
 export interface PublishMutationArgs {
   id: string;
@@ -464,4 +501,10 @@ export interface ResetPasswordMutationArgs {
   resetToken: string;
 
   password: string;
+}
+export interface CreateOfferMutationArgs {
+  data: OfferCreateInput;
+}
+export interface DeleteOfferMutationArgs {
+  id: string;
 }
