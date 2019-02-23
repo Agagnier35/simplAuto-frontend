@@ -78,36 +78,32 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
       </div>
 
       <div className="card-wrapper">
-        <div className="firstCardWrapper">
-          <Card>
-            <Card.Body>
-              <Card.Title>
-                <span className="card-number">1</span>
-                {carLabel.general}
-              </Card.Title>
-              <label>
-                <ListGroup>
-                  <ListGroup.Item>
-                    {cars.manufacturer}: {car.manufacturer.name}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    {cars.model}: {car.model.name}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    {cars.category}:{' '}
-                    {carCategory[car.category.name] || car.category.name}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    {cars.year}: {car.year}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    {cars.mileage}: {car.mileage}
-                  </ListGroup.Item>
-                </ListGroup>
-              </label>
-            </Card.Body>
-          </Card>
-        </div>
+        <Card>
+          <Card.Body>
+            <Card.Title>
+              <span className="card-number">1</span>
+              {carLabel.general}
+            </Card.Title>
+            <label>
+              <p>
+                <b>{cars.manufacturer}</b>: {car.manufacturer.name}
+              </p>
+              <p>
+                <b>{cars.model}</b>: {car.model.name}
+              </p>
+              <p>
+                <b>{cars.category}</b>:{' '}
+                {carCategory[car.category.name] || car.category.name}
+              </p>
+              <p>
+                <b>{cars.year}</b>: {car.year}
+              </p>
+              <p>
+                <b>{cars.mileage}</b>: {car.mileage}
+              </p>
+            </label>
+          </Card.Body>
+        </Card>
 
         <Card>
           <Card.Body>
@@ -116,14 +112,12 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
               {general.features}
             </Card.Title>
             <label>
-              <ListGroup>
-                {car.features.map((f: any) => (
-                  <ListGroup.Item>
-                    {carFeatureCategory[f.category.name]}:{' '}
-                    {carFeature[f.name] || f.name}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+              {car.features.map((f: any) => (
+                <p>
+                  <b>{carFeatureCategory[f.category.name]}</b>:{' '}
+                  {carFeature[f.name] || f.name}
+                </p>
+              ))}
             </label>
           </Card.Body>
         </Card>
