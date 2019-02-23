@@ -25,15 +25,15 @@ interface CreateAdState extends AdCreateInput {}
 class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
   state: CreateAdState = {
     features: null,
-    manufacturerFeature: null,
-    modelFeature: null,
-    categoryFeature: null,
-    yearLowerBoundFeature: null,
-    yearHigherBoundFeature: null,
-    mileageLowerBoundFeature: null,
-    mileageHigherBoundFeature: null,
-    priceLowerBoundFeature: null,
-    priceHigherBoundFeature: null,
+    manufacturerID: null,
+    modelID: null,
+    categoryID: null,
+    yearLowerBound: null,
+    yearHigherBound: null,
+    mileageLowerBound: null,
+    mileageHigherBound: null,
+    priceLowerBound: null,
+    priceHigherBound: null,
   };
 
   handleCreateAd = async (e: any, createAd: any) => {
@@ -80,25 +80,21 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     }
   };
 
-  handleChange = (key: string, value: any, accessor?: string) => {
+  handleChange = (key: string, value: any) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
     } else {
       // Not a feature
-      if (accessor) {
-        this.setState(prevState => ({
-          [key]: { ...prevState[key], [accessor]: value.value },
-        }));
-      }
+      // TODO Might need to handle feature deletion
+      this.setState({ [key]: value });
     }
   };
 
   getModelsForManufacturer = (data: any) => {
-    const { manufacturerFeature } = this.state;
-    if (manufacturerFeature && manufacturerFeature.manufacturerID) {
-      return data.manufacturers.find(
-        (item: any) => item.id === manufacturerFeature.manufacturerID,
-      ).models;
+    const { manufacturerID } = this.state;
+    if (manufacturerID) {
+      return data.manufacturers.find((item: any) => item.id === manufacturerID)
+        .models;
     }
     return [];
   };
@@ -107,7 +103,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
     } = this.props;
-    const { manufacturerFeature } = this.state;
+    const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     return (
@@ -146,24 +142,18 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             options={data.manufacturers}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange(
-                                'manufacturerFeature',
-                                { value: item.id },
-                                'manufacturerID',
-                              )
+                              this.handleChange('manufacturerID', {
+                                value: item.id,
+                              })
                             }
                             label={`${cars.manufacturer} :`}
                           />
                           <Select
                             options={this.getModelsForManufacturer(data)}
-                            disabled={!manufacturerFeature}
+                            disabled={!manufacturerID}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange(
-                                'modelFeature',
-                                { value: item.id },
-                                'modelID',
-                              )
+                              this.handleChange('modelID', { value: item.id })
                             }
                             label={`${cars.model} :`}
                           />
@@ -171,11 +161,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             options={data.carCategories}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange(
-                                'categoryFeature',
-                                { value: item.id },
-                                'categoryID',
-                              )
+                              this.handleChange('categoryID', {
+                                value: item.id,
+                              })
                             }
                             label={`${cars.category} :`}
                           />
@@ -186,13 +174,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="text"
                               placeholder={`${cars.year} ${general.min}`}
                               onChange={(e: any) =>
-                                this.handleChange(
-                                  'yearLowerBoundFeature',
-                                  {
-                                    value: parseInt(e.currentTarget.value, 10),
-                                  },
-                                  'year',
-                                )
+                                this.handleChange('yearLowerBound', {
+                                  value: parseInt(e.currentTarget.value, 10),
+                                })
                               }
                             />
                           </label>
@@ -203,13 +187,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="text"
                               placeholder={`${cars.year} ${general.max}`}
                               onChange={(e: any) =>
-                                this.handleChange(
-                                  'yearHigherBoundFeature',
-                                  {
-                                    value: parseInt(e.currentTarget.value, 10),
-                                  },
-                                  'year',
-                                )
+                                this.handleChange('yearHigherBound', {
+                                  value: parseInt(e.currentTarget.value, 10),
+                                })
                               }
                             />
                           </label>
@@ -219,13 +199,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="text"
                               placeholder={`${cars.mileage} ${general.min}`}
                               onChange={(e: any) =>
-                                this.handleChange(
-                                  'mileageLowerBoundFeature',
-                                  {
-                                    value: parseInt(e.currentTarget.value, 10),
-                                  },
-                                  'mileage',
-                                )
+                                this.handleChange('mileageLowerBound', {
+                                  value: parseInt(e.currentTarget.value, 10),
+                                })
                               }
                             />
                           </label>
@@ -235,13 +211,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="text"
                               placeholder={`${cars.mileage} ${general.max}`}
                               onChange={(e: any) =>
-                                this.handleChange(
-                                  'mileageHigherBoundFeature',
-                                  {
-                                    value: parseInt(e.currentTarget.value, 10),
-                                  },
-                                  'mileage',
-                                )
+                                this.handleChange('mileageHigherBound', {
+                                  value: parseInt(e.currentTarget.value, 10),
+                                })
                               }
                             />
                           </label>
@@ -251,13 +223,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="text"
                               placeholder={`${cars.price} ${general.min}`}
                               onChange={(e: any) =>
-                                this.handleChange(
-                                  'priceLowerBoundFeature',
-                                  {
-                                    value: parseInt(e.currentTarget.value, 10),
-                                  },
-                                  'price',
-                                )
+                                this.handleChange('priceLowerBound', {
+                                  value: parseInt(e.currentTarget.value, 10),
+                                })
                               }
                             />
                           </label>
@@ -267,13 +235,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="text"
                               placeholder={`${cars.price} ${general.max}`}
                               onChange={(e: any) =>
-                                this.handleChange(
-                                  'priceHigherBoundFeature',
-                                  {
-                                    value: parseInt(e.currentTarget.value, 10),
-                                  },
-                                  'price',
-                                )
+                                this.handleChange('priceHigherBound', {
+                                  value: parseInt(e.currentTarget.value, 10),
+                                })
                               }
                             />
                           </label>
