@@ -11,9 +11,10 @@ import { ALL_MY_ADS_QUERY } from '../../pages/myAds';
 export interface AdSummaryProps {
   translations: Translations;
   ad: Ad;
+  adsQuery: any;
 }
 
-const AdSummary = ({ translations, ad }: AdSummaryProps) => {
+const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
   const {
     Ads,
     carCategory,
@@ -48,7 +49,7 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
     <Mutation
       mutation={AD_DELETE_MUTATION}
       variables={{ id: ad.id }}
-      refetchQueries={[{ query: ALL_MY_ADS_QUERY }]}
+      refetchQueries={[{ query: adsQuery }]}
     >
       {deleteAd => {
         return (
