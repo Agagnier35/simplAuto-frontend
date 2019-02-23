@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Translations from '../../lib/MultiLang/locales/types';
 import StyledCarDetails from './styles';
 import { multi } from '../../lib/MultiLang';
+import { Carousel, ListGroup, Card } from 'react-bootstrap';
 import { Carousel, ListGroup, Button } from 'react-bootstrap';
 import { Car, CarFeature } from '../../generated/graphql';
 import GeneralModal from '../GeneralModal';
@@ -27,9 +28,9 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
     carCategory,
     carFeatureCategory,
     carFeature,
+    carLabel,
     general,
   } = translations;
-
   const [showModal, setShowModal] = useState(false);
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
@@ -76,32 +77,58 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         </Carousel>
       </div>
 
-          <ListGroup>
-            <ListGroup.Item>
-              {cars.manufacturer}: {car.manufacturer.name}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {cars.model}: {car.model.name}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {cars.category}:{' '}
-              {carCategory[car.category.name] || car.category.name}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {cars.year}: {car.year}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {cars.mileage}: {car.mileage}
-            </ListGroup.Item>
-            {car.features.map((f: CarFeature) => (
-              <ListGroup.Item>
-                {carFeatureCategory[f.category.name]}:{' '}
-                {carFeature[f.name] || f.name}
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </StyledCarDetails>
+      <div className="card-wrapper">
+        <div className="firstCardWrapper">
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                <span className="card-number">1</span>
+                {carLabel.general}
+              </Card.Title>
+              <label>
+                <ListGroup>
+                  <ListGroup.Item>
+                    {cars.manufacturer}: {car.manufacturer.name}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    {cars.model}: {car.model.name}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    {cars.category}:{' '}
+                    {carCategory[car.category.name] || car.category.name}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    {cars.year}: {car.year}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    {cars.mileage}: {car.mileage}
+                  </ListGroup.Item>
+                </ListGroup>
+              </label>
+            </Card.Body>
+          </Card>
+        </div>
+
+        <Card>
+          <Card.Body>
+            <Card.Title>
+              <span className="card-number">2</span>
+              {general.features}
+            </Card.Title>
+            <label>
+              <ListGroup>
+                {car.features.map((f: any) => (
+                  <ListGroup.Item>
+                    {carFeatureCategory[f.category.name]}:{' '}
+                    {carFeature[f.name] || f.name}
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </label>
+          </Card.Body>
+        </Card>
       </div>
+    </StyledCarDetails>
     </>
   );
 };
