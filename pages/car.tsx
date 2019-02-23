@@ -6,7 +6,7 @@ class CarPage extends PrivateComponent {
   render() {
     return (
       <div>
-        <Car />
+        <Car query={this.props.query} />
       </div>
     );
   }
