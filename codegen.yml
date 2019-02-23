@@ -1,6 +1,6 @@
 overwrite: true
-#schema: 'https://simplauto-backend.herokuapp.com/' # remote
-schema: 'http://localhost:4000' # local
+schema: 'https://simplauto-backend.herokuapp.com/' # remote
+# schema: 'http://localhost:4000' # local
 documents: '**/*.graphql'
 generates:
   generated/graphql.ts:

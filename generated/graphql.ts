@@ -371,6 +371,8 @@ export interface Car {
   features: CarFeature[];
 
   status: CarStatus;
+
+  offers?: Maybe<Offer[]>;
 }
 
 export interface OfferAddon {

@@ -5,11 +5,9 @@ import Loading from '../../components/Loading';
 import CarDetails from '../../components/CarDetails';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
-import { CAR_BY_ID } from './Queries';
+import { CAR_BY_ID, MATCHING_ADS_QUERY } from './Queries';
 import { Card, CardDeck, Button } from 'react-bootstrap';
-import Ads from '../Ads';
-import { ALL_ADS_QUERY } from '../Ads/Queries';
-import { Ad } from '../../generated/graphql';
+import { Ad, Offer } from '../../generated/graphql';
 import AdSummary from '../AdSummary';
 import OfferModal from '../OfferModal';
 
@@ -23,12 +21,13 @@ export interface CarPageProps {
 const Car = ({ translations, query }: CarPageProps) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedAd, setSelectedAd] = useState({});
+  const [selectedOffer, setSelectedOffer] = useState({});
   const [isEditMode, setEditMode] = useState(false);
 
   const carQuery = useQuery(CAR_BY_ID, {
     variables: { id: query.id },
   });
-  const adsQuery = useQuery(ALL_ADS_QUERY);
+  const adsQuery = useQuery(MATCHING_ADS_QUERY);
   const errors = carQuery.error || adsQuery.error;
 
   if (carQuery.loading) return <Loading />;
@@ -41,6 +40,7 @@ const Car = ({ translations, query }: CarPageProps) => {
 
   function handleToggleEditOffer(ad: Ad) {
     setSelectedAd(ad);
+    setSelectedOffer(findMyOffer(ad));
     setEditMode(true);
     setModalOpened(true);
   }
@@ -52,6 +52,14 @@ const Car = ({ translations, query }: CarPageProps) => {
     } else {
       setModalOpened(true);
     }
+  }
+
+  function findMyOffer(ad: Ad) {
+    const myOffers = carQuery.data.car.offers;
+    if (myOffers) {
+      return myOffers.find((offer: Offer) => offer.ad.id === ad.id);
+    }
+    return false;
   }
 
   return (
@@ -68,25 +76,41 @@ const Car = ({ translations, query }: CarPageProps) => {
             {adsQuery.data.ads &&
               adsQuery.data.ads.map((ad: Ad) => (
                 <div key={ad.id}>
-                  <Button
-                    onClick={() => handleToggleCreateOffer(ad)}
-                    variant="primary"
-                  >
-                    {translations.offers.createOffer}
-                  </Button>
+                  {findMyOffer(ad) ? (
+                    <Button
+                      onClick={() => {
+                        handleToggleEditOffer(ad);
+                      }}
+                      variant="primary"
+                    >
+                      {translations.offers.modifyOffer}
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        handleToggleCreateOffer(ad);
+                      }}
+                      variant="primary"
+                    >
+                      {translations.offers.createOffer}
+                    </Button>
+                  )}
                   <AdSummary key={ad.id} ad={ad} />
                 </div>
               ))}
           </Card.Body>
         </Card>
       </CardDeck>
-      <OfferModal
-        modalOpened={modalOpened}
-        toggleModal={toggleModal}
-        isEditMode={isEditMode}
-        ad={selectedAd}
-        car={carQuery.data.car}
-      />
+      {modalOpened && (
+        <OfferModal
+          modalOpened={modalOpened}
+          toggleModal={toggleModal}
+          isEditMode={isEditMode}
+          ad={selectedAd}
+          car={carQuery.data.car}
+          offer={selectedOffer}
+        />
+      )}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { multi } from '../../lib/MultiLang';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
-import { Ad, OfferCreateInput, Car } from '../../generated/graphql';
+import { Ad, OfferCreateInput, Car, Offer } from '../../generated/graphql';
 import { CREATE_OFFER_MUTATION } from './Mutations';
 
 interface OfferModalProps {
@@ -12,6 +12,7 @@ interface OfferModalProps {
   isEditMode: boolean;
   ad: Ad;
   car: Car;
+  offer: Offer;
   toggleModal: (...params: any) => void;
 }
 
@@ -22,11 +23,15 @@ const OfferModal = ({
   isEditMode,
   ad,
   car,
+  offer,
 }: OfferModalProps) => {
   // Query addons where value > 0
   // const { data, error, loading } = useQuery(ALL_ADS_QUERY);
   const { cancel, update, create } = translations.general;
-  const [price, setPrice] = useState('0');
+
+  const [price, setPrice] = useState(
+    offer.price ? offer.price.toString() : '0',
+  );
 
   const handleCreateOffer = useMutation(CREATE_OFFER_MUTATION, {
     variables: getCreateOfferPayload(),
@@ -56,10 +61,13 @@ const OfferModal = ({
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={modalOpened}
+      onHide={toggleModal}
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {translations.offers.createOffer}
+          {isEditMode
+            ? translations.offers.modifyOffer
+            : translations.offers.createOffer}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
