@@ -13,24 +13,26 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
   const { cars, carCategory, carFeatureCategory, carFeature } = translations;
   return (
     <StyledCarDetails>
-      <Carousel>
-        {car.photos.length > 0 ? (
-          car.photos.map((photo: string, i: number) => (
-            <Carousel.Item key={i}>
-              <img className="d-block w-100" src={photo} />
+      <div className="carouselSection">
+        <Carousel>
+          {car.photos.length > 0 ? (
+            car.photos.map((photo: string, i: number) => (
+              <Carousel.Item key={i}>
+                <img src={photo} />
+              </Carousel.Item>
+            ))
+          ) : (
+            <Carousel.Item>
+              {/*TODO: change placeholder*/}
+              <img
+                className="d-block w-100"
+                src="http://clipart-library.com/image_gallery/17559.jpg"
+                alt="No car photos placeholder"
+              />
             </Carousel.Item>
-          ))
-        ) : (
-          <Carousel.Item>
-            {/*TODO: change placeholder*/}
-            <img
-              className="d-block w-100"
-              src="http://clipart-library.com/image_gallery/17559.jpg"
-              alt="No car photos placeholder"
-            />
-          </Carousel.Item>
-        )}
-      </Carousel>
+          )}
+        </Carousel>
+      </div>
 
       <ListGroup>
         <ListGroup.Item>
