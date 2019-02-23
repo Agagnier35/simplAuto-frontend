@@ -12,7 +12,6 @@ import {
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
-  User,
 } from '../../generated/graphql';
 import { Dictionary } from '../../lib/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';

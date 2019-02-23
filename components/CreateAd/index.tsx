@@ -66,7 +66,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
         this.setState({
           features: [
             ...features.slice(0, featureIndex),
-            value,
+            value.value,
             ...features.slice(featureIndex + 1),
           ],
         });
@@ -75,7 +75,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     // Add it
     else if (!isDefaultValue) {
       this.setState({
-        features: [...features, value],
+        features: [...features, value.value],
       });
     }
   };
@@ -86,7 +86,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     } else {
       // Not a feature
       // TODO Might need to handle feature deletion
-      this.setState({ [key]: value });
+      this.setState({ [key]: value.value });
     }
   };
 
