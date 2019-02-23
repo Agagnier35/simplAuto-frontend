@@ -15,15 +15,22 @@ const StyledCarDetails = styled.div`
     max-height: 400px;
   }
 
+  label {
+    margin-left: 1.5rem;
+  }
+
+  p {
+    display: inline
+    margin-bottom: 15%;
+    margin-top: 10%;
+    width: auto;
+  }
+
   .card-number {
     color: ${props => props.theme.colors.primary};
     font-size: 2.5rem;
     line-height: 1.4rem;
     margin-right: 1rem;
-  }
-
-  .firstCardWrapper {
-    margin-bottom: 15px;
   }
 
   .card-wrapper {
@@ -34,10 +41,7 @@ const StyledCarDetails = styled.div`
     .card {
       margin: 0.5rem;
       flex-grow: 1;
-
-      & + .card {
-        flex-grow: 10;
-      }
+      margin-bottom: 15px;
     }
   }
 `;
