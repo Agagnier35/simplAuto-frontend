@@ -65,6 +65,9 @@ const translations: Translations = {
   },
   offers: {
     title: 'Offer',
+    price: 'Price',
+    chat: 'Contact seller',
+    reject: 'Reject offer',
   },
   cars: {
     addCar: 'Add a car',

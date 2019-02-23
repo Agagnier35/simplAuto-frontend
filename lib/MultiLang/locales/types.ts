@@ -63,6 +63,9 @@ export default interface Translations {
   };
   offers: {
     title: string;
+    price: string;
+    chat: string;
+    reject: string;
   };
   cars: {
     addCar: string;

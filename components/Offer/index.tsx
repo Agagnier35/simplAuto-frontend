@@ -7,12 +7,11 @@ import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID } from '../Car/Queries';
 import Car from '../Car';
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Offer } from '../../generated/graphql';
 
 export interface OfferPageProps {
   translations: Translations;
-  query: {
-    id: String;
-  };
+  query: Offer;
 }
 
 const Offer = ({ translations, query }: OfferPageProps) => {
@@ -26,10 +25,13 @@ const Offer = ({ translations, query }: OfferPageProps) => {
   return (
     <div>
       <h1>{translations.offers.title}</h1>
-      <Car query={query} />
+      <p>
+        {translations.offers.price}: {query.price}
+      </p>
+      <Car query={query.car} />
       <ButtonToolbar>
-        <Button variant="light">open chat</Button>
-        <Button variant="light">reject offer</Button>
+        <Button variant="primary">{translations.offers.chat}</Button>
+        <Button variant="primary">{translations.offers.reject}</Button>
       </ButtonToolbar>
     </div>
   );
