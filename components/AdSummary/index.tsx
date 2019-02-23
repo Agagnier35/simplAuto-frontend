@@ -6,14 +6,14 @@ import { Ad, AdCarFeature } from '../../generated/graphql';
 import Select from '../Select';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { ALL_MY_ADS_QUERY } from '../../pages/myAds';
 
 export interface AdSummaryProps {
   translations: Translations;
   ad: Ad;
-  adsQuery: any;
 }
 
-const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
+const AdSummary = ({ translations, ad }: AdSummaryProps) => {
   const {
     Ads,
     carCategory,
@@ -34,31 +34,43 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     option.action();
   }
 
+  function handlePermission() {
+    var myAds = false;
+    console.log(ad);
+    if (ad.creator && ad.creator.id != null) {
+      myAds = true;
+      console.log(ad.creator.id);
+    }
+    return myAds;
+  }
+
   return (
     <Mutation
       mutation={AD_DELETE_MUTATION}
       variables={{ id: ad.id }}
-      refetchQueries={[{ query: adsQuery }]}
+      refetchQueries={[{ query: ALL_MY_ADS_QUERY }]}
     >
       {deleteAd => {
         return (
           <div>
             {ad ? (
               <Card>
-                <Select
-                  options={[
-                    {
-                      option: general.options.delete,
-                      action: () => deleteAd(),
-                    },
-                    {
-                      option: general.options.modify,
-                      action: () => console.log('modify'),
-                    },
-                  ]}
-                  accessor="option"
-                  handleChange={(option: any) => handleChange(option)}
-                />
+                {handlePermission() && (
+                  <Select
+                    options={[
+                      {
+                        option: general.options.delete,
+                        action: () => deleteAd(),
+                      },
+                      {
+                        option: general.options.modify,
+                        action: () => console.log('modify'),
+                      },
+                    ]}
+                    accessor="option"
+                    handleChange={(option: any) => handleChange(option)}
+                  />
+                )}
                 <ListGroup>
                   {ad.priceHigherBoundFeature && (
                     <ListGroup.Item>

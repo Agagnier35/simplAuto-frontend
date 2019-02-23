@@ -9,10 +9,13 @@ import AdSummary from '../components/AdSummary';
 import { CardDeck, Button } from 'react-bootstrap';
 import { Ad } from '../generated/graphql';
 
-const ALL_MY_ADS_QUERY = gql`
+export const ALL_MY_ADS_QUERY = gql`
   {
     me {
       id
+      creator {
+        id
+      }
       ads {
         id
         priceLowerBoundFeature {
@@ -76,7 +79,7 @@ const MyAds = ({ translations }: MultiProps) => {
             if (loading) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return data.me.ads.map((ad: Ad) => (
-              <AdSummary adsQuery={ALL_MY_ADS_QUERY} key={ad.id} ad={ad} />
+              <AdSummary key={ad.id} ad={ad} />
             ));
           }}
         </Query>
