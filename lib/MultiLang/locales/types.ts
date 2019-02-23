@@ -54,6 +54,9 @@ export default interface Translations {
     myCars: string;
     myAds: string;
     disconnect: string;
+    cancel: string;
+    create: string;
+    update: string;
   };
   errors: {
     invalidEmail: string;
@@ -101,5 +104,9 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+  };
+  offers: {
+    createOffer: string;
+    modifyOffer: string;
   };
 }

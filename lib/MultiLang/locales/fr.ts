@@ -56,6 +56,9 @@ const translations: Translations = {
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
     disconnect: 'Déconnexion',
+    cancel: 'Annuler',
+    create: 'Créer',
+    update: 'Modifier',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
@@ -119,6 +122,10 @@ const translations: Translations = {
     higherYear: 'année maximum',
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
+  },
+  offers: {
+    createOffer: 'Faire une offre',
+    modifyOffer: 'Modifier mon offre',
   },
 };
 
