@@ -70,7 +70,9 @@ const Ads = () => {
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
-          return data.ads.map((ad: Ad) => <AdSummary key={ad.id} ad={ad} />);
+          return data.ads.map((ad: Ad) => (
+            <AdSummary adsQuey={ALL_ADS_QUERY} key={ad.id} ad={ad} />
+          ));
         }}
       </Query>
     </CardDeck>
