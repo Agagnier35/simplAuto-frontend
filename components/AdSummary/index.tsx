@@ -4,15 +4,22 @@ import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
 import { Ad, AdCarFeature } from '../../generated/graphql';
 import Select from '../Select';
-import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { ALL_MY_ADS_QUERY } from '../../pages/myAds';
+import gql from 'graphql-tag';
 
 export interface AdSummaryProps {
   translations: Translations;
   ad: Ad;
   adsQuery: any;
 }
+
+export const AD_DELETE_MUTATION = gql`
+  mutation AD_DELETE_MUTATION($id: ID!) {
+    deleteAd(id: $id) {
+      id
+    }
+  }
+`;
 
 const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
   const {
@@ -23,26 +30,12 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     general,
   } = translations;
 
-  const AD_DELETE_MUTATION = gql`
-    mutation AD_DELETE_MUTATION($id: ID!) {
-      deleteAd(id: $id) {
-        id
-      }
-    }
-  `;
-
   function handleChange(option: any) {
     option.action();
   }
 
   function handlePermission() {
-    var myAds = false;
-    console.log(ad);
-    if (ad.creator && ad.creator.id != null) {
-      myAds = true;
-      console.log(ad.creator.id);
-    }
-    return myAds;
+    return ad.creator && ad.creator.id != null;
   }
 
   return (
