@@ -5,7 +5,7 @@ import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
 import { CarCreateInput, Maybe } from '../../generated/graphql';
 import gql from 'graphql-tag';
-import { Table, Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 import Select from '../Select';
@@ -49,8 +49,8 @@ export const GET_FEATURES_QUERY = gql`
   }
 `;
 
-const CARADD_MUTATION = gql`
-  mutation CARADD_MUTATION($data: CarCreateInput!) {
+const CAR_ADD_MUTATION = gql`
+  mutation CAR_ADD_MUTATION($data: CarCreateInput!) {
     createCar(data: $data) {
       id
     }
@@ -207,7 +207,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
           );
           return (
             <Mutation
-              mutation={CARADD_MUTATION}
+              mutation={CAR_ADD_MUTATION}
               variables={this.getCreateCarPayload()}
             >
               {(createCar, mutation) => {

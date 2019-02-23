@@ -4,6 +4,7 @@ const StyledNav = styled.div`
   background-color: ${props => props.theme.colors.dark};
   display: flex;
   position: relative;
+  min-height: 72.5px;
 
   nav {
     width: 100%;

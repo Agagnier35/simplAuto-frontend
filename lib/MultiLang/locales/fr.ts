@@ -124,6 +124,20 @@ const translations: Translations = {
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
   },
+  GeneralModalContent: {
+    title: 'Boite de confirmation',
+    content:
+      'Êtes vous certain de vouloir exécuter cette action?\nCette action ne sera pas réversible.',
+    btnCancel: 'Annuler',
+    btnConfirm: 'Confirmer',
+    car: ' de voiture',
+    ad: " d'annonce",
+    offer: " d'offre",
+    create: 'Création',
+    delete: 'Suppression',
+    save: 'Sauvegarde',
+    edit: 'Modification',
+  },
 };
 
 module.exports = translations;

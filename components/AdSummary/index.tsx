@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
-import { Ad, AdCarFeature } from '../../generated/graphql';
+import { Ad, CarFeature } from '../../generated/graphql';
 import Select from '../Select';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';

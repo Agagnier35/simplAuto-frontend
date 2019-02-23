@@ -1,14 +1,15 @@
 import React from 'react';
-import { multi } from '../lib/MultiLang';
-import IsNotLoggedIn from '../components/IsNotLoggedIn';
 import Signup from '../components/Signup';
+import PublicComponent from '../lib/Auth/PublicComponent';
 
-const signup = () => {
-  return (
-    <IsNotLoggedIn>
-      <Signup />
-    </IsNotLoggedIn>
-  );
-};
+class SignupPage extends PublicComponent {
+  render() {
+    return (
+      <div>
+        <Signup />
+      </div>
+    );
+  }
+}
 
-export default multi(signup);
+export default SignupPage;
