@@ -1,12 +1,12 @@
 import React from 'react';
 import PrivateComponent from '../lib/Auth/PrivateComponent';
-import Offer from '../components/Offer';
+import MyOffer from '../components/Offer';
 
 class OfferPage extends PrivateComponent {
   render() {
     return (
       <div>
-        <Offer query={this.props.query} />
+        <MyOffer query={this.props.query} />
       </div>
     );
   }

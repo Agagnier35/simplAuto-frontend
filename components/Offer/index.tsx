@@ -14,7 +14,7 @@ export interface OfferPageProps {
   query: Offer;
 }
 
-const Offer = ({ translations, query }: OfferPageProps) => {
+const MyOffer = ({ translations, query }: OfferPageProps) => {
   const { error, loading } = useQuery(CAR_BY_ID, {
     variables: { id: query.id },
   });
@@ -37,4 +37,4 @@ const Offer = ({ translations, query }: OfferPageProps) => {
   );
 };
 
-export default multi(Offer);
+export default multi(MyOffer);
