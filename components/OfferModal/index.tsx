@@ -3,8 +3,15 @@ import { multi } from '../../lib/MultiLang';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
-import { Ad, OfferCreateInput, Car, Offer } from '../../generated/graphql';
-import { CREATE_OFFER_MUTATION } from './Mutations';
+import {
+  Ad,
+  OfferCreateInput,
+  Car,
+  Offer,
+  OfferUpdateInput,
+} from '../../generated/graphql';
+import { CREATE_OFFER_MUTATION, UPDATE_OFFER_MUTATION } from './Mutations';
+import { CAR_BY_ID } from '../Car/Queries';
 
 interface OfferModalProps {
   translations: Translations;
@@ -35,6 +42,12 @@ const OfferModal = ({
 
   const handleCreateOffer = useMutation(CREATE_OFFER_MUTATION, {
     variables: getCreateOfferPayload(),
+    refetchQueries: [{ query: CAR_BY_ID, variables: { id: car.id } }],
+  });
+
+  const handleUpdateOffer = useMutation(UPDATE_OFFER_MUTATION, {
+    variables: getUpdateOfferPayload(),
+    refetchQueries: [{ query: CAR_BY_ID, variables: { id: car.id } }],
   });
 
   function getCreateOfferPayload() {
@@ -46,8 +59,17 @@ const OfferModal = ({
     return { data };
   }
 
+  function getUpdateOfferPayload() {
+    const data: OfferUpdateInput = {
+      id: offer.id,
+      price: parseInt(price, 10),
+    };
+    return { data };
+  }
+
   async function handleClick() {
     if (isEditMode) {
+      await handleUpdateOffer();
       toggleModal();
     } else {
       await handleCreateOffer();

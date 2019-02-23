@@ -23,6 +23,7 @@ export const CAR_BY_ID = gql`
         }
       }
       offers {
+        id
         ad {
           id
         }

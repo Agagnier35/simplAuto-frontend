@@ -49,6 +49,8 @@ const Car = ({ translations, query }: CarPageProps) => {
     if (modalOpened) {
       setModalOpened(false);
       setEditMode(false);
+      setSelectedAd({});
+      setSelectedOffer({});
     } else {
       setModalOpened(true);
     }
