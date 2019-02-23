@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
-import { Ad, AdCarFeature } from '../../generated/graphql';
+import { Ad, CarFeature } from '../../generated/graphql';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -15,34 +15,33 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
     <div>
       {ad ? (
         <Card>
-          {ad.priceHigherBoundFeature && (
+          {ad.priceHigherBound && (
             <Card.Header>
-              {Ads.higherPrice}: {ad.priceHigherBoundFeature.price}
+              {Ads.higherPrice}: {ad.priceHigherBound}
             </Card.Header>
           )}
           <ListGroup>
-            {ad.manufacturerFeature && (
+            {ad.manufacturer && (
               <ListGroup.Item>
-                {Ads.manufacturer}: {ad.manufacturerFeature.manufacturer.name}
+                {Ads.manufacturer}: {ad.manufacturer.name}
               </ListGroup.Item>
             )}
-            {ad.modelFeature && (
+            {ad.model && (
               <ListGroup.Item>
-                {Ads.model}: {ad.modelFeature.model.name}
+                {Ads.model}: {ad.model.name}
               </ListGroup.Item>
             )}
-            {ad.categoryFeature && (
+            {ad.category && (
               <ListGroup.Item>
                 {Ads.category}:{' '}
-                {carCategory[ad.categoryFeature.category.name] ||
-                  ad.categoryFeature.category.name}
+                {carCategory[ad.category.name] || ad.category.name}
               </ListGroup.Item>
             )}
             {ad.features
-              ? ad.features.map((feature: AdCarFeature) => (
-                  <ListGroup.Item key={feature.feature.category.name}>
-                    {carFeatureCategory[feature.feature.category.name]}:{' '}
-                    {carFeature[feature.feature.name] || feature.feature.name}
+              ? ad.features.map((feature: CarFeature) => (
+                  <ListGroup.Item key={feature.category.name}>
+                    {carFeatureCategory[feature.category.name]}:{' '}
+                    {carFeature[feature.name] || feature.name}
                   </ListGroup.Item>
                 ))
               : null}
