@@ -108,5 +108,8 @@ export default interface Translations {
   offers: {
     createOffer: string;
     modifyOffer: string;
+    addons: string;
+    otherAddons: string;
+    specify: string;
   };
 }

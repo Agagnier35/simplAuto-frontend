@@ -125,6 +125,9 @@ const translations: Translations = {
   offers: {
     createOffer: 'Make an offer',
     modifyOffer: 'Modify my offer',
+    addons: 'Addons',
+    otherAddons: 'Other addon',
+    specify: 'Specify',
   },
 };
 

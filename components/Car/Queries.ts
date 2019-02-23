@@ -31,6 +31,7 @@ export const CAR_BY_ID = gql`
         addons {
           id
           name
+          rankValue
         }
       }
     }

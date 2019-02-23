@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { multi } from '../../lib/MultiLang';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
+import { Modal, Button, Form, InputGroup, Dropdown } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import {
   Ad,
@@ -9,9 +9,12 @@ import {
   Car,
   Offer,
   OfferUpdateInput,
+  OfferAddon,
+  OfferAddonInput,
 } from '../../generated/graphql';
 import { CREATE_OFFER_MUTATION, UPDATE_OFFER_MUTATION } from './Mutations';
 import { CAR_BY_ID } from '../Car/Queries';
+import { OFFER_ADDONS_QUERY } from './Queries';
 
 interface OfferModalProps {
   translations: Translations;
@@ -32,13 +35,15 @@ const OfferModal = ({
   car,
   offer,
 }: OfferModalProps) => {
-  // Query addons where value > 0
-  // const { data, error, loading } = useQuery(ALL_ADS_QUERY);
+  const { data, loading } = useQuery(OFFER_ADDONS_QUERY);
+
   const { cancel, update, create } = translations.general;
 
   const [price, setPrice] = useState(
     offer.price ? offer.price.toString() : '0',
   );
+  const [addons, setAddons] = useState(offer.addons || []);
+  const [otherAddon, setOtherAddon] = useState('');
 
   const handleCreateOffer = useMutation(CREATE_OFFER_MUTATION, {
     variables: getCreateOfferPayload(),
@@ -52,6 +57,11 @@ const OfferModal = ({
 
   function getCreateOfferPayload() {
     const data: OfferCreateInput = {
+      addons: addons.map((addon: OfferAddonInput) => ({
+        name: addon.name,
+        id: addon.id,
+        rankValue: addon.rankValue,
+      })),
       adID: ad.id,
       price: parseInt(price, 10),
       carID: car.id,
@@ -61,6 +71,11 @@ const OfferModal = ({
 
   function getUpdateOfferPayload() {
     const data: OfferUpdateInput = {
+      addons: addons.map((addon: OfferAddonInput) => ({
+        name: addon.name,
+        id: addon.id,
+        rankValue: addon.rankValue,
+      })),
       id: offer.id,
       price: parseInt(price, 10),
     };
@@ -74,6 +89,17 @@ const OfferModal = ({
     } else {
       await handleCreateOffer();
       toggleModal();
+    }
+  }
+
+  function handleAddonClick(addon: OfferAddon) {
+    setAddons([...addons, addon]);
+  }
+
+  function handleOtherAddonClick() {
+    if (otherAddon.length && otherAddon.length > 0) {
+      setAddons([...addons, { name: otherAddon } as OfferAddon]);
+      setOtherAddon('');
     }
   }
 
@@ -93,7 +119,7 @@ const OfferModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <fieldset>
+        <fieldset disabled={loading} aria-busy={loading}>
           <Form.Group>
             <Form.Label>{translations.cars.price}</Form.Label>
             <InputGroup>
@@ -108,6 +134,46 @@ const OfferModal = ({
                 name="price"
                 value={price}
                 onChange={(e: any) => setPrice(e.currentTarget.value)}
+              />
+            </InputGroup>
+          </Form.Group>
+          {addons.length > 0 && (
+            <ul>
+              {addons.map((addon: OfferAddon, index: number) => (
+                <li key={index}>{addon.name}</li>
+              ))}
+            </ul>
+          )}
+          {data.offerAddons && (
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                {translations.offers.addons}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {data.offerAddons.map((addon: OfferAddon, index: number) => (
+                  <Dropdown.Item
+                    key={index}
+                    onClick={() => handleAddonClick(addon)}
+                  >
+                    {addon.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+          <Form.Group>
+            <Form.Label>{translations.offers.otherAddons}</Form.Label>
+            <InputGroup>
+              <InputGroup.Prepend onClick={handleOtherAddonClick}>
+                <InputGroup.Text id="inputGroupPrepend">+</InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control
+                placeholder={translations.offers.specify}
+                aria-describedby="inputGroupPrepend"
+                required
+                name="otherAddon"
+                value={otherAddon}
+                onChange={(e: any) => setOtherAddon(e.currentTarget.value)}
               />
             </InputGroup>
           </Form.Group>
