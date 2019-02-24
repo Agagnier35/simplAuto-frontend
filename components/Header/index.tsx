@@ -48,7 +48,7 @@ const Header: React.SFC<MultiProps> = ({
   currentLocale,
 }) => {
   return (
-    <StyledNav id="topbar">
+    <StyledNav id="topbar" className="noPrint">
       <Link href="/" passHref>
         <Navbar.Brand>
           <IoMdCar />
