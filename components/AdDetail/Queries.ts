@@ -4,6 +4,9 @@ export const AD_DETAIL_QUERY = gql`
   query AD_DETAIL_QUERY($id: ID!) {
     ad(id: $id) {
       id
+      creator {
+        id
+      }
       priceLowerBound
       priceHigherBound
       manufacturer {
