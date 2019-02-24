@@ -58,6 +58,8 @@ export default interface Translations {
     myCars: string;
     myAds: string;
     disconnect: string;
+    Ad: string;
+    offers: string;
     delete: string;
     cancel: string;
     create: string;

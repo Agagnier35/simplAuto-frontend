@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
+import Link from 'next/link';
+import StyledSummaryElement from './styles';
 import { Ad, CarFeature } from '../../generated/graphql';
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -67,68 +69,60 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
         onClose={() => setModalShow(false)}
         onConfirm={() => handleDeleteAd(deleteAd)}
       />
-      <Card>
-        {hasPermission() && (
-          <Select
-            options={[
-              {
-                option: general.options.delete,
-                action: () => setModalShow(true),
-              },
-              {
-                option: general.options.modify,
-                action: () => console.log(modalShow),
-              },
-            ]}
-            accessor="option"
-            handleChange={(option: AdSummaryOption) => handleChange(option)}
-          />
-        )}
-        {ad ? (
-          <StyledAdSummary>
-            <ListGroup>
+      {ad ? (
+        <Card>
+          {hasPermission() ? (
+            <Select
+              options={[
+                {
+                  option: general.options.delete,
+                  action: () => setModalShow(true),
+                },
+                {
+                  option: general.options.modify,
+                  action: () => console.log(modalShow),
+                },
+              ]}
+              accessor="option"
+              handleChange={(option: AdSummaryOption) => handleChange(option)}
+            />
+          ) : null}
+          <Link href={{ pathname: '/adDetail', query: { id: ad.id } }}>
+            <StyledAdSummary>
               {ad.priceHigherBound && (
-                <ListGroup.Item>
+                <Card.Header>
                   {Ads.higherPrice}: {ad.priceHigherBound}
-                </ListGroup.Item>
+                </Card.Header>
               )}
-              {ad.manufacturer && (
-                <ListGroup.Item>
-                  {Ads.manufacturer}: {ad.manufacturer.name}
-                </ListGroup.Item>
-              )}
-              {ad.priceHigherBound && (
-                <ListGroup.Item>
-                  {Ads.manufacturer}: {ad.priceHigherBound}
-                </ListGroup.Item>
-              )}
-              {ad.manufacturer && (
-                <ListGroup.Item>
-                  {Ads.manufacturer}: {ad.manufacturer.name}
-                </ListGroup.Item>
-              )}
-              {ad.model && (
-                <ListGroup.Item>
-                  {Ads.model}: {ad.model.name}
-                </ListGroup.Item>
-              )}
-              {ad.category && (
-                <ListGroup.Item>
-                  {Ads.category}:{' '}
-                  {carCategory[ad.category.name] || ad.category.name}
-                </ListGroup.Item>
-              )}
-              {ad.features &&
-                ad.features.map((feature: CarFeature) => (
-                  <ListGroup.Item key={feature.category.name}>
-                    {carFeatureCategory[feature.category.name]}:{' '}
-                    {carFeature[feature.name] || feature.name}
+              <ListGroup>
+                {ad.manufacturer && (
+                  <ListGroup.Item>
+                    {Ads.manufacturer}: {ad.manufacturer.name}
                   </ListGroup.Item>
-                ))}
-            </ListGroup>
-          </StyledAdSummary>
-        ) : null}
-      </Card>
+                )}
+                {ad.model && (
+                  <ListGroup.Item>
+                    {Ads.model}: {ad.model.name}
+                  </ListGroup.Item>
+                )}
+                {ad.category && (
+                  <ListGroup.Item>
+                    {Ads.category}:{' '}
+                    {carCategory[ad.category.name] || ad.category.name}
+                  </ListGroup.Item>
+                )}
+                {ad.features &&
+                  ad.features.map((feature: CarFeature) => (
+                    <ListGroup.Item key={feature.category.name}>
+                      {carFeatureCategory[feature.category.name]}:{' '}
+                      {carFeature[feature.name] || feature.name}
+                    </ListGroup.Item>
+                  ))}
+              </ListGroup>
+            </StyledAdSummary>
+          </Link>
+        </Card>
+      ) : null}
     </>
   );
 };

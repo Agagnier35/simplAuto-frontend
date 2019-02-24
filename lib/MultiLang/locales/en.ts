@@ -60,6 +60,8 @@ const translations: Translations = {
     myAds: 'My ads',
     myCars: 'My cars',
     disconnect: 'Logout',
+    Ad: 'Ad',
+    offers: 'Offers',
     delete: 'Delete',
     cancel: 'Cancel',
     create: 'Create',
