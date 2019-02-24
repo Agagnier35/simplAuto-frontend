@@ -8,4 +8,4 @@
 jest-test-results.json
 
 # generated stuff
-# TODO Reignore this/generated
+/generated

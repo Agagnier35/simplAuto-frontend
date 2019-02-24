@@ -58,6 +58,10 @@ const translations: Translations = {
     disconnect: 'Logout',
     Ad: 'Ad',
     offers: 'Offers',
+    delete: 'Delete',
+    cancel: 'Cancel',
+    create: 'Create',
+    update: 'Update',
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -120,6 +124,13 @@ const translations: Translations = {
   ad: {
     createAdTitle: 'Please fill the information about your ad',
     createAdAction: 'Publish your ad',
+  },
+  offers: {
+    createOffer: 'Make an offer',
+    modifyOffer: 'Modify my offer',
+    addons: 'Addons',
+    otherAddons: 'Other addon',
+    specify: 'Specify',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

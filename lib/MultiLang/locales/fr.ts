@@ -58,6 +58,10 @@ const translations: Translations = {
     disconnect: 'Déconnexion',
     Ad: 'Annonce',
     offers: 'Offres',
+    cancel: 'Annuler',
+    create: 'Créer',
+    update: 'Modifier',
+    delete: 'Supprimer',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
@@ -135,6 +139,13 @@ const translations: Translations = {
     delete: 'Suppression',
     save: 'Sauvegarde',
     edit: 'Modification',
+  },
+  offers: {
+    createOffer: 'Faire une offre',
+    modifyOffer: 'Modifier mon offre',
+    addons: 'Ajouts',
+    otherAddons: 'Autre ajout',
+    specify: 'Spécifiez',
   },
 };
 

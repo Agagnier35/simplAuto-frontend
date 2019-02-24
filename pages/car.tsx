@@ -2,13 +2,13 @@ import React from 'react';
 import Car from '../components/Car';
 import PrivateComponent from '../lib/Auth/PrivateComponent';
 
-class CarPage extends PrivateComponent {
+export interface CarPageProps {
+  query: string;
+}
+
+class CarPage extends PrivateComponent<CarPageProps> {
   render() {
-    return (
-      <div>
-        <Car />
-      </div>
-    );
+    return <Car {...this.props} />;
   }
 }
 
