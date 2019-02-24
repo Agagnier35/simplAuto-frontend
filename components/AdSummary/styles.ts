@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 const StyledSummaryElement = styled.a`
   text-decoration: none;
   box-sizing: border-box;
@@ -19,4 +18,3 @@ const StyledSummaryElement = styled.a`
 `;
 
 export default StyledSummaryElement;
-
