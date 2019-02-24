@@ -3,7 +3,8 @@ import { Mutation } from 'react-apollo';
 import { LOGGED_IN_QUERY } from '../../IsLoggedIn';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { multi, MultiProps } from '../../../lib/MultiLang';
+import { multi, MultiProps, Gender } from '../../../lib/MultiLang';
+import { SignupState } from '../../Signup';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -13,11 +14,31 @@ const FACEBOOK_LOGIN_MUTATION = gql`
   }
 `;
 
-class facebookLogin extends Component<MultiProps> {
-  state = {};
+class facebookLogin extends Component<MultiProps, SignupState> {
+  state: SignupState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    location: '',
+    gender: Gender.Other,
+    birthDate: {
+      day: 1,
+      month: 1,
+      year: 1900,
+    },
+  };
 
   responseFacebook = (response: any) => {
+    console.log('HI');
     console.log(response);
+    this.setState({
+      firstName: response.first_name,
+      lastName: response.last_name,
+      email: response.email,
+    });
+    console.log(this.state);
   };
 
   render() {

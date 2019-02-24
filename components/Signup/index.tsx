@@ -26,7 +26,7 @@ interface BirthDate {
   year: number;
 }
 
-interface SignupState {
+export interface SignupState {
   firstName: string;
   lastName: string;
   email: string;
