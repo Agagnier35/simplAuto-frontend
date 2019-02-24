@@ -21,7 +21,7 @@ const MyAds = ({ translations }: MultiProps) => {
             if (loading) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return data.me.ads.map((ad: Ad) => (
-              <AdSummary key={ad.id} ad={ad} />
+              <AdSummary adsQuery={ALL_MY_ADS_QUERY} key={ad.id} ad={ad} />
             ));
           }}
         </Query>

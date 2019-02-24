@@ -17,7 +17,7 @@ const Ads = () => {
   return (
     <StyledAdsSummary>
       {data.ads.map((ad: Ad) => (
-        <AdSummary key={ad.id} ad={ad} />
+        <AdSummary adsQuery={ALL_ADS_QUERY} key={ad.id} ad={ad} />
       ))}
     </StyledAdsSummary>
   );
