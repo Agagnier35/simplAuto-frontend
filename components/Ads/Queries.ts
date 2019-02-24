@@ -4,45 +4,28 @@ export const ALL_ADS_QUERY = gql`
   {
     ads {
       id
-      priceLowerBoundFeature {
-        price
+      creator {
+        id
       }
-      priceHigherBoundFeature {
-        price
+      priceLowerBound
+      priceHigherBound
+      manufacturer {
+        name
       }
-      manufacturerFeature {
-        manufacturer {
-          name
-        }
+      model {
+        name
       }
-      modelFeature {
-        model {
-          name
-        }
+      category {
+        name
       }
-      categoryFeature {
+      mileageLowerBound
+      mileageHigherBound
+      yearLowerBound
+      yearHigherBound
+      features {
+        name
         category {
           name
-        }
-      }
-      mileageLowerBoundFeature {
-        mileage
-      }
-      mileageHigherBoundFeature {
-        mileage
-      }
-      yearLowerBoundFeature {
-        year
-      }
-      yearHigherBoundFeature {
-        year
-      }
-      features {
-        feature {
-          name
-          category {
-            name
-          }
         }
       }
       isUrgent

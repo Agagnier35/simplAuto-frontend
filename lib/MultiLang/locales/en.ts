@@ -50,6 +50,10 @@ const translations: Translations = {
       month: 'Month',
       year: 'Year',
     },
+    options: {
+      delete: 'Delete',
+      modify: 'Modify',
+    },
     resetPw: 'Reset password',
     buy: 'Buy',
     sell: 'Sell',

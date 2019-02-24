@@ -48,6 +48,10 @@ export default interface Translations {
       month: string;
       year: string;
     };
+    options: {
+      delete: string;
+      modify: string;
+    }
     resetPw: string;
     buy: string;
     sell: string;
