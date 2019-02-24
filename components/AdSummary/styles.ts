@@ -13,9 +13,8 @@ const StyledSummaryElement = styled.a`
   &:hover {
     color: black;
     text-decoration: none;
-    box-shadow: 2px 2px 70px 0px rgba(0,0,0,0.10);
+    box-shadow: 2px 2px 70px 0px rgba(0, 0, 0, 0.1);
   }
 `;
 
 export default StyledSummaryElement;
-

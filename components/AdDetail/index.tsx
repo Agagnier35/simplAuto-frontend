@@ -25,7 +25,7 @@ const AdDetail = ({ translations, AdID }: AdDetailProps) => {
   return (
     <CardDeck>
       <Card>
-        <Card.Header>{translations.general.myAds}</Card.Header>
+        <Card.Header>{translations.general.Ad}</Card.Header>
         <Card.Body>
           <div>
             {' '}
