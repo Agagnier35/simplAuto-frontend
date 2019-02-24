@@ -5,10 +5,10 @@ import Translations from '../lib/MultiLang/locales/types';
 
 export interface AdDetailProps {
   translations: Translations;
-  id: string;
+  query: { id: string };
 }
 
-const FullAd = ({ translations, id }: AdDetailProps) => {
-  return <AdDetail id={id} />;
+const FullAd = ({ translations, query }: AdDetailProps) => {
+  return <AdDetail AdID={query.id} />;
 };
 export default multi(FullAd);

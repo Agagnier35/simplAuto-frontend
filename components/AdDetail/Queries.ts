@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const AD_DETAIL_QUERY = gql`
-  {
+  query AD_DETAIL_QUERY($id: ID!) {
     ad(id: $id) {
       id
       priceLowerBound

@@ -16,7 +16,7 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
   return (
     <div>
       {ad && (
-        <Link href={{ pathname: '/adDetail', query: { id: ad.id } }} passHref>
+        <Link href={{ pathname: '/adDetail', query: { id: ad.id } }}>
           <StyledSummaryElement>
             <Card>
               {ad.priceHigherBound && (
