@@ -5,6 +5,9 @@ export const ALL_MY_ADS_QUERY = gql`
       id
       ads {
         id
+        creator {
+          id
+        }
         priceLowerBound
         priceHigherBound
         manufacturer {

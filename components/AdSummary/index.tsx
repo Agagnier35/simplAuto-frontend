@@ -2,10 +2,11 @@ import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
-import { Ad, CarFeature } from '../../generated/graphql';
-import Select from '../Select';
 import { Mutation } from 'react-apollo';
+import { Ad, CarFeature } from '../../generated/graphql';
 import gql from 'graphql-tag';
+import Select from '../Select';
+import { JSXAttribute } from 'babel-types';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -30,11 +31,12 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     general,
   } = translations;
 
-  function handleChange(option: any) {
+  function handleChange(option: JSXAttribute) {
+    console.log(typeof option);
     option.action();
   }
 
-  function handlePermission() {
+  function hasPermission() {
     return ad.creator && ad.creator.id != null;
   }
 
@@ -47,9 +49,9 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
       {deleteAd => {
         return (
           <div>
-            {ad ? (
+            {
               <Card>
-                {handlePermission() && (
+                {hasPermission() && (
                   <Select
                     options={[
                       {
@@ -62,45 +64,43 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
                       },
                     ]}
                     accessor="option"
-                    handleChange={(option: any) => handleChange(option)}
+                    handleChange={(option: JSXAttribute) =>
+                      handleChange(option)
+                    }
                   />
                 )}
                 <ListGroup>
-                  {ad.priceHigherBoundFeature && (
+                  {ad.priceHigherBound && (
                     <ListGroup.Item>
-                      {Ads.higherPrice}: {ad.priceHigherBoundFeature.price}
+                      {Ads.manufacturer}: {ad.priceHigherBound}
                     </ListGroup.Item>
                   )}
-                  {ad.manufacturerFeature && (
+                  {ad.manufacturer && (
                     <ListGroup.Item>
-                      {Ads.manufacturer}:{' '}
-                      {ad.manufacturerFeature.manufacturer.name}
+                      {Ads.manufacturer}: {ad.manufacturer.name}
                     </ListGroup.Item>
                   )}
-                  {ad.modelFeature && (
+                  {ad.model && (
                     <ListGroup.Item>
-                      {Ads.model}: {ad.modelFeature.model.name}
+                      {Ads.model}: {ad.model.name}
                     </ListGroup.Item>
                   )}
-                  {ad.categoryFeature && (
+                  {ad.category && (
                     <ListGroup.Item>
                       {Ads.category}:{' '}
-                      {carCategory[ad.categoryFeature.category.name] ||
-                        ad.categoryFeature.category.name}
+                      {carCategory[ad.category.name] || ad.category.name}
                     </ListGroup.Item>
                   )}
-                  {ad.features
-                    ? ad.features.map((feature: AdCarFeature) => (
-                        <ListGroup.Item key={feature.feature.category.name}>
-                          {carFeatureCategory[feature.feature.category.name]}:{' '}
-                          {carFeature[feature.feature.name] ||
-                            feature.feature.name}
-                        </ListGroup.Item>
-                      ))
-                    : null}
+                  {ad.features &&
+                    ad.features.map((feature: CarFeature) => (
+                      <ListGroup.Item key={feature.category.name}>
+                        {carFeatureCategory[feature.category.name]}:{' '}
+                        {carFeature[feature.name] || feature.name}
+                      </ListGroup.Item>
+                    ))}
                 </ListGroup>
               </Card>
-            ) : null}
+            }
           </div>
         );
       }}
