@@ -56,6 +56,7 @@ const translations: Translations = {
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
     disconnect: 'Déconnexion',
+    delete: 'Supprimer',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
