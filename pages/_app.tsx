@@ -2,6 +2,7 @@ import React from 'react';
 import App, { Container, AppComponentContext } from 'next/app';
 import { NextComponentType, NextContext } from 'next';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
 import Page from '../components/Page';
 import withData from '../lib/withData';
@@ -24,9 +25,11 @@ interface Props {
 class MyApp extends App<Props> {
   static async getInitialProps({ Component, ctx }: AppComponentContext) {
     let pageProps: PageProps = {};
+
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+
     // Exposes the query to the user
     pageProps.query = ctx.query;
     return { pageProps };
@@ -37,11 +40,13 @@ class MyApp extends App<Props> {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <MultiLang initialLocale="fr">
-            <Page>
-              <Component {...pageProps} />
-            </Page>
-          </MultiLang>
+          <ApolloHooksProvider client={apollo}>
+            <MultiLang initialLocale="fr">
+              <Page>
+                <Component {...pageProps} />
+              </Page>
+            </MultiLang>
+          </ApolloHooksProvider>
         </ApolloProvider>
       </Container>
     );

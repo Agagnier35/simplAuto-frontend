@@ -1,12 +1,15 @@
 import React from 'react';
 import CarAdd from '../components/CarAdd';
+import PrivateComponent from '../lib/Auth/PrivateComponent';
 
-const AddCar = () => {
-  return (
-    <div>
-      <CarAdd />
-    </div>
-  );
-};
+class CarAddPage extends PrivateComponent {
+  render() {
+    return (
+      <div>
+        <CarAdd />
+      </div>
+    );
+  }
+}
 
-export default AddCar;
+export default CarAddPage;
