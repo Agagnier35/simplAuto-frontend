@@ -8,18 +8,22 @@ export const OFFER_BY_ID = gql`
       car {
         id
         manufacturer {
+          id
           name
         }
         model {
+          id
           name
         }
         category {
+          id
           name
         }
         year
         mileage
         photos
         features {
+          id
           name
           category {
             name
