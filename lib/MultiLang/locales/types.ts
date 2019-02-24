@@ -58,6 +58,7 @@ export default interface Translations {
     cancel: string;
     create: string;
     update: string;
+    print: string;
   };
   errors: {
     invalidEmail: string;

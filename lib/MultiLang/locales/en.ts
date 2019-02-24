@@ -60,6 +60,7 @@ const translations: Translations = {
     cancel: 'Cancel',
     create: 'Create',
     update: 'Update',
+    print: 'Print',
   },
   errors: {
     invalidEmail: 'Invalid email',

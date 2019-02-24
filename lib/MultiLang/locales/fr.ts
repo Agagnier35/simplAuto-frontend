@@ -60,6 +60,7 @@ const translations: Translations = {
     create: 'Créer',
     update: 'Modifier',
     delete: 'Supprimer',
+    print: 'Imprimer',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',

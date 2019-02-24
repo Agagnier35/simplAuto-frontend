@@ -33,6 +33,10 @@ const Car = ({ translations, query }: CarPageProps) => {
   if (carQuery.loading) return <Loading />;
   if (errors) return <ErrorMessage error={errors} />;
 
+  function handlePrint() {
+    window.print();
+  }
+
   function handleToggleCreateOffer(ad: Ad) {
     setSelectedAd(ad);
     setModalOpened(true);
@@ -70,6 +74,13 @@ const Car = ({ translations, query }: CarPageProps) => {
         <Card>
           <div>
             <h2>{translations.cars.details}</h2>
+            <Button
+              className="noPrint"
+              variant="outline-primary"
+              onClick={handlePrint}
+            >
+              {translations.general.print}
+            </Button>
             <CarDetails car={carQuery.data.car} />
           </div>
         </Card>
