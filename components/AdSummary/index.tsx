@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
@@ -7,6 +7,8 @@ import { Ad, CarFeature } from '../../generated/graphql';
 import gql from 'graphql-tag';
 import Select from '../Select';
 import { JSXAttribute } from 'babel-types';
+import GeneralModal from '../GeneralModal';
+import Router from 'next/router';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -31,13 +33,20 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     general,
   } = translations;
 
+  const [modalShow, setModalShow] = useState(false);
+
   function handleChange(option: JSXAttribute) {
-    console.log(typeof option);
     option.action();
   }
 
   function hasPermission() {
     return ad.creator && ad.creator.id != null;
+  }
+
+  async function handleDeleteCar(deleteCar: any) {
+    await deleteCar();
+    setModalShow(false);
+    Router.push('/myAds');
   }
 
   return (
@@ -47,6 +56,13 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
       refetchQueries={[{ query: adsQuery }]}
     >
       {deleteAd => {
+        <GeneralModal
+          modalSubject="ad"
+          actionType="delete"
+          show={modalShow}
+          onClose={setModalShow(modalShow)}
+          onConfirm={() => handleDeleteCar(deleteAd)}
+        />;
         return (
           <div>
             {
@@ -56,11 +72,11 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
                     options={[
                       {
                         option: general.options.delete,
-                        action: () => deleteAd(),
+                        action: () => setModalShow(true),
                       },
                       {
                         option: general.options.modify,
-                        action: () => console.log('modify'),
+                        action: () => console.log(modalShow),
                       },
                     ]}
                     accessor="option"
