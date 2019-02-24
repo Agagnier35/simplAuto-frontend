@@ -25,6 +25,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   return (
     <div>
       <h1>{translations.offers.title}</h1>
+      {console.log(data)}
       <p>
         {translations.offers.price}: {data.offer.price}
       </p>
