@@ -56,6 +56,9 @@ const translations: Translations = {
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
     disconnect: 'Déconnexion',
+    cancel: 'Annuler',
+    create: 'Créer',
+    update: 'Modifier',
     delete: 'Supprimer',
   },
   errors: {
@@ -134,6 +137,13 @@ const translations: Translations = {
     delete: 'Suppression',
     save: 'Sauvegarde',
     edit: 'Modification',
+  },
+  offers: {
+    createOffer: 'Faire une offre',
+    modifyOffer: 'Modifier mon offre',
+    addons: 'Ajouts',
+    otherAddons: 'Autre ajout',
+    specify: 'Spécifiez',
   },
 };
 

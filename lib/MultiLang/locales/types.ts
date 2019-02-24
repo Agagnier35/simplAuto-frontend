@@ -55,6 +55,9 @@ export default interface Translations {
     myAds: string;
     disconnect: string;
     delete: string;
+    cancel: string;
+    create: string;
+    update: string;
   };
   errors: {
     invalidEmail: string;
@@ -102,6 +105,13 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+  };
+  offers: {
+    createOffer: string;
+    modifyOffer: string;
+    addons: string;
+    otherAddons: string;
+    specify: string;
   };
   GeneralModalContent: {
     title: string;

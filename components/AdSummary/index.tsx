@@ -3,6 +3,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
 import { Ad, CarFeature } from '../../generated/graphql';
+import StyledAdSummary from '../AdSummary/styles';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -12,9 +13,9 @@ export interface AdSummaryProps {
 const AdSummary = ({ translations, ad }: AdSummaryProps) => {
   const { Ads, carCategory, carFeatureCategory, carFeature } = translations;
   return (
-    <div>
+    <Card>
       {ad ? (
-        <Card>
+        <StyledAdSummary>
           {ad.priceHigherBound && (
             <Card.Header>
               {Ads.higherPrice}: {ad.priceHigherBound}
@@ -46,9 +47,9 @@ const AdSummary = ({ translations, ad }: AdSummaryProps) => {
                 ))
               : null}
           </ListGroup>
-        </Card>
+        </StyledAdSummary>
       ) : null}
-    </div>
+    </Card>
   );
 };
 export default multi(AdSummary);
