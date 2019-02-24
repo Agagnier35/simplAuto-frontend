@@ -2,7 +2,7 @@ import React from 'react';
 import Translations from '../../lib/MultiLang/locales/types';
 import StyledCarDetails from './styles';
 import { multi } from '../../lib/MultiLang';
-import { Carousel, ListGroup, Card } from 'react-bootstrap';
+import { Carousel, Card } from 'react-bootstrap';
 import { Car } from '../../generated/graphql';
 
 export interface CarDetailsProps {
