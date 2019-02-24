@@ -4,7 +4,7 @@ import { LOGGED_IN_QUERY } from '../../IsLoggedIn';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { multi, MultiProps, Gender } from '../../../lib/MultiLang';
-import { SignupState } from '../../Signup';
+import { BirthDate } from '../../Signup';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -14,8 +14,20 @@ const FACEBOOK_LOGIN_MUTATION = gql`
   }
 `;
 
-class facebookLogin extends Component<MultiProps, SignupState> {
-  state: SignupState = {
+interface FaebookInfoState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  location: string;
+  gender: Gender;
+  birthDate: BirthDate;
+  facebookID: string;
+}
+
+class facebookLogin extends Component<MultiProps, FaebookInfoState> {
+  state: FaebookInfoState = {
     firstName: '',
     lastName: '',
     email: '',
@@ -28,6 +40,7 @@ class facebookLogin extends Component<MultiProps, SignupState> {
       month: 1,
       year: 1900,
     },
+    facebookID: '',
   };
 
   responseFacebook = (response: any) => {

@@ -20,13 +20,13 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-interface BirthDate {
+export interface BirthDate {
   day: number;
   month: number;
   year: number;
 }
 
-export interface SignupState {
+interface SignupState {
   firstName: string;
   lastName: string;
   email: string;
