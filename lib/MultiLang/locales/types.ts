@@ -1,4 +1,3 @@
-
 export default interface Translations {
   loading: String;
   login: {
@@ -56,7 +55,7 @@ export default interface Translations {
     myAds: string;
     disconnect: string;
     Ad: string;
-    offers: string; 
+    offers: string;
   };
   errors: {
     invalidEmail: string;
