@@ -40,6 +40,4 @@ class facebookLogin extends Component<MultiProps> {
   }
 }
 
-// export default multi(Login);
-
 export default multi(facebookLogin);
