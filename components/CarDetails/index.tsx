@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import Translations from '../../lib/MultiLang/locales/types';
 import StyledCarDetails from './styles';
 import { multi } from '../../lib/MultiLang';
-import { Carousel, ListGroup, Card } from 'react-bootstrap';
-import { Carousel, ListGroup, Button } from 'react-bootstrap';
-import { Car, CarFeature } from '../../generated/graphql';
+import { Carousel, Button, Card } from 'react-bootstrap';
+import { Car } from '../../generated/graphql';
 import GeneralModal from '../GeneralModal';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -55,74 +54,75 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         <Button variant="danger" onClick={() => setShowModal(true)}>
           {general.delete}
         </Button>
-    <StyledCarDetails>
-      <div className="carouselSection">
-        <Carousel>
-          {car.photos.length > 0 ? (
-            car.photos.map((photo: string, i: number) => (
-              <Carousel.Item key={i}>
-                <img src={photo} />
+      </div>
+      <StyledCarDetails>
+        <div className="carouselSection">
+          <Carousel>
+            {car.photos.length > 0 ? (
+              car.photos.map((photo: string, i: number) => (
+                <Carousel.Item key={i}>
+                  <img src={photo} />
+                </Carousel.Item>
+              ))
+            ) : (
+              <Carousel.Item>
+                {/*TODO: change placeholder*/}
+                <img
+                  className="d-block w-100"
+                  src="http://clipart-library.com/image_gallery/17559.jpg"
+                  alt="No car photos placeholder"
+                />
               </Carousel.Item>
-            ))
-          ) : (
-            <Carousel.Item>
-              {/*TODO: change placeholder*/}
-              <img
-                className="d-block w-100"
-                src="http://clipart-library.com/image_gallery/17559.jpg"
-                alt="No car photos placeholder"
-              />
-            </Carousel.Item>
-          )}
-        </Carousel>
-      </div>
+            )}
+          </Carousel>
+        </div>
 
-      <div className="card-wrapper">
-        <Card>
-          <Card.Body>
-            <Card.Title>
-              <span className="card-number">1</span>
-              {carLabel.general}
-            </Card.Title>
-            <label>
-              <p>
-                <b>{cars.manufacturer}</b>: {car.manufacturer.name}
-              </p>
-              <p>
-                <b>{cars.model}</b>: {car.model.name}
-              </p>
-              <p>
-                <b>{cars.category}</b>:{' '}
-                {carCategory[car.category.name] || car.category.name}
-              </p>
-              <p>
-                <b>{cars.year}</b>: {car.year}
-              </p>
-              <p>
-                <b>{cars.mileage}</b>: {car.mileage}
-              </p>
-            </label>
-          </Card.Body>
-        </Card>
-
-        <Card>
-          <Card.Body>
-            <Card.Title>
-              <span className="card-number">2</span>
-              {general.features}
-            </Card.Title>
-            <label>
-              {car.features.map((f: any) => (
+        <div className="card-wrapper">
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                <span className="card-number">1</span>
+                {carLabel.general}
+              </Card.Title>
+              <label>
                 <p>
-                  <b>{carFeatureCategory[f.category.name]}</b>:{' '}
-                  {carFeature[f.name] || f.name}
+                  <b>{cars.manufacturer}</b>: {car.manufacturer.name}
                 </p>
-              ))}
-            </label>
-          </Card.Body>
-        </Card>
-      </div>
-    </StyledCarDetails>
+                <p>
+                  <b>{cars.model}</b>: {car.model.name}
+                </p>
+                <p>
+                  <b>{cars.category}</b>:{' '}
+                  {carCategory[car.category.name] || car.category.name}
+                </p>
+                <p>
+                  <b>{cars.year}</b>: {car.year}
+                </p>
+                <p>
+                  <b>{cars.mileage}</b>: {car.mileage}
+                </p>
+              </label>
+            </Card.Body>
+          </Card>
+
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                <span className="card-number">2</span>
+                {general.features}
+              </Card.Title>
+              <label>
+                {car.features.map((f: any) => (
+                  <p>
+                    <b>{carFeatureCategory[f.category.name]}</b>:{' '}
+                    {carFeature[f.name] || f.name}
+                  </p>
+                ))}
+              </label>
+            </Card.Body>
+          </Card>
+        </div>
+      </StyledCarDetails>
     </>
   );
 };

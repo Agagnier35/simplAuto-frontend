@@ -84,12 +84,54 @@ export interface AdCreateInput {
   features?: Maybe<string[]>;
 }
 
+export interface AdUpdateInput {
+  id: string;
+
+  priceLowerBound?: Maybe<number>;
+
+  priceHigherBound?: Maybe<number>;
+
+  manufacturerID?: Maybe<string>;
+
+  modelID?: Maybe<string>;
+
+  categoryID?: Maybe<string>;
+
+  mileageLowerBound?: Maybe<number>;
+
+  mileageHigherBound?: Maybe<number>;
+
+  yearLowerBound?: Maybe<number>;
+
+  yearHigherBound?: Maybe<number>;
+
+  features?: Maybe<string[]>;
+}
+
 export interface OfferCreateInput {
   adID: string;
 
   carID: string;
 
   price: number;
+
+  addons?: Maybe<OfferAddonInput[]>;
+}
+
+export interface OfferAddonInput {
+  id?: Maybe<string>;
+
+  name?: Maybe<string>;
+
+  rankValue?: Maybe<number>;
+}
+
+export interface OfferUpdateInput {
+  id: string;
+
+  price?: Maybe<number>;
+
+  addons?: Maybe<OfferAddonInput[]>;
 }
 
 export interface SendMessageInput {
@@ -167,6 +209,10 @@ export interface Query {
   carFeatureCategories?: Maybe<(Maybe<CarFeatureCategory>)[]>;
 
   manufacturers?: Maybe<(Maybe<Manufacturer>)[]>;
+
+  offer?: Maybe<Offer>;
+
+  offerAddons?: Maybe<OfferAddon[]>;
 }
 
 export interface Post {
@@ -231,6 +277,8 @@ export interface Offer {
   status: OfferStatus;
 
   finalRank?: Maybe<number>;
+
+  addons?: Maybe<OfferAddon[]>;
 
   conversation?: Maybe<Conversation>;
 }
@@ -327,6 +375,16 @@ export interface Car {
   features: CarFeature[];
 
   status: CarStatus;
+
+  offers?: Maybe<Offer[]>;
+}
+
+export interface OfferAddon {
+  id: string;
+
+  name: string;
+
+  rankValue: number;
 }
 
 export interface Conversation {
@@ -370,6 +428,8 @@ export interface Mutation {
 
   createAd?: Maybe<Ad>;
 
+  updateAd?: Maybe<Ad>;
+
   deleteAd?: Maybe<Ad>;
 
   publish: Post;
@@ -381,6 +441,8 @@ export interface Mutation {
   resetPassword: User;
 
   createOffer?: Maybe<Offer>;
+
+  updateOffer?: Maybe<Offer>;
 
   deleteOffer?: Maybe<Offer>;
 
@@ -412,6 +474,9 @@ export interface CarQueryArgs {
 export interface CarFeatureCategoryQueryArgs {
   name: string;
 }
+export interface OfferQueryArgs {
+  id: string;
+}
 export interface SignupMutationArgs {
   data: UserSignupInput;
 }
@@ -437,6 +502,9 @@ export interface DeleteCarMutationArgs {
 export interface CreateAdMutationArgs {
   data: AdCreateInput;
 }
+export interface UpdateAdMutationArgs {
+  data: AdUpdateInput;
+}
 export interface DeleteAdMutationArgs {
   id: string;
 }
@@ -456,6 +524,9 @@ export interface ResetPasswordMutationArgs {
 }
 export interface CreateOfferMutationArgs {
   data: OfferCreateInput;
+}
+export interface UpdateOfferMutationArgs {
+  data: OfferUpdateInput;
 }
 export interface DeleteOfferMutationArgs {
   id: string;

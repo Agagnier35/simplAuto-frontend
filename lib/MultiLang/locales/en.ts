@@ -74,12 +74,6 @@ const translations: Translations = {
     authError: 'Authentification problem',
     carLimitReached: 'You have reached the limit of cars you can create',
   },
-  offers: {
-    title: 'Offer',
-    price: 'Price',
-    chat: 'Contact seller',
-    reject: 'Reject offer',
-  },
   cars: {
     addCar: 'Add a car',
     details: 'Car details',
@@ -142,6 +136,10 @@ const translations: Translations = {
     addons: 'Addons',
     otherAddons: 'Other addon',
     specify: 'Specify',
+    title: 'Offer',
+    price: 'Price',
+    chat: 'Contact seller',
+    reject: 'Reject offer',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

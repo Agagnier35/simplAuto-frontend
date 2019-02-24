@@ -74,12 +74,6 @@ const translations: Translations = {
     authError: `Problème d'authentification`,
     carLimitReached: 'Vous avez atteint la limite 2 véhicules permis',
   },
-  offers: {
-    title: 'Offre',
-    price: 'Prix',
-    chat: 'Contacter le vendeur',
-    reject: "rejetter l'offre",
-  },
   cars: {
     addCar: 'Ajouter un automobile',
     details: "Détails de l'automobile",
@@ -157,6 +151,10 @@ const translations: Translations = {
     addons: 'Ajouts',
     otherAddons: 'Autre ajout',
     specify: 'Spécifiez',
+    title: 'Offre',
+    price: 'Prix',
+    chat: 'Contacter le vendeur',
+    reject: "rejetter l'offre",
   },
 };
 
