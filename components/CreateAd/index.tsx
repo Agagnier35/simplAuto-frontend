@@ -125,7 +125,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
               {(createAd, mutation) => {
                 if (mutation.data && mutation.data.createAd) {
                   const adID = mutation.data.createAd.id;
-                  Router.push(`/ad?id=${adID}`);
+                  Router.push(`/adDetail?id=${adID}`);
                 }
                 return (
                   <StyledForm onSubmit={e => this.handleCreateAd(e, createAd)}>
