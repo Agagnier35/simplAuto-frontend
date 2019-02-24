@@ -44,14 +44,15 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
   };
 
   responseFacebook = (response: any) => {
-    console.log('HI');
-    console.log(response);
-    this.setState({
-      firstName: response.first_name,
-      lastName: response.last_name,
-      email: response.email,
-    });
-    console.log(this.state);
+    if (response.first_name && response.last_name && response.email) {
+      this.setState({
+        firstName: response.first_name,
+        lastName: response.last_name,
+        email: response.email,
+      });
+      // appel à la mutation ici, toutefois je ne peux pas la passer en argument à cause
+      // de la syntaxe du callback
+    }
   };
 
   render() {
@@ -61,7 +62,7 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
         variables={this.state}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
       >
-        {() => (
+        {handleMutation => (
           <FacebookLogin
             appId="1017021355164596"
             autoLoad={true}
