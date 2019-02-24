@@ -160,4 +160,13 @@ export const globalStyles = `
     border: none;
     box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
   }
+  @media print {
+    #topbar {
+      display: none;
+    }
+
+    #print {
+      display: none;
+    }
+  }
 `;

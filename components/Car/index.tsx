@@ -6,6 +6,7 @@ import CarDetails from '../../components/CarDetails';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID } from './Queries';
+import { Button } from 'react-bootstrap';
 
 export interface CarPageProps {
   translations: Translations;
@@ -19,6 +20,10 @@ const Car = ({ translations, query }: CarPageProps) => {
     variables: { id: query.id },
   });
 
+  function handlePrint() {
+    window.print();
+  }
+
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
@@ -26,6 +31,9 @@ const Car = ({ translations, query }: CarPageProps) => {
     <div>
       <h2>{translations.cars.details}</h2>
       <CarDetails car={data.car} />
+      <Button id="print" variant="light" onClick={() => handlePrint()}>
+        {translations.general.print}
+      </Button>
     </div>
   );
 };

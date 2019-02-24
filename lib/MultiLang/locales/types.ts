@@ -54,6 +54,7 @@ export default interface Translations {
     myCars: string;
     myAds: string;
     disconnect: string;
+    print: string;
   };
   errors: {
     invalidEmail: string;
