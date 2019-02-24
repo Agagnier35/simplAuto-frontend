@@ -9,7 +9,6 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { AD_DETAIL_QUERY } from './Queries';
 import Router from 'next/router';
 import GeneralModal, { ModalConcern, ModalAction } from '../GeneralModal';
-import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export interface AdDetailProps {
@@ -61,11 +60,11 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <Card>
             <Card.Header>{translations.general.myAds}</Card.Header>
             <Card.Body>
-                {hasPermission(data.ad.creator) && (
-                    <Button variant="danger" onClick={() => setModalShow(true)}>
-                        {GeneralModalContent.delete}
-                    </Button>
-                )}
+              {hasPermission(data.ad.creator) && (
+                <Button variant="danger" onClick={() => setModalShow(true)}>
+                  {GeneralModalContent.delete}
+                </Button>
+              )}
               <div>
                 {translations.Ads.manufacturer}:{' '}
                 {data.ad.manufacturer ? data.ad.manufacturer.name : '-'}

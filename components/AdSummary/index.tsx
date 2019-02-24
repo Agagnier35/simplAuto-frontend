@@ -3,7 +3,6 @@ import { Card, ListGroup } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
 import Link from 'next/link';
-import StyledSummaryElement from './styles';
 import { Ad, CarFeature } from '../../generated/graphql';
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -69,9 +68,9 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
         onClose={() => setModalShow(false)}
         onConfirm={() => handleDeleteAd(deleteAd)}
       />
-      {ad ? (
+      {ad && (
         <Card>
-          {hasPermission() ? (
+          {hasPermission() && (
             <Select
               options={[
                 {
@@ -86,7 +85,7 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
               accessor="option"
               handleChange={(option: AdSummaryOption) => handleChange(option)}
             />
-          ) : null}
+          )}
           <Link href={{ pathname: '/adDetail', query: { id: ad.id } }}>
             <StyledAdSummary>
               {ad.priceHigherBound && (
@@ -122,7 +121,7 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
             </StyledAdSummary>
           </Link>
         </Card>
-      ) : null}
+      )}
     </>
   );
 };
