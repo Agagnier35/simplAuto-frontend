@@ -43,8 +43,8 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     return ad.creator && ad.creator.id != null;
   }
 
-  async function handleDeleteCar(deleteCar: any) {
-    await deleteCar();
+  async function handleDeleteAd(deleteAd: any) {
+    await deleteAd();
     setModalShow(false);
     Router.push('/myAds');
   }
@@ -62,7 +62,7 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
             actionType={ModalAction.delete}
             show={modalShow}
             onClose={() => setModalShow(false)}
-            onConfirm={() => handleDeleteCar(deleteAd)}
+            onConfirm={() => handleDeleteAd(deleteAd)}
           />
           <div>
             {
