@@ -5,6 +5,7 @@ import { multi } from '../../lib/MultiLang';
 import Link from 'next/link';
 import StyledSummaryElement from './styles';
 import { Ad, CarFeature } from '../../generated/graphql';
+import StyledAdSummary from '../AdSummary/styles';
 
 export interface AdSummaryProps {
   translations: Translations;
