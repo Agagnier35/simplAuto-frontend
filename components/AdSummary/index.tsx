@@ -55,15 +55,15 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
       variables={{ id: ad.id }}
       refetchQueries={[{ query: adsQuery }]}
     >
-      {deleteAd => {
-        <GeneralModal
-          modalSubject="ad"
-          actionType="delete"
-          show={modalShow}
-          onClose={setModalShow(modalShow)}
-          onConfirm={() => handleDeleteCar(deleteAd)}
-        />;
-        return (
+      {deleteAd => (
+        <>
+          <GeneralModal
+            modalSubject="ad"
+            actionType="delete"
+            show={modalShow}
+            onClose={() => setModalShow(false)}
+            onConfirm={() => handleDeleteCar(deleteAd)}
+          />
           <div>
             {
               <Card>
@@ -118,9 +118,10 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
               </Card>
             }
           </div>
-        );
-      }}
+        </>
+      )}
     </Mutation>
   );
 };
+
 export default multi(AdSummary);
