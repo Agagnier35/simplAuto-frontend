@@ -9,6 +9,6 @@ export interface AdDetailProps {
 }
 
 const FullAd = ({ translations, query }: AdDetailProps) => {
-  return <AdDetail AdID={query.id} />;
+  return <AdDetail adID={query.id} />;
 };
 export default multi(FullAd);
