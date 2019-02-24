@@ -2,36 +2,44 @@ import React from 'react';
 import { Card, ListGroup, CardDeck } from 'react-bootstrap';
 import Translations from '../../lib/MultiLang/locales/types';
 import { multi } from '../../lib/MultiLang';
-import { Ad, AdCarFeature, Offer } from '../../generated/graphql';
-import Link from 'next/link';
+import { Query } from 'react-apollo';
+import { Ad, CarFeature, Offer } from '../../generated/graphql';
+import ErrorMessage from '../ErrorMessage';
+import Loading from '../Loading';
+import {AD_DETAIL_QUERY} from './Queries'
 
 export interface AdDetailProps {
   translations: Translations;
   ad: Ad;
+  id: string;
 }
 
-const AdDetail = ({ translations, ad }: AdDetailProps) => {
-  const { Ads, carCategory, carFeatureCategory, carFeature } = translations;
+const AdDetail = ({ translations, ad, id }: AdDetailProps) => {
+  const {carFeatureCategory, carFeature } = translations;
   return (
-    <CardDeck>  
+    <Query query={AD_DETAIL_QUERY} variables={{ id }}>
+      {({ data, loading, error }) => {
+          if (loading) return <Loading />;
+          if (error) return <ErrorMessage error={error} />;
+      <CardDeck>  
       <Card>
         <Card.Header>{translations.general.myAds}</Card.Header>  
         <Card.Body> 
-          <div> {translations.Ads.manufacturer}: {ad.manufacturerFeature ? (ad.manufacturerFeature.manufacturer.name) : '-'}</div>
-          <div> {translations.Ads.model}: {ad.modelFeature ? (ad.modelFeature.model.name) : '-'}</div>
-          <div> {translations.Ads.category}: {ad.categoryFeature ? (ad.categoryFeature.category.name) : '-'}</div>
-          <div> {translations.Ads.higherPrice}: {ad.priceHigherBoundFeature ? (ad.priceHigherBoundFeature.price) : '-'}</div>
-          <div> {translations.Ads.lowerPrice}: {ad.priceLowerBoundFeature ? (ad.priceLowerBoundFeature.price) : '-'}</div>
-          <div> {translations.Ads.higherMileage}: {ad.mileageHigherBoundFeature ? (ad.mileageHigherBoundFeature.mileage) : '-'}</div>
-          <div> {translations.Ads.lowerMileage}: {ad.mileageLowerBoundFeature ? (ad.mileageLowerBoundFeature.mileage) : '-'}</div>
-          <div> {translations.Ads.higherYear}: {ad.yearHigherBoundFeature ? (ad.yearHigherBoundFeature.year) : '-'}</div>
-          <div> {translations.Ads.lowerYear}: {ad.yearLowerBoundFeature? (ad.yearLowerBoundFeature.year) : '-'}</div>
+          <div> {translations.Ads.manufacturer}: {ad.manufacturer ? (ad.manufacturer.name) : '-'}</div>
+          <div> {translations.Ads.model}: {ad.model ? (ad.model.name) : '-'}</div>
+          <div> {translations.Ads.category}: {ad.category ? (ad.category.name) : '-'}</div>
+          <div> {translations.Ads.higherPrice}: {ad.priceHigherBound ? (ad.priceHigherBound) : '-'}</div>
+          <div> {translations.Ads.lowerPrice}: {ad.priceLowerBound ? (ad.priceLowerBound) : '-'}</div>
+          <div> {translations.Ads.higherMileage}: {ad.mileageHigherBound ? (ad.mileageHigherBound) : '-'}</div>
+          <div> {translations.Ads.lowerMileage}: {ad.mileageLowerBound ? (ad.mileageLowerBound) : '-'}</div>
+          <div> {translations.Ads.higherYear}: {ad.yearHigherBound ? (ad.yearHigherBound) : '-'}</div>
+          <div> {translations.Ads.lowerYear}: {ad.yearLowerBound? (ad.yearLowerBound) : '-'}</div>
           <ListGroup> {translations.Ads.features} :
             {ad.features
-                    ? ad.features.map((feature: AdCarFeature) => (
-                        <ListGroup.Item key={feature.feature.category.name}>
-                          {carFeatureCategory[feature.feature.category.name]} : {' '}
-                          {carFeature[feature.feature.name] || feature.feature.name}
+                    ? ad.features.map((feature: CarFeature) => (
+                        <ListGroup.Item key={feature.category.name}>
+                          {carFeatureCategory[feature.category.name]} : {' '}
+                          {carFeature[feature.name] || feature.name}
                         </ListGroup.Item>
                       ))
                     : null}
@@ -41,8 +49,8 @@ const AdDetail = ({ translations, ad }: AdDetailProps) => {
       <Card> 
         <Card.Header> {translations.general.offers}</Card.Header>
         <ListGroup> 
-          {ad.offers
-            ? ad.offers.map((offer: Offer ) => (
+          {ad.offers &&
+             (ad.offers.map((offer: Offer ) => (
               <ListGroup.Item key={offer.id}>
                   <Card>
                     {offer.car.photos.length > 0 ? (
@@ -55,11 +63,12 @@ const AdDetail = ({ translations, ad }: AdDetailProps) => {
                    
                   </Card>
               </ListGroup.Item>
-              ))
-              : null}
+              )))}
         </ListGroup> 
         </Card>
-    </CardDeck>
+      </CardDeck>
+      }}
+     </Query>
   );
 };
 export default multi(AdDetail);

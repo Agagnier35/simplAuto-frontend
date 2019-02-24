@@ -1,4 +1,3 @@
-import { StringLiteral } from "babel-types";
 
 export default interface Translations {
   loading: String;
