@@ -7,7 +7,7 @@ import { Ad, CarFeature } from '../../generated/graphql';
 import gql from 'graphql-tag';
 import Select from '../Select';
 import { JSXAttribute } from 'babel-types';
-import GeneralModal from '../GeneralModal';
+import GeneralModal, { ModalConcern, ModalAction } from '../GeneralModal';
 import Router from 'next/router';
 
 export interface AdSummaryProps {
@@ -58,8 +58,8 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
       {deleteAd => (
         <>
           <GeneralModal
-            modalSubject="ad"
-            actionType="delete"
+            modalSubject={ModalConcern.ad}
+            actionType={ModalAction.delete}
             show={modalShow}
             onClose={() => setModalShow(false)}
             onConfirm={() => handleDeleteCar(deleteAd)}
