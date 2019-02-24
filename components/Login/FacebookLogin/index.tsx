@@ -3,13 +3,7 @@ import { Mutation } from 'react-apollo';
 import { LOGGED_IN_QUERY } from '../../IsLoggedIn';
 import React, { FormEvent, Component } from 'react';
 import gql from 'graphql-tag';
-import StyledLogin from './styles';
-import { multi, MultiProps } from '../../lib/MultiLang';
-import { MdLockOutline } from 'react-icons/md';
-import ErrorMessage from '../ErrorMessage/index';
-import BrandHeader from './BrandHeader';
-import Link from 'next/link';
-import Router from 'next/router';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -55,18 +49,8 @@ const loginOrSignup = (response: any) => {
 //   );
 // };
 
-class FacebookLogin extends Component<MultiProps> {
+class facebookLogin extends Component<MultiProps> {
   state = {};
-
-  // handleFacebookLogin = async (
-  //   response: any,
-  //   e: FormEvent<HTMLFormElement>,
-  //   login: () => void,
-  // ) => {
-  //   e.preventDefault();
-  //   await login();
-  //   Router.push('/');
-  // };
 
   componentClicked = async (facebookLogin: () => void) => {
     console.log('Hello');
@@ -89,7 +73,6 @@ class FacebookLogin extends Component<MultiProps> {
             appId="1017021355164596"
             autoLoad={true}
             fields="first_name,name,last_name,email,gender,birthday,picture"
-            onClick={this.componentClicked}
             callback={this.responseFacebook}
           />
         )}
@@ -100,4 +83,4 @@ class FacebookLogin extends Component<MultiProps> {
 
 // export default multi(Login);
 
-export default multi(FacebookLogin);
+export default multi(facebookLogin);
