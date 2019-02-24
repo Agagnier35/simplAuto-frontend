@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { ApolloClient } from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
 
 export default (apolloClient: ApolloClient<any>) =>
   apolloClient

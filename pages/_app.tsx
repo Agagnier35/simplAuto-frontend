@@ -6,7 +6,7 @@ import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
 import Page from '../components/Page';
 import withData from '../lib/withData';
-import { ApolloClient } from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
 import MultiLang from '../lib/MultiLang';
 
 import 'bootstrap/dist/css/bootstrap.css';
