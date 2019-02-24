@@ -31,7 +31,7 @@ const Car = ({ translations, query }: CarPageProps) => {
     <div>
       <h2>{translations.cars.details}</h2>
       <CarDetails car={data.car} />
-      <Button className="noPrint" variant="light" onClick={() => handlePrint()}>
+      <Button className="noPrint" variant="light" onClick={handlePrint}>
         {translations.general.print}
       </Button>
     </div>
