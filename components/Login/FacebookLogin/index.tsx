@@ -7,8 +7,8 @@ import { multi, MultiProps, Gender } from '../../../lib/MultiLang';
 import { BirthDate } from '../../Signup';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
-  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation FACEBOOK_LOGIN_MUTATION($data: UserSignupInput!) {
+    facebookLogin(data: $data) {
       id
     }
   }
