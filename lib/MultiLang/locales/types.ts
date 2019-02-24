@@ -51,7 +51,7 @@ export default interface Translations {
     options: {
       delete: string;
       modify: string;
-    }
+    };
     resetPw: string;
     buy: string;
     sell: string;
