@@ -37,6 +37,7 @@
     "apollo-link-error": "^1.1.7",
     "apollo-link-http": "^1.5.11",
     "apollo-link-state": "^0.4.2",
+    "apollo-link-ws": "^1.0.14",
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-styled-components": "^1.7.1",
     "bootstrap": "^4.2.1",
@@ -65,8 +66,10 @@
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.5.0",
     "styled-components": "^3.4.9",
+    "subscriptions-transport-ws": "^0.9.15",
     "tslint-react": "^3.6.0",
-    "waait": "^1.0.2"
+    "waait": "^1.0.2",
+    "ws": "^6.1.4"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.1.4",
