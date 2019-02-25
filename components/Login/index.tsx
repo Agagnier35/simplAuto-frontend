@@ -10,6 +10,8 @@ import BrandHeader from './BrandHeader';
 import Link from 'next/link';
 import Router from 'next/router';
 import { LOGGED_IN_QUERY } from '../Header';
+import LoginFacebook from './FacebookLogin';
+import GoogleLogin from './GoogleLogin';
 
 interface LoginState {
   email: string;
@@ -113,6 +115,9 @@ class Login extends Component<MultiProps, LoginState> {
                     <Button variant="primary" type="submit" block>
                       {login.title}
                     </Button>
+
+                    <LoginFacebook />
+                    <GoogleLogin />
 
                     <Link href="/signup">
                       <a>

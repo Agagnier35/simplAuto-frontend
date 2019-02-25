@@ -2,6 +2,8 @@ export default interface Translations {
   loading: String;
   login: {
     title: string;
+    loginWithFacebook: string;
+    loginWithGoogle: string;
   };
   signup: {
     title: string;

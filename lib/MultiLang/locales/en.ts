@@ -4,6 +4,8 @@ const translations: Translations = {
   loading: 'Loading ...',
   login: {
     title: 'Login',
+    loginWithFacebook: 'Login with Facebook',
+    loginWithGoogle: 'Login with Google',
   },
   signup: {
     title: 'Create an account',
