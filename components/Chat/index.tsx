@@ -3,9 +3,10 @@ import { Offer, Message } from '../../generated/graphql';
 import * as Chat from './styles';
 import { InputGroup, Form } from 'react-bootstrap';
 import { FaImage } from 'react-icons/fa';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation, useSubscription } from 'react-apollo-hooks';
 import { SEND_MESSAGE_MUTATION } from './Mutations';
 import { OFFER_BY_ID } from '../Offer/Queries';
+import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
 
 interface ChatSectionProps {
   offer: Offer;
@@ -22,6 +23,22 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
     },
     update: handleUpdateMessageCache,
   });
+
+  const { data, loading, error } = useSubscription(MESSAGE_SUBSCRIPTION, {
+    variables: {
+      conversationID: offer.conversation && offer.conversation.id,
+    },
+    onSubscriptionData: ({ client, subscriptionData }) => {
+      console.log(client);
+      console.log(subscriptionData);
+      // Optional callback which provides you access to the new subscription
+      // data and the Apollo client. You can use methods of the client to update
+      // the Apollo cache:
+      // https://www.apollographql.com/docs/react/advanced/caching.html#direct
+    },
+  });
+
+  console.log(data, loading, error);
 
   function handleChange(e: FormEvent<any>) {
     setCurrentMessage(e.currentTarget.value);
