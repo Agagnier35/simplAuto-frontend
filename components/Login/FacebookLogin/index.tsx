@@ -42,7 +42,6 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
   };
 
   responseFacebook = (response: any, facebookLogin: () => void) => {
-    console.log(response);
     if (response.first_name && response.last_name && response.email) {
       this.setState({
         firstName: response.first_name,
