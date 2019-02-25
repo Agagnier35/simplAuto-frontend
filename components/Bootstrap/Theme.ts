@@ -8,6 +8,7 @@ export const theme = {
     secondaryDarker: '#aeb2b7',
     secondaryHighlight: '#fd397a',
     secondaryHighlightDarker: '#fd1361',
+    third: '#5867dd',
     dark: '#353540',
   },
 };
@@ -159,5 +160,10 @@ export const globalStyles = `
   .card {
     border: none;
     box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+  }
+  @media print {
+    .noPrint {
+      display: none;
+    }
   }
 `;

@@ -1,18 +1,97 @@
 import withApollo, { InitApolloOptions } from 'next-with-apollo';
-import ApolloClient from 'apollo-boost';
-import { endpoint, prodEndpoint } from '../config';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { ApolloLink, Observable, split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+import { endpoint, prodEndpoint, wsEndpoint, wsProdEndpoint } from '../config';
 
-function createClient({ headers }: InitApolloOptions<{}>) {
-  return new ApolloClient({
+export function createClient({ headers }: InitApolloOptions<{}>) {
+  const cache = new InMemoryCache({});
+
+  const request = async (operation: any) => {
+    await operation.setContext({
+      headers,
+      fetchOptions: {
+        credentials: 'include',
+      },
+    });
+  };
+
+  const requestLink = new ApolloLink(
+    (operation, forward) =>
+      new Observable(observer => {
+        let handle: any;
+        Promise.resolve(operation)
+          .then(oper => request(oper))
+          .then(() => {
+            if (forward) {
+              handle = forward(operation).subscribe({
+                next: observer.next.bind(observer),
+                error: observer.error.bind(observer),
+                complete: observer.complete.bind(observer),
+              });
+            }
+          })
+          .catch(observer.error.bind(observer));
+
+        return () => {
+          if (handle) handle.unsubscribe();
+        };
+      }),
+  );
+
+  const httpLink = new HttpLink({
+    headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
-    request: async operation => {
-      await operation.setContext({
-        headers,
-        fetchOptions: {
-          credentials: 'include',
+    credentials: 'include',
+  });
+
+  const wsLink = process.browser
+    ? new WebSocketLink({
+        uri:
+          process.env.NODE_ENV === 'development' ? wsEndpoint : wsProdEndpoint,
+        options: {
+          reconnect: true,
+          connectionParams: {
+            ...headers,
+            credentials: 'include',
+          },
         },
-      });
-    },
+      })
+    : null;
+
+  const link = wsLink
+    ? split(
+        // split based on operation type
+        // query + mutation over HTTP
+        // subscriptions over websocket transport
+        ({ query }) => {
+          const { kind, operation } = getMainDefinition(query);
+          return kind === 'OperationDefinition' && operation === 'subscription';
+        },
+        wsLink,
+        httpLink,
+      )
+    : httpLink;
+
+  return new ApolloClient({
+    cache,
+    link: ApolloLink.from([
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+          console.log('TODO: Handle graphQLErrors');
+        }
+        if (networkError) {
+          console.log('TODO: Handle networkError');
+        }
+      }),
+      requestLink,
+
+      link,
+    ]),
   });
 }
 

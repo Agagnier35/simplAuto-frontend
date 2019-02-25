@@ -8,31 +8,15 @@ import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../ErrorMessage';
 import Loading from '../Loading';
 import {
+  User,
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
 } from '../../generated/graphql';
 import { Dictionary } from '../../lib/Dictionary';
+import { GET_USER_INFO_QUERY } from './Queries';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
-
-const GET_USER_INFO_QUERY = gql`
-  query {
-    me {
-      id
-      firstName
-      lastName
-      email
-      location
-      birthDate {
-        day
-        month
-        year
-      }
-      gender
-    }
-  }
-`;
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATEUSER_MUTATION($data: UserUpdateInput!) {
@@ -53,7 +37,7 @@ interface ProfileState {
   confirmation: string;
 }
 
-class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
+class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   state: Dictionary<ProfileState> = {
     email: '',
     firstName: '',
@@ -327,4 +311,4 @@ class ProfilePage extends Component<MultiProps, Dictionary<ProfileState>> {
   }
 }
 
-export default multi(ProfilePage);
+export default multi(Profile);
