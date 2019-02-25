@@ -1,6 +1,6 @@
 import React from 'react';
 import { multi } from '../lib/MultiLang';
-import AdDetail from '../components/AdDetail';
+import AdDetail from '../components/Ad/AdDetail';
 import Translations from '../lib/MultiLang/locales/types';
 
 export interface AdDetailProps {

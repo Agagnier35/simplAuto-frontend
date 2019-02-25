@@ -24,6 +24,7 @@
   "dependencies": {
     "@storybook/addon-jest": "^4.1.11",
     "@types/google-maps-react": "^2.0.1",
+    "@types/next": "^8.0.1",
     "@types/nprogress": "0.0.29",
     "@types/react": "^16.7.21",
     "@types/react-facebook-login": "^4.1.0",

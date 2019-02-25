@@ -4,10 +4,15 @@ import Document, {
   Main,
   NextScript,
   NextDocumentContext,
+  DocumentProps,
 } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-export default class MyDocument extends Document {
+interface MyDocumentProps extends DocumentProps {
+  styleTags: string;
+}
+
+export default class MyDocument extends Document<MyDocumentProps> {
   static getInitialProps({ renderPage }: NextDocumentContext) {
     const sheet = new ServerStyleSheet();
     const page = renderPage(App => props =>
