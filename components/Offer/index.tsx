@@ -3,10 +3,12 @@ import { multi } from '../../lib/MultiLang';
 import Translations from '../../lib/MultiLang/locales/types';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { OFFER_BY_ID } from './Queries';
 import CarDetails from '../CarDetails';
+import Chat from '../Chat';
+import { CREATE_CONVERSATION_MUTATION } from './Mutations';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -16,6 +18,12 @@ export interface OfferPageProps {
 const MyOffer = ({ translations, query }: OfferPageProps) => {
   const { data, error, loading } = useQuery(OFFER_BY_ID, {
     variables: { id: query.id },
+  });
+
+  const handleCreateConversation = useMutation(CREATE_CONVERSATION_MUTATION, {
+    variables: {
+      offerID: data.offer && data.offer.id,
+    },
   });
 
   if (loading) return <Loading />;
@@ -34,9 +42,12 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       ))}
       <CarDetails car={data.offer.car} />
       <ButtonToolbar>
-        <Button variant="primary">{translations.offers.chat}</Button>
+        <Button onClick={() => handleCreateConversation()} variant="primary">
+          {translations.offers.chat}
+        </Button>
         <Button variant="primary">{translations.offers.reject}</Button>
       </ButtonToolbar>
+      {data.offer.conversation && <Chat offer={data.offer} />}
     </div>
   );
 };
