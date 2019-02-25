@@ -56,26 +56,24 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         </Button>
       </div>
       <StyledCarDetails>
-        <div className="carouselSection">
-          <Carousel>
-            {car.photos.length > 0 ? (
-              car.photos.map((photo: string, i: number) => (
-                <Carousel.Item key={i}>
-                  <img src={photo} />
-                </Carousel.Item>
-              ))
-            ) : (
-              <Carousel.Item>
-                {/*TODO: change placeholder*/}
-                <img
-                  className="d-block w-100"
-                  src="http://clipart-library.com/image_gallery/17559.jpg"
-                  alt="No car photos placeholder"
-                />
+        <Carousel className="carouselSection">
+          {car.photos.length > 0 ? (
+            car.photos.map((photo: string, i: number) => (
+              <Carousel.Item key={i}>
+                <img src={photo} />
               </Carousel.Item>
-            )}
-          </Carousel>
-        </div>
+            ))
+          ) : (
+            <Carousel.Item>
+              {/*TODO: change placeholder*/}
+              <img
+                className="d-block w-100"
+                src="http://clipart-library.com/image_gallery/17559.jpg"
+                alt="No car photos placeholder"
+              />
+            </Carousel.Item>
+          )}
+        </Carousel>
 
         <div className="card-wrapper">
           <Card>

@@ -120,7 +120,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               {data.ad.offers &&
                 data.ad.offers.map((offer: Offer) => (
                   <ListGroup.Item key={offer.id}>
-                    {console.log(offer.id)}
                     <Link
                       href={{ pathname: '/offer', query: { id: offer.id } }}
                     >
