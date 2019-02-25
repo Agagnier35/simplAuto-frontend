@@ -1,4 +1,5 @@
 import React from 'react';
+import { multi } from '../lib/MultiLang';
 import UpdateAd from '../components/UpdateAd';
 import IsLoggedIn from '../components/IsLoggedIn';
 import Translations from '../lib/MultiLang/locales/types';
@@ -18,4 +19,4 @@ const UpdateAdPage = ({ query }: AdProps) => {
   );
 };
 
-export default UpdateAdPage;
+export default multi(UpdateAdPage);
