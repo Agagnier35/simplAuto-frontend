@@ -2,11 +2,6 @@ import React, { FormEvent, Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
-import { MdLockOutline } from 'react-icons/md';
-import ErrorMessage from '../ErrorMessage/index';
-// import { Card, Form, InputGroup, Button } from 'react-bootstrap';
-// import Link from 'next/link';
-import Router from 'next/router';
 import { AdCreateInput } from '../../generated/graphql';
 import IsLoggedIn from '../IsLoggedIn';
 
@@ -18,13 +13,13 @@ const UPDATE_AD_MUTATION = gql`
   }
 `;
 
-// 1. Vérifier que le ad est bel et bien celle de la personne qui cherche à y accéder
-// 2. ...
+// 1. Get la ad à partir du ID du query string
+// 2. Handle les changements de la ad
+// 3. Lorsque la personne submit, call la mutation
 
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
 
-// REMPLACER PAR AdUpdateInput
 class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
   state: AdCreateInput = {
     features: null,
