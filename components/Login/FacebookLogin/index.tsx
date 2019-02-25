@@ -1,10 +1,10 @@
 import FacebookLogin from 'react-facebook-login';
 import { Mutation } from 'react-apollo';
-import { LOGGED_IN_QUERY } from '../../IsLoggedIn';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { multi, MultiProps, Gender } from '../../../lib/MultiLang';
-import { BirthDate } from '../../Signup';
+import { multi, MultiProps } from '../../../lib/MultiLang';
+import { Gender, Date as BirthDate } from '../../../generated/graphql';
+import { LOGGED_IN_QUERY } from '../../Header';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation FACEBOOK_LOGIN_MUTATION($data: UserSignupInput!) {
@@ -14,7 +14,7 @@ const FACEBOOK_LOGIN_MUTATION = gql`
   }
 `;
 
-interface FaebookInfoState {
+interface LoginFacebookState {
   firstName: string;
   lastName: string;
   email: string;
@@ -25,8 +25,8 @@ interface FaebookInfoState {
   facebookID: string;
 }
 
-class facebookLogin extends Component<MultiProps, FaebookInfoState> {
-  state: FaebookInfoState = {
+class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
+  state: LoginFacebookState = {
     firstName: '',
     lastName: '',
     email: '',
@@ -80,4 +80,4 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
   }
 }
 
-export default multi(facebookLogin);
+export default multi(LoginFacebook);

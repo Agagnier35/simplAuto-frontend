@@ -1,32 +1,10 @@
 import GoogleLogin from 'react-google-login';
 import { Mutation } from 'react-apollo';
-import { LOGGED_IN_QUERY } from '../../IsLoggedIn';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { multi, MultiProps, Gender } from '../../../lib/MultiLang';
-import { BirthDate } from '../../Signup';
-
-function responseGoogle(response: any) {
-  loginOrSignup(response);
-}
-
-const loginOrSignup = (response: any) => {
-  console.log(response);
-  // Vérifier que le facebook user id ne se trouve pas dans la database.
-  //      S'il se trouve dans la database, login()
-  //      S'il ne se trouve pas dans la database, signup()
-};
-
-const googleLogin2 = () => {
-  return (
-    <GoogleLogin
-      clientId="336221605230-o9967qlvh1121ublhs76bh9flm6kb3r8.apps.googleusercontent.com"
-      buttonText="Login With Google"
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}
-    />
-  );
-};
+import { multi, MultiProps } from '../../../lib/MultiLang';
+import { Gender, Date as BirthDate } from '../../../generated/graphql';
+import { LOGGED_IN_QUERY } from '../../Header';
 
 const GOOGLE_LOGIN_MUTATION = gql`
   mutation GOOGLE_LOGIN_MUTATION($data: UserSignupInput!) {
@@ -36,7 +14,7 @@ const GOOGLE_LOGIN_MUTATION = gql`
   }
 `;
 
-interface GoogleInfoState {
+interface LoginGoogleState {
   firstName: string;
   lastName: string;
   email: string;
@@ -47,8 +25,8 @@ interface GoogleInfoState {
   googleID: string;
 }
 
-class googleLogin extends Component<MultiProps, GoogleInfoState> {
-  state: GoogleInfoState = {
+class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
+  state: LoginGoogleState = {
     firstName: '',
     lastName: '',
     email: '',
@@ -106,4 +84,4 @@ class googleLogin extends Component<MultiProps, GoogleInfoState> {
   }
 }
 
-export default multi(googleLogin);
+export default multi(LoginGoogle);

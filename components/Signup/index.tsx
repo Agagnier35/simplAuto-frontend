@@ -1,5 +1,5 @@
 import React, { Component, FormEvent } from 'react';
-import { multi, MultiProps, Gender } from '../../lib/MultiLang';
+import { multi, MultiProps } from '../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import StyledSignup from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
@@ -11,6 +11,7 @@ import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
+import { Gender, Date as BirthDate } from '../../generated/graphql';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -19,12 +20,6 @@ const SIGNUP_MUTATION = gql`
     }
   }
 `;
-
-export interface BirthDate {
-  day: number;
-  month: number;
-  year: number;
-}
 
 interface SignupState {
   firstName: string;
