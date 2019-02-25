@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledCarDetails = styled.div`
   .carouselSection {
-    width: 900px;
+    width: auto;
     margin: auto;
     margin-bottom: 30px;
     object-fit: contain;
@@ -13,6 +13,7 @@ const StyledCarDetails = styled.div`
   img {
     padding: auto;
     max-height: 400px;
+    max-width: 100%;
   }
 
   label {
