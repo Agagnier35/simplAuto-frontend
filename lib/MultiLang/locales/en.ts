@@ -138,6 +138,10 @@ const translations: Translations = {
     addons: 'Addons',
     otherAddons: 'Other addon',
     specify: 'Specify',
+    title: 'Offer',
+    price: 'Price',
+    chat: 'Contact seller',
+    reject: 'Reject offer',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

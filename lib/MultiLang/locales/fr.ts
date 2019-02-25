@@ -153,6 +153,10 @@ const translations: Translations = {
     addons: 'Ajouts',
     otherAddons: 'Autre ajout',
     specify: 'Spécifiez',
+    title: 'Offre',
+    price: 'Prix',
+    chat: 'Contacter le vendeur',
+    reject: "rejetter l'offre",
   },
 };
 

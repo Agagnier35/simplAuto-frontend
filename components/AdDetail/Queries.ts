@@ -32,6 +32,7 @@ export const AD_DETAIL_QUERY = gql`
       isFirst
       status
       offers {
+        id
         car {
           manufacturer {
             name

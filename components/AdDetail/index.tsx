@@ -10,6 +10,7 @@ import { AD_DETAIL_QUERY } from './Queries';
 import Router from 'next/router';
 import GeneralModal, { ModalConcern, ModalAction } from '../GeneralModal';
 import gql from 'graphql-tag';
+import Link from 'next/link';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -119,17 +120,21 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               {data.ad.offers &&
                 data.ad.offers.map((offer: Offer) => (
                   <ListGroup.Item key={offer.id}>
-                    <Card>
-                      {offer.car.photos.length > 0 ? (
-                        <Card.Img variant="top" src={offer.car.photos[0]} />
-                      ) : (
-                        /* TODO: Change Placeholder */
-                        <Card.Img
-                          variant="top"
-                          alt="No car photos placeholder"
-                        />
-                      )}
-                    </Card>
+                    <Link
+                      href={{ pathname: '/offer', query: { id: offer.id } }}
+                    >
+                      <Card>
+                        {offer.car.photos.length > 0 ? (
+                          <Card.Img variant="top" src={offer.car.photos[0]} />
+                        ) : (
+                          /* TODO: Change Placeholder */
+                          <Card.Img
+                            variant="top"
+                            alt="No car photos placeholder"
+                          />
+                        )}
+                      </Card>
+                    </Link>
                   </ListGroup.Item>
                 ))}
             </ListGroup>

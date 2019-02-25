@@ -121,6 +121,10 @@ export default interface Translations {
     addons: string;
     otherAddons: string;
     specify: string;
+    title: string;
+    price: string;
+    chat: string;
+    reject: string;
   };
   GeneralModalContent: {
     title: string;
