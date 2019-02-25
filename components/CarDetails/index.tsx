@@ -3,7 +3,7 @@ import Translations from '../../lib/MultiLang/locales/types';
 import StyledCarDetails from './styles';
 import { multi } from '../../lib/MultiLang';
 import { Carousel, Button, Card } from 'react-bootstrap';
-import { Car } from '../../generated/graphql';
+import { Car, CarFeature } from '../../generated/graphql';
 import GeneralModal from '../GeneralModal';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -110,7 +110,7 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
                 {general.features}
               </Card.Title>
               <label>
-                {car.features.map((f: any) => (
+                {car.features.map((f: CarFeature) => (
                   <p>
                     <b>{carFeatureCategory[f.category.name]}</b>:{' '}
                     {carFeature[f.name] || f.name}

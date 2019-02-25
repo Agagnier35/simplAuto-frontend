@@ -27,7 +27,6 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       <p>
         {translations.offers.price}: {data.offer.price}
       </p>
-      {console.log(data.offer.addons)}
       {data.offer.addons.map((addon: any) => (
         <ul>
           <li>{addon.name}</li>
