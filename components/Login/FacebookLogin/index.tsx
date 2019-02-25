@@ -19,7 +19,6 @@ interface FaebookInfoState {
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
   location: string;
   gender: Gender;
   birthDate: BirthDate;
@@ -32,7 +31,6 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
     location: '',
     gender: Gender.Other,
     birthDate: {
@@ -43,23 +41,29 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
     facebookID: '',
   };
 
-  responseFacebook = (response: any) => {
+  responseFacebook = (response: any, facebookLogin: () => void) => {
+    console.log(response);
     if (response.first_name && response.last_name && response.email) {
       this.setState({
         firstName: response.first_name,
         lastName: response.last_name,
         email: response.email,
+        facebookID: response.userID,
       });
-      // appel à la mutation ici, toutefois je ne peux pas la passer en argument à cause
-      // de la syntaxe du callback
+      facebookLogin();
     }
+  };
+
+  getSignupPayload = () => {
+    const { ...userInfos } = this.state;
+    return { data: userInfos };
   };
 
   render() {
     return (
       <Mutation
         mutation={FACEBOOK_LOGIN_MUTATION}
-        variables={this.state}
+        variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
       >
         {handleMutation => (
@@ -67,7 +71,9 @@ class facebookLogin extends Component<MultiProps, FaebookInfoState> {
             appId="1017021355164596"
             autoLoad={true}
             fields="first_name,name,last_name,email,gender,birthday,picture"
-            callback={this.responseFacebook}
+            callback={response =>
+              this.responseFacebook(response, handleMutation)
+            }
           />
         )}
       </Mutation>
