@@ -4,8 +4,8 @@ import { NextComponentType, NextContext } from 'next';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
-import Page from '../components/Page';
-import withData from '../lib/withData';
+import Page from '../components/General/Page';
+import withData from '../lib/Apollo/withData';
 import { ApolloClient } from 'apollo-client';
 import MultiLang from '../lib/MultiLang';
 

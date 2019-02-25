@@ -1,6 +1,6 @@
 import React from 'react';
 import PrivateComponent from '../lib/Auth/PrivateComponent';
-import Offer from '../components/Offer';
+import Offer from '../components/Offer/Offer';
 
 class OfferPage extends PrivateComponent {
   render() {

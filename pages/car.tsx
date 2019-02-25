@@ -1,5 +1,5 @@
 import React from 'react';
-import Car from '../components/Car';
+import Car from '../components/Car/Car';
 import PrivateComponent from '../lib/Auth/PrivateComponent';
 
 export interface CarPageProps {
