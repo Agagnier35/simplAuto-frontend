@@ -112,10 +112,14 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
   render() {
     return (
       <Query query={GET_AD_QUERY}>
-        {() => {
-          <div>
-            <h1>Hello</h1>
-          </div>;
+        {({ data, loading, error }) => {
+          if (loading) return <Loading />;
+          if (error) return <ErrorMessage error={error} />;
+          return (
+            <div>
+              <h1>Hello</h1>
+            </div>
+          );
         }}
       </Query>
     );
