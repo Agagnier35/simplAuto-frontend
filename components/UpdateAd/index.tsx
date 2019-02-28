@@ -1,5 +1,5 @@
 import React, { FormEvent, Component } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../lib/MultiLang';
 import { AdCreateInput } from '../../generated/graphql';
@@ -113,9 +113,13 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
 
   render() {
     return (
-      <IsLoggedIn>
-        <div>UPDATING DE LA AD</div>
-      </IsLoggedIn>
+      <Query query={GET_AD_QUERY}>
+        {() => {
+          <div>
+            <h1>Hello</h1>
+          </div>;
+        }}
+      </Query>
     );
   }
 }

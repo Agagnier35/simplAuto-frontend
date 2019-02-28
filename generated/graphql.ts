@@ -16,6 +16,10 @@ export interface UserSignupInput {
   gender: Gender;
 
   permissions?: Maybe<Permission[]>;
+
+  facebookID?: Maybe<string>;
+
+  googleID?: Maybe<string>;
 }
 
 export interface DateInput {
@@ -96,9 +100,15 @@ export interface AdUpdateInput {
   modelID?: Maybe<string>;
 
   categoryID?: Maybe<string>;
+<<<<<<< Updated upstream
 
   mileageLowerBound?: Maybe<number>;
 
+=======
+
+  mileageLowerBound?: Maybe<number>;
+
+>>>>>>> Stashed changes
   mileageHigherBound?: Maybe<number>;
 
   yearLowerBound?: Maybe<number>;
@@ -245,6 +255,10 @@ export interface User {
   gender: Gender;
 
   permissions: Permission[];
+
+  facebookID?: Maybe<string>;
+
+  googleID?: Maybe<string>;
 
   offers: Offer[];
 
@@ -416,6 +430,10 @@ export interface Mutation {
 
   login: User;
 
+  facebookLogin: User;
+
+  googleLogin: User;
+
   logout: string;
 
   updateUser: User;
@@ -484,6 +502,12 @@ export interface LoginMutationArgs {
   email: string;
 
   password: string;
+}
+export interface FacebookLoginMutationArgs {
+  data: UserSignupInput;
+}
+export interface GoogleLoginMutationArgs {
+  data: UserSignupInput;
 }
 export interface UpdateUserMutationArgs {
   data: UserUpdateInput;
