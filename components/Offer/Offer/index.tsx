@@ -26,6 +26,10 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     },
   });
 
+  function handlePrint() {
+    window.print();
+  }
+
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
@@ -41,13 +45,18 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
         </ul>
       ))}
       <CarDetails car={data.offer.car} />
-      <ButtonToolbar>
-        <Button onClick={() => handleCreateConversation()} variant="primary">
-          {translations.offers.chat}
-        </Button>
-        <Button variant="primary">{translations.offers.reject}</Button>
-      </ButtonToolbar>
-      {data.offer.conversation && <Chat offer={data.offer} />}
+      <div className="noPrint">
+        <ButtonToolbar>
+          <Button onClick={() => handleCreateConversation()} variant="primary">
+            {translations.offers.chat}
+          </Button>
+          <Button variant="primary">{translations.offers.reject}</Button>
+          <Button variant="primary" onClick={handlePrint}>
+            {translations.general.print}
+          </Button>
+        </ButtonToolbar>
+        {data.offer.conversation && <Chat offer={data.offer} />}
+      </div>
     </div>
   );
 };
