@@ -14,20 +14,18 @@ const UPDATE_AD_MUTATION = gql`
 `;
 
 const GET_AD_QUERY = gql`
-  query {
-    ad {
-      id
-      priceLowerBound
-      priceHigherBound
-      manufacturer
-      model
-      category
-      mileageLowerBound
-      mileageHigherBound
-      yearLowerBound
-      yearHigherBound
-      features
-    }
+  ad {
+    id
+    priceLowerBound
+    priceHigherBound
+    manufacturer
+    model
+    category
+    mileageLowerBound
+    mileageHigherBound
+    yearLowerBound
+    yearHigherBound
+    features
   }
 `;
 
