@@ -100,15 +100,9 @@ export interface AdUpdateInput {
   modelID?: Maybe<string>;
 
   categoryID?: Maybe<string>;
-<<<<<<< Updated upstream
 
   mileageLowerBound?: Maybe<number>;
 
-=======
-
-  mileageLowerBound?: Maybe<number>;
-
->>>>>>> Stashed changes
   mileageHigherBound?: Maybe<number>;
 
   yearLowerBound?: Maybe<number>;
