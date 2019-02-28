@@ -1,16 +1,15 @@
 import React from 'react';
-import { multi } from '../lib/MultiLang';
-import IsNotLoggedIn from '../components/IsNotLoggedIn';
-import Login from '../components/Login';
+import Login from '../components/Auth/Login';
+import PublicComponent from '../lib/Auth/PublicComponent';
 
-const login = () => {
-  return (
-    <div>
-      <IsNotLoggedIn>
+class LoginPage extends PublicComponent {
+  render() {
+    return (
+      <div>
         <Login />
-      </IsNotLoggedIn>
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
-export default multi(login);
+export default LoginPage;

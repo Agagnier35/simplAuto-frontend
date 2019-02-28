@@ -4,6 +4,8 @@ const translations: Translations = {
   loading: 'Loading ...',
   login: {
     title: 'Login',
+    loginWithFacebook: 'Login with Facebook',
+    loginWithGoogle: 'Login with Google',
   },
   signup: {
     title: 'Create an account',
@@ -50,12 +52,23 @@ const translations: Translations = {
       month: 'Month',
       year: 'Year',
     },
+    options: {
+      delete: 'Delete',
+      modify: 'Modify',
+    },
     resetPw: 'Reset password',
     buy: 'Buy',
     sell: 'Sell',
     myAds: 'My ads',
     myCars: 'My cars',
     disconnect: 'Logout',
+    Ad: 'Ad',
+    offers: 'Offers',
+    delete: 'Delete',
+    cancel: 'Cancel',
+    create: 'Create',
+    update: 'Update',
+    print: 'Print',
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -118,6 +131,31 @@ const translations: Translations = {
   ad: {
     createAdTitle: 'Please fill the information about your ad',
     createAdAction: 'Publish your ad',
+  },
+  offers: {
+    createOffer: 'Make an offer',
+    modifyOffer: 'Modify my offer',
+    addons: 'Addons',
+    otherAddons: 'Other addon',
+    specify: 'Specify',
+    title: 'Offer',
+    price: 'Price',
+    chat: 'Contact seller',
+    reject: 'Reject offer',
+  },
+  GeneralModalContent: {
+    title: 'Confirmation Dialog',
+    content:
+      'Are you sure you want to do this action?\nThis action can not be undone. ',
+    btnCancel: 'Cancel',
+    btnConfirm: 'Confirm',
+    car: 'Car',
+    ad: 'Ad',
+    offer: 'Offer',
+    create: 'Create',
+    delete: 'Delete',
+    save: 'Save',
+    edit: 'Edit',
   },
 };
 

@@ -1,12 +1,15 @@
 import React from 'react';
-import CreateAd from '../components/CreateAd';
+import CreateAd from '../components/Ad/CreateAd';
+import PrivateComponent from '../lib/Auth/PrivateComponent';
 
-const CreateAdPage = () => {
-  return (
-    <div>
-      <CreateAd />
-    </div>
-  );
-};
+class CreateAdPage extends PrivateComponent {
+  render() {
+    return (
+      <div>
+        <CreateAd />
+      </div>
+    );
+  }
+}
 
 export default CreateAdPage;

@@ -1,8 +1,7 @@
-import React from 'react';
-import { multi } from '../lib/MultiLang';
-import IsNotLoggedIn from '../components/IsNotLoggedIn';
-import ResetPw from '../components/resetPw';
+import React, { Component } from 'react';
+import ResetPassword from '../components/Auth/resetPw';
 import Translations from '../lib/MultiLang/locales/types';
+import PublicComponent from '../lib/Auth/PublicComponent';
 
 export interface CarPageProps {
   translations: Translations;
@@ -11,14 +10,16 @@ export interface CarPageProps {
   };
 }
 
-const newPw = ({ query }: CarPageProps) => {
-  return (
-    <div>
-      <IsNotLoggedIn>
-        <ResetPw resetToken={query.resetToken} />
-      </IsNotLoggedIn>
-    </div>
-  );
-};
+class ResetPage extends PublicComponent<CarPageProps> {
+  render() {
+    const { query } = this.props;
 
-export default multi(newPw);
+    return (
+      <div>
+        <ResetPassword resetToken={query.resetToken} />
+      </div>
+    );
+  }
+}
+
+export default ResetPage;

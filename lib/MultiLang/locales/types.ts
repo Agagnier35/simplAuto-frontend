@@ -2,6 +2,8 @@ export default interface Translations {
   loading: String;
   login: {
     title: string;
+    loginWithFacebook: string;
+    loginWithGoogle: string;
   };
   signup: {
     title: string;
@@ -48,12 +50,23 @@ export default interface Translations {
       month: string;
       year: string;
     };
+    options: {
+      delete: string;
+      modify: string;
+    };
     resetPw: string;
     buy: string;
     sell: string;
     myCars: string;
     myAds: string;
     disconnect: string;
+    Ad: string;
+    offers: string;
+    delete: string;
+    cancel: string;
+    create: string;
+    update: string;
+    print: string;
   };
   errors: {
     invalidEmail: string;
@@ -101,5 +114,29 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+  };
+  offers: {
+    createOffer: string;
+    modifyOffer: string;
+    addons: string;
+    otherAddons: string;
+    specify: string;
+    title: string;
+    price: string;
+    chat: string;
+    reject: string;
+  };
+  GeneralModalContent: {
+    title: string;
+    content: string;
+    btnCancel: string;
+    btnConfirm: string;
+    car: string;
+    ad: string;
+    offer: string;
+    create: string;
+    delete: string;
+    save: string;
+    edit: string;
   };
 }

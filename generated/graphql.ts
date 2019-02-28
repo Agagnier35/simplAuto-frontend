@@ -63,67 +63,83 @@ export interface CarCreateInput {
 }
 
 export interface AdCreateInput {
-  priceLowerBoundFeature?: Maybe<PriceBoundFeatureInput>;
+  priceLowerBound?: Maybe<number>;
 
-  priceHigherBoundFeature?: Maybe<PriceBoundFeatureInput>;
+  priceHigherBound?: Maybe<number>;
 
-  manufacturerFeature?: Maybe<ManufacturerFeatureInput>;
+  manufacturerID?: Maybe<string>;
 
-  modelFeature?: Maybe<ModelFeatureInput>;
+  modelID?: Maybe<string>;
 
-  categoryFeature?: Maybe<CategoryFeatureInput>;
+  categoryID?: Maybe<string>;
 
-  mileageLowerBoundFeature?: Maybe<MileageBoundFeatureInput>;
+  mileageLowerBound?: Maybe<number>;
 
-  mileageHigherBoundFeature?: Maybe<MileageBoundFeatureInput>;
+  mileageHigherBound?: Maybe<number>;
 
-  yearLowerBoundFeature?: Maybe<YearBoundFeatureInput>;
+  yearLowerBound?: Maybe<number>;
 
-  yearHigherBoundFeature?: Maybe<YearBoundFeatureInput>;
+  yearHigherBound?: Maybe<number>;
 
-  features?: Maybe<AdCarFeatureInput[]>;
+  features?: Maybe<string[]>;
 }
 
-export interface PriceBoundFeatureInput {
+export interface AdUpdateInput {
+  id: string;
+
+  priceLowerBound?: Maybe<number>;
+
+  priceHigherBound?: Maybe<number>;
+
+  manufacturerID?: Maybe<string>;
+
+  modelID?: Maybe<string>;
+
+  categoryID?: Maybe<string>;
+
+  mileageLowerBound?: Maybe<number>;
+
+  mileageHigherBound?: Maybe<number>;
+
+  yearLowerBound?: Maybe<number>;
+
+  yearHigherBound?: Maybe<number>;
+
+  features?: Maybe<string[]>;
+}
+
+export interface OfferCreateInput {
+  adID: string;
+
+  carID: string;
+
   price: number;
 
-  importance?: Maybe<AdFeatureImportance>;
+  addons?: Maybe<OfferAddonInput[]>;
 }
 
-export interface ManufacturerFeatureInput {
-  manufacturerID: string;
+export interface OfferAddonInput {
+  id?: Maybe<string>;
 
-  importance?: Maybe<AdFeatureImportance>;
+  name?: Maybe<string>;
+
+  rankValue?: Maybe<number>;
 }
 
-export interface ModelFeatureInput {
-  modelID: string;
+export interface OfferUpdateInput {
+  id: string;
 
-  importance?: Maybe<AdFeatureImportance>;
+  price?: Maybe<number>;
+
+  addons?: Maybe<OfferAddonInput[]>;
 }
 
-export interface CategoryFeatureInput {
-  categoryID: string;
+export interface SendMessageInput {
+  conversationID: string;
 
-  importance?: Maybe<AdFeatureImportance>;
-}
+  text: string;
 
-export interface MileageBoundFeatureInput {
-  mileage: number;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
-export interface YearBoundFeatureInput {
-  year: number;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
-export interface AdCarFeatureInput {
-  featureID: string;
-
-  importance?: Maybe<AdFeatureImportance>;
+  image?: Maybe<string>;
 }
 
 export enum Gender {
@@ -138,12 +154,6 @@ export enum Permission {
   Admin = 'ADMIN',
 }
 
-export enum AdFeatureImportance {
-  Low = 'LOW',
-  Medium = 'MEDIUM',
-  High = 'HIGH',
-}
-
 export enum CarFeatureType {
   TrueFalse = 'TRUE_FALSE',
   MultipleChoice = 'MULTIPLE_CHOICE',
@@ -155,10 +165,22 @@ export enum AdStatus {
   Deleted = 'DELETED',
 }
 
+export enum CarStatus {
+  Published = 'PUBLISHED',
+  Sold = 'SOLD',
+  Deleted = 'DELETED',
+}
+
 export enum OfferStatus {
   Published = 'PUBLISHED',
   Accepted = 'ACCEPTED',
   Deleted = 'DELETED',
+}
+
+export enum AdFeatureImportance {
+  Low = 'LOW',
+  Medium = 'MEDIUM',
+  High = 'HIGH',
 }
 
 // ====================================================
@@ -176,6 +198,8 @@ export interface Query {
 
   ads?: Maybe<Ad[]>;
 
+  ad?: Maybe<Ad>;
+
   car?: Maybe<Car>;
 
   carCategories?: Maybe<(Maybe<CarCategory>)[]>;
@@ -185,6 +209,10 @@ export interface Query {
   carFeatureCategories?: Maybe<(Maybe<CarFeatureCategory>)[]>;
 
   manufacturers?: Maybe<(Maybe<Manufacturer>)[]>;
+
+  offer?: Maybe<Offer>;
+
+  offerAddons?: Maybe<OfferAddon[]>;
 }
 
 export interface Post {
@@ -223,6 +251,8 @@ export interface User {
   ads: Ad[];
 
   cars: Car[];
+
+  conversations?: Maybe<Conversation[]>;
 }
 
 export interface Date {
@@ -247,6 +277,10 @@ export interface Offer {
   status: OfferStatus;
 
   finalRank?: Maybe<number>;
+
+  addons?: Maybe<OfferAddon[]>;
+
+  conversation?: Maybe<Conversation>;
 }
 
 export interface Ad {
@@ -254,45 +288,33 @@ export interface Ad {
 
   creator?: Maybe<User>;
 
-  offers?: Maybe<Offer[]>;
+  offers: Offer[];
 
-  priceLowerBoundFeature?: Maybe<PriceBoundFeature>;
+  priceLowerBound?: Maybe<number>;
 
-  priceHigherBoundFeature?: Maybe<PriceBoundFeature>;
+  priceHigherBound?: Maybe<number>;
 
-  manufacturerFeature?: Maybe<ManufacturerFeature>;
+  manufacturer?: Maybe<Manufacturer>;
 
-  modelFeature?: Maybe<ModelFeature>;
+  model?: Maybe<CarModel>;
 
-  categoryFeature?: Maybe<CategoryFeature>;
+  category?: Maybe<CarCategory>;
 
-  mileageLowerBoundFeature?: Maybe<MileageBoundFeature>;
+  mileageLowerBound?: Maybe<number>;
 
-  mileageHigherBoundFeature?: Maybe<MileageBoundFeature>;
+  mileageHigherBound?: Maybe<number>;
 
-  yearLowerBoundFeature?: Maybe<YearBoundFeature>;
+  yearLowerBound?: Maybe<number>;
 
-  yearHigherBoundFeature?: Maybe<YearBoundFeature>;
+  yearHigherBound?: Maybe<number>;
 
-  features?: Maybe<AdCarFeature[]>;
+  features?: Maybe<CarFeature[]>;
 
   isUrgent: boolean;
 
   isFirst: boolean;
 
   status: AdStatus;
-}
-
-export interface PriceBoundFeature {
-  price: number;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
-export interface ManufacturerFeature {
-  manufacturer: Manufacturer;
-
-  importance?: Maybe<AdFeatureImportance>;
 }
 
 export interface Manufacturer {
@@ -309,42 +331,10 @@ export interface CarModel {
   name: string;
 }
 
-export interface ModelFeature {
-  model: CarModel;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
-export interface CategoryFeature {
-  category: CarCategory;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
 export interface CarCategory {
   id: string;
 
   name: string;
-}
-
-export interface MileageBoundFeature {
-  mileage: number;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
-export interface YearBoundFeature {
-  year: number;
-
-  importance?: Maybe<AdFeatureImportance>;
-}
-
-export interface AdCarFeature {
-  id: string;
-
-  feature: CarFeature;
-
-  importance?: Maybe<AdFeatureImportance>;
 }
 
 export interface CarFeature {
@@ -383,6 +373,42 @@ export interface Car {
   photos: string[];
 
   features: CarFeature[];
+
+  status: CarStatus;
+
+  offers?: Maybe<Offer[]>;
+}
+
+export interface OfferAddon {
+  id: string;
+
+  name: string;
+
+  rankValue: number;
+}
+
+export interface Conversation {
+  id: string;
+
+  buyer?: Maybe<User>;
+
+  seller?: Maybe<User>;
+
+  offer: Offer;
+
+  messages: Message[];
+}
+
+export interface Message {
+  id: string;
+
+  sender: User;
+
+  text: string;
+
+  image?: Maybe<string>;
+
+  conversation: Conversation;
 }
 
 export interface Mutation {
@@ -398,7 +424,13 @@ export interface Mutation {
 
   createCar?: Maybe<Car>;
 
+  deleteCar?: Maybe<Car>;
+
   createAd?: Maybe<Ad>;
+
+  updateAd?: Maybe<Ad>;
+
+  deleteAd?: Maybe<Ad>;
 
   publish: Post;
 
@@ -407,10 +439,20 @@ export interface Mutation {
   resetPasswordRequest: string;
 
   resetPassword: User;
+
+  createOffer?: Maybe<Offer>;
+
+  updateOffer?: Maybe<Offer>;
+
+  deleteOffer?: Maybe<Offer>;
+
+  createConversation: Conversation;
+
+  sendMessage: Message;
 }
 
 export interface Subscription {
-  feedSubscription?: Maybe<Post>;
+  messageSubscription?: Maybe<Message>;
 }
 
 // ====================================================
@@ -423,11 +465,17 @@ export interface PostQueryArgs {
 export interface AdsQueryArgs {
   adFeaturesIDs?: Maybe<(Maybe<string>)[]>;
 }
+export interface AdQueryArgs {
+  id: string;
+}
 export interface CarQueryArgs {
   id: string;
 }
 export interface CarFeatureCategoryQueryArgs {
   name: string;
+}
+export interface OfferQueryArgs {
+  id: string;
 }
 export interface SignupMutationArgs {
   data: UserSignupInput;
@@ -448,8 +496,17 @@ export interface CreateDraftMutationArgs {
 export interface CreateCarMutationArgs {
   data: CarCreateInput;
 }
+export interface DeleteCarMutationArgs {
+  id: string;
+}
 export interface CreateAdMutationArgs {
   data: AdCreateInput;
+}
+export interface UpdateAdMutationArgs {
+  data: AdUpdateInput;
+}
+export interface DeleteAdMutationArgs {
+  id: string;
 }
 export interface PublishMutationArgs {
   id: string;
@@ -464,4 +521,19 @@ export interface ResetPasswordMutationArgs {
   resetToken: string;
 
   password: string;
+}
+export interface CreateOfferMutationArgs {
+  data: OfferCreateInput;
+}
+export interface UpdateOfferMutationArgs {
+  data: OfferUpdateInput;
+}
+export interface DeleteOfferMutationArgs {
+  id: string;
+}
+export interface CreateConversationMutationArgs {
+  offerID: string;
+}
+export interface SendMessageMutationArgs {
+  data?: Maybe<SendMessageInput>;
 }
