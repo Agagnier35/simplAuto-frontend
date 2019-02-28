@@ -13,6 +13,24 @@ const UPDATE_AD_MUTATION = gql`
   }
 `;
 
+const GET_AD_QUERY = gql`
+  query {
+    ad {
+      id
+      priceLowerBound
+      priceHigherBound
+      manufacturer
+      model
+      category
+      mileageLowerBound
+      mileageHigherBound
+      yearLowerBound
+      yearHigherBound
+      features
+    }
+  }
+`;
+
 // 1. Get la ad à partir du ID du query string
 // 2. Handle les changements de la ad
 // 3. Lorsque la personne submit, call la mutation
@@ -34,7 +52,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
     priceHigherBoundFeature: null,
   };
 
-  // Recevoir l'offre, puis mettre les infos dans le state.
+  // Get l'offre, puis mettre les infos dans le state.
 
   handleUpdateAd = async (e: any, updateAd: any) => {
     e.preventDefault();
