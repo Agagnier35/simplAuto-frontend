@@ -5,8 +5,10 @@ import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { Button } from 'react-bootstrap';
 import Link from 'next/link';
+import PagingView from '../../General/Paging';
 import { useQuery } from 'react-apollo-hooks';
 import { MY_CARS_QUERY } from './Queries';
+import { MainAppObject } from '../../General/GeneralModal';
 
 const Cars = ({ translations }: MultiProps) => {
   const { data, error, loading } = useQuery(MY_CARS_QUERY);
@@ -20,7 +22,8 @@ const Cars = ({ translations }: MultiProps) => {
       <Link href="/addcar" prefetch>
         <Button>{translations.cars.addCar}</Button>
       </Link>
-      {<CarList cars={data.me.cars} />}
+      <CarList cars={data.me.cars} />
+      <PagingView type={MainAppObject.offer} objList={[null, null]} />
     </div>
   );
 };

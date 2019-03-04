@@ -12,7 +12,7 @@ const CarList = ({ cars }: CarsProps) => {
   return (
     <StyledCarList>
       <CardDeck>
-        {cars.map((car: any) => (
+        {cars.map((car: Car) => (
           <CarSummary key={car.id} car={car} />
         ))}
       </CardDeck>
