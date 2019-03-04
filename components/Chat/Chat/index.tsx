@@ -29,16 +29,20 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
       conversationID: offer.conversation && offer.conversation.id,
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
-      console.log(client);
-      console.log(subscriptionData);
-      // Optional callback which provides you access to the new subscription
-      // data and the Apollo client. You can use methods of the client to update
-      // the Apollo cache:
-      // https://www.apollographql.com/docs/react/advanced/caching.html#direct
+      const offerQuery = {
+        query: OFFER_BY_ID,
+        variables: { id: offer.id },
+      };
+      const message = subscriptionData.data.messageSubscription;
+      const data = client.cache.readQuery(offerQuery) as any; // sketch
+
+      if (data) {
+        data.offer.conversation.messages.push(message);
+      }
+
+      client.cache.writeQuery({ ...offerQuery, data });
     },
   });
-
-  console.log(data, loading, error);
 
   function handleChange(e: FormEvent<any>) {
     setCurrentMessage(e.currentTarget.value);
@@ -74,11 +78,13 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [offer]);
+  }, [offer.conversation && offer.conversation.messages.length]);
 
   return (
     <Chat.Card>
       <h2>Chat</h2>
+      {data && data.messageSubscription.text}
+      {console.log(data)}
       {offer.conversation && (
         <>
           <Chat.Container className="chat">
