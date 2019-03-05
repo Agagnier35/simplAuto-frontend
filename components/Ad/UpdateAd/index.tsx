@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
-import { AdCreateInput } from '../../../generated/graphql';
+import { AdUpdateInput } from '../../../generated/graphql';
 import StyledForm from '../../Car/CarAdd/Form';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -42,8 +42,9 @@ const GET_AD_QUERY = gql`
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
 
-class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
-  state: AdCreateInput = {
+class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
+  state: AdUpdateInput = {
+    id: '',
     features: null,
     manufacturerID: null,
     modelID: null,
@@ -104,6 +105,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
 
   setState = (data: any) => {
     this.setState({
+      id: data.id,
       features: data.features,
       manufacturerFeature: data.manufacturerFeature,
       modelFeature: data.modelFeature,
