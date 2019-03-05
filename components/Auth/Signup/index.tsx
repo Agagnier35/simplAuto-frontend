@@ -3,6 +3,7 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import StyledSignup from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
+import Select from '../../General/Select';
 import gql from 'graphql-tag';
 import ErrorMessage from '../../General/ErrorMessage';
 import Geosuggest from 'react-geosuggest';
@@ -131,9 +132,11 @@ class Signup extends Component<MultiProps, SignupState> {
     return { data: userInfos };
   };
 
+  handleChangeSelect = (key: string, value: any) => {};
+
   render() {
     const {
-      translations: { signup, general },
+      translations: { signup, general, clientType },
     } = this.props;
     return (
       <Mutation
@@ -146,6 +149,14 @@ class Signup extends Component<MultiProps, SignupState> {
             <Card>
               <BrandHeader />
               <Card.Body>
+                <Select
+                  options={[clientType.company, clientType.individual]}
+                  accessor="clientType"
+                  handleChange={(item: any) =>
+                    this.handleChangeSelect('manufacturerID', item.id)
+                  }
+                  label={`${signup.clientType} :`}
+                />
                 <Form
                   method="post"
                   onSubmit={(e: any) => this.handleSignup(e, handleMutation)}

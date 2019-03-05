@@ -7,6 +7,7 @@ export default interface Translations {
   };
   signup: {
     title: string;
+    clientType: string;
   };
   profile: {
     profilePage: string;
@@ -84,6 +85,10 @@ export default interface Translations {
     year: string;
     mileage: string;
     price: string;
+  };
+  clientType: {
+    company: string;
+    individual: string;
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };

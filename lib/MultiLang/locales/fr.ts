@@ -9,6 +9,7 @@ const translations: Translations = {
   },
   signup: {
     title: 'Créer un compte',
+    clientType: 'Type de compte',
   },
   profile: {
     profilePage: 'Mon profile',
@@ -86,6 +87,10 @@ const translations: Translations = {
     year: 'Année',
     mileage: 'Kilométrage',
     price: 'Prix',
+  },
+  clientType: {
+    company: 'Compagnie',
+    individual: 'Particulier',
   },
   carFeatureCategory: {
     color: 'Couleur',
