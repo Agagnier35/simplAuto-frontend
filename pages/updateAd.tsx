@@ -1,7 +1,6 @@
 import React from 'react';
 import { multi } from '../lib/MultiLang';
-import UpdateAd from '../components/UpdateAd';
-import IsLoggedIn from '../components/IsLoggedIn';
+import UpdateAd from '../components/Ad/UpdateAd';
 import Translations from '../lib/MultiLang/locales/types';
 
 export interface AdProps {
@@ -12,11 +11,7 @@ export interface AdProps {
 }
 
 const UpdateAdPage = ({ query }: AdProps) => {
-  return (
-    <IsLoggedIn>
-      <UpdateAd adId={query.adId} />
-    </IsLoggedIn>
-  );
+  return <UpdateAd adId={query.adId} />;
 };
 
 export default multi(UpdateAdPage);
