@@ -96,6 +96,22 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
     }
   };
 
+  setState = (data) => {
+    this.setState({
+      features: data.features,
+      manufacturerFeature: data.manufacturerFeature,
+      modelFeature: data.modelFeature,
+      categoryFeature: data.categoryFeature.,
+      yearLowerBoundFeature: data.yearLowerBoundFeature,
+      yearHigherBoundFeature: data.yearHigherBoundFeature,
+      mileageLowerBoundFeature: data.mileageLowerBoundFeature,
+      mileageHigherBoundFeature: data.mileageHigherBoundFeature,
+      priceLowerBoundFeature: data.priceLowerBoundFeature,
+      priceHigherBoundFeature: data.priceHigherBoundFeature,
+
+    })
+  }
+
   handleChange = (key: string, value: any, accessor?: string) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
