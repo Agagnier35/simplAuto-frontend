@@ -7,6 +7,7 @@ import AdSummary from '../../Ad/AdSummary';
 import { Ad, Car } from '../../../generated/graphql';
 import { ALL_MY_ADS_QUERY } from '../../Ad/MyAds/Queries';
 import PagingStyle from './style';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 interface PagingViewvProps {
   objList: any[];
@@ -61,11 +62,11 @@ const PagingView = ({ objList, type }: PagingViewvProps) => {
         {getDisplayList()}
         <ButtonToolbar className="centerButtonToolBar">
           <Button variant="light" onClick={onBack}>
-            back
+            <FaArrowLeft />
           </Button>
           {pageNumber}
           <Button variant="light" onClick={onNext}>
-            next
+            <FaArrowRight />
           </Button>
         </ButtonToolbar>
       </Card>
