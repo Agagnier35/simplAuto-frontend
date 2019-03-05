@@ -1,4 +1,4 @@
-import React, { FormEvent, Component } from 'react';
+import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
@@ -10,7 +10,6 @@ import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
-import { Dictionary } from '../../../lib/Types/Dictionary';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -153,200 +152,242 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdCreateInput>> {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
           return (
-            <Mutation
-              mutation={UPDATE_AD_MUTATION}
-              variables={{ data: this.state }}
-            >
-              {(createAd, mutation) => {
-                if (mutation.data && mutation.data.createAd) {
-                  const adID = mutation.data.createAd.id;
-                  Router.push(`/adDetail?id=${adID}`);
-                }
+            <Query query={GET_FEATURES_QUERY}>
+              {({ loading, error, data }) => {
+                if (loading) return <Loading />;
+                if (error) return <ErrorMessage error={error} />;
+                fetchedCheckboxFeatures = data.carFeatureCategories.filter(
+                  (category: any) => category.type === 'TRUE_FALSE',
+                );
+                fetchedDropdownFeatures = data.carFeatureCategories.filter(
+                  (category: any) => category.type === 'MULTIPLE_CHOICE',
+                );
                 return (
-                  <StyledForm onSubmit={e => this.handleUpdateAd(e, createAd)}>
-                    <h1>{ad.createAdTitle}</h1>
-                    <ErrorMessage error={mutation.error} />
-                    <Card>
-                      <Card.Body>
-                        <Card.Title>
-                          <span className="card-number">1</span>
-                          {carLabel.general}
-                        </Card.Title>
-                        <div className="label-wrapper">
-                          <Select
-                            options={data.manufacturers}
-                            accessor="name"
-                            handleChange={(item: any) =>
-                              this.handleChange('manufacturerID', {
-                                value: item.id,
-                              })
-                            }
-                            label={`${cars.manufacturer} :`}
-                          />
-                          <Select
-                            options={this.getModelsForManufacturer(data)}
-                            disabled={!manufacturerID}
-                            accessor="name"
-                            handleChange={(item: any) =>
-                              this.handleChange('modelID', { value: item.id })
-                            }
-                            label={`${cars.model} :`}
-                          />
-                          <Select
-                            options={data.carCategories}
-                            accessor="name"
-                            handleChange={(item: any) =>
-                              this.handleChange('categoryID', {
-                                value: item.id,
-                              })
-                            }
-                            label={`${cars.category} :`}
-                          />
+                  <Mutation
+                    mutation={UPDATE_AD_MUTATION}
+                    variables={{ data: this.state }}
+                  >
+                    {(createAd, mutation) => {
+                      if (mutation.data && mutation.data.createAd) {
+                        const adID = mutation.data.createAd.id;
+                        Router.push(`/adDetail?id=${adID}`);
+                      }
+                      return (
+                        <StyledForm
+                          onSubmit={e => this.handleUpdateAd(e, createAd)}
+                        >
+                          <h1>{ad.createAdTitle}</h1>
+                          <ErrorMessage error={mutation.error} />
+                          <Card>
+                            <Card.Body>
+                              <Card.Title>
+                                <span className="card-number">1</span>
+                                {carLabel.general}
+                              </Card.Title>
+                              <div className="label-wrapper">
+                                <Select
+                                  options={data.manufacturers}
+                                  accessor="name"
+                                  handleChange={(item: any) =>
+                                    this.handleChange('manufacturerID', {
+                                      value: item.id,
+                                    })
+                                  }
+                                  label={`${cars.manufacturer} :`}
+                                />
+                                <Select
+                                  options={this.getModelsForManufacturer(data)}
+                                  disabled={!manufacturerID}
+                                  accessor="name"
+                                  handleChange={(item: any) =>
+                                    this.handleChange('modelID', {
+                                      value: item.id,
+                                    })
+                                  }
+                                  label={`${cars.model} :`}
+                                />
+                                <Select
+                                  options={data.carCategories}
+                                  accessor="name"
+                                  handleChange={(item: any) =>
+                                    this.handleChange('categoryID', {
+                                      value: item.id,
+                                    })
+                                  }
+                                  label={`${cars.category} :`}
+                                />
 
-                          <label>
-                            {cars.year} {general.min}
-                            <Form.Control
-                              type="text"
-                              placeholder={`${cars.year} ${general.min}`}
-                              onChange={(e: any) =>
-                                this.handleChange('yearLowerBound', {
-                                  value: parseInt(e.currentTarget.value, 10),
-                                })
-                              }
-                            />
-                          </label>
+                                <label>
+                                  {cars.year} {general.min}
+                                  <Form.Control
+                                    type="text"
+                                    placeholder={`${cars.year} ${general.min}`}
+                                    onChange={(e: any) =>
+                                      this.handleChange('yearLowerBound', {
+                                        value: parseInt(
+                                          e.currentTarget.value,
+                                          10,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                </label>
 
-                          <label>
-                            {cars.year} {general.max}
-                            <Form.Control
-                              type="text"
-                              placeholder={`${cars.year} ${general.max}`}
-                              onChange={(e: any) =>
-                                this.handleChange('yearHigherBound', {
-                                  value: parseInt(e.currentTarget.value, 10),
-                                })
-                              }
-                            />
-                          </label>
-                          <label>
-                            {cars.mileage} {general.min}
-                            <Form.Control
-                              type="text"
-                              placeholder={`${cars.mileage} ${general.min}`}
-                              onChange={(e: any) =>
-                                this.handleChange('mileageLowerBound', {
-                                  value: parseInt(e.currentTarget.value, 10),
-                                })
-                              }
-                            />
-                          </label>
-                          <label>
-                            {cars.mileage} {general.max}
-                            <Form.Control
-                              type="text"
-                              placeholder={`${cars.mileage} ${general.max}`}
-                              onChange={(e: any) =>
-                                this.handleChange('mileageHigherBound', {
-                                  value: parseInt(e.currentTarget.value, 10),
-                                })
-                              }
-                            />
-                          </label>
-                          <label>
-                            {cars.price} {general.min}
-                            <Form.Control
-                              type="text"
-                              placeholder={`${cars.price} ${general.min}`}
-                              onChange={(e: any) =>
-                                this.handleChange('priceLowerBound', {
-                                  value: parseInt(e.currentTarget.value, 10),
-                                })
-                              }
-                            />
-                          </label>
-                          <label>
-                            {cars.price} {general.max}
-                            <Form.Control
-                              type="text"
-                              placeholder={`${cars.price} ${general.max}`}
-                              onChange={(e: any) =>
-                                this.handleChange('priceHigherBound', {
-                                  value: parseInt(e.currentTarget.value, 10),
-                                })
-                              }
-                            />
-                          </label>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                    <Card>
-                      <Card.Body>
-                        <Card.Title>
-                          <span className="card-number">2</span>
-                          {general.features}
-                        </Card.Title>
-                        <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map((feature: any) => (
-                            <Select
-                              key={feature.id}
-                              options={feature.features}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('features', {
-                                  value: item.id,
-                                  category: feature.name,
-                                })
-                              }
-                              label={`${carFeatureCategory[feature.name]} :`}
-                            />
-                          ))}
-                        </div>
-                      </Card.Body>
-                    </Card>
-                    <div className="card-wrapper">
-                      <Card>
-                        <Card.Body>
-                          <Card.Title>
-                            <span className="card-number">3</span>
-                            {carLabel.addons}
-                          </Card.Title>
+                                <label>
+                                  {cars.year} {general.max}
+                                  <Form.Control
+                                    type="text"
+                                    placeholder={`${cars.year} ${general.max}`}
+                                    onChange={(e: any) =>
+                                      this.handleChange('yearHigherBound', {
+                                        value: parseInt(
+                                          e.currentTarget.value,
+                                          10,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                </label>
+                                <label>
+                                  {cars.mileage} {general.min}
+                                  <Form.Control
+                                    type="text"
+                                    placeholder={`${cars.mileage} ${
+                                      general.min
+                                    }`}
+                                    onChange={(e: any) =>
+                                      this.handleChange('mileageLowerBound', {
+                                        value: parseInt(
+                                          e.currentTarget.value,
+                                          10,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                </label>
+                                <label>
+                                  {cars.mileage} {general.max}
+                                  <Form.Control
+                                    type="text"
+                                    placeholder={`${cars.mileage} ${
+                                      general.max
+                                    }`}
+                                    onChange={(e: any) =>
+                                      this.handleChange('mileageHigherBound', {
+                                        value: parseInt(
+                                          e.currentTarget.value,
+                                          10,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                </label>
+                                <label>
+                                  {cars.price} {general.min}
+                                  <Form.Control
+                                    type="text"
+                                    placeholder={`${cars.price} ${general.min}`}
+                                    onChange={(e: any) =>
+                                      this.handleChange('priceLowerBound', {
+                                        value: parseInt(
+                                          e.currentTarget.value,
+                                          10,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                </label>
+                                <label>
+                                  {cars.price} {general.max}
+                                  <Form.Control
+                                    type="text"
+                                    placeholder={`${cars.price} ${general.max}`}
+                                    onChange={(e: any) =>
+                                      this.handleChange('priceHigherBound', {
+                                        value: parseInt(
+                                          e.currentTarget.value,
+                                          10,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                </label>
+                              </div>
+                            </Card.Body>
+                          </Card>
+                          <Card>
+                            <Card.Body>
+                              <Card.Title>
+                                <span className="card-number">2</span>
+                                {general.features}
+                              </Card.Title>
+                              <div className="label-wrapper no-grow">
+                                {fetchedDropdownFeatures.map((feature: any) => (
+                                  <Select
+                                    key={feature.id}
+                                    options={feature.features}
+                                    accessor="name"
+                                    handleChange={(item: any) =>
+                                      this.handleChange('features', {
+                                        value: item.id,
+                                        category: feature.name,
+                                      })
+                                    }
+                                    label={`${
+                                      carFeatureCategory[feature.name]
+                                    } :`}
+                                  />
+                                ))}
+                              </div>
+                            </Card.Body>
+                          </Card>
+                          <div className="card-wrapper">
+                            <Card>
+                              <Card.Body>
+                                <Card.Title>
+                                  <span className="card-number">3</span>
+                                  {carLabel.addons}
+                                </Card.Title>
 
-                          {fetchedCheckboxFeatures.map((feature: any) => (
-                            <Form.Check
-                              key={feature.id}
-                              type="checkbox"
-                              label={carFeatureCategory[feature.name]}
-                              onClick={() =>
-                                this.handleChange('features', {
-                                  value: feature.features[0].id,
-                                  category: feature.name,
-                                  isCheckbox: true,
-                                })
-                              }
-                            />
-                          ))}
-                        </Card.Body>
-                      </Card>
-                      <Card>
-                        <Card.Body>
-                          <Card.Title>
-                            <span className="card-number">5</span>
-                            {general.submit}
-                          </Card.Title>
-                          <Button
-                            variant="primary"
-                            className="formSubmit"
-                            type="submit"
-                          >
-                            {ad.createAdAction}
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    </div>
-                  </StyledForm>
+                                {fetchedCheckboxFeatures.map((feature: any) => (
+                                  <Form.Check
+                                    key={feature.id}
+                                    type="checkbox"
+                                    label={carFeatureCategory[feature.name]}
+                                    onClick={() =>
+                                      this.handleChange('features', {
+                                        value: feature.features[0].id,
+                                        category: feature.name,
+                                        isCheckbox: true,
+                                      })
+                                    }
+                                  />
+                                ))}
+                              </Card.Body>
+                            </Card>
+                            <Card>
+                              <Card.Body>
+                                <Card.Title>
+                                  <span className="card-number">5</span>
+                                  {general.submit}
+                                </Card.Title>
+                                <Button
+                                  variant="primary"
+                                  className="formSubmit"
+                                  type="submit"
+                                >
+                                  {ad.createAdAction}
+                                </Button>
+                              </Card.Body>
+                            </Card>
+                          </div>
+                        </StyledForm>
+                      );
+                    }}
+                  </Mutation>
                 );
               }}
-            </Mutation>
+            </Query>
           );
         }}
       </Query>
