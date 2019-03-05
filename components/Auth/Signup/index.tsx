@@ -149,19 +149,20 @@ class Signup extends Component<MultiProps, SignupState> {
             <Card>
               <BrandHeader />
               <Card.Body>
-                <Select
-                  options={[clientType.company, clientType.individual]}
-                  accessor="clientType"
-                  handleChange={(item: any) =>
-                    this.handleChangeSelect('manufacturerID', item.id)
-                  }
-                  label={`${signup.clientType} :`}
-                />
                 <Form
                   method="post"
                   onSubmit={(e: any) => this.handleSignup(e, handleMutation)}
                 >
                   <fieldset disabled={loading} aria-busy={loading}>
+                    {console.log([clientType.company, clientType.individual])}
+                    <Select
+                      options={[clientType.company, clientType.individual]}
+                      accessor="clientType"
+                      handleChange={(item: any) =>
+                        this.handleChangeSelect('manufacturerID', item.id)
+                      }
+                      label={`${signup.clientType} :`}
+                    />
                     <Form.Group>
                       <Form.Label>{general.firstName}</Form.Label>
                       <InputGroup>
