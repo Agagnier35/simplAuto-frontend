@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, ListGroup, CardDeck, Button } from 'react-bootstrap';
+import { Card, ListGroup, CardDeck, Button, Dropdown } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { CarFeature, Offer } from '../../../generated/graphql';
@@ -14,6 +14,10 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import gql from 'graphql-tag';
 import Link from 'next/link';
+import { AdPortlet, More } from '../AdSummary/styles';
+import GeneralAdInfos from '../AdSummary/GeneralAdInfos';
+import AdFeatures from '../AdSummary/AdFeatures';
+import { IoIosMore as MoreIcon } from 'react-icons/io';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -33,9 +37,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
     variables: { id: adID },
   });
-  function hasPermission(creator: string) {
-    return creator != null;
-  }
 
   async function handleDeleteAd(deleteAd: any) {
     await deleteAd();
@@ -43,10 +44,38 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const { carFeatureCategory, carFeature, GeneralModalContent } = translations;
+  const { GeneralModalContent, carCategory } = translations;
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID },
   });
+
+  function hasPermission() {
+    return data && data.ad && data.ad.creator != null;
+  }
+
+  function getTitle() {
+    let title = '';
+    const ad = data.ad;
+    if (ad.manufacturer) {
+      title += ad.manufacturer.name;
+
+      if (ad.model) {
+        title += ` ${ad.model.name}`;
+      }
+    } else if (ad.category) {
+      title += carCategory[ad.category.name];
+    } else {
+      title += 'My ad';
+    }
+    return title;
+  }
+
+  const pages = [<GeneralAdInfos ad={data.ad} />];
+
+  if (data.ad && data.ad.features && data.ad.features.length > 0) {
+    pages.push(<AdFeatures ad={data.ad} />);
+  }
+
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
@@ -60,89 +89,49 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onClose={() => setModalShow(false)}
           onConfirm={() => handleDeleteAd(deleteAd)}
         />
-        <CardDeck>
-          <Card>
-            <Card.Header>{translations.general.myAds}</Card.Header>
-            <Card.Body>
-              {hasPermission(data.ad.creator) && (
-                <Button variant="danger" onClick={() => setModalShow(true)}>
-                  {GeneralModalContent.delete}
-                </Button>
-              )}
-              <div>
-                {translations.Ads.manufacturer}:{' '}
-                {data.ad.manufacturer ? data.ad.manufacturer.name : '-'}
-              </div>
-              <div>
-                {translations.Ads.model}:{' '}
-                {data.ad.model ? data.ad.model.name : '-'}
-              </div>
-              <div>
-                {translations.Ads.category}:{' '}
-                {data.ad.category ? data.ad.category.name : '-'}
-              </div>
-              <div>
-                {translations.Ads.higherPrice}:{' '}
-                {data.ad.priceHigherBound ? data.ad.priceHigherBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.lowerPrice}:{' '}
-                {data.ad.priceLowerBound ? data.ad.priceLowerBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.higherMileage}:{' '}
-                {data.ad.mileageHigherBound ? data.ad.mileageHigherBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.lowerMileage}:{' '}
-                {data.ad.mileageLowerBound ? data.ad.mileageLowerBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.higherYear}:{' '}
-                {data.ad.yearHigherBound ? data.ad.yearHigherBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.lowerYear}:{' '}
-                {data.ad.yearLowerBound ? data.ad.yearLowerBound : '-'}
-              </div>
-              <ListGroup>
-                {translations.Ads.features} :
-                {data.ad.features &&
-                  data.ad.features.map((feature: CarFeature) => (
-                    <ListGroup.Item key={feature.category.name}>
-                      {carFeatureCategory[feature.category.name]} :{' '}
-                      {carFeature[feature.name] || feature.name}
-                    </ListGroup.Item>
-                  ))}
-              </ListGroup>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Header> {translations.general.offers}</Card.Header>
-            <ListGroup>
-              {data.ad.offers &&
-                data.ad.offers.map((offer: Offer) => (
-                  <ListGroup.Item key={offer.id}>
-                    <Link
-                      href={{ pathname: '/offer', query: { id: offer.id } }}
-                    >
-                      <Card>
-                        {offer.car.photos.length > 0 ? (
-                          <Card.Img variant="top" src={offer.car.photos[0]} />
-                        ) : (
-                          /* TODO: Change Placeholder */
-                          <Card.Img
-                            variant="top"
-                            alt="No car photos placeholder"
-                          />
-                        )}
-                      </Card>
-                    </Link>
-                  </ListGroup.Item>
-                ))}
-            </ListGroup>
-          </Card>
-        </CardDeck>
+        <AdPortlet
+          title={getTitle()}
+          href={{ pathname: '/adDetail', query: { id: data.ad.id } }}
+          interval={3000}
+          pages={pages}
+          left={
+            hasPermission() && (
+              <Dropdown>
+                <More size="sm" variant="light" id="dropdown-basic">
+                  <MoreIcon />
+                </More>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => setModalShow(true)}>
+                    {GeneralModalContent.delete}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )
+          }
+        />
+        <Card>
+          <Card.Header> {translations.general.offers}</Card.Header>
+          <ListGroup>
+            {data.ad.offers &&
+              data.ad.offers.map((offer: Offer) => (
+                <ListGroup.Item key={offer.id}>
+                  <Link href={{ pathname: '/offer', query: { id: offer.id } }}>
+                    <Card>
+                      {offer.car.photos.length > 0 ? (
+                        <Card.Img variant="top" src={offer.car.photos[0]} />
+                      ) : (
+                        /* TODO: Change Placeholder */
+                        <Card.Img
+                          variant="top"
+                          alt="No car photos placeholder"
+                        />
+                      )}
+                    </Card>
+                  </Link>
+                </ListGroup.Item>
+              ))}
+          </ListGroup>
+        </Card>
       </div>
     </>
   );

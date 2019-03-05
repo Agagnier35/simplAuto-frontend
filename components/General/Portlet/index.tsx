@@ -1,19 +1,32 @@
 import React, { ReactNode, useState } from 'react';
-import { Container, Title, Arrow, Arrows, Header, Body } from './styles';
+import { Container, Title, Arrow, Arrows, Header, Body, Left } from './styles';
 import Carousel from 'react-bootstrap/Carousel';
 import {
   TiChevronRight as ArrowRightIcon,
   TiChevronLeft as ArrowLeftIcon,
 } from 'react-icons/ti';
+import Link, { LinkProps } from 'next/link';
+import { UrlObject } from 'url';
 
 export interface PortletProps {
   title: string;
   pages: ReactNode[];
   image?: ReactNode;
+  left?: ReactNode;
   interval: number;
+  className?: string;
+  href?: UrlObject;
 }
 
-const Portlet = ({ pages, title, image, interval }: PortletProps) => {
+const Portlet = ({
+  pages,
+  title,
+  image,
+  interval,
+  left,
+  className,
+  href,
+}: PortletProps) => {
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   function handleIndex(index: number) {
@@ -28,19 +41,30 @@ const Portlet = ({ pages, title, image, interval }: PortletProps) => {
   }
 
   return (
-    <Container>
+    <Container className={className}>
       {image}
       <Body>
         <Header>
-          <Title>{title}</Title>
-          <Arrows>
-            <Arrow onClick={() => handleIndex(carouselIndex - 1)}>
-              <ArrowLeftIcon />
-            </Arrow>
-            <Arrow onClick={() => handleIndex(carouselIndex + 1)}>
-              <ArrowRightIcon />
-            </Arrow>
-          </Arrows>
+          <Title className="portlet-title">
+            {left && <Left>{left}</Left>}
+            {href ? (
+              <Link href={href}>
+                <a>{title}</a>
+              </Link>
+            ) : (
+              title
+            )}
+          </Title>
+          {pages.length > 1 && (
+            <Arrows>
+              <Arrow onClick={() => handleIndex(carouselIndex - 1)}>
+                <ArrowLeftIcon />
+              </Arrow>
+              <Arrow onClick={() => handleIndex(carouselIndex + 1)}>
+                <ArrowRightIcon />
+              </Arrow>
+            </Arrows>
+          )}
         </Header>
         <Carousel
           activeIndex={carouselIndex}

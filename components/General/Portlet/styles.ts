@@ -24,7 +24,7 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 export const Arrows = styled.div`
@@ -41,6 +41,7 @@ export const Arrow = styled.div`
   align-items: center;
   border-radius: 4px;
   transition: 0.25s ease-out;
+  cursor: pointer;
 
   & + & {
     margin-left: 0.5rem;
@@ -52,14 +53,16 @@ export const Arrow = styled.div`
   }
 `;
 
-export const Title = styled.p`
+export const Title = styled.div`
   text-transform: uppercase;
   color: ${props => props.theme.colors.secondaryDarker};
   line-height: 1;
   font-weight: 500;
   margin-bottom: 0;
+  display: flex;
+  align-items: center;
 `;
 
-export const Wrapper = styled(Carousel)``;
-
-export const Page = styled(Carousel.Item);
+export const Left = styled.div`
+  margin-right: 1rem;
+`;
