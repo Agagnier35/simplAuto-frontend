@@ -154,10 +154,12 @@ class Signup extends Component<MultiProps, SignupState> {
                   onSubmit={(e: any) => this.handleSignup(e, handleMutation)}
                 >
                   <fieldset disabled={loading} aria-busy={loading}>
-                    {console.log([clientType.company, clientType.individual])}
                     <Select
-                      options={[clientType.company, clientType.individual]}
-                      accessor="clientType"
+                      options={[
+                        { name: clientType.company },
+                        { name: clientType.individual },
+                      ]}
+                      accessor="name"
                       handleChange={(item: any) =>
                         this.handleChangeSelect('manufacturerID', item.id)
                       }
