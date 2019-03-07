@@ -8,10 +8,12 @@ export const Container = styled.div`
 
   & > img,
   & > a img {
-    width: 300px;
+    width: 200px;
+    max-height: 200px;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
+    box-shadow: inset -8px 9px 23px -12px #0000001c;
   }
 `;
 
