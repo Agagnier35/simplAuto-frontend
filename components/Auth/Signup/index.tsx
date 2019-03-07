@@ -320,33 +320,36 @@ class Signup extends Component<MultiProps, SignupState> {
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
-
-                    <Form.Group>
-                      <Form.Label>{general.gender}</Form.Label>
-                    </Form.Group>
-                    <label htmlFor="gender">
-                      <input
-                        type="radio"
-                        name="gender"
-                        onChange={this.handleChange}
-                        value={Gender.Male}
-                      />
-                      {Gender.Male}
-                      <input
-                        type="radio"
-                        name="gender"
-                        onChange={this.handleChange}
-                        value={Gender.Female}
-                      />
-                      {Gender.Female}
-                      <input
-                        type="radio"
-                        name="gender"
-                        onChange={this.handleChange}
-                        value={Gender.Other}
-                      />
-                      {Gender.Other}
-                    </label>
+                    <div
+                      hidden={this.state.clientType != ClientType.Individual}
+                    >
+                      <Form.Group>
+                        <Form.Label>{general.gender}</Form.Label>
+                      </Form.Group>
+                      <label htmlFor="gender">
+                        <input
+                          type="radio"
+                          name="gender"
+                          onChange={this.handleChange}
+                          value={Gender.Male}
+                        />
+                        {Gender.Male}
+                        <input
+                          type="radio"
+                          name="gender"
+                          onChange={this.handleChange}
+                          value={Gender.Female}
+                        />
+                        {Gender.Female}
+                        <input
+                          type="radio"
+                          name="gender"
+                          onChange={this.handleChange}
+                          value={Gender.Other}
+                        />
+                        {Gender.Other}
+                      </label>
+                    </div>
 
                     <Form.Group>
                       <Form.Label>Location</Form.Label>
@@ -355,7 +358,9 @@ class Signup extends Component<MultiProps, SignupState> {
                       </OtherStyle>
                     </Form.Group>
 
-                    <Form.Group>
+                    <Form.Group
+                      hidden={this.state.clientType != ClientType.Individual}
+                    >
                       <Form.Label>Birth date</Form.Label>
                       <InputGroup>{this.datePickerInput()}</InputGroup>
                     </Form.Group>
