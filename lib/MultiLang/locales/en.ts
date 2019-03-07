@@ -69,6 +69,31 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    confirmForm: {
+      signupForm: {
+        firstName: {
+          emptyError: 'First name cannot be empty.',
+          containsNumberError: 'First name cannot contain a number.',
+        },
+        lastName: {
+          emptyError: 'Last name cannot be empty.',
+          containsNumberError: 'Last name cannot contain a number.',
+        },
+        email: {
+          invalidEmailError: 'Email format is invalid.',
+        },
+        password: {
+          emptyError: 'Password cannot be empty.',
+        },
+        confirmPassword: {
+          emptyError: 'Confirmation password cannot be empty.',
+          matchingError: 'Passwords do not match.',
+        },
+        location: {
+          emptyError: 'Location cannot be empty.',
+        },
+      },
+    },
   },
   errors: {
     invalidEmail: 'Invalid email',

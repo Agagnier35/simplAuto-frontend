@@ -69,6 +69,31 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    confirmForm: {
+      signupForm: {
+        firstName: {
+          emptyError: 'Prénom ne peut être vide.',
+          containsNumberError: 'Prénom ne peut contenir un chiffre.',
+        },
+        lastName: {
+          emptyError: 'Nom de famille ne peut être vide.',
+          containsNumberError: 'Nom de famille ne peut être vide.',
+        },
+        email: {
+          invalidEmailError: 'Adresse courriel invalide.',
+        },
+        password: {
+          emptyError: 'Mot de passe ne peut être vide.',
+        },
+        confirmPassword: {
+          emptyError: 'Mot de passe de confirmation ne peut être vide.',
+          matchingError: 'Mots de passe différents.',
+        },
+        location: {
+          emptyError: 'La location ne peut être vide.',
+        },
+      },
+    },
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
