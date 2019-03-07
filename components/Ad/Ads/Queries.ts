@@ -29,6 +29,7 @@ export const ALL_ADS_QUERY = gql`
         id
         name
         category {
+          id
           name
         }
       }
