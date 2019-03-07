@@ -2,16 +2,22 @@ import React from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { CarPortlet } from './styles';
-import { Car } from '../../../generated/graphql';
+import { Car, Offer } from '../../../generated/graphql';
 import GeneralCarInfos from './GeneralCarInfos';
 import CarFeatures from './CarFeatures';
 
 export interface CarSummaryProp {
   translations: Translations;
   car: Car;
+  offer?: Offer;
 }
 
-const CarSummary = ({ translations, car, ...otherProps }: CarSummaryProp) => {
+const CarSummary = ({
+  translations,
+  car,
+  offer,
+  ...otherProps
+}: CarSummaryProp) => {
   const pages = [<GeneralCarInfos car={car} />];
 
   if (car.features && car.features.length > 0) {
@@ -23,7 +29,11 @@ const CarSummary = ({ translations, car, ...otherProps }: CarSummaryProp) => {
       {...otherProps}
       title={`${car.manufacturer.name} ${car.model.name} ${car.year}`}
       interval={3000}
-      href={{ pathname: '/car', query: { id: car.id } }}
+      href={
+        offer
+          ? { pathname: '/offer', query: { id: offer.id } }
+          : { pathname: '/car', query: { id: car.id } }
+      }
       pages={pages}
       image={<img src={car.photos[0]} />}
     />

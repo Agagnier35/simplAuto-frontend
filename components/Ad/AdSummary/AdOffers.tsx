@@ -9,6 +9,7 @@ import {
   Badge,
   SecondPlace,
   ThirdPlace,
+  OfferPrice,
 } from './styles';
 import AdSummaryItem from './AdSummaryItem';
 import { IoIosTimer as KilometerIcon } from 'react-icons/io';
@@ -53,7 +54,7 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
                 value={offer.car.mileage}
               />
             </div>
-            <p className="price">{offer.price} $</p>
+            <OfferPrice>{offer.price} $</OfferPrice>
           </AdOfferItem>
         ))}
     </Col>

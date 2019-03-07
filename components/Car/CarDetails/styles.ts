@@ -10,12 +10,6 @@ const StyledCarDetails = styled.div`
     vertical-align: middle;
   }
 
-  img {
-    padding: auto;
-    max-height: 400px;
-    max-width: 100%;
-  }
-
   label {
     margin-left: 1.5rem;
   }
@@ -44,6 +38,55 @@ const StyledCarDetails = styled.div`
       flex-grow: 1;
       margin-bottom: 15px;
     }
+  }
+`;
+
+export const BigImage = styled.img`
+  width: 75%;
+  height: 100%;
+  border-radius: 0.25rem;
+
+  @media (max-width: 700px) {
+    width: 100%;
+  }
+`;
+
+export const Images = styled.div`
+  display: flex;
+  margin-bottom: 1rem;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+`;
+
+export const SmallImage = styled.img`
+  border-radius: 0.25rem;
+  width: 100%;
+  height: calc(33.33% - 0.66rem);
+  object-fit: contain;
+
+  & + & {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 700px) {
+    width: calc(33.33% - 0.66rem);
+
+    & + & {
+      margin-top: 0;
+      margin-left: 1rem;
+    }
+  }
+`;
+
+export const SmallImages = styled.div`
+  margin-left: 1rem;
+
+  @media (max-width: 700px) {
+    display: flex;
+    margin-top: 1rem;
+    margin-left: 0;
   }
 `;
 

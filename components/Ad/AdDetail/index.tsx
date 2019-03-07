@@ -72,11 +72,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <CarSummaries>
             {data.ad.offers &&
               data.ad.offers.map((offer: Offer) => (
-                <CarSummary
-                  key={offer.id}
-                  car={offer.car}
-                  price={offer.price}
-                />
+                <CarSummary key={offer.id} car={offer.car} offer={offer} />
               ))}
           </CarSummaries>
         </Card>

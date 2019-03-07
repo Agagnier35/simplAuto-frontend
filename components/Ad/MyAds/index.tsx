@@ -19,19 +19,21 @@ const MyAds = ({ translations }: MultiProps) => {
         </Button>
       </Link>
 
-      <Card>
-        <AdSummaries>
-          <Query query={ALL_MY_ADS_QUERY}>
-            {({ data, loading, error }) => {
-              if (loading) return <Loading />;
-              if (error) return <ErrorMessage error={error} />;
-              return data.me.ads.map((ad: Ad) => (
-                <AdSummary adsQuery={ALL_MY_ADS_QUERY} key={ad.id} ad={ad} />
-              ));
-            }}
-          </Query>
-        </AdSummaries>
-      </Card>
+      <Query query={ALL_MY_ADS_QUERY}>
+        {({ data, loading, error }) => {
+          if (loading) return <Loading />;
+          if (error) return <ErrorMessage error={error} />;
+          return (
+            <Card>
+              <AdSummaries>
+                {data.me.ads.map((ad: Ad) => (
+                  <AdSummary adsQuery={ALL_MY_ADS_QUERY} key={ad.id} ad={ad} />
+                ))}
+              </AdSummaries>
+            </Card>
+          );
+        }}
+      </Query>
     </>
   );
 };

@@ -96,15 +96,16 @@ export const AdOfferItem = styled(Row)`
   p {
     margin: 0;
   }
+`;
 
-  .price {
-    background: ${props => props.theme.colors.secondary};
-    padding: 0 0.5rem;
-    border-radius: 0.25rem;
-    color: ${props => props.theme.colors.primary};
-    font-weight: 500;
-    font-size: 1.25rem;
-  }
+export const OfferPrice = styled.p`
+  background: ${props => props.theme.colors.secondary};
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  color: ${props => props.theme.colors.primary};
+  font-weight: 500;
+  font-size: 1.25rem;
+  white-space: nowrap;
 `;
 
 export const Badge = styled.span`

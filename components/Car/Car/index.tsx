@@ -84,26 +84,31 @@ const Car = ({ translations, query }: CarPageProps) => {
           {adsQuery.data.ads &&
             adsQuery.data.ads.map((ad: Ad) => (
               <div key={ad.id}>
-                {findMyOffer(ad) ? (
-                  <Button
-                    onClick={() => {
-                      handleToggleEditOffer(ad);
-                    }}
-                    variant="primary"
-                  >
-                    {translations.offers.modifyOffer}
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      handleToggleCreateOffer(ad);
-                    }}
-                    variant="primary"
-                  >
-                    {translations.offers.createOffer}
-                  </Button>
-                )}
-                <AdSummary key={ad.id} ad={ad} />
+                <AdSummary
+                  key={ad.id}
+                  ad={ad}
+                  right={
+                    findMyOffer(ad) ? (
+                      <Button
+                        onClick={() => {
+                          handleToggleEditOffer(ad);
+                        }}
+                        variant="primary"
+                      >
+                        {translations.offers.modifyOffer}
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          handleToggleCreateOffer(ad);
+                        }}
+                        variant="primary"
+                      >
+                        {translations.offers.createOffer}
+                      </Button>
+                    )
+                  }
+                />
               </div>
             ))}
         </AdSummaries>

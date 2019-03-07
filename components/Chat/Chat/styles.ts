@@ -29,7 +29,7 @@ export const Message = styled('div')<{ sender: User }>`
 `;
 
 export const Card = styled(BSCard)`
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   .form-control {
     border-right: none;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Ad, CarFeature } from '../../../generated/graphql';
 import { Row, Col, Button } from 'react-bootstrap';
 import {
@@ -15,9 +15,10 @@ import AdSummaryItem from './AdSummaryItem';
 
 export interface GeneralAdInfosProps {
   ad: Ad;
+  right: ReactNode;
 }
 
-const GeneralAdInfos = ({ ad }: GeneralAdInfosProps) => {
+const GeneralAdInfos = ({ ad, right }: GeneralAdInfosProps) => {
   function findColor() {
     if (ad.features) {
       const colorFeature = ad.features.find(
@@ -82,7 +83,7 @@ const GeneralAdInfos = ({ ad }: GeneralAdInfosProps) => {
           </Row>
         </Col>
         <Col md={2}>
-          <ButtonRow />
+          <ButtonRow>{right}</ButtonRow>
         </Col>
       </Row>
     </Col>

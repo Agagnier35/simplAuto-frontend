@@ -49,13 +49,7 @@ const GeneralCarInfos = ({ car, price }: GeneralCarInfosProps) => {
           </Row>
         </Col>
         <Col md={2}>
-          <ButtonRow>
-            <Button variant="primary">Faire une offre</Button>
-
-            <Button variant="light">Random action 1</Button>
-
-            <Button variant="secondary">Random action 2</Button>
-          </ButtonRow>
+          <ButtonRow />
         </Col>
       </Row>
     </Col>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
@@ -20,6 +20,7 @@ export interface AdSummaryProps {
   translations: Translations;
   ad: Ad;
   adsQuery: any;
+  right?: ReactNode;
 }
 
 export const AD_DELETE_MUTATION = gql`
@@ -30,7 +31,7 @@ export const AD_DELETE_MUTATION = gql`
   }
 `;
 
-const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
+const AdSummary = ({ translations, ad, adsQuery, right }: AdSummaryProps) => {
   const { carCategory, general } = translations;
 
   const [modalShow, setModalShow] = useState(false);
@@ -65,7 +66,7 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     Router.push('/myAds');
   }
 
-  const pages = [<GeneralAdInfos ad={ad} />];
+  const pages = [<GeneralAdInfos ad={ad} right={right} />];
 
   if (ad.features && ad.features.length > 0) {
     pages.push(<AdFeatures ad={ad} />);
