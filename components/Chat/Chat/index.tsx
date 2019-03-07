@@ -138,6 +138,7 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
                     type="file"
                     ref={ref => (myInput = ref)}
                     style={{ display: 'none' }}
+                    accept="image/*"
                     onChange={handlePictureChange}
                   />
                   <FaImage onClick={handleImage} />
