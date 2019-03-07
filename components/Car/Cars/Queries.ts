@@ -7,12 +7,15 @@ export const MY_CARS_QUERY = gql`
       cars {
         id
         manufacturer {
+          id
           name
         }
         model {
+          id
           name
         }
         category {
+          id
           name
         }
         year
