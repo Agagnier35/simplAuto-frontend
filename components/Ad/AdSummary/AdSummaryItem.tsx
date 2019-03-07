@@ -3,7 +3,7 @@ import { StyledAdSummaryItem } from './styles';
 
 export interface AdSummaryItemProps {
   label: string;
-  value: string;
+  value: string | number;
   icon: ReactNode;
   className?: string;
 }

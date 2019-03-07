@@ -7,6 +7,7 @@ import { Ad } from '../../../generated/graphql';
 import { ALL_ADS_QUERY } from './Queries';
 import { useQuery } from 'react-apollo-hooks';
 import { AdSummaries } from './styles';
+import { Card } from 'react-bootstrap';
 
 const Ads = () => {
   const { data, error, loading } = useQuery(ALL_ADS_QUERY);
@@ -15,11 +16,13 @@ const Ads = () => {
   if (error) return <ErrorMessage error={error} />;
 
   return (
-    <AdSummaries>
-      {data.ads.map((ad: Ad) => (
-        <AdSummary adsQuery={ALL_ADS_QUERY} key={ad.id} ad={ad} />
-      ))}
-    </AdSummaries>
+    <Card>
+      <AdSummaries>
+        {data.ads.map((ad: Ad) => (
+          <AdSummary adsQuery={ALL_ADS_QUERY} key={ad.id} ad={ad} />
+        ))}
+      </AdSummaries>
+    </Card>
   );
 };
 

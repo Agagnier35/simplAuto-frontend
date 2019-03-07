@@ -7,6 +7,7 @@ import {
 } from 'react-icons/ti';
 import Link, { LinkProps } from 'next/link';
 import { UrlObject } from 'url';
+import { StyledProps } from 'styled-components';
 
 export interface PortletProps {
   title: string;
@@ -16,6 +17,7 @@ export interface PortletProps {
   interval: number;
   className?: string;
   href?: UrlObject;
+  style?: StyledProps<any>;
 }
 
 const Portlet = ({
@@ -26,6 +28,7 @@ const Portlet = ({
   left,
   className,
   href,
+  style,
 }: PortletProps) => {
   const [carouselIndex, setCarouselIndex] = useState(0);
 
@@ -41,8 +44,14 @@ const Portlet = ({
   }
 
   return (
-    <Container className={className}>
-      {image}
+    <Container style={style} className={className}>
+      {href ? (
+        <Link href={href}>
+          <a>{image}</a>
+        </Link>
+      ) : (
+        { image }
+      )}
       <Body>
         <Header>
           <Title className="portlet-title">

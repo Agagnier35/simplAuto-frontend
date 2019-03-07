@@ -1,11 +1,11 @@
 import React from 'react';
 import { Ad, CarFeature } from '../../../generated/graphql';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import {
   IoIosCar as CarIcon,
   IoIosTimer as KilometerIcon,
 } from 'react-icons/io';
-import { ColorCol } from './styles';
+import { ColorCol, ButtonRow } from './styles';
 import {
   FaQuestion as QuestionMark,
   FaDollarSign as DollarIcon,
@@ -51,7 +51,7 @@ const GeneralAdInfos = ({ ad }: GeneralAdInfosProps) => {
         <ColorCol md={2}>
           <Row>{getCarIcon()}</Row>
         </ColorCol>
-        <Col md={7}>
+        <Col md={8}>
           <Row>
             <Col md={12}>
               <Row>
@@ -81,7 +81,9 @@ const GeneralAdInfos = ({ ad }: GeneralAdInfosProps) => {
             </Col>
           </Row>
         </Col>
-        <Col md={3} />
+        <Col md={2}>
+          <ButtonRow />
+        </Col>
       </Row>
     </Col>
   );

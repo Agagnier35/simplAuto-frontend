@@ -10,12 +10,15 @@ export const ALL_ADS_QUERY = gql`
       priceLowerBound
       priceHigherBound
       manufacturer {
+        id
         name
       }
       model {
+        id
         name
       }
       category {
+        id
         name
       }
       mileageLowerBound
@@ -23,6 +26,7 @@ export const ALL_ADS_QUERY = gql`
       yearLowerBound
       yearHigherBound
       features {
+        id
         name
         category {
           name
@@ -31,6 +35,24 @@ export const ALL_ADS_QUERY = gql`
       isUrgent
       isFirst
       status
+      offers {
+        id
+        price
+        car {
+          id
+          photos
+          manufacturer {
+            id
+            name
+          }
+          model {
+            id
+            name
+          }
+          year
+          mileage
+        }
+      }
     }
   }
 `;

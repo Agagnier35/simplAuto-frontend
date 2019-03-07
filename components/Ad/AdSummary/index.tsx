@@ -14,6 +14,7 @@ import GeneralAdInfos from './GeneralAdInfos';
 import AdFeatures from './AdFeatures';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import { More, AdPortlet } from './styles';
+import AdOffers from './AdOffers';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -68,6 +69,10 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
 
   if (ad.features && ad.features.length > 0) {
     pages.push(<AdFeatures ad={ad} />);
+  }
+
+  if (ad.offers && ad.offers.length > 0) {
+    pages.push(<AdOffers ad={ad} />);
   }
 
   return (

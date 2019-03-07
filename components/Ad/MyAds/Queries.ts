@@ -32,6 +32,21 @@ export const ALL_MY_ADS_QUERY = gql`
         isUrgent
         isFirst
         status
+        offers {
+          id
+          price
+          car {
+            photos
+            manufacturer {
+              name
+            }
+            model {
+              name
+            }
+            year
+            mileage
+          }
+        }
       }
     }
   }

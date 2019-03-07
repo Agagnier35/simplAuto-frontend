@@ -34,6 +34,7 @@ export const AD_DETAIL_QUERY = gql`
       offers {
         id
         car {
+          id
           manufacturer {
             name
           }

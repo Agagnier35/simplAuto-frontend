@@ -10,6 +10,8 @@ import { Card, CardDeck, Button } from 'react-bootstrap';
 import { Ad, Offer } from '../../../generated/graphql';
 import AdSummary from '../../Ad/AdSummary';
 import OfferModal from '../../Offer/OfferModal';
+import CarSummary from '../CarSummary';
+import { AdSummaries, Tab, TabBadge } from '../../Ad/Ads/styles';
 
 export interface CarPageProps {
   translations: Translations;
@@ -70,50 +72,43 @@ const Car = ({ translations, query }: CarPageProps) => {
 
   return (
     <>
-      <CardDeck>
-        <Card>
-          <div>
-            <h2>{translations.cars.details}</h2>
-            <Button
-              className="noPrint"
-              variant="outline-primary"
-              onClick={handlePrint}
-            >
-              {translations.general.print}
-            </Button>
-            <CarDetails car={carQuery.data.car} />
-          </div>
-        </Card>
-        <Card>
-          <Card.Body>
-            {adsQuery.data.ads &&
-              adsQuery.data.ads.map((ad: Ad) => (
-                <div key={ad.id}>
-                  {findMyOffer(ad) ? (
-                    <Button
-                      onClick={() => {
-                        handleToggleEditOffer(ad);
-                      }}
-                      variant="primary"
-                    >
-                      {translations.offers.modifyOffer}
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => {
-                        handleToggleCreateOffer(ad);
-                      }}
-                      variant="primary"
-                    >
-                      {translations.offers.createOffer}
-                    </Button>
-                  )}
-                  <AdSummary key={ad.id} ad={ad} />
-                </div>
-              ))}
-          </Card.Body>
-        </Card>
-      </CardDeck>
+      <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
+        <CarSummary car={carQuery.data.car} />
+      </Card>
+      <Tab>
+        Annonces correspondantes
+        {adsQuery.data.ads && <TabBadge>{adsQuery.data.ads.length}</TabBadge>}
+      </Tab>
+      <Card style={{ overflow: 'hidden' }}>
+        <AdSummaries>
+          {adsQuery.data.ads &&
+            adsQuery.data.ads.map((ad: Ad) => (
+              <div key={ad.id}>
+                {findMyOffer(ad) ? (
+                  <Button
+                    onClick={() => {
+                      handleToggleEditOffer(ad);
+                    }}
+                    variant="primary"
+                  >
+                    {translations.offers.modifyOffer}
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      handleToggleCreateOffer(ad);
+                    }}
+                    variant="primary"
+                  >
+                    {translations.offers.createOffer}
+                  </Button>
+                )}
+                <AdSummary key={ad.id} ad={ad} />
+              </div>
+            ))}
+        </AdSummaries>
+      </Card>
+
       {modalOpened && (
         <OfferModal
           modalOpened={modalOpened}

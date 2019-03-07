@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, ListGroup, CardDeck, Button, Dropdown } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import { CarFeature, Offer } from '../../../generated/graphql';
+import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -13,11 +13,10 @@ import GeneralModal, {
   ModalAction,
 } from '../../General/GeneralModal';
 import gql from 'graphql-tag';
-import Link from 'next/link';
-import { AdPortlet, More } from '../AdSummary/styles';
-import GeneralAdInfos from '../AdSummary/GeneralAdInfos';
-import AdFeatures from '../AdSummary/AdFeatures';
-import { IoIosMore as MoreIcon } from 'react-icons/io';
+import { CarSummaries } from '../../Car/Car/styles';
+import CarSummary from '../../Car/CarSummary';
+import { Tab, TabBadge } from '../Ads/styles';
+import AdSummary from '../AdSummary';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -44,37 +43,10 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const { GeneralModalContent, carCategory } = translations;
+  const { carCategory } = translations;
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID },
   });
-
-  function hasPermission() {
-    return data && data.ad && data.ad.creator != null;
-  }
-
-  function getTitle() {
-    let title = '';
-    const ad = data.ad;
-    if (ad.manufacturer) {
-      title += ad.manufacturer.name;
-
-      if (ad.model) {
-        title += ` ${ad.model.name}`;
-      }
-    } else if (ad.category) {
-      title += carCategory[ad.category.name];
-    } else {
-      title += 'My ad';
-    }
-    return title;
-  }
-
-  const pages = [<GeneralAdInfos ad={data.ad} />];
-
-  if (data.ad && data.ad.features && data.ad.features.length > 0) {
-    pages.push(<AdFeatures ad={data.ad} />);
-  }
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
@@ -89,48 +61,24 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onClose={() => setModalShow(false)}
           onConfirm={() => handleDeleteAd(deleteAd)}
         />
-        <AdPortlet
-          title={getTitle()}
-          href={{ pathname: '/adDetail', query: { id: data.ad.id } }}
-          interval={3000}
-          pages={pages}
-          left={
-            hasPermission() && (
-              <Dropdown>
-                <More size="sm" variant="light" id="dropdown-basic">
-                  <MoreIcon />
-                </More>
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setModalShow(true)}>
-                    {GeneralModalContent.delete}
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            )
-          }
-        />
-        <Card>
-          <Card.Header> {translations.general.offers}</Card.Header>
-          <ListGroup>
+        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+          <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
+        </Card>
+        <Tab>
+          Offres reçues{' '}
+          {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
+        </Tab>
+        <Card style={{ overflow: 'hidden' }}>
+          <CarSummaries>
             {data.ad.offers &&
               data.ad.offers.map((offer: Offer) => (
-                <ListGroup.Item key={offer.id}>
-                  <Link href={{ pathname: '/offer', query: { id: offer.id } }}>
-                    <Card>
-                      {offer.car.photos.length > 0 ? (
-                        <Card.Img variant="top" src={offer.car.photos[0]} />
-                      ) : (
-                        /* TODO: Change Placeholder */
-                        <Card.Img
-                          variant="top"
-                          alt="No car photos placeholder"
-                        />
-                      )}
-                    </Card>
-                  </Link>
-                </ListGroup.Item>
+                <CarSummary
+                  key={offer.id}
+                  car={offer.car}
+                  price={offer.price}
+                />
               ))}
-          </ListGroup>
+          </CarSummaries>
         </Card>
       </div>
     </>

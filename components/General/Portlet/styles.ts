@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { Card, Carousel } from 'react-bootstrap';
 
-export const Container = styled(Card)`
+export const Container = styled.div`
   min-height: 200px;
   display: flex;
-  flex-flow: row;
+  flex-flow: row !important;
 
-  img {
+  & > img,
+  & > a img {
     width: 300px;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    border-radius: 0.25rem 0 0 0.25rem;
   }
 `;
 
@@ -61,6 +61,10 @@ export const Title = styled.div`
   margin-bottom: 0;
   display: flex;
   align-items: center;
+
+  a {
+    color: ${props => props.theme.colors.secondaryDarker};
+  }
 `;
 
 export const Left = styled.div`
