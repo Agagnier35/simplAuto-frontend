@@ -3,13 +3,14 @@ import { Dropdown as BootStrapDropdown } from 'react-bootstrap';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 
-export interface SelectProps {
+export interface SelectProps extends MultiProps {
   options: any[]; // What is being looped on
   handleChange: (...params: any) => void; // Function called when an element is clicked
   accessor: string; // The key of the item to display in the list items
   label: string; // The value of the hovering label
   disabled: boolean; // Blocks input if true
   translations: Translations;
+  selected?: any; // The object to be displayed
 }
 
 interface SelectState {
@@ -17,9 +18,18 @@ interface SelectState {
 }
 
 class Select extends React.Component<SelectProps & MultiProps, SelectState> {
-  state = {
-    selectedValue: '',
-  };
+  constructor(props: SelectProps) {
+    super(props);
+    if (this.props.selected) {
+      this.state = {
+        selectedValue: this.props.selected[this.props.accessor],
+      };
+    } else {
+      this.state = {
+        selectedValue: '',
+      };
+    }
+  }
 
   handleSelect = (option: any) => {
     const { accessor, handleChange } = this.props;
@@ -47,7 +57,7 @@ class Select extends React.Component<SelectProps & MultiProps, SelectState> {
             variant="secondary"
             id="dropdown-basic"
           >
-            {selectedValue.length > 0 ? selectedValue : general.defaultDropdown}
+            {selectedValue != '' ? selectedValue : general.defaultDropdown}
           </BootStrapDropdown.Toggle>
           <BootStrapDropdown.Menu>
             {options.map((option, index) => (

@@ -47,6 +47,7 @@ const translations: Translations = {
     min: 'min',
     firstName: 'First name',
     lastName: 'Last name',
+    companyName: 'Company name',
     gender: 'Gender',
     birthDate: {
       day: 'Day',

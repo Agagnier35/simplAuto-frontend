@@ -45,6 +45,7 @@ export default interface Translations {
     max: string;
     firstName: string;
     lastName: string;
+    companyName: string;
     gender: string;
     birthDate: {
       day: string;

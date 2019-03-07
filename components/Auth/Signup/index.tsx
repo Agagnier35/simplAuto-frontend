@@ -12,7 +12,12 @@ import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
-import { Gender, Date as BirthDate } from '../../../generated/graphql';
+import {
+  Gender,
+  Date as BirthDate,
+  ClientType,
+} from '../../../generated/graphql';
+import { Dictionary } from '../../../lib/Types/Dictionary';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -25,18 +30,21 @@ const SIGNUP_MUTATION = gql`
 interface SignupState {
   firstName: string;
   lastName: string;
+  companyName: string;
   email: string;
   password: string;
   confirmPassword: string;
   location: string;
   gender: Gender;
   birthDate: BirthDate;
+  clientType: ClientType;
 }
 
 class Signup extends Component<MultiProps, SignupState> {
   state: SignupState = {
     firstName: '',
     lastName: '',
+    companyName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -47,6 +55,7 @@ class Signup extends Component<MultiProps, SignupState> {
       month: 1,
       year: 1900,
     },
+    clientType: ClientType.Individual,
   };
 
   isBirthDateValid = () => {
@@ -78,16 +87,20 @@ class Signup extends Component<MultiProps, SignupState> {
       : this.setState({
           firstName: '',
           lastName: '',
+          companyName: '',
           email: '',
           password: '',
           confirmPassword: '',
+          clientType: ClientType.Individual,
         });
     this.setState({
       firstName: '',
       lastName: '',
+      companyName: '',
       email: '',
       password: '',
       confirmPassword: '',
+      clientType: ClientType.Individual,
     });
     Router.push('/');
   };
@@ -132,7 +145,13 @@ class Signup extends Component<MultiProps, SignupState> {
     return { data: userInfos };
   };
 
-  handleChangeSelect = (key: string, value: any) => {};
+  handleChangeSelect = (value: any) => {
+    if (value === ClientType.Company) {
+      this.setState({ clientType: ClientType.Company });
+    } else {
+      this.setState({ clientType: ClientType.Individual });
+    }
+  };
 
   render() {
     const {
@@ -156,47 +175,78 @@ class Signup extends Component<MultiProps, SignupState> {
                   <fieldset disabled={loading} aria-busy={loading}>
                     <Select
                       options={[
-                        { name: clientType.company },
-                        { name: clientType.individual },
+                        { name: clientType.company, value: ClientType.Company },
+                        {
+                          name: clientType.individual,
+                          value: ClientType.Individual,
+                        },
                       ]}
                       accessor="name"
                       handleChange={(item: any) =>
-                        this.handleChangeSelect('manufacturerID', item.id)
+                        this.handleChangeSelect(item.value)
                       }
                       label={`${signup.clientType} :`}
+                      selected={{
+                        name: clientType.individual,
+                        value: ClientType.Individual,
+                      }}
                     />
-                    <Form.Group>
-                      <Form.Label>{general.firstName}</Form.Label>
-                      <InputGroup>
-                        <Form.Control
-                          placeholder={general.firstName}
-                          aria-describedby="inputGroupPrepend"
-                          required
-                          type="firstName"
-                          name="firstName"
-                          value={this.state.firstName}
-                          onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {general.firstName}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
+                    <div
+                      hidden={this.state.clientType != ClientType.Individual}
+                    >
+                      <Form.Group>
+                        <Form.Label>{general.firstName}</Form.Label>
+                        <InputGroup>
+                          <Form.Control
+                            placeholder={general.firstName}
+                            aria-describedby="inputGroupPrepend"
+                            required
+                            type="firstName"
+                            name="firstName"
+                            value={this.state.firstName}
+                            onChange={this.handleChange}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {general.firstName}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
 
-                    <Form.Group>
-                      <Form.Label>{general.lastName}</Form.Label>
+                      <Form.Group>
+                        <Form.Label>{general.lastName}</Form.Label>
+                        <InputGroup>
+                          <Form.Control
+                            placeholder={general.lastName}
+                            aria-describedby="inputGroupPrepend"
+                            required
+                            type="lastName"
+                            name="lastName"
+                            value={this.state.lastName}
+                            onChange={this.handleChange}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {general.lastName}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <Form.Group
+                      hidden={this.state.clientType != ClientType.Company}
+                    >
+                      <Form.Label>{general.companyName}</Form.Label>
                       <InputGroup>
                         <Form.Control
-                          placeholder={general.lastName}
+                          placeholder={general.companyName}
                           aria-describedby="inputGroupPrepend"
                           required
-                          type="lastName"
-                          name="lastName"
-                          value={this.state.lastName}
+                          type="companyName"
+                          name="companyName"
+                          value={this.state.companyName}
                           onChange={this.handleChange}
                         />
                         <Form.Control.Feedback type="invalid">
-                          {general.lastName}
+                          {general.companyName}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
