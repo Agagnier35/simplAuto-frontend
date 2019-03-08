@@ -16,6 +16,10 @@ export interface UserSignupInput {
   gender: Gender;
 
   permissions?: Maybe<Permission[]>;
+
+  facebookID?: Maybe<string>;
+
+  googleID?: Maybe<string>;
 }
 
 export interface DateInput {
@@ -246,6 +250,10 @@ export interface User {
 
   permissions: Permission[];
 
+  facebookID?: Maybe<string>;
+
+  googleID?: Maybe<string>;
+
   offers: Offer[];
 
   ads: Ad[];
@@ -416,6 +424,10 @@ export interface Mutation {
 
   login: User;
 
+  facebookLogin: User;
+
+  googleLogin: User;
+
   logout: string;
 
   updateUser: User;
@@ -484,6 +496,12 @@ export interface LoginMutationArgs {
   email: string;
 
   password: string;
+}
+export interface FacebookLoginMutationArgs {
+  data: UserSignupInput;
+}
+export interface GoogleLoginMutationArgs {
+  data: UserSignupInput;
 }
 export interface UpdateUserMutationArgs {
   data: UserUpdateInput;
