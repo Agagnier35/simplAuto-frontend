@@ -1,5 +1,5 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import { Offer, Message } from '../../../generated/graphql';
+import { Offer, Message, Maybe } from '../../../generated/graphql';
 import * as Chat from './styles';
 import { InputGroup, Form } from 'react-bootstrap';
 import { FaImage } from 'react-icons/fa';
@@ -25,7 +25,8 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
     },
     update: handleUpdateMessageCache,
   });
-  let myInput = React.createRef();
+  let upload: Maybe<HTMLInputElement>;
+
   const { data, loading, error } = useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
       conversationID: offer.conversation && offer.conversation.id,
@@ -42,10 +43,6 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
 
   function handleChange(e: FormEvent<any>) {
     setCurrentMessage(e.currentTarget.value);
-  }
-
-  function handleImage() {
-    myInput.click();
   }
 
   async function sendMessage(e: FormEvent<HTMLFormElement> | any) {
@@ -134,14 +131,18 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
               <InputGroup.Append>
                 <InputGroup.Text className="image-button">
                   <input
-                    id="myInput"
+                    id="upload"
                     type="file"
-                    ref={ref => (myInput = ref)}
+                    ref={ref => (upload = ref)}
                     style={{ display: 'none' }}
                     accept="image/*"
                     onChange={handlePictureChange}
                   />
-                  <FaImage onClick={handleImage} />
+                  <FaImage
+                    onClick={() => {
+                      if (upload) upload.click();
+                    }}
+                  />
                 </InputGroup.Text>
               </InputGroup.Append>
               <InputGroup.Append>
