@@ -1,7 +1,7 @@
 import React from 'react';
 import StyledCarList from './styles';
 import CarSummary from '../CarSummary/index';
-import { CardDeck } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Car } from '../../../generated/graphql';
 
 export interface CarsProps {
@@ -11,11 +11,11 @@ export interface CarsProps {
 const CarList = ({ cars }: CarsProps) => {
   return (
     <StyledCarList>
-      <CardDeck>
-        {cars.map((car: Car) => (
+      <Card style={{ overflow: 'hidden' }}>
+        {cars.map((car: any) => (
           <CarSummary key={car.id} car={car} />
         ))}
-      </CardDeck>
+      </Card>
     </StyledCarList>
   );
 };

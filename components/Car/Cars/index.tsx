@@ -19,7 +19,11 @@ const Cars = ({ translations }: MultiProps) => {
     <div>
       <h2>{translations.cars.title}</h2>
       <Link href="/addcar" prefetch>
-        <Button>{translations.cars.addCar}</Button>
+        <a>
+          <Button style={{ marginBottom: '1rem' }}>
+            {translations.cars.addCar}
+          </Button>
+        </a>
       </Link>
       <CarList cars={data.me.cars} />
       <PagingView />

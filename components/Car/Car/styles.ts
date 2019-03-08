@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Card, CardColumns, CardDeck } from 'react-bootstrap';
 
-const StyleCar = styled(CardDeck)``;
-
-export default StyleCar;
+export const CarSummaries = styled.div`
+  & > * + * {
+    border-top: 1px solid #aeb2b652;
+  }
+`;

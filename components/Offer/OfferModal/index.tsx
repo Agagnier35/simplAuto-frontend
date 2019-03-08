@@ -103,6 +103,12 @@ const OfferModal = ({
     }
   }
 
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode == 13 /*enter*/) {
+      handleOtherAddonClick();
+    }
+  }
+
   return (
     <Modal
       size="lg"
@@ -172,6 +178,7 @@ const OfferModal = ({
                 aria-describedby="inputGroupPrepend"
                 required
                 name="otherAddon"
+                onKeyDown={handleKeyDown}
                 value={otherAddon}
                 onChange={(e: any) => setOtherAddon(e.currentTarget.value)}
               />

@@ -65,6 +65,8 @@ export interface CarCreateInput {
 
   categoryID: string;
 
+  description?: Maybe<string>;
+
   year: number;
 
   mileage: number;
@@ -251,6 +253,10 @@ export interface User {
 
   googleID?: Maybe<string>;
 
+  offers: Offer[];
+
+  googleID?: Maybe<string>;
+
   ads: Ad[];
 
   cars: Car[];
@@ -382,6 +388,32 @@ export interface CarFeatureCategory {
   type: CarFeatureType;
 
   features: CarFeature[];
+}
+
+export interface Car {
+  id: string;
+
+  owner?: Maybe<User>;
+
+  manufacturer: Manufacturer;
+
+  model: CarModel;
+
+  category: CarCategory;
+
+  description?: Maybe<string>;
+
+  year: number;
+
+  mileage: number;
+
+  photos: string[];
+
+  features: CarFeature[];
+
+  status: CarStatus;
+
+  offers?: Maybe<Offer[]>;
 }
 
 export interface OfferAddon {

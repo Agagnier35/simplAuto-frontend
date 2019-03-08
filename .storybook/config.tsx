@@ -4,7 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 import results from '../jest-test-results.json';
 import 'bootstrap/dist/css/bootstrap.css';
 import { ThemeProvider, injectGlobal } from 'styled-components';
-import { theme, globalStyles } from '../components/Bootstrap/Theme';
+import { theme, globalStyles } from '../components/General/Bootstrap/Theme';
 import MultiLang from '../lib/MultiLang';
 
 injectGlobal`
