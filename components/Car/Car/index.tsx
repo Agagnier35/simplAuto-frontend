@@ -29,7 +29,6 @@ const Car = ({ translations, query }: CarPageProps) => {
   });
   const adsQuery = useQuery(MATCHING_ADS_QUERY);
   const errors = carQuery.error || adsQuery.error;
-
   if (carQuery.loading) return <Loading />;
   if (errors) return <ErrorMessage error={errors} />;
 

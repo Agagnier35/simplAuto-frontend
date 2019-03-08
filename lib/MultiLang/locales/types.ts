@@ -84,6 +84,7 @@ export default interface Translations {
     year: string;
     mileage: string;
     price: string;
+    descriptionPlaceholder: string;
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };

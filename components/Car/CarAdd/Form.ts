@@ -72,6 +72,7 @@ const Form = styled.form`
 
   textarea {
     resize: none;
+    margin-left: 5px;
   }
 
   img {

@@ -57,6 +57,8 @@ export interface CarCreateInput {
 
   categoryID: string;
 
+  description?: Maybe<string>;
+
   year: number;
 
   mileage: number;
@@ -181,6 +183,11 @@ export enum OfferStatus {
   Deleted = 'DELETED',
 }
 
+export enum ClientType {
+  Company = 'COMPANY',
+  Individual = 'INDIVIDUAL',
+}
+
 export enum AdFeatureImportance {
   Low = 'LOW',
   Medium = 'MEDIUM',
@@ -236,9 +243,11 @@ export interface User {
 
   email: string;
 
-  firstName: string;
+  firstName?: Maybe<string>;
 
-  lastName: string;
+  lastName?: Maybe<string>;
+
+  companyName?: Maybe<string>;
 
   password: string;
 
@@ -261,6 +270,8 @@ export interface User {
   cars: Car[];
 
   conversations?: Maybe<Conversation[]>;
+
+  clientType?: Maybe<ClientType>;
 }
 
 export interface Date {
@@ -373,6 +384,8 @@ export interface Car {
   model: CarModel;
 
   category: CarCategory;
+
+  description?: Maybe<string>;
 
   year: number;
 

@@ -86,6 +86,7 @@ const translations: Translations = {
     year: 'Year',
     mileage: 'Mileage',
     price: 'Price',
+    descriptionPlaceholder: 'Enter a small description for the car',
   },
   carFeatureCategory: {
     color: 'color',

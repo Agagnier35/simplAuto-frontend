@@ -86,6 +86,7 @@ const translations: Translations = {
     year: 'Année',
     mileage: 'Kilométrage',
     price: 'Prix',
+    descriptionPlaceholder: 'Entrez une courte description de la voiture',
   },
   carFeatureCategory: {
     color: 'Couleur',

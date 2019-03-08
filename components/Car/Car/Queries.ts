@@ -16,6 +16,7 @@ export const CAR_BY_ID = gql`
       year
       mileage
       photos
+      description
       features {
         name
         category {

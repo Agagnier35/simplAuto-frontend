@@ -16,6 +16,7 @@ export const MY_CARS_QUERY = gql`
           name
         }
         year
+        description
         photos
       }
     }
