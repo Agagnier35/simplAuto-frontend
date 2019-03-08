@@ -12,6 +12,7 @@ import AdSummary from '../../Ad/AdSummary';
 import OfferModal from '../../Offer/OfferModal';
 import CarSummary from '../CarSummary';
 import { AdSummaries, Tab, TabBadge } from '../../Ad/Ads/styles';
+import { OfferPrice } from '../../Ad/AdSummary/styles';
 
 export interface CarPageProps {
   translations: Translations;
@@ -25,6 +26,7 @@ const Car = ({ translations, query }: CarPageProps) => {
   const [selectedAd, setSelectedAd] = useState({});
   const [selectedOffer, setSelectedOffer] = useState({});
   const [isEditMode, setEditMode] = useState(false);
+  const [isOfferMode, setOfferMode] = useState(false);
 
   const carQuery = useQuery(CAR_BY_ID, {
     variables: { id: query.id },
@@ -70,49 +72,93 @@ const Car = ({ translations, query }: CarPageProps) => {
     return false;
   }
 
+  const ads: Ad[] = [];
+  const adsOffers: { ad: Ad; offer: Offer }[] = [];
+
+  (function splitAds() {
+    const allAds = adsQuery.data && (adsQuery.data.ads as Ad[]);
+    allAds.forEach((ad: Ad) => {
+      const offer = findMyOffer(ad);
+      if (offer) {
+        adsOffers.push({ offer, ad });
+      } else {
+        ads.push(ad);
+      }
+    });
+  })(); // iife
+
   return (
     <>
       <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
         <CarSummary car={carQuery.data.car} />
       </Card>
-      <Tab>
-        Annonces correspondantes
-        {adsQuery.data.ads && <TabBadge>{adsQuery.data.ads.length}</TabBadge>}
+      <Tab
+        onClick={() => setOfferMode(false)}
+        className={isOfferMode ? '' : 'active'}
+      >
+        Annonces
+        {ads && <TabBadge>{ads.length}</TabBadge>}
       </Tab>
-      <Card style={{ overflow: 'hidden' }}>
-        <AdSummaries>
-          {adsQuery.data.ads &&
-            adsQuery.data.ads.map((ad: Ad) => (
+      <Tab
+        onClick={() => setOfferMode(true)}
+        className={isOfferMode ? 'active' : ''}
+      >
+        Offres
+        {adsOffers && <TabBadge>{adsOffers.length}</TabBadge>}
+      </Tab>
+      {!isOfferMode && (
+        <Card style={{ overflow: 'hidden' }}>
+          <AdSummaries>
+            {ads.map((ad: Ad) => (
               <div key={ad.id}>
                 <AdSummary
                   key={ad.id}
                   ad={ad}
                   right={
-                    findMyOffer(ad) ? (
+                    <Button
+                      onClick={() => {
+                        handleToggleCreateOffer(ad);
+                      }}
+                      variant="primary"
+                    >
+                      {translations.offers.createOffer}
+                    </Button>
+                  }
+                />
+              </div>
+            ))}
+          </AdSummaries>
+        </Card>
+      )}
+      {isOfferMode && (
+        <Card style={{ overflow: 'hidden' }}>
+          <AdSummaries>
+            {adsOffers.map((adOffer: { ad: Ad; offer: Offer }) => (
+              <div key={adOffer.ad.id}>
+                <AdSummary
+                  key={adOffer.ad.id}
+                  ad={adOffer.ad}
+                  right={
+                    <>
                       <Button
                         onClick={() => {
-                          handleToggleEditOffer(ad);
+                          handleToggleEditOffer(adOffer.ad);
                         }}
                         variant="primary"
                       >
                         {translations.offers.modifyOffer}
                       </Button>
-                    ) : (
-                      <Button
-                        onClick={() => {
-                          handleToggleCreateOffer(ad);
-                        }}
-                        variant="primary"
-                      >
-                        {translations.offers.createOffer}
-                      </Button>
-                    )
+                      <OfferPrice style={{ marginTop: '1rem' }}>
+                        {adOffer.offer.price} $
+                      </OfferPrice>
+                    </>
                   }
                 />
               </div>
             ))}
-        </AdSummaries>
-      </Card>
+          </AdSummaries>
+        </Card>
+      )}
 
       {modalOpened && (
         <OfferModal

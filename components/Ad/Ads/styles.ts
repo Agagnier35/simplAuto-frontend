@@ -7,19 +7,46 @@ export const AdSummaries = styled.div`
 `;
 
 export const Tab = styled.p`
+  cursor: pointer;
+  display: inline-block;
   margin: 0;
-  background: ${props => props.theme.colors.primary};
+  background: white;
   width: fit-content;
-  color: white;
+  color: ${props => props.theme.colors.primary};
   padding: 0 0.5rem;
-  margin-left: 1rem;
   border-radius: 0.25rem 0.25rem 0 0;
+  margin-left: 1rem;
+  transition: 0.15s ease-out;
+
+  & + & {
+    margin-left: 0;
+  }
+
+  &:hover {
+    background: #c7c7ce;
+    color: white;
+
+    span {
+      color: ${props => props.theme.colors.primary};
+      background: white;
+    }
+  }
+
+  &.active {
+    color: white;
+    background: ${props => props.theme.colors.primary};
+
+    span {
+      color: ${props => props.theme.colors.primary};
+      background: white;
+    }
+  }
 `;
 
 export const TabBadge = styled.span`
-  color: ${props => props.theme.colors.primary};
+  color: white;
+  background: ${props => props.theme.colors.primary};
   width: fit-content;
-  background: white;
   padding: 0 0.4rem;
   margin-left: 0.3rem;
   font-size: 0.9rem;

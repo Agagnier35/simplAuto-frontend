@@ -64,7 +64,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
         </Card>
-        <Tab>
+        <Tab className="active">
           Offres reçues{' '}
           {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
         </Tab>
