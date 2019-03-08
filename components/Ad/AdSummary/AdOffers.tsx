@@ -50,7 +50,7 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
               </p>
               <AdSummaryItem
                 icon={<KilometerIcon />}
-                label="Kilometers"
+                label={translations.cars.mileage}
                 value={offer.car.mileage}
               />
             </div>

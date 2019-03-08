@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
-import CarDetails from '../../Car/CarDetails';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID, MATCHING_ADS_QUERY } from './Queries';
-import { Card, CardDeck, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { Ad, Offer } from '../../../generated/graphql';
 import AdSummary from '../../Ad/AdSummary';
 import OfferModal from '../../Offer/OfferModal';
@@ -77,14 +76,16 @@ const Car = ({ translations, query }: CarPageProps) => {
 
   (function splitAds() {
     const allAds = adsQuery.data && (adsQuery.data.ads as Ad[]);
-    allAds.forEach((ad: Ad) => {
-      const offer = findMyOffer(ad);
-      if (offer) {
-        adsOffers.push({ offer, ad });
-      } else {
-        ads.push(ad);
-      }
-    });
+    if (allAds) {
+      allAds.forEach((ad: Ad) => {
+        const offer = findMyOffer(ad);
+        if (offer) {
+          adsOffers.push({ offer, ad });
+        } else {
+          ads.push(ad);
+        }
+      });
+    }
   })(); // iife
 
   return (
@@ -96,14 +97,14 @@ const Car = ({ translations, query }: CarPageProps) => {
         onClick={() => setOfferMode(false)}
         className={isOfferMode ? '' : 'active'}
       >
-        Annonces
+        {translations.Ads.title}
         {ads && <TabBadge>{ads.length}</TabBadge>}
       </Tab>
       <Tab
         onClick={() => setOfferMode(true)}
         className={isOfferMode ? 'active' : ''}
       >
-        Offres
+        {translations.general.offers}
         {adsOffers && <TabBadge>{adsOffers.length}</TabBadge>}
       </Tab>
       {!isOfferMode && (

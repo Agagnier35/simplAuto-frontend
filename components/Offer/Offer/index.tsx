@@ -53,7 +53,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
         <Price>{offer.price} $</Price>
         <AdSummaryItem
           icon={<KilometerIcon />}
-          label="Kilometers"
+          label={translations.cars.mileage}
           value={offer.car.mileage}
         />
       </PriceMileageWrapper>

@@ -12,13 +12,14 @@ import {
 } from 'react-icons/fa';
 import { MdEvent as YearIcon } from 'react-icons/md';
 import AdSummaryItem from './AdSummaryItem';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 
-export interface GeneralAdInfosProps {
+export interface GeneralAdInfosProps extends MultiProps {
   ad: Ad;
   right: ReactNode;
 }
 
-const GeneralAdInfos = ({ ad, right }: GeneralAdInfosProps) => {
+const GeneralAdInfos = ({ ad, right, translations }: GeneralAdInfosProps) => {
   function findColor() {
     if (ad.features) {
       const colorFeature = ad.features.find(
@@ -58,7 +59,7 @@ const GeneralAdInfos = ({ ad, right }: GeneralAdInfosProps) => {
               <Row>
                 <AdSummaryItem
                   icon={<DollarIcon />}
-                  label="Price"
+                  label={translations.cars.price}
                   value={`${ad.priceLowerBound ||
                     '-'} to ${ad.priceHigherBound || '-'}`}
                 />
@@ -66,7 +67,7 @@ const GeneralAdInfos = ({ ad, right }: GeneralAdInfosProps) => {
               <Row>
                 <AdSummaryItem
                   icon={<KilometerIcon />}
-                  label="Kilometers"
+                  label={translations.cars.mileage}
                   value={`${ad.mileageLowerBound ||
                     '-'} to ${ad.mileageHigherBound || '-'}`}
                 />
@@ -74,7 +75,7 @@ const GeneralAdInfos = ({ ad, right }: GeneralAdInfosProps) => {
               <Row>
                 <AdSummaryItem
                   icon={<YearIcon />}
-                  label="Year"
+                  label={translations.cars.year}
                   value={`${ad.yearLowerBound || '-'} to ${ad.yearHigherBound ||
                     '-'}`}
                 />
@@ -90,4 +91,4 @@ const GeneralAdInfos = ({ ad, right }: GeneralAdInfosProps) => {
   );
 };
 
-export default GeneralAdInfos;
+export default multi(GeneralAdInfos);

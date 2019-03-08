@@ -84,7 +84,7 @@ const translations: Translations = {
     model: 'Model',
     category: 'Category',
     year: 'Year',
-    mileage: 'Mileage',
+    mileage: 'Kilometers',
     price: 'Price',
   },
   carFeatureCategory: {
@@ -127,6 +127,7 @@ const translations: Translations = {
     higherYear: 'Higher Year',
     features: 'features',
     addAds: 'Add an Ad',
+    title: 'Ads',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',
@@ -142,6 +143,7 @@ const translations: Translations = {
     price: 'Price',
     chat: 'Contact seller',
     reject: 'Reject offer',
+    receivedOffers: 'Received offers',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -156,6 +158,11 @@ const translations: Translations = {
     delete: 'Delete',
     save: 'Save',
     edit: 'Edit',
+  },
+  Chat: {
+    title: 'Chat',
+    send: 'Send',
+    sendPlaceholder: 'Send a message',
   },
 };
 

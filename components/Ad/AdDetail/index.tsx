@@ -43,7 +43,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const { carCategory } = translations;
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID },
   });
@@ -65,7 +64,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
         </Card>
         <Tab className="active">
-          Offres reçues{' '}
+          {translations.offers.receivedOffers}
           {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
