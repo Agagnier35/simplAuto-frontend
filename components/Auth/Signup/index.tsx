@@ -17,7 +17,6 @@ import {
   Date as BirthDate,
   ClientType,
 } from '../../../generated/graphql';
-import { Dictionary } from '../../../lib/Types/Dictionary';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -70,8 +69,8 @@ class Signup extends Component<MultiProps, SignupState> {
 
   isStateSignupValid = () => {
     return (
-      this.state.firstName !== '' &&
-      this.state.lastName !== '' &&
+      ((this.state.firstName !== '' && this.state.lastName !== '') ||
+        this.state.companyName !== '') &&
       this.state.email !== '' &&
       this.state.location !== '' &&
       this.state.password === this.state.confirmPassword &&
