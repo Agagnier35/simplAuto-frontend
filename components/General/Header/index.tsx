@@ -5,7 +5,7 @@ import StyledNav from './styles';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import gql from 'graphql-tag';
-import { multiUpdater, MultiProps } from '../../../lib/MultiLang';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 
@@ -44,8 +44,6 @@ const handleLogout = async (logout: () => void) => {
 
 const Header: React.SFC<MultiProps> = ({
   translations: { general, login, signup },
-  changeLocale,
-  currentLocale,
 }) => {
   return (
     <StyledNav id="topbar" className="noPrint">
@@ -94,23 +92,6 @@ const Header: React.SFC<MultiProps> = ({
                         </Button>
                       )}
                     </Mutation>
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        size="sm"
-                        variant="primary"
-                        id="dropdown-basic"
-                      >
-                        {currentLocale}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => changeLocale('en')}>
-                          En
-                        </Dropdown.Item>
-                        <Dropdown.Item onClick={() => changeLocale('fr')}>
-                          Fr
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
                   </>
                 );
               }
@@ -131,23 +112,6 @@ const Header: React.SFC<MultiProps> = ({
                       <Button variant="primary">{general.becomePremium}</Button>
                     </a>
                   </Link>
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      size="sm"
-                      variant="primary"
-                      id="dropdown-basic"
-                    >
-                      {currentLocale}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => changeLocale('en')}>
-                        En
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => changeLocale('fr')}>
-                        Fr
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
                 </>
               );
             }}
@@ -158,4 +122,4 @@ const Header: React.SFC<MultiProps> = ({
   );
 };
 
-export default multiUpdater(Header);
+export default multi(Header);
