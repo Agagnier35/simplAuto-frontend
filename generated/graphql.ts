@@ -16,6 +16,10 @@ export interface UserSignupInput {
   gender: Gender;
 
   permissions?: Maybe<Permission[]>;
+
+  facebookID?: Maybe<string>;
+
+  googleID?: Maybe<string>;
 }
 
 export interface DateInput {
@@ -52,6 +56,8 @@ export interface CarCreateInput {
   modelID: string;
 
   categoryID: string;
+
+  description?: Maybe<string>;
 
   year: number;
 
@@ -177,6 +183,11 @@ export enum OfferStatus {
   Deleted = 'DELETED',
 }
 
+export enum ClientType {
+  Company = 'COMPANY',
+  Individual = 'INDIVIDUAL',
+}
+
 export enum AdFeatureImportance {
   Low = 'LOW',
   Medium = 'MEDIUM',
@@ -232,9 +243,11 @@ export interface User {
 
   email: string;
 
-  firstName: string;
+  firstName?: Maybe<string>;
 
-  lastName: string;
+  lastName?: Maybe<string>;
+
+  companyName?: Maybe<string>;
 
   password: string;
 
@@ -246,6 +259,10 @@ export interface User {
 
   permissions: Permission[];
 
+  facebookID?: Maybe<string>;
+
+  googleID?: Maybe<string>;
+
   offers: Offer[];
 
   ads: Ad[];
@@ -253,6 +270,8 @@ export interface User {
   cars: Car[];
 
   conversations?: Maybe<Conversation[]>;
+
+  clientType?: Maybe<ClientType>;
 }
 
 export interface Date {
@@ -366,6 +385,8 @@ export interface Car {
 
   category: CarCategory;
 
+  description?: Maybe<string>;
+
   year: number;
 
   mileage: number;
@@ -415,6 +436,10 @@ export interface Mutation {
   signup: User;
 
   login: User;
+
+  facebookLogin: User;
+
+  googleLogin: User;
 
   logout: string;
 
@@ -484,6 +509,12 @@ export interface LoginMutationArgs {
   email: string;
 
   password: string;
+}
+export interface FacebookLoginMutationArgs {
+  data: UserSignupInput;
+}
+export interface GoogleLoginMutationArgs {
+  data: UserSignupInput;
 }
 export interface UpdateUserMutationArgs {
   data: UserUpdateInput;
