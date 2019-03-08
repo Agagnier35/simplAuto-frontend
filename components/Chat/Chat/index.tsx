@@ -14,6 +14,7 @@ interface ChatSectionProps {
 
 const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
   const [currentMessage, setCurrentMessage] = useState('');
+  const [refreshCount, forceRefresh] = useState(0);
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
     variables: {
       data: {
@@ -21,10 +22,9 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
         text: currentMessage,
       },
     },
-    update: handleUpdateMessageCache,
   });
 
-  const { data, loading, error } = useSubscription(MESSAGE_SUBSCRIPTION, {
+  useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
       conversationID: offer.conversation && offer.conversation.id,
     },
@@ -41,6 +41,7 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
       }
 
       client.cache.writeQuery({ ...offerQuery, data });
+      forceRefresh(refreshCount + 1);
     },
   });
 
@@ -83,8 +84,6 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
   return (
     <Chat.Card>
       <h2>Chat</h2>
-      {data && data.messageSubscription.text}
-      {console.log(data)}
       {offer.conversation && (
         <>
           <Chat.Container className="chat">
