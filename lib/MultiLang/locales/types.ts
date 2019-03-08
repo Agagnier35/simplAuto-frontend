@@ -139,4 +139,20 @@ export default interface Translations {
     save: string;
     edit: string;
   };
+  Home: {
+    BannerTitle: string;
+    BannerSubtitle: string;
+    LandingTitle: string;
+    LandingSubtitle: string;
+    LandingAdsButton: string;
+    LandingSignupButton: string;
+    HowToBuy: string;
+    HowToBuyFirst: string;
+    HowToBuySecond: string;
+    HowToBuyThird: string;
+    HowToSell: string;
+    HowToSellFirst: string;
+    HowToSellSecond: string;
+    HowToSellThird: string;
+  };
 }

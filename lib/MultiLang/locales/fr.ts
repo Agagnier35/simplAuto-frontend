@@ -158,6 +158,22 @@ const translations: Translations = {
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
   },
+  Home: {
+    BannerTitle: 'Trop facile',
+    BannerSubtitle: `Acheter ou vendre votre auto dès aujourd'hui`,
+    LandingTitle: 'Laisser les vendeurs se battrent',
+    LandingSubtitle: 'Une nouvelle façon de magasiner',
+    LandingAdsButton: 'Voir les annonces',
+    LandingSignupButton: 'Créer un compte',
+    HowToBuy: 'Comment acheter',
+    HowToBuyFirst: 'Demander pour un véhicule',
+    HowToBuySecond: 'Recevez des offres',
+    HowToBuyThird: 'Accepter la meilleure',
+    HowToSell: 'Comment vendre',
+    HowToSellFirst: 'Ajouter un véhicule',
+    HowToSellSecond: 'Trouver une demande correspondante',
+    HowToSellThird: 'Faites une offre',
+  },
 };
 
 module.exports = translations;

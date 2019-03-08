@@ -11,7 +11,7 @@ const Footer = ({ currentLocale, changeLocale }: FooterProps) => {
     <Container>
       <Wrapper>
         <Copyrights>
-          2018 ©{' '}
+          2019 ©{' '}
           <Link href="/">
             <a>SimplAuto</a>
           </Link>

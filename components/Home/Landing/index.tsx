@@ -4,26 +4,31 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { LOGGED_IN_QUERY } from '../../General/Header/index';
 import { useQuery } from 'react-apollo-hooks';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 
-interface LandingProps {}
+interface LandingProps extends MultiProps {}
 
-const Landing = (props: LandingProps) => {
+const Landing = ({ translations }: LandingProps) => {
   const { data } = useQuery(LOGGED_IN_QUERY);
 
   return (
     <Wrapper>
-      <Title>Let the sellers fight for you</Title>
-      <Subtitle>A new way to shop for your car</Subtitle>
+      <Title>{translations.Home.LandingTitle}</Title>
+      <Subtitle>{translations.Home.LandingSubtitle}</Subtitle>
       <Links>
         <Link href={{ pathname: '/carAds' }}>
           <a>
-            <Button variant="primary">Voir les annonces</Button>
+            <Button variant="primary">
+              {translations.Home.LandingAdsButton}
+            </Button>
           </a>
         </Link>
         {data && !data.me && (
           <Link href={{ pathname: '/signup' }}>
             <a>
-              <Button variant="secondary">Se créer un compte</Button>
+              <Button variant="secondary">
+                {translations.Home.LandingSignupButton}
+              </Button>
             </a>
           </Link>
         )}
@@ -32,4 +37,4 @@ const Landing = (props: LandingProps) => {
   );
 };
 
-export default Landing;
+export default multi(Landing);

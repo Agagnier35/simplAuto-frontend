@@ -1,14 +1,31 @@
 import React from 'react';
 import { Wrapper } from './styles';
 import ProcessPart from '../ProcessPart/index';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 
-const Process = () => {
+interface ProcessProps extends MultiProps {}
+
+const Process = ({ translations }: ProcessProps) => {
   return (
     <Wrapper>
-      <ProcessPart title="How to buy" steps={['Ask for a car', 'Receive offers', 'Accept the best one']} />
-      <ProcessPart title="How to sell" steps={['Add a car', 'Find a matching ad', 'Sell your car']} />
+      <ProcessPart
+        title={translations.Home.HowToBuy}
+        steps={[
+          translations.Home.HowToBuyFirst,
+          translations.Home.HowToBuySecond,
+          translations.Home.HowToBuyThird,
+        ]}
+      />
+      <ProcessPart
+        title={translations.Home.HowToSell}
+        steps={[
+          translations.Home.HowToSellFirst,
+          translations.Home.HowToSellSecond,
+          translations.Home.HowToSellThird,
+        ]}
+      />
     </Wrapper>
   );
 };
 
-export default Process;
+export default multi(Process);

@@ -4,16 +4,17 @@ import Landing from '../Landing/index';
 import Banner from '../Banner/index';
 import { StyledHome } from './styles';
 import Process from '../Process/index';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 
-interface HomeProps {}
+interface HomeProps extends MultiProps {}
 
-const Home = (props: HomeProps) => {
+const Home = ({ translations }: HomeProps) => {
   return (
     <StyledHome>
       <Landing />
       <Banner
-        title="So easy"
-        subtitle="Buy or sell your car today!"
+        title={translations.Home.BannerTitle}
+        subtitle={translations.Home.BannerSubtitle}
         icon={<KeyIcon />}
       />
       <Process />
@@ -21,4 +22,4 @@ const Home = (props: HomeProps) => {
   );
 };
 
-export default Home;
+export default multi(Home);
