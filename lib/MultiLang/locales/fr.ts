@@ -133,6 +133,7 @@ const translations: Translations = {
     higherYear: 'année maximum',
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
+    title: 'Annonces',
   },
   GeneralModalContent: {
     title: 'Boite de confirmation',
@@ -158,6 +159,12 @@ const translations: Translations = {
     price: 'Prix',
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
+    receivedOffers: 'Offres reçues',
+  },
+  Chat: {
+    title: 'Messagerie',
+    send: 'Envoyer',
+    sendPlaceholder: 'Envoyer un message',
   },
 };
 

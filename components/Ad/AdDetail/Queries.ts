@@ -10,12 +10,15 @@ export const AD_DETAIL_QUERY = gql`
       priceLowerBound
       priceHigherBound
       manufacturer {
+        id
         name
       }
       model {
+        id
         name
       }
       category {
+        id
         name
       }
       mileageLowerBound
@@ -23,8 +26,10 @@ export const AD_DETAIL_QUERY = gql`
       yearLowerBound
       yearHigherBound
       features {
+        id
         name
         category {
+          id
           name
         }
       }
@@ -34,21 +39,27 @@ export const AD_DETAIL_QUERY = gql`
       offers {
         id
         car {
+          id
           manufacturer {
+            id
             name
           }
           model {
+            id
             name
           }
           category {
+            id
             name
           }
           year
           mileage
           photos
           features {
+            id
             name
             category {
+              id
               name
             }
           }

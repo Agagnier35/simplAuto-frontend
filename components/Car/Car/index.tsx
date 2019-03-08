@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
-import CarDetails from '../../Car/CarDetails';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID, MATCHING_ADS_QUERY } from './Queries';
-import { Card, CardDeck, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { Ad, Offer } from '../../../generated/graphql';
 import AdSummary from '../../Ad/AdSummary';
 import OfferModal from '../../Offer/OfferModal';
+import CarSummary from '../CarSummary';
+import { AdSummaries, Tab, TabBadge } from '../../Ad/Ads/styles';
+import { OfferPrice } from '../../Ad/AdSummary/styles';
 
 export interface CarPageProps {
   translations: Translations;
@@ -23,6 +25,7 @@ const Car = ({ translations, query }: CarPageProps) => {
   const [selectedAd, setSelectedAd] = useState({});
   const [selectedOffer, setSelectedOffer] = useState({});
   const [isEditMode, setEditMode] = useState(false);
+  const [isOfferMode, setOfferMode] = useState(false);
 
   const carQuery = useQuery(CAR_BY_ID, {
     variables: { id: query.id },
@@ -67,37 +70,51 @@ const Car = ({ translations, query }: CarPageProps) => {
     return false;
   }
 
+  const ads: Ad[] = [];
+  const adsOffers: { ad: Ad; offer: Offer }[] = [];
+
+  (function splitAds() {
+    const allAds = adsQuery.data && (adsQuery.data.ads as Ad[]);
+    if (allAds) {
+      allAds.forEach((ad: Ad) => {
+        const offer = findMyOffer(ad);
+        if (offer) {
+          adsOffers.push({ offer, ad });
+        } else {
+          ads.push(ad);
+        }
+      });
+    }
+  })(); // iife
+
   return (
     <>
-      <CardDeck>
-        <Card>
-          <div>
-            <h2>{translations.cars.details}</h2>
-            <Button
-              className="noPrint"
-              variant="outline-primary"
-              onClick={handlePrint}
-            >
-              {translations.general.print}
-            </Button>
-            <CarDetails car={carQuery.data.car} />
-          </div>
-        </Card>
-        <Card>
-          <Card.Body>
-            {adsQuery.data.ads &&
-              adsQuery.data.ads.map((ad: Ad) => (
-                <div key={ad.id}>
-                  {findMyOffer(ad) ? (
-                    <Button
-                      onClick={() => {
-                        handleToggleEditOffer(ad);
-                      }}
-                      variant="primary"
-                    >
-                      {translations.offers.modifyOffer}
-                    </Button>
-                  ) : (
+      <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
+        <CarSummary car={carQuery.data.car} />
+      </Card>
+      <Tab
+        onClick={() => setOfferMode(false)}
+        className={isOfferMode ? '' : 'active'}
+      >
+        {translations.Ads.title}
+        {ads && <TabBadge>{ads.length}</TabBadge>}
+      </Tab>
+      <Tab
+        onClick={() => setOfferMode(true)}
+        className={isOfferMode ? 'active' : ''}
+      >
+        {translations.general.offers}
+        {adsOffers && <TabBadge>{adsOffers.length}</TabBadge>}
+      </Tab>
+      {!isOfferMode && (
+        <Card style={{ overflow: 'hidden' }}>
+          <AdSummaries>
+            {ads.map((ad: Ad) => (
+              <div key={ad.id}>
+                <AdSummary
+                  key={ad.id}
+                  ad={ad}
+                  right={
                     <Button
                       onClick={() => {
                         handleToggleCreateOffer(ad);
@@ -106,13 +123,43 @@ const Car = ({ translations, query }: CarPageProps) => {
                     >
                       {translations.offers.createOffer}
                     </Button>
-                  )}
-                  <AdSummary key={ad.id} ad={ad} />
-                </div>
-              ))}
-          </Card.Body>
+                  }
+                />
+              </div>
+            ))}
+          </AdSummaries>
         </Card>
-      </CardDeck>
+      )}
+      {isOfferMode && (
+        <Card style={{ overflow: 'hidden' }}>
+          <AdSummaries>
+            {adsOffers.map((adOffer: { ad: Ad; offer: Offer }) => (
+              <div key={adOffer.ad.id}>
+                <AdSummary
+                  key={adOffer.ad.id}
+                  ad={adOffer.ad}
+                  right={
+                    <>
+                      <Button
+                        onClick={() => {
+                          handleToggleEditOffer(adOffer.ad);
+                        }}
+                        variant="primary"
+                      >
+                        {translations.offers.modifyOffer}
+                      </Button>
+                      <OfferPrice style={{ marginTop: '1rem' }}>
+                        {adOffer.offer.price} $
+                      </OfferPrice>
+                    </>
+                  }
+                />
+              </div>
+            ))}
+          </AdSummaries>
+        </Card>
+      )}
+
       {modalOpened && (
         <OfferModal
           modalOpened={modalOpened}

@@ -7,12 +7,13 @@ import { useMutation, useSubscription } from 'react-apollo-hooks';
 import { SEND_MESSAGE_MUTATION } from './Mutations';
 import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
 import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 
-interface ChatSectionProps {
+interface ChatSectionProps extends MultiProps {
   offer: Offer;
 }
 
-const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
+const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [currentImage, setCurrentImage] = useState('');
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
@@ -104,7 +105,7 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
 
   return (
     <Chat.Card>
-      <h2>Chat</h2>
+      <h2>{translations.Chat.title}</h2>
       {offer.conversation && (
         <>
           <Chat.Container className="chat">
@@ -125,7 +126,7 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
                 type="text"
                 value={currentMessage}
                 onChange={handleChange}
-                placeholder="Envoyez un message"
+                placeholder={translations.Chat.sendPlaceholder}
               />
               <img className="imagePreview" src={currentImage} />
               <InputGroup.Append>
@@ -147,7 +148,7 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
               </InputGroup.Append>
               <InputGroup.Append>
                 <InputGroup.Text className="send-button" onClick={sendMessage}>
-                  Send
+                  {translations.Chat.send}
                 </InputGroup.Text>
               </InputGroup.Append>
             </InputGroup>
@@ -158,4 +159,4 @@ const ChatSection: React.FunctionComponent<ChatSectionProps> = ({ offer }) => {
   );
 };
 
-export default ChatSection;
+export default multi(ChatSection);

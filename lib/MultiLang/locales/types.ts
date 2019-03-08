@@ -115,6 +115,7 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+    title: string;
   };
   offers: {
     createOffer: string;
@@ -126,6 +127,7 @@ export default interface Translations {
     price: string;
     chat: string;
     reject: string;
+    receivedOffers: string;
   };
   GeneralModalContent: {
     title: string;
@@ -139,5 +141,10 @@ export default interface Translations {
     delete: string;
     save: string;
     edit: string;
+  };
+  Chat: {
+    title: string;
+    send: string;
+    sendPlaceholder: string;
   };
 }

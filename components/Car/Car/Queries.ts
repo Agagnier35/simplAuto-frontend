@@ -5,12 +5,15 @@ export const CAR_BY_ID = gql`
     car(id: $id) {
       id
       manufacturer {
+        id
         name
       }
       model {
+        id
         name
       }
       category {
+        id
         name
       }
       year
@@ -18,8 +21,10 @@ export const CAR_BY_ID = gql`
       photos
       description
       features {
+        id
         name
         category {
+          id
           name
         }
       }
@@ -46,12 +51,15 @@ export const MATCHING_ADS_QUERY = gql`
       priceLowerBound
       priceHigherBound
       manufacturer {
+        id
         name
       }
       model {
+        id
         name
       }
       category {
+        id
         name
       }
       mileageLowerBound
@@ -59,8 +67,10 @@ export const MATCHING_ADS_QUERY = gql`
       yearLowerBound
       yearHigherBound
       features {
+        id
         name
         category {
+          id
           name
         }
       }

@@ -26,6 +26,7 @@ export const OFFER_BY_ID = gql`
           id
           name
           category {
+            id
             name
           }
         }
@@ -43,6 +44,7 @@ export const OFFER_BY_ID = gql`
           id
         }
         messages {
+          id
           sender {
             id
           }
