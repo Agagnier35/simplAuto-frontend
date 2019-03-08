@@ -54,6 +54,16 @@ export const Card = styled(BSCard)`
     }
   }
 
+  .imagePreview {
+    max-width: 50px;
+    height: 50px;
+  }
+
+  .chatImage {
+    max-width: 300px;
+    height: 200px;
+  }
+
   .send-button {
     background: ${props => props.theme.colors.primary};
     color: white;
