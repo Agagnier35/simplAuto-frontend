@@ -117,9 +117,11 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
                   </p>
                 ))}
               </label>
-              <p>
-                <b>Description :</b> {car.description}
-              </p>
+              {car.description && (
+                <p>
+                  <b>Description :</b> {car.description}
+                </p>
+              )}
             </Card.Body>
           </Card>
         </div>
