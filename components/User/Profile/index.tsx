@@ -4,7 +4,8 @@ import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { MdLockOutline } from 'react-icons/md';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import {
@@ -15,6 +16,7 @@ import {
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
+import ProfileFormValidation from '../../General/FormValidator/ProfileFormValidation';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
@@ -35,6 +37,14 @@ interface ProfileState {
   gender: string;
   newPassword: string;
   confirmation: string;
+  touched: {
+    firstName: boolean;
+    lastName: boolean;
+    email: boolean;
+    location: boolean;
+    newPassword: boolean;
+    confirmation: boolean;
+  };
 }
 
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
@@ -47,6 +57,14 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
+    touched: {
+      firstName: false,
+      lastName: false,
+      email: false,
+      location: false,
+      newPassword: false,
+      confirmation: false,
+    },
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
@@ -166,6 +184,8 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     const {
       translations: { profile, general },
     } = this.props;
+
+    const profileFormValidation = new ProfileFormValidation(general);
     return (
       <>
         <Query query={GET_USER_INFO_QUERY}>
@@ -190,7 +210,65 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                         <div className="firstInfoSection">
                           <div className="nameSection">
                             <h5>{profile.contactInfo}</h5>
-                            <div>
+                            <Form.Group>
+                              <Form.Label>{profile.firstName}</Form.Label>
+                              <InputGroup>
+                                <Form.Control
+                                  className="inputNeedSpace"
+                                  placeholder={profile.firstName}
+                                  aria-describedby="inputGroupPrepend"
+                                  required
+                                  type="text"
+                                  name="firstName"
+                                  onChange={this.handleChange}
+                                  defaultValue={data.me.firstName}
+                                  onBlur={() => {
+                                    this.state.touched.firstName = true;
+                                  }}
+                                  isInvalid={
+                                    this.state.touched.firstName &&
+                                    !profileFormValidation.isFirstNameValid(
+                                      this.state.firstName,
+                                    )
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {profileFormValidation.firstNameError(
+                                    this.state.firstName,
+                                  )}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                              <Form.Label>{profile.lastName}</Form.Label>
+                              <InputGroup>
+                                <Form.Control
+                                  className="inputNeedSpace"
+                                  placeholder={profile.lastName}
+                                  aria-describedby="inputGroupPrepend"
+                                  required
+                                  type="text"
+                                  name="lastName"
+                                  onChange={this.handleChange}
+                                  defaultValue={data.me.lastName}
+                                  onBlur={() => {
+                                    this.state.touched.lastName = true;
+                                  }}
+                                  isInvalid={
+                                    this.state.touched.lastName &&
+                                    !profileFormValidation.isLastNameValid(
+                                      this.state.lastName,
+                                    )
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {profileFormValidation.lastNameError(
+                                    this.state.lastName,
+                                  )}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                            {/* <div>
                               <p>{profile.firstName}:</p>
                               <Form.Control
                                 className="inputNeedSpace"
@@ -210,8 +288,8 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 placeholder={profile.lastName}
                                 onChange={this.handleChange}
                               />
-                            </div>
-                            <p>{general.email}: </p>
+                            </div> */}
+                            {/* <p>{general.email}: </p>
                             <Form.Control
                               className="inputNeedSpace"
                               type="email"
@@ -219,7 +297,38 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               placeholder={general.email}
                               defaultValue={data.me.email}
                               onChange={this.handleChange}
-                            />
+                            /> */}
+                            <Form.Group>
+                              <Form.Label>{general.email}</Form.Label>
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text id="inputGroupPrepend">
+                                    @
+                                  </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control
+                                  placeholder={general.email}
+                                  aria-describedby="inputGroupPrepend"
+                                  required
+                                  type="email"
+                                  name="email"
+                                  defaultValue={data.me.email}
+                                  onChange={this.handleChange}
+                                  onBlur={() => {
+                                    this.state.touched.email = true;
+                                  }}
+                                  isInvalid={
+                                    this.state.touched.email &&
+                                    !profileFormValidation.isEmailValid(
+                                      this.state.email,
+                                    )
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {profileFormValidation.emailError()}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
                           </div>
                         </div>
                         <div className="secondInfoSection">
@@ -281,7 +390,81 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 placeholder={profile.changePassword}
                                 onChange={this.handleConfirmationPassword}
                               />
+
+                              <Form.Group>
+                                <Form.Label>
+                                  {profile.changePassword}
+                                </Form.Label>
+                                <InputGroup>
+                                  <InputGroup.Prepend>
+                                    <InputGroup.Text id="inputGroupPrepend">
+                                      <MdLockOutline />
+                                    </InputGroup.Text>
+                                  </InputGroup.Prepend>
+                                  <Form.Control
+                                    className="inputNeedSpace"
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                    type="password"
+                                    name="password"
+                                    placeholder={profile.changePassword}
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    onBlur={() => {
+                                      this.state.touched.newPassword = true;
+                                    }}
+                                    isInvalid={
+                                      this.state.touched.newPassword &&
+                                      !profileFormValidation.isPasswordValid(
+                                        this.state.password,
+                                      )
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.passwordError()}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
                               <br />
+                              <Form.Group>
+                                <Form.Label>
+                                  {profile.confirmationChangePassword}
+                                </Form.Label>
+                                <InputGroup>
+                                  <InputGroup.Prepend>
+                                    <InputGroup.Text id="inputGroupPrepend">
+                                      <MdLockOutline />
+                                    </InputGroup.Text>
+                                  </InputGroup.Prepend>
+                                  <Form.Control
+                                    className={this.state.confirmation}
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                    type="password"
+                                    name="confirmation"
+                                    placeholder={general.confirmPassword}
+                                    value={this.state.confirmPassword}
+                                    onChange={this.handleChange}
+                                    onBlur={() => {
+                                      this.state.touched.confirmation = true;
+                                    }}
+                                    isInvalid={
+                                      this.state.touched.confirmation &&
+                                      !profileFormValidation.isConfirmPasswordValid(
+                                        this.state.confirmPassword,
+                                        this.state.password,
+                                      )
+                                    }
+                                  />
+
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.confirmPasswordError(
+                                      this.state.password,
+                                      this.state.confirmPassword,
+                                    )}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
                               <p>{profile.confirmationChangePassword}: </p>
                               <Form.Control
                                 className={this.state.confirmation}

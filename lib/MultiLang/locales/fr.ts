@@ -25,8 +25,8 @@ const translations: Translations = {
     address: 'Entrée votre adresse',
     changePassword: 'Nouveau mot de passe',
     confirmationChangePassword: 'Confirmer mot de passe',
-    contactInfo: 'Information de mise en contact',
-    genrealInfo: 'Information générale',
+    contactInfo: 'Informations de mise en contact',
+    genrealInfo: 'Informations générales',
     newPWSection: 'Nouveau mot de passe',
   },
   general: {
