@@ -7,37 +7,43 @@ class CreateAdFormValidation extends BasicFormValidation {
   }
 
   isYearLowerBoundValid = (yearLowerBound: number) => {
-    // Supérieur ou égal à 0
     // Ne peut pas être inférieur à yearHigherBound
     // Ne peut pas être un chiffre décimal
-    // Année minimum? genre 1970
+    // Ne peut être en dessous d'une année minimum : exemple 1980
     return this.isFieldNotEmpty(yearLowerBound.toString());
   };
 
   isYearHigherBoundValid = (yearHigherBound: number) => {
-    // Supérieur ou égal à 0
     // Ne peut pas être supérieur à l'année actuelle
     // Ne peut pas être inférieur à yearLowerBound
+    // Ne peut pas être être un chiffre décimal
     return this.isFieldNotEmpty(yearHigherBound.toString());
   };
 
   isMileageLowerBoundValid = (mileageLowerBound: number) => {
     // Supérieur ou égal à 0
+    // Ne peut pas être supérieur à mileageHigherBound
+    // Ne peut pas être un chiffre décimal
     return this.isFieldNotEmpty(mileageLowerBound.toString());
   };
 
   isMileageHigherBoundValid = (mileageHigherBound: number) => {
-    // Supérieur ou égal à 0
+    // Ne peut pas être inférieur à mileageLowerbound
+    // Ne peut pas être un chiffre décimal
+    // Ne peut pas être supérieur à un certain chiffre : exemple 300 000km
     return this.isFieldNotEmpty(mileageHigherBound.toString());
   };
 
   isPriceLowerBoundValid = (priceLowerBound: number) => {
     // Supérieur ou égal à 0
+    // Ne peut pas être un chiffre décimal (les cennes sont irrelevant)
+    // Ne peut pas être supérieur à priceHigherBound
     return this.isFieldNotEmpty(priceLowerBound.toString());
   };
 
-  isPriceHigherrBoundValid = (priceHigherBound: number) => {
-    // Supérieur ou égal à 0
+  isPriceHigherBoundValid = (priceHigherBound: number) => {
+    // Ne peut pas être inférieur à priceHigherBound
+    // Ne peut pas être un chiffre décimal
     return this.isFieldNotEmpty(priceHigherBound.toString());
   };
 
