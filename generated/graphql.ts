@@ -3,9 +3,11 @@ export type Maybe<T> = T | null;
 export interface UserSignupInput {
   email: string;
 
-  firstName: string;
+  firstName?: Maybe<string>;
 
-  lastName: string;
+  lastName?: Maybe<string>;
+
+  companyName?: Maybe<string>;
 
   password: string;
 
@@ -20,6 +22,10 @@ export interface UserSignupInput {
   facebookID?: Maybe<string>;
 
   googleID?: Maybe<string>;
+
+  clientType: ClientType;
+
+  language?: Maybe<UserLanguage>;
 }
 
 export interface DateInput {
@@ -39,6 +45,8 @@ export interface UserUpdateInput {
 
   lastName?: Maybe<string>;
 
+  companyName?: Maybe<string>;
+
   password?: Maybe<string>;
 
   location?: Maybe<string>;
@@ -48,6 +56,10 @@ export interface UserUpdateInput {
   gender?: Maybe<Gender>;
 
   permissions?: Maybe<Permission[]>;
+
+  clientType?: Maybe<ClientType>;
+
+  language?: Maybe<UserLanguage>;
 }
 
 export interface CarCreateInput {
@@ -165,12 +177,6 @@ export enum CarFeatureType {
   MultipleChoice = 'MULTIPLE_CHOICE',
 }
 
-export enum AdStatus {
-  Published = 'PUBLISHED',
-  Accepted = 'ACCEPTED',
-  Deleted = 'DELETED',
-}
-
 export enum CarStatus {
   Published = 'PUBLISHED',
   Sold = 'SOLD',
@@ -183,9 +189,25 @@ export enum OfferStatus {
   Deleted = 'DELETED',
 }
 
+export enum ConversationStatus {
+  Opened = 'OPENED',
+  Deleted = 'DELETED',
+}
+
+export enum AdStatus {
+  Published = 'PUBLISHED',
+  Accepted = 'ACCEPTED',
+  Deleted = 'DELETED',
+}
+
 export enum ClientType {
   Company = 'COMPANY',
   Individual = 'INDIVIDUAL',
+}
+
+export enum UserLanguage {
+  French = 'FRENCH',
+  English = 'ENGLISH',
 }
 
 export enum AdFeatureImportance {
@@ -199,12 +221,6 @@ export enum AdFeatureImportance {
 // ====================================================
 
 export interface Query {
-  feed: Post[];
-
-  drafts: Post[];
-
-  post?: Maybe<Post>;
-
   me?: Maybe<User>;
 
   ads?: Maybe<Ad[]>;
@@ -224,18 +240,8 @@ export interface Query {
   offer?: Maybe<Offer>;
 
   offerAddons?: Maybe<OfferAddon[]>;
-}
 
-export interface Post {
-  id: string;
-
-  published: boolean;
-
-  title: string;
-
-  content: string;
-
-  author: User;
+  allAdsCount: number;
 }
 
 export interface User {
@@ -253,9 +259,9 @@ export interface User {
 
   location: string;
 
-  birthDate: Date;
+  birthDate?: Maybe<Date>;
 
-  gender: Gender;
+  gender?: Maybe<Gender>;
 
   permissions: Permission[];
 
@@ -263,15 +269,21 @@ export interface User {
 
   googleID?: Maybe<string>;
 
-  offers: Offer[];
-
   ads: Ad[];
 
   cars: Car[];
 
   conversations?: Maybe<Conversation[]>;
 
-  clientType?: Maybe<ClientType>;
+  conversationCount: number;
+
+  adCount: number;
+
+  carCount: number;
+
+  clientType: ClientType;
+
+  language?: Maybe<UserLanguage>;
 }
 
 export interface Date {
@@ -282,32 +294,14 @@ export interface Date {
   year: number;
 }
 
-export interface Offer {
-  id: string;
-
-  creator?: Maybe<User>;
-
-  ad: Ad;
-
-  car: Car;
-
-  price: number;
-
-  status: OfferStatus;
-
-  finalRank?: Maybe<number>;
-
-  addons?: Maybe<OfferAddon[]>;
-
-  conversation?: Maybe<Conversation>;
-}
-
 export interface Ad {
   id: string;
 
   creator?: Maybe<User>;
 
   offers: Offer[];
+
+  offerCount: number;
 
   priceLowerBound?: Maybe<number>;
 
@@ -334,6 +328,56 @@ export interface Ad {
   isFirst: boolean;
 
   status: AdStatus;
+}
+
+export interface Offer {
+  id: string;
+
+  creator?: Maybe<User>;
+
+  ad: Ad;
+
+  car: Car;
+
+  price: number;
+
+  status: OfferStatus;
+
+  finalRank?: Maybe<number>;
+
+  addons?: Maybe<OfferAddon[]>;
+
+  conversation?: Maybe<Conversation>;
+}
+
+export interface Car {
+  id: string;
+
+  owner?: Maybe<User>;
+
+  manufacturer: Manufacturer;
+
+  model: CarModel;
+
+  category: CarCategory;
+
+  description?: Maybe<string>;
+
+  year: number;
+
+  mileage: number;
+
+  photos: string[];
+
+  photoCount: number;
+
+  features: CarFeature[];
+
+  status: CarStatus;
+
+  offers?: Maybe<Offer[]>;
+
+  offerCount: number;
 }
 
 export interface Manufacturer {
@@ -374,32 +418,6 @@ export interface CarFeatureCategory {
   features: CarFeature[];
 }
 
-export interface Car {
-  id: string;
-
-  owner?: Maybe<User>;
-
-  manufacturer: Manufacturer;
-
-  model: CarModel;
-
-  category: CarCategory;
-
-  description?: Maybe<string>;
-
-  year: number;
-
-  mileage: number;
-
-  photos: string[];
-
-  features: CarFeature[];
-
-  status: CarStatus;
-
-  offers?: Maybe<Offer[]>;
-}
-
 export interface OfferAddon {
   id: string;
 
@@ -418,12 +436,16 @@ export interface Conversation {
   offer: Offer;
 
   messages: Message[];
+
+  messageCount: number;
+
+  status?: Maybe<ConversationStatus>;
 }
 
 export interface Message {
   id: string;
 
-  sender: User;
+  sender?: Maybe<User>;
 
   text: string;
 
@@ -445,8 +467,6 @@ export interface Mutation {
 
   updateUser: User;
 
-  createDraft: Post;
-
   createCar?: Maybe<Car>;
 
   deleteCar?: Maybe<Car>;
@@ -456,10 +476,6 @@ export interface Mutation {
   updateAd?: Maybe<Ad>;
 
   deleteAd?: Maybe<Ad>;
-
-  publish: Post;
-
-  deletePost: Post;
 
   resetPasswordRequest: string;
 
@@ -484,11 +500,10 @@ export interface Subscription {
 // Arguments
 // ====================================================
 
-export interface PostQueryArgs {
-  id: string;
-}
 export interface AdsQueryArgs {
-  adFeaturesIDs?: Maybe<(Maybe<string>)[]>;
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
 }
 export interface AdQueryArgs {
   id: string;
@@ -501,6 +516,26 @@ export interface CarFeatureCategoryQueryArgs {
 }
 export interface OfferQueryArgs {
   id: string;
+}
+export interface AdsUserArgs {
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
+}
+export interface CarsUserArgs {
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
+}
+export interface OffersAdArgs {
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
+}
+export interface OffersCarArgs {
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
 }
 export interface SignupMutationArgs {
   data: UserSignupInput;
@@ -519,11 +554,6 @@ export interface GoogleLoginMutationArgs {
 export interface UpdateUserMutationArgs {
   data: UserUpdateInput;
 }
-export interface CreateDraftMutationArgs {
-  title: string;
-
-  content: string;
-}
 export interface CreateCarMutationArgs {
   data: CarCreateInput;
 }
@@ -537,12 +567,6 @@ export interface UpdateAdMutationArgs {
   data: AdUpdateInput;
 }
 export interface DeleteAdMutationArgs {
-  id: string;
-}
-export interface PublishMutationArgs {
-  id: string;
-}
-export interface DeletePostMutationArgs {
   id: string;
 }
 export interface ResetPasswordRequestMutationArgs {
@@ -567,4 +591,7 @@ export interface CreateConversationMutationArgs {
 }
 export interface SendMessageMutationArgs {
   data?: Maybe<SendMessageInput>;
+}
+export interface MessageSubscriptionSubscriptionArgs {
+  conversationID: string;
 }

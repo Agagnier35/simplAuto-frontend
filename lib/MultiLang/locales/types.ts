@@ -67,6 +67,11 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    langage: string;
+    langages: {
+      english: string;
+      french: string;
+    };
   };
   errors: {
     invalidEmail: string;

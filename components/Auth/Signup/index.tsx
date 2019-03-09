@@ -11,7 +11,14 @@ import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
-import { Gender, Date as BirthDate } from '../../../generated/graphql';
+import {
+  Gender,
+  Date as BirthDate,
+  UserLanguage,
+  ClientType,
+  UserSignupInput,
+} from '../../../generated/graphql';
+import { Dictionary } from '../../../lib/Types/Dictionary';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -24,18 +31,22 @@ const SIGNUP_MUTATION = gql`
 interface SignupState {
   firstName: string;
   lastName: string;
+  companyName: string;
   email: string;
   password: string;
   confirmPassword: string;
   location: string;
   gender: Gender;
   birthDate: BirthDate;
+  clientType: ClientType;
+  language: UserLanguage;
 }
 
 class Signup extends Component<MultiProps, SignupState> {
-  state: SignupState = {
+  state: Dictionary<SignupState> = {
     firstName: '',
     lastName: '',
+    companyName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -46,6 +57,8 @@ class Signup extends Component<MultiProps, SignupState> {
       month: 1,
       year: 1900,
     },
+    clientType: ClientType.Individual,
+    language: UserLanguage.English,
   };
 
   isBirthDateValid = () => {
@@ -149,6 +162,7 @@ class Signup extends Component<MultiProps, SignupState> {
         year: 1900,
       },
       clientType: ClientType.Individual,
+      language: UserLanguage.English,
     };
     Object.keys(this.state).map(item => {
       if (item !== 'confirmPassword' && this.state[item] !== '') {
@@ -324,6 +338,25 @@ class Signup extends Component<MultiProps, SignupState> {
                         value={Gender.Other}
                       />
                       {Gender.Other}
+                    </label>
+                    <Form.Group>
+                      <Form.Label>{general.langage}</Form.Label>
+                    </Form.Group>
+                    <label htmlFor="language">
+                      {general.langages.french}
+                      <input
+                        type="radio"
+                        name="language"
+                        onChange={this.handleChange}
+                        value={UserLanguage.French}
+                      />{' '}
+                      {general.langages.english}
+                      <input
+                        type="radio"
+                        name="language"
+                        onChange={this.handleChange}
+                        value={UserLanguage.English}
+                      />
                     </label>
 
                     <Form.Group>

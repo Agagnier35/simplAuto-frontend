@@ -12,6 +12,7 @@ import {
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
+  UserLanguage,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
@@ -35,6 +36,7 @@ interface ProfileState {
   gender: string;
   newPassword: string;
   confirmation: string;
+  language: UserLanguage;
 }
 
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
@@ -47,6 +49,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
+    language: UserLanguage.English,
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
@@ -159,7 +162,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       gender: '',
       password: '',
       confirmation: CLASSNAME_INIT_CONFIRMATION,
+      language: UserLanguage.English,
     } as any);
+    console.log(this.state);
   };
 
   render() {
@@ -262,6 +267,29 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                         data.me.gender === gender
                                       }
                                       onChange={this.handleChange}
+                                    />,
+                                    <p className="radioNeedSpace" key={i}>
+                                      {temp[i]}{' '}
+                                    </p>,
+                                  ];
+                                },
+                              )}
+                              {Object.values(UserLanguage).map(
+                                (language: UserLanguage, i: number) => {
+                                  const temp = [
+                                    general.langages.french,
+                                    general.langages.english,
+                                  ];
+                                  return [
+                                    <Form.Check
+                                      name={'language'}
+                                      value={language}
+                                      type="radio"
+                                      onChange={this.handleChange}
+                                      checked={
+                                        this.state.language === language ||
+                                        data.me.language === language
+                                      }
                                     />,
                                     <p className="radioNeedSpace" key={i}>
                                       {temp[i]}{' '}

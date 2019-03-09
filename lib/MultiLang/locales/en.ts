@@ -69,6 +69,11 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    langage: 'Language',
+    langages: {
+      english: 'English',
+      french: 'French',
+    },
   },
   errors: {
     invalidEmail: 'Invalid email',

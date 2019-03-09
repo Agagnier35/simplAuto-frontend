@@ -69,6 +69,11 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    langage: 'Language',
+    langages: {
+      english: 'Anglais',
+      french: 'Français',
+    },
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
