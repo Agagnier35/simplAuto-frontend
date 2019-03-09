@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { multi } from '../../../lib/MultiLang';
 import { ButtonToolbar, Button } from 'react-bootstrap';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
