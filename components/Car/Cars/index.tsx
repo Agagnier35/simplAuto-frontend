@@ -35,7 +35,7 @@ const Cars = ({ translations }: MultiProps) => {
       <Paging
         pageIndex={pageIndex}
         setPageIndex={setPageIndex}
-        maxItems={data.me.adCount}
+        maxItems={data.me.carCount}
         itemsByPage={CARS_NB_BY_PAGE}
       />
     </div>

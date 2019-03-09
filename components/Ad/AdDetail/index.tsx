@@ -17,6 +17,7 @@ import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
 import { Tab, TabBadge } from '../Ads/styles';
 import AdSummary from '../AdSummary';
+import Paging from '../../General/Paging';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -32,9 +33,14 @@ export const AD_DELETE_MUTATION = gql`
 `;
 
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
+  const OFFER_NB_BY_PAGE = 5;
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize] = useState(OFFER_NB_BY_PAGE);
+
   const [modalShow, setModalShow] = useState(false);
+
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: { id: adID },
+    variables: { id: adID, pageNumber: pageIndex, pageSize: pageSize },
   });
 
   async function handleDeleteAd(deleteAd: any) {
@@ -73,6 +79,12 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               data.ad.offers.map((offer: Offer) => (
                 <CarSummary key={offer.id} car={offer.car} offer={offer} />
               ))}
+            <Paging
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+              maxItems={data.ad.offerCount}
+              itemsByPage={OFFER_NB_BY_PAGE}
+            />
           </CarSummaries>
         </Card>
       </div>
