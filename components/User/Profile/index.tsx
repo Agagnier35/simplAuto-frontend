@@ -268,36 +268,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 </Form.Control.Feedback>
                               </InputGroup>
                             </Form.Group>
-                            {/* <div>
-                              <p>{profile.firstName}:</p>
-                              <Form.Control
-                                className="inputNeedSpace"
-                                type="text"
-                                name="firstName"
-                                defaultValue={data.me.firstName}
-                                placeholder={profile.firstName}
-                                onChange={this.handleChange}
-                              />
-                              <br />
-                              <p>{profile.lastName}: </p>
-                              <Form.Control
-                                className="inputNeedSpace"
-                                type="text"
-                                name="lastName"
-                                defaultValue={data.me.lastName}
-                                placeholder={profile.lastName}
-                                onChange={this.handleChange}
-                              />
-                            </div> */}
-                            {/* <p>{general.email}: </p>
-                            <Form.Control
-                              className="inputNeedSpace"
-                              type="email"
-                              name="email"
-                              placeholder={general.email}
-                              defaultValue={data.me.email}
-                              onChange={this.handleChange}
-                            /> */}
                             <Form.Group>
                               <Form.Label>{general.email}</Form.Label>
                               <InputGroup>
@@ -307,9 +277,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
+                                  className="inputNeedSpace"
                                   placeholder={general.email}
                                   aria-describedby="inputGroupPrepend"
-                                  required
                                   type="email"
                                   name="email"
                                   defaultValue={data.me.email}
@@ -382,15 +352,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <hr />
                               <h5>{profile.newPWSection}</h5>
-                              {/* <p>{profile.changePassword}: </p>
-                              <Form.Control
-                                className="inputNeedSpace"
-                                type="password"
-                                name="password"
-                                placeholder={profile.changePassword}
-                                onChange={this.handleConfirmationPassword}
-                              /> */}
-
                               <Form.Group>
                                 <Form.Label>
                                   {profile.changePassword}
@@ -404,12 +365,11 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   <Form.Control
                                     className="inputNeedSpace"
                                     aria-describedby="inputGroupPrepend"
-                                    required
                                     type="password"
                                     name="password"
                                     placeholder={profile.changePassword}
                                     value={this.state.password}
-                                    onChange={this.handleChange}
+                                    onChange={this.handleConfirmationPassword}
                                     onBlur={() => {
                                       this.state.touched.newPassword = true;
                                     }}
@@ -439,12 +399,13 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   <Form.Control
                                     className={this.state.confirmation}
                                     aria-describedby="inputGroupPrepend"
-                                    required
                                     type="password"
                                     name="confirmation"
-                                    placeholder={general.confirmPassword}
+                                    placeholder={
+                                      profile.confirmationChangePassword
+                                    }
                                     value={this.state.confirmPassword}
-                                    onChange={this.handleChange}
+                                    onChange={this.handleConfirmationPassword}
                                     onBlur={() => {
                                       this.state.touched.confirmation = true;
                                     }}
@@ -465,14 +426,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   </Form.Control.Feedback>
                                 </InputGroup>
                               </Form.Group>
-                              {/* <p>{profile.confirmationChangePassword}: </p>
-                              <Form.Control
-                                className={this.state.confirmation}
-                                type="password"
-                                name="confirmation"
-                                placeholder={profile.confirmationChangePassword}
-                                onChange={this.handleConfirmationPassword}
-                              /> */}
                             </div>
                           </div>
                         </div>
