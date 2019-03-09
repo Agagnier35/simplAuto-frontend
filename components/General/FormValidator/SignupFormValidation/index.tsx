@@ -85,6 +85,17 @@ class SignupFormValidation extends BasicFormValidation {
     return this.general.formFieldsErrors.signupFormFieldsErrors.locationError
       .matchingError;
   };
+
+  isSignupFormStateValid = (state: any) => {
+    return (
+      this.isFirstNameValid(state.firstName) &&
+      this.isLastNameValid(state.lastMame) &&
+      this.isEmailValid(state.email) &&
+      this.isPasswordValid(state.password) &&
+      this.isConfirmPasswordValid(state.confirmPassword, state.password) &&
+      this.isLocationValid(state.location)
+    );
+  };
 }
 
 export default SignupFormValidation;

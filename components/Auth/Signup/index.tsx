@@ -31,7 +31,6 @@ interface SignupState {
   location: string;
   gender: Gender;
   birthDate: BirthDate;
-  canSubmit: boolean;
   touched: {
     firstName: boolean;
     lastName: boolean;
@@ -56,7 +55,6 @@ class Signup extends Component<MultiProps, SignupState> {
       month: 1,
       year: 1900,
     },
-    canSubmit: false,
     touched: {
       firstName: false,
       lastName: false,
@@ -358,7 +356,9 @@ class Signup extends Component<MultiProps, SignupState> {
                     </Form.Group>
 
                     <Button
-                      disabled={!this.isStateSignupValid()}
+                      disabled={
+                        !signupformValidation.isSignupFormStateValid(this.state)
+                      }
                       variant="primary"
                       type="submit"
                       block
