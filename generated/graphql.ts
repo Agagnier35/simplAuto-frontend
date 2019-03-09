@@ -504,6 +504,11 @@ export interface AdsUserArgs {
 
   pageSize?: Maybe<number>;
 }
+export interface CarsUserArgs {
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
+}
 export interface OffersAdArgs {
   pageNumber?: Maybe<number>;
 
