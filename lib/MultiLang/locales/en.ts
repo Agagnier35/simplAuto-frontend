@@ -86,8 +86,9 @@ const translations: Translations = {
     model: 'Model',
     category: 'Category',
     year: 'Year',
-    mileage: 'Mileage',
+    mileage: 'Kilometers',
     price: 'Price',
+    descriptionPlaceholder: 'Enter a small description for the car',
   },
   clientType: {
     company: 'Company',
@@ -133,6 +134,7 @@ const translations: Translations = {
     higherYear: 'Higher Year',
     features: 'features',
     addAds: 'Add an Ad',
+    title: 'Ads',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',
@@ -148,6 +150,7 @@ const translations: Translations = {
     price: 'Price',
     chat: 'Contact seller',
     reject: 'Reject offer',
+    receivedOffers: 'Received offers',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -162,6 +165,27 @@ const translations: Translations = {
     delete: 'Delete',
     save: 'Save',
     edit: 'Edit',
+  },
+  Home: {
+    BannerTitle: 'So easy',
+    BannerSubtitle: 'Buy or sell your car today!',
+    LandingTitle: 'Let the sellers fight for you',
+    LandingSubtitle: 'A new way to shop for your car',
+    LandingAdsButton: 'See ads',
+    LandingSignupButton: 'Create an account',
+    HowToBuy: 'How to buy',
+    HowToBuyFirst: 'Ask for a car',
+    HowToBuySecond: 'Receive offers',
+    HowToBuyThird: 'Accept the best one',
+    HowToSell: 'How to sell',
+    HowToSellFirst: 'Add a car',
+    HowToSellSecond: 'Find a matching ad',
+    HowToSellThird: 'Sell your car',
+  },
+  Chat: {
+    title: 'Chat',
+    send: 'Send',
+    sendPlaceholder: 'Send a message',
   },
 };
 

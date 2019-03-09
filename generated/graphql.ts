@@ -57,6 +57,8 @@ export interface CarCreateInput {
 
   categoryID: string;
 
+  description?: Maybe<string>;
+
   year: number;
 
   mileage: number;
@@ -382,6 +384,8 @@ export interface Car {
   model: CarModel;
 
   category: CarCategory;
+
+  description?: Maybe<string>;
 
   year: number;
 

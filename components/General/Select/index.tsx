@@ -10,16 +10,17 @@ export interface SelectProps extends MultiProps {
   label: string; // The value of the hovering label
   disabled: boolean; // Blocks input if true
   translations: Translations;
-  selected?: any; // The object to be displayed
+  selected?: any; // Initial selected object
 }
 
 interface SelectState {
   selectedValue: string;
 }
 
-class Select extends React.Component<SelectProps & MultiProps, SelectState> {
+class Select extends React.Component<SelectProps, SelectState> {
   constructor(props: SelectProps) {
     super(props);
+
     if (this.props.selected) {
       this.state = {
         selectedValue: this.props.selected[this.props.accessor],

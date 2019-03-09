@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, ListGroup, CardDeck, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import { CarFeature, Offer } from '../../../generated/graphql';
+import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -13,7 +13,10 @@ import GeneralModal, {
   ModalAction,
 } from '../../General/GeneralModal';
 import gql from 'graphql-tag';
-import Link from 'next/link';
+import { CarSummaries } from '../../Car/Car/styles';
+import CarSummary from '../../Car/CarSummary';
+import { Tab, TabBadge } from '../Ads/styles';
+import AdSummary from '../AdSummary';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -33,9 +36,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
     variables: { id: adID },
   });
-  function hasPermission(creator: string) {
-    return creator != null;
-  }
 
   async function handleDeleteAd(deleteAd: any) {
     await deleteAd();
@@ -43,10 +43,10 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const { carFeatureCategory, carFeature, GeneralModalContent } = translations;
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID },
   });
+
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
@@ -60,89 +60,21 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onClose={() => setModalShow(false)}
           onConfirm={() => handleDeleteAd(deleteAd)}
         />
-        <CardDeck>
-          <Card>
-            <Card.Header>{translations.general.myAds}</Card.Header>
-            <Card.Body>
-              {hasPermission(data.ad.creator) && (
-                <Button variant="danger" onClick={() => setModalShow(true)}>
-                  {GeneralModalContent.delete}
-                </Button>
-              )}
-              <div>
-                {translations.Ads.manufacturer}:{' '}
-                {data.ad.manufacturer ? data.ad.manufacturer.name : '-'}
-              </div>
-              <div>
-                {translations.Ads.model}:{' '}
-                {data.ad.model ? data.ad.model.name : '-'}
-              </div>
-              <div>
-                {translations.Ads.category}:{' '}
-                {data.ad.category ? data.ad.category.name : '-'}
-              </div>
-              <div>
-                {translations.Ads.higherPrice}:{' '}
-                {data.ad.priceHigherBound ? data.ad.priceHigherBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.lowerPrice}:{' '}
-                {data.ad.priceLowerBound ? data.ad.priceLowerBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.higherMileage}:{' '}
-                {data.ad.mileageHigherBound ? data.ad.mileageHigherBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.lowerMileage}:{' '}
-                {data.ad.mileageLowerBound ? data.ad.mileageLowerBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.higherYear}:{' '}
-                {data.ad.yearHigherBound ? data.ad.yearHigherBound : '-'}
-              </div>
-              <div>
-                {translations.Ads.lowerYear}:{' '}
-                {data.ad.yearLowerBound ? data.ad.yearLowerBound : '-'}
-              </div>
-              <ListGroup>
-                {translations.Ads.features} :
-                {data.ad.features &&
-                  data.ad.features.map((feature: CarFeature) => (
-                    <ListGroup.Item key={feature.category.name}>
-                      {carFeatureCategory[feature.category.name]} :{' '}
-                      {carFeature[feature.name] || feature.name}
-                    </ListGroup.Item>
-                  ))}
-              </ListGroup>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Header> {translations.general.offers}</Card.Header>
-            <ListGroup>
-              {data.ad.offers &&
-                data.ad.offers.map((offer: Offer) => (
-                  <ListGroup.Item key={offer.id}>
-                    <Link
-                      href={{ pathname: '/offer', query: { id: offer.id } }}
-                    >
-                      <Card>
-                        {offer.car.photos.length > 0 ? (
-                          <Card.Img variant="top" src={offer.car.photos[0]} />
-                        ) : (
-                          /* TODO: Change Placeholder */
-                          <Card.Img
-                            variant="top"
-                            alt="No car photos placeholder"
-                          />
-                        )}
-                      </Card>
-                    </Link>
-                  </ListGroup.Item>
-                ))}
-            </ListGroup>
-          </Card>
-        </CardDeck>
+        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+          <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
+        </Card>
+        <Tab className="active">
+          {translations.offers.receivedOffers}
+          {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
+        </Tab>
+        <Card style={{ overflow: 'hidden' }}>
+          <CarSummaries>
+            {data.ad.offers &&
+              data.ad.offers.map((offer: Offer) => (
+                <CarSummary key={offer.id} car={offer.car} offer={offer} />
+              ))}
+          </CarSummaries>
+        </Card>
       </div>
     </>
   );

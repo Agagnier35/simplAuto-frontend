@@ -86,6 +86,7 @@ export default interface Translations {
     year: string;
     mileage: string;
     price: string;
+    descriptionPlaceholder: string;
   };
   clientType: {
     company: string;
@@ -120,6 +121,7 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+    title: string;
   };
   offers: {
     createOffer: string;
@@ -131,6 +133,7 @@ export default interface Translations {
     price: string;
     chat: string;
     reject: string;
+    receivedOffers: string;
   };
   GeneralModalContent: {
     title: string;
@@ -144,5 +147,26 @@ export default interface Translations {
     delete: string;
     save: string;
     edit: string;
+  };
+  Home: {
+    BannerTitle: string;
+    BannerSubtitle: string;
+    LandingTitle: string;
+    LandingSubtitle: string;
+    LandingAdsButton: string;
+    LandingSignupButton: string;
+    HowToBuy: string;
+    HowToBuyFirst: string;
+    HowToBuySecond: string;
+    HowToBuyThird: string;
+    HowToSell: string;
+    HowToSellFirst: string;
+    HowToSellSecond: string;
+    HowToSellThird: string;
+  };
+  Chat: {
+    title: string;
+    send: string;
+    sendPlaceholder: string;
   };
 }
