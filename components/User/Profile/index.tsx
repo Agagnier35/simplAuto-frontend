@@ -274,6 +274,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   ];
                                 },
                               )}
+                            </div>
+                            <div>
+                              <p>{general.langage}: </p>
                               {Object.values(UserLanguage).map(
                                 (language: UserLanguage, i: number) => {
                                   const temp = [
@@ -281,19 +284,20 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     general.langages.english,
                                   ];
                                   return [
-                                    <Form.Check
+                                    <p className="radioNeedSpace" key={i}>
+                                      {temp[i]}{' '}
+                                    </p>,
+                                    <Form.Control
                                       name={'language'}
                                       value={language}
                                       type="radio"
+                                      className="radioSelector"
                                       onChange={this.handleChange}
                                       checked={
                                         this.state.language === language ||
                                         data.me.language === language
                                       }
                                     />,
-                                    <p className="radioNeedSpace" key={i}>
-                                      {temp[i]}{' '}
-                                    </p>,
                                   ];
                                 },
                               )}
