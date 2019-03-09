@@ -382,14 +382,14 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <hr />
                               <h5>{profile.newPWSection}</h5>
-                              <p>{profile.changePassword}: </p>
+                              {/* <p>{profile.changePassword}: </p>
                               <Form.Control
                                 className="inputNeedSpace"
                                 type="password"
                                 name="password"
                                 placeholder={profile.changePassword}
                                 onChange={this.handleConfirmationPassword}
-                              />
+                              /> */}
 
                               <Form.Group>
                                 <Form.Label>
@@ -465,14 +465,14 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   </Form.Control.Feedback>
                                 </InputGroup>
                               </Form.Group>
-                              <p>{profile.confirmationChangePassword}: </p>
+                              {/* <p>{profile.confirmationChangePassword}: </p>
                               <Form.Control
                                 className={this.state.confirmation}
                                 type="password"
                                 name="confirmation"
                                 placeholder={profile.confirmationChangePassword}
                                 onChange={this.handleConfirmationPassword}
-                              />
+                              /> */}
                             </div>
                           </div>
                         </div>
