@@ -226,6 +226,8 @@ export interface Query {
   offer?: Maybe<Offer>;
 
   offerAddons?: Maybe<OfferAddon[]>;
+
+  allAdsCount: number;
 }
 
 export interface User {
@@ -243,17 +245,13 @@ export interface User {
 
   location: string;
 
-  birthDate: Date;
+  birthDate?: Maybe<Date>;
 
-  gender: Gender;
+  gender?: Maybe<Gender>;
 
   permissions: Permission[];
 
   facebookID?: Maybe<string>;
-
-  googleID?: Maybe<string>;
-
-  offers: Offer[];
 
   googleID?: Maybe<string>;
 
@@ -263,7 +261,13 @@ export interface User {
 
   conversations?: Maybe<Conversation[]>;
 
-  clientType?: Maybe<ClientType>;
+  conversationCount: number;
+
+  adCount: number;
+
+  carCount: number;
+
+  clientType: ClientType;
 }
 
 export interface Date {
@@ -280,6 +284,8 @@ export interface Ad {
   creator?: Maybe<User>;
 
   offers: Offer[];
+
+  offerCount: number;
 
   priceLowerBound?: Maybe<number>;
 
@@ -339,17 +345,23 @@ export interface Car {
 
   category: CarCategory;
 
+  description?: Maybe<string>;
+
   year: number;
 
   mileage: number;
 
   photos: string[];
 
+  photoCount: number;
+
   features: CarFeature[];
 
   status: CarStatus;
 
   offers?: Maybe<Offer[]>;
+
+  offerCount: number;
 }
 
 export interface Manufacturer {
@@ -390,32 +402,6 @@ export interface CarFeatureCategory {
   features: CarFeature[];
 }
 
-export interface Car {
-  id: string;
-
-  owner?: Maybe<User>;
-
-  manufacturer: Manufacturer;
-
-  model: CarModel;
-
-  category: CarCategory;
-
-  description?: Maybe<string>;
-
-  year: number;
-
-  mileage: number;
-
-  photos: string[];
-
-  features: CarFeature[];
-
-  status: CarStatus;
-
-  offers?: Maybe<Offer[]>;
-}
-
 export interface OfferAddon {
   id: string;
 
@@ -434,12 +420,14 @@ export interface Conversation {
   offer: Offer;
 
   messages: Message[];
+
+  messageCount: number;
 }
 
 export interface Message {
   id: string;
 
-  sender: User;
+  sender?: Maybe<User>;
 
   text: string;
 
@@ -580,4 +568,7 @@ export interface CreateConversationMutationArgs {
 }
 export interface SendMessageMutationArgs {
   data?: Maybe<SendMessageInput>;
+}
+export interface MessageSubscriptionSubscriptionArgs {
+  conversationID: string;
 }
