@@ -12,6 +12,7 @@ import OfferModal from '../../Offer/OfferModal';
 import CarSummary from '../CarSummary';
 import { AdSummaries, Tab, TabBadge } from '../../Ad/Ads/styles';
 import { OfferPrice } from '../../Ad/AdSummary/styles';
+import Paging from '../../General/Paging';
 
 export interface CarPageProps {
   translations: Translations;
@@ -21,6 +22,10 @@ export interface CarPageProps {
 }
 
 const Car = ({ translations, query }: CarPageProps) => {
+  const OFFERS_NB_BY_PAGE = 10;
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize] = useState(OFFERS_NB_BY_PAGE);
+
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedAd, setSelectedAd] = useState({});
   const [selectedOffer, setSelectedOffer] = useState({});
@@ -28,7 +33,7 @@ const Car = ({ translations, query }: CarPageProps) => {
   const [isOfferMode, setOfferMode] = useState(false);
 
   const carQuery = useQuery(CAR_BY_ID, {
-    variables: { id: query.id },
+    variables: { id: query.id, pageNumber: pageIndex, pageSize: pageSize },
   });
   const adsQuery = useQuery(MATCHING_ADS_QUERY);
   const errors = carQuery.error || adsQuery.error;
@@ -133,29 +138,36 @@ const Car = ({ translations, query }: CarPageProps) => {
       {isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries>
-            {adsOffers.map((adOffer: { ad: Ad; offer: Offer }) => (
-              <div key={adOffer.ad.id}>
+            {console.log(carQuery)}
+            {carQuery.data.car.offers.map((offer: Offer) => (
+              <div key={offer.ad.id}>
                 <AdSummary
-                  key={adOffer.ad.id}
-                  ad={adOffer.ad}
+                  key={offer.ad.id}
+                  ad={offer.ad}
                   right={
                     <>
                       <Button
                         onClick={() => {
-                          handleToggleEditOffer(adOffer.ad);
+                          handleToggleEditOffer(offer.ad);
                         }}
                         variant="primary"
                       >
                         {translations.offers.modifyOffer}
                       </Button>
                       <OfferPrice style={{ marginTop: '1rem' }}>
-                        {adOffer.offer.price} $
+                        {offer.price} $
                       </OfferPrice>
                     </>
                   }
                 />
               </div>
             ))}
+            <Paging
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+              maxItems={carQuery.data.car.offerCount}
+              itemsByPage={OFFERS_NB_BY_PAGE}
+            />
           </AdSummaries>
         </Card>
       )}

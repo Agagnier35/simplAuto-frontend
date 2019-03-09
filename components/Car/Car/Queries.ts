@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const CAR_BY_ID = gql`
-  query CAR_BY_ID($id: ID!) {
+  query CAR_BY_ID($id: ID!, $pageNumber: Int, $pageSize: Int) {
     car(id: $id) {
       id
       manufacturer {
@@ -28,10 +28,40 @@ export const CAR_BY_ID = gql`
           name
         }
       }
-      offers {
+      offerCount
+      offers(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
         ad {
           id
+          priceLowerBound
+          priceHigherBound
+          manufacturer {
+            id
+            name
+          }
+          model {
+            id
+            name
+          }
+          category {
+            id
+            name
+          }
+          mileageLowerBound
+          mileageHigherBound
+          yearLowerBound
+          yearHigherBound
+          features {
+            id
+            name
+            category {
+              id
+              name
+            }
+          }
+          isUrgent
+          isFirst
+          status
         }
         price
         addons {
