@@ -141,6 +141,13 @@ class Signup extends Component<MultiProps, SignupState> {
     } as SignupState);
   };
 
+  isNotUsefullCompanyInfo = (item: string) => {
+    return (
+      this.state.clientType === ClientType.Company &&
+      (item === 'gender' || item === 'birthDate')
+    );
+  };
+
   getSignupPayload = () => {
     const myData: Dictionary<UserSignupInput> = {
       firstName: '',
@@ -162,6 +169,9 @@ class Signup extends Component<MultiProps, SignupState> {
       if (item !== 'confirmPassword' && this.state[item] !== '') {
         myData[item] = this.state[item];
       } else if (this.state[item] === '') {
+        delete myData[item];
+      }
+      if (this.isNotUsefullCompanyInfo(item)) {
         delete myData[item];
       }
     });
