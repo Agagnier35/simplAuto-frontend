@@ -12,6 +12,7 @@ import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
 import { Gender, Date as BirthDate } from '../../../generated/graphql';
+import SignupFormValidation from '../../General/FormValidator/SignupFormValidation';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -66,24 +67,13 @@ class Signup extends Component<MultiProps, SignupState> {
     },
   };
 
-  isBirthDateValid = () => {
-    return (
-      new Date(
-        this.state.birthDate.year,
-        this.state.birthDate.month,
-        this.state.birthDate.day,
-      ).toString() !== 'Invalid Date'
-    );
-  };
-
   isStateSignupValid = () => {
     return (
       this.state.firstName !== '' &&
       this.state.lastName !== '' &&
       this.state.email !== '' &&
       this.state.location !== '' &&
-      this.state.password === this.state.confirmPassword &&
-      this.isBirthDateValid()
+      this.state.password === this.state.confirmPassword
     );
   };
 
@@ -149,27 +139,12 @@ class Signup extends Component<MultiProps, SignupState> {
     return { data: userInfos };
   };
 
-  isFieldEmpty = (field: string) => {
-    return field == '';
-  };
-
-  doesFieldContainNumber = (field: string) => {
-    return /\d/.test(field);
-  };
-
-  isEmailFormatValid = (email: string) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
-
-  doPasswordsMatch = (password: string, confirmPassword: string) => {
-    return password === confirmPassword;
-  };
-
   render() {
     const {
       translations: { signup, general },
     } = this.props;
+
+    const signupformValidation = new SignupFormValidation(general);
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
@@ -202,29 +177,15 @@ class Signup extends Component<MultiProps, SignupState> {
                           }}
                           isInvalid={
                             this.state.touched.firstName &&
-                            (this.isFieldEmpty(this.state.firstName) ||
-                              this.doesFieldContainNumber(this.state.firstName))
+                            !signupformValidation.isFirstNameValid(
+                              this.state.firstName,
+                            )
                           }
                         />
                         <Form.Control.Feedback type="invalid">
-                          <span
-                            hidden={!this.isFieldEmpty(this.state.firstName)}
-                          >
-                            {
-                              general.formFieldsErrors.signupFormFieldsErrors
-                                .firstNameError.emptyError
-                            }
-                          </span>
-                          <span
-                            hidden={
-                              !this.doesFieldContainNumber(this.state.firstName)
-                            }
-                          >
-                            {
-                              general.formFieldsErrors.signupFormFieldsErrors
-                                .firstNameError.containsNumberError
-                            }
-                          </span>
+                          {signupformValidation.firstNameError(
+                            this.state.firstName,
+                          )}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -245,29 +206,15 @@ class Signup extends Component<MultiProps, SignupState> {
                           }}
                           isInvalid={
                             this.state.touched.lastName &&
-                            (this.isFieldEmpty(this.state.lastName) ||
-                              this.doesFieldContainNumber(this.state.lastName))
+                            !signupformValidation.isLastNameValid(
+                              this.state.lastName,
+                            )
                           }
                         />
                         <Form.Control.Feedback type="invalid">
-                          <span
-                            hidden={!this.isFieldEmpty(this.state.lastName)}
-                          >
-                            {
-                              general.formFieldsErrors.signupFormFieldsErrors
-                                .lastNameError.emptyError
-                            }
-                          </span>
-                          <span
-                            hidden={
-                              !this.doesFieldContainNumber(this.state.lastName)
-                            }
-                          >
-                            {
-                              general.formFieldsErrors.signupFormFieldsErrors
-                                .lastNameError.containsNumberError
-                            }
-                          </span>
+                          {signupformValidation.lastNameError(
+                            this.state.lastName,
+                          )}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -293,14 +240,11 @@ class Signup extends Component<MultiProps, SignupState> {
                           }}
                           isInvalid={
                             this.state.touched.email &&
-                            !this.isEmailFormatValid(this.state.email)
+                            !signupformValidation.isEmailValid(this.state.email)
                           }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {
-                            general.formFieldsErrors.signupFormFieldsErrors
-                              .emailError.invalidEmailError
-                          }
+                          {signupformValidation.emailError()}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -326,14 +270,13 @@ class Signup extends Component<MultiProps, SignupState> {
                           }}
                           isInvalid={
                             this.state.touched.password &&
-                            this.isFieldEmpty(this.state.password)
+                            !signupformValidation.isPasswordValid(
+                              this.state.password,
+                            )
                           }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {
-                            general.formFieldsErrors.signupFormFieldsErrors
-                              .passwordError.emptyError
-                          }
+                          {signupformValidation.passwordError()}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -359,36 +302,18 @@ class Signup extends Component<MultiProps, SignupState> {
                           }}
                           isInvalid={
                             this.state.touched.confirmPassword &&
-                            (this.isFieldEmpty(this.state.confirmPassword) ||
-                              !this.doPasswordsMatch(
-                                this.state.password,
-                                this.state.confirmPassword,
-                              ))
+                            !signupformValidation.isConfirmPasswordValid(
+                              this.state.confirmPassword,
+                              this.state.password,
+                            )
                           }
                         />
 
                         <Form.Control.Feedback type="invalid">
-                          <span
-                            hidden={
-                              !this.isFieldEmpty(this.state.confirmPassword)
-                            }
-                          >
-                            {
-                              general.formFieldsErrors.signupFormFieldsErrors
-                                .confirmPasswordError.emptyError
-                            }
-                          </span>
-                          <span
-                            hidden={this.doPasswordsMatch(
-                              this.state.password,
-                              this.state.confirmPassword,
-                            )}
-                          >
-                            {
-                              general.formFieldsErrors.signupFormFieldsErrors
-                                .confirmPasswordError.matchingError
-                            }
-                          </span>
+                          {signupformValidation.confirmPasswordError(
+                            this.state.password,
+                            this.state.confirmPassword,
+                          )}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>

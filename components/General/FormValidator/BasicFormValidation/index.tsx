@@ -16,3 +16,5 @@ class BasicFormValidation {
     return password === confirmPassword;
   };
 }
+
+export default BasicFormValidation;

@@ -77,7 +77,7 @@ const translations: Translations = {
         },
         lastNameError: {
           emptyError: 'Nom de famille ne peut être vide.',
-          containsNumberError: 'Nom de famille ne peut être vide.',
+          containsNumberError: 'Nom de famille ne peut contenir un chiffre.',
         },
         emailError: {
           invalidEmailError: 'Adresse courriel invalide.',
