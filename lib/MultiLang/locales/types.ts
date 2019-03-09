@@ -67,27 +67,27 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
-    confirmForm: {
-      signupForm: {
-        firstName: {
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
           emptyError: String;
           containsNumberError: String;
         };
-        lastName: {
+        lastNameError: {
           emptyError: String;
           containsNumberError: String;
         };
-        email: {
+        emailError: {
           invalidEmailError: String;
         };
-        password: {
+        passwordError: {
           emptyError: String;
         };
-        confirmPassword: {
+        confirmPasswordError: {
           emptyError: String;
           matchingError: String;
         };
-        location: {
+        locationError: {
           emptyError: String;
         };
       };

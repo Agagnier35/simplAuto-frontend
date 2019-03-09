@@ -45,7 +45,7 @@ const translations: Translations = {
     max: 'max',
     min: 'min',
     firstName: 'Prénom',
-    lastName: 'Nom de famille',
+    lastName: 'Nom',
     gender: 'genre',
     birthDate: {
       day: 'Jour',
@@ -69,27 +69,27 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
-    confirmForm: {
-      signupForm: {
-        firstName: {
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
           emptyError: 'Prénom ne peut être vide.',
           containsNumberError: 'Prénom ne peut contenir un chiffre.',
         },
-        lastName: {
+        lastNameError: {
           emptyError: 'Nom de famille ne peut être vide.',
           containsNumberError: 'Nom de famille ne peut être vide.',
         },
-        email: {
+        emailError: {
           invalidEmailError: 'Adresse courriel invalide.',
         },
-        password: {
+        passwordError: {
           emptyError: 'Mot de passe ne peut être vide.',
         },
-        confirmPassword: {
+        confirmPasswordError: {
           emptyError: 'Mot de passe de confirmation ne peut être vide.',
           matchingError: 'Mots de passe différents.',
         },
-        location: {
+        locationError: {
           emptyError: 'La location ne peut être vide.',
         },
       },
