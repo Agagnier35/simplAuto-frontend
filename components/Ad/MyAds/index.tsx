@@ -39,6 +39,7 @@ const MyAds = ({ translations }: MultiProps) => {
         </AdSummaries>
       </Card>
       <Paging
+        pageIndex={pageIndex}
         setPageIndex={setPageIndex}
         maxItems={data.me.adCount}
         itemsByPage={ADS_NB_BY_PAGE}

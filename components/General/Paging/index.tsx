@@ -4,34 +4,28 @@ import { ButtonToolbar, Button } from 'react-bootstrap';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 interface PagingViewProps {
+  pageIndex: number;
   setPageIndex: React.Dispatch<React.SetStateAction<number>>;
   maxItems: number;
   itemsByPage: number;
 }
 
 const PagingView = ({
+  pageIndex,
   setPageIndex,
   maxItems,
   itemsByPage,
 }: PagingViewProps) => {
-  const [pageNumber, setPageNumber] = useState(1);
-
-  let pageTracker = 1;
-
   function onNext() {
-    if (maxItems > pageNumber * itemsByPage) {
-      pageTracker = pageNumber + 1;
-      setPageIndex(pageTracker - 1);
-      setPageNumber(pageTracker);
+    if (maxItems > (pageIndex + 1) * itemsByPage) {
+      setPageIndex(pageIndex + 1);
     }
   }
 
   function onBack() {
-    if (pageNumber > 1) {
-      pageTracker = pageNumber - 1;
+    if (pageIndex > 0) {
+      setPageIndex(pageIndex - 1);
     }
-    setPageIndex(pageTracker - 1);
-    setPageNumber(pageTracker);
   }
 
   return (
@@ -39,7 +33,7 @@ const PagingView = ({
       <Button variant="light" onClick={onBack}>
         <FaArrowLeft />
       </Button>
-      {pageNumber}
+      {pageIndex + 1}
       <Button variant="light" onClick={onNext}>
         <FaArrowRight />
       </Button>
