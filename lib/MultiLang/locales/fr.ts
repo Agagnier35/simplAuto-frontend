@@ -69,7 +69,7 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
-    langage: 'Language',
+    langage: 'Langue',
     langages: {
       english: 'Anglais',
       french: 'Français',
