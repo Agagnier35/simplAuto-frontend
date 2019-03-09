@@ -126,9 +126,51 @@ class Signup extends Component<MultiProps, SignupState> {
     } as SignupState);
   };
 
+  isNotUsefullCompanyInfo = (item: string) => {
+    return (
+      this.state.clientType === ClientType.Company &&
+      (item === 'gender' || item === 'birthDate')
+    );
+  };
+
   getSignupPayload = () => {
-    const { confirmPassword, ...userInfos } = this.state;
-    return { data: userInfos };
+    const myData: Dictionary<UserSignupInput> = {
+      firstName: '',
+      lastName: '',
+      companyName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      location: '',
+      gender: Gender.Other,
+      birthDate: {
+        day: 1,
+        month: 1,
+        year: 1900,
+      },
+      clientType: ClientType.Individual,
+    };
+    Object.keys(this.state).map(item => {
+      if (item !== 'confirmPassword' && this.state[item] !== '') {
+        myData[item] = this.state[item];
+      } else if (this.state[item] === '') {
+        delete myData[item];
+      }
+      if (this.isNotUsefullCompanyInfo(item)) {
+        delete myData[item];
+      }
+    });
+    console.log(myData);
+    return { data: myData };
+  };
+
+  handleChangeSelect = (value: any) => {
+    this.setState({ firstName: '', lastName: '', companyName: '' });
+    if (value === ClientType.Company) {
+      this.setState({ clientType: ClientType.Company });
+    } else {
+      this.setState({ clientType: ClientType.Individual });
+    }
   };
 
   render() {
