@@ -62,27 +62,34 @@ class CreateAdFormValidation extends BasicFormValidation {
 
   yearLowerBoundError = (yearLowerBound: number) => {
     if (!this.isFieldNotEmpty(yearLowerBound.toString())) {
-      return 'p';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearLowerBound.emptyError;
     } else if (!this.isNumberAnInteger(yearLowerBound)) {
-      return 'abc';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearLowerBound.numberNotIntegerError;
     }
   };
 
   yearHigherBoundError = (yearLowerBound: number, yearHigherBound: number) => {
     if (!this.isFieldNotEmpty(yearHigherBound.toString())) {
-      return 'p';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearHigherBound.emptyError;
     } else if (!this.isNumberAnInteger(yearLowerBound)) {
-      return 'abd';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearHigherBound.numberNotIntegerError;
     } else if (!(yearLowerBound <= yearHigherBound)) {
-      return 'k';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearHigherBound.yearLowerBoundHigherThanYearHigherBoundError;
     }
   };
 
   mileageLowerBoundError = (mileageLowerBound: number) => {
     if (!this.isFieldNotEmpty(mileageLowerBound.toString())) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageLowerBound.emptyError;
     } else if (!this.isNumberAnInteger(mileageLowerBound)) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageLowerBound.numberNotIntegerError;
     }
   };
 
@@ -91,19 +98,24 @@ class CreateAdFormValidation extends BasicFormValidation {
     mileageHigherBound: number,
   ) => {
     if (!this.isFieldNotEmpty(mileageHigherBound.toString())) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageHigherBound.emptyError;
     } else if (!this.isNumberAnInteger(mileageHigherBound)) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageHigherBound.numberNotIntegerError;
     } else if (!(mileageLowerBound <= mileageHigherBound)) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageHigherBound.mileageLowerBoundHigherThanMileageHigherBoundError;
     }
   };
 
   priceLowerBoundError = (priceLowerBound: number) => {
     if (!this.isFieldNotEmpty(priceLowerBound.toString())) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .priceLowerBound.emptyError;
     } else if (!this.isNumberAnInteger(priceLowerBound)) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .priceLowerBound.numberNotIntegerError;
     }
   };
 
@@ -112,11 +124,14 @@ class CreateAdFormValidation extends BasicFormValidation {
     priceHigherBound: number,
   ) => {
     if (!this.isFieldNotEmpty(priceHigherBound.toString())) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .priceHigherBound.emptyError;
     } else if (!this.isNumberAnInteger(priceHigherBound)) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .priceHigherBound.numberNotIntegerError;
     } else if (!(priceLowerBound < priceHigherBound)) {
-      return 'a';
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .priceHigherBound.priceLowerBoundHigherThanPriceHigherBoundError;
     }
   };
 }
