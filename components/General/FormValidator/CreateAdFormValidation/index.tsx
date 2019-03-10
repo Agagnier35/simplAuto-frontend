@@ -12,8 +12,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     // Ne peut être en dessous d'une année minimum : exemple 1980
     return (
       this.isFieldNotEmpty(yearLowerBound.toString()) &&
-      this.isNumberAnInteger(yearLowerBound) &&
-      yearLowerBound >= 1980
+      this.isNumberAnInteger(yearLowerBound)
     );
   };
 
@@ -28,8 +27,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(yearHigherBound.toString()) &&
       this.isNumberAnInteger(yearLowerBound) &&
-      yearLowerBound <= yearHigherBound &&
-      yearHigherBound <= new Date().getFullYear()
+      yearLowerBound <= yearHigherBound
     );
   };
 
@@ -39,8 +37,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     // Ne peut pas être un chiffre décimal
     return (
       this.isFieldNotEmpty(mileageLowerBound.toString()) &&
-      this.isNumberAnInteger(mileageLowerBound) &&
-      mileageLowerBound > 0
+      this.isNumberAnInteger(mileageLowerBound)
     );
   };
 
@@ -54,8 +51,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(mileageHigherBound.toString()) &&
       this.isNumberAnInteger(mileageHigherBound) &&
-      mileageLowerBound <= mileageHigherBound &&
-      mileageHigherBound <= 3000
+      mileageLowerBound <= mileageHigherBound
     );
   };
 
@@ -65,8 +61,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     // Ne peut pas être supérieur à priceHigherBound
     return (
       this.isFieldNotEmpty(priceLowerBound.toString()) &&
-      this.isNumberAnInteger(priceLowerBound) &&
-      priceLowerBound > 0
+      this.isNumberAnInteger(priceLowerBound)
     );
   };
 
