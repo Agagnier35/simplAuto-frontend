@@ -4,7 +4,7 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
 import { AdCreateInput } from '../../../generated/graphql';
 import gql from 'graphql-tag';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card, InputGroup } from 'react-bootstrap';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
@@ -20,7 +20,20 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-interface CreateAdState extends AdCreateInput {}
+interface CreateAdState extends AdCreateInput {
+  touched: {
+    yearLowerBound: boolean;
+    yearHigherBound: boolean;
+    mileageLowerBound: boolean;
+    mileageHigherBound: boolean;
+    priceLowerBound: boolean;
+    priceHigherBound: boolean;
+  };
+}
+
+const redAsterixStyle = {
+  color: 'red',
+};
 
 class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
   state: CreateAdState = {
@@ -34,6 +47,14 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     mileageHigherBound: null,
     priceLowerBound: null,
     priceHigherBound: null,
+    touched: {
+      yearLowerBound: false,
+      yearHigherBound: false,
+      mileageLowerBound: false,
+      mileageHigherBound: false,
+      priceLowerBound: false,
+      priceHigherBound: false,
+    },
   };
 
   handleCreateAd = async (e: any, createAd: any) => {
@@ -99,6 +120,20 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     return [];
   };
 
+  isStateValid = () => {
+    return (
+      this.state.manufacturerID != null &&
+      this.state.modelID != null &&
+      this.state.categoryID != null &&
+      this.state.yearHigherBound != null &&
+      this.state.yearLowerBound != null &&
+      this.state.mileageHigherBound != null &&
+      this.state.mileageLowerBound != null &&
+      this.state.priceHigherBound != null &&
+      this.state.priceLowerBound != null
+    );
+  };
+
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
@@ -146,7 +181,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 value: item.id,
                               })
                             }
-                            label={`${cars.manufacturer} :`}
+                            label={
+                              <span>
+                                {cars.manufacturer}
+                                <span style={redAsterixStyle}>*</span>
+                              </span>
+                            }
                           />
                           <Select
                             options={this.getModelsForManufacturer(data)}
@@ -155,7 +195,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
-                            label={`${cars.model} :`}
+                            label={
+                              <span>
+                                {cars.model}
+                                <span style={redAsterixStyle}>*</span>
+                              </span>
+                            }
                           />
                           <Select
                             options={data.carCategories}
@@ -165,13 +210,21 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 value: item.id,
                               })
                             }
-                            label={`${cars.category} :`}
+                            label={
+                              <span>
+                                {cars.category}
+                                <span style={redAsterixStyle}>*</span>
+                              </span>
+                            }
                           />
 
                           <label>
-                            {cars.year} {general.min}
+                            <span>
+                              {cars.year} {general.min}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                             <Form.Control
-                              type="text"
+                              type="number"
                               placeholder={`${cars.year} ${general.min}`}
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
@@ -182,9 +235,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           </label>
 
                           <label>
-                            {cars.year} {general.max}
+                            <span>
+                              {cars.year} {general.max}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                             <Form.Control
-                              type="text"
+                              type="number"
                               placeholder={`${cars.year} ${general.max}`}
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
@@ -194,9 +250,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             />
                           </label>
                           <label>
-                            {cars.mileage} {general.min}
+                            <span>
+                              {cars.mileage} {general.min}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                             <Form.Control
-                              type="text"
+                              type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
                               onChange={(e: any) =>
                                 this.handleChange('mileageLowerBound', {
@@ -206,9 +265,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             />
                           </label>
                           <label>
-                            {cars.mileage} {general.max}
+                            <span>
+                              {cars.mileage} {general.max}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                             <Form.Control
-                              type="text"
+                              type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
                               onChange={(e: any) =>
                                 this.handleChange('mileageHigherBound', {
@@ -218,9 +280,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             />
                           </label>
                           <label>
-                            {cars.price} {general.min}
+                            <span>
+                              {cars.price} {general.min}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                             <Form.Control
-                              type="text"
+                              type="number"
                               placeholder={`${cars.price} ${general.min}`}
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
@@ -230,9 +295,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             />
                           </label>
                           <label>
-                            {cars.price} {general.max}
+                            <span>
+                              {cars.price} {general.max}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                             <Form.Control
-                              type="text"
+                              type="number"
                               placeholder={`${cars.price} ${general.max}`}
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
@@ -302,6 +370,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
+                            disabled={!this.isStateValid()}
                           >
                             {ad.createAdAction}
                           </Button>
