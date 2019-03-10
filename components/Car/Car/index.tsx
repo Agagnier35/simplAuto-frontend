@@ -23,8 +23,10 @@ export interface CarPageProps {
 
 const Car = ({ translations, query }: CarPageProps) => {
   const OFFERS_NB_BY_PAGE = 10;
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize] = useState(OFFERS_NB_BY_PAGE);
+  const [pageIndexOffer, setPageIndexOffer] = useState(0);
+  const [pageSizeOffer] = useState(OFFERS_NB_BY_PAGE);
+  const [pageIndexAds, setPageIndexAds] = useState(0);
+  const [pageSizeAds] = useState(OFFERS_NB_BY_PAGE);
 
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedAd, setSelectedAd] = useState({});
@@ -33,9 +35,18 @@ const Car = ({ translations, query }: CarPageProps) => {
   const [isOfferMode, setOfferMode] = useState(false);
 
   const carQuery = useQuery(CAR_BY_ID, {
-    variables: { id: query.id, pageNumber: pageIndex, pageSize: pageSize },
+    variables: {
+      id: query.id,
+      pageNumberOffer: pageIndexOffer,
+      pageSizeOffer: pageSizeOffer,
+    },
   });
-  const adsQuery = useQuery(MATCHING_ADS_QUERY);
+  const adsQuery = useQuery(MATCHING_ADS_QUERY, {
+    variables: {
+      pageNumberAds: pageIndexAds,
+      pageSizeAds: pageSizeAds,
+    },
+  });
   const errors = carQuery.error || adsQuery.error;
   if (carQuery.loading) return <Loading />;
   if (errors) return <ErrorMessage error={errors} />;
@@ -132,13 +143,18 @@ const Car = ({ translations, query }: CarPageProps) => {
                 />
               </div>
             ))}
+            <Paging
+              pageIndex={pageIndexAds}
+              setPageIndex={setPageIndexAds}
+              maxItems={1000}
+              itemsByPage={OFFERS_NB_BY_PAGE}
+            />
           </AdSummaries>
         </Card>
       )}
       {isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries>
-            {console.log(carQuery)}
             {carQuery.data.car.offers.map((offer: Offer) => (
               <div key={offer.ad.id}>
                 <AdSummary
@@ -163,8 +179,8 @@ const Car = ({ translations, query }: CarPageProps) => {
               </div>
             ))}
             <Paging
-              pageIndex={pageIndex}
-              setPageIndex={setPageIndex}
+              pageIndex={pageIndexOffer}
+              setPageIndex={setPageIndexOffer}
               maxItems={carQuery.data.car.offerCount}
               itemsByPage={OFFERS_NB_BY_PAGE}
             />
