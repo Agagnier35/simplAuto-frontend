@@ -4,13 +4,14 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
 import { AdCreateInput } from '../../../generated/graphql';
 import gql from 'graphql-tag';
-import { Form, Button, Card, InputGroup } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
+import CreateAdFormValidation from '../../General/FormValidator/CreateAdFormValidation';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -141,6 +142,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
+    const createAdFormValidation = new CreateAdFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -226,6 +228,8 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.min}`}
+                              min={1900}
+                              max={new Date().getFullYear()}
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -242,6 +246,8 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.max}`}
+                              min={1900}
+                              max={new Date().getFullYear()}
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -257,6 +263,8 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
+                              min={0}
+                              max={300000}
                               onChange={(e: any) =>
                                 this.handleChange('mileageLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -272,6 +280,8 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
+                              min={0}
+                              max={300000}
                               onChange={(e: any) =>
                                 this.handleChange('mileageHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -287,6 +297,8 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
+                              min={0}
+                              max={300000}
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -302,6 +314,8 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}
+                              min={0}
+                              max={300000}
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
