@@ -91,6 +91,35 @@ export default interface Translations {
           emptyError: String;
         };
       };
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        yearHigherBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearLowerBoundHigherThanYearHigherBoundError: String;
+        };
+        mileageLowerBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        mileageHigherBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLowerBoundHigherThanMileageHigherBoundError: String;
+        };
+        priceLowerBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        priceHigherBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          priceLowerBoundHigherThanPriceHigherBoundError: String;
+        };
+      };
     };
   };
   errors: {

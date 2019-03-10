@@ -93,6 +93,38 @@ const translations: Translations = {
           emptyError: 'La location ne peut être vide.',
         },
       },
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          emptyError: 'Année min ne peut être vide',
+          numberNotIntegerError: 'Année min doit être un entier',
+        },
+        yearHigherBound: {
+          emptyError: 'Année max ne peut être vide',
+          numberNotIntegerError: 'Année max doit être un entier',
+          yearLowerBoundHigherThanYearHigherBoundError:
+            'Année max doit être supérieur à année min',
+        },
+        mileageLowerBound: {
+          emptyError: 'Kilométrage min ne peut être vide',
+          numberNotIntegerError: 'Kilométrage min doit être un entier',
+        },
+        mileageHigherBound: {
+          emptyError: 'Kilométrage max ne peut être vide',
+          numberNotIntegerError: 'Kilométrage max doit être un entier',
+          mileageLowerBoundHigherThanMileageHigherBoundError:
+            'Kilométrage max doit être supérieur à kilométrage min',
+        },
+        priceLowerBound: {
+          emptyError: 'Prix min ne peut être vide',
+          numberNotIntegerError: 'Prix min doit être un entier',
+        },
+        priceHigherBound: {
+          emptyError: 'Prix max ne peut être vide',
+          numberNotIntegerError: 'Prix max doit être un entier',
+          priceLowerBoundHigherThanPriceHigherBoundError:
+            'Prix max doit être supérieur à prix min',
+        },
+      },
     },
   },
   errors: {
