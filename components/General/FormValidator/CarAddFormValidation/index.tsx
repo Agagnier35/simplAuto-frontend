@@ -81,7 +81,7 @@ class CarAddFormValidation extends BasicFormValidation {
     return (
       state.manufacturerID != null &&
       state.modelID != null &&
-      state.categoryID &&
+      state.categoryID != null &&
       this.isPhotosValid(state.photos) &&
       this.isMileageValid(state.mileage) &&
       this.isYearValid(state.year)
