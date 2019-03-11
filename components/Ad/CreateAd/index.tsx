@@ -287,12 +287,22 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.mileage} ${general.min}`}
                               min={0}
                               max={300000}
+                              isInvalid={
+                                !createAdFormValidation.isMileageLowerBoundValid(
+                                  this.state.mileageLowerBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.mileageLowerBoundError(
+                                this.state.mileageLowerBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
@@ -304,12 +314,24 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.mileage} ${general.max}`}
                               min={0}
                               max={300000}
+                              isInvalid={
+                                !createAdFormValidation.isMileageHigherBoundValid(
+                                  this.state.mileageLowerBound,
+                                  this.state.mileageHigherBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.mileageHigherBoundError(
+                                this.state.mileageLowerBound,
+                                this.state.mileageHigherBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
