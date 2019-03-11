@@ -14,9 +14,9 @@ import Router from 'next/router';
 interface CarAddState {
   features: any[];
   [key: string]: any;
-  manufacturerID: string;
-  modelID: string;
-  categoryID: string;
+  manufacturerID: any;
+  modelID: any;
+  categoryID: any;
   year: number;
   mileage: number;
   photos: any;
@@ -68,9 +68,9 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     this.state = {
       photos: [],
       features: [],
-      manufacturerID: '',
-      modelID: '',
-      categoryID: '',
+      manufacturerID: null,
+      modelID: null,
+      categoryID: null,
       year: 0,
       mileage: 0,
       featuresIDs: null,
