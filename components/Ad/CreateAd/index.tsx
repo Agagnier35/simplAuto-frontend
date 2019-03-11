@@ -343,12 +343,22 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.price} ${general.min}`}
                               min={0}
                               max={300000}
+                              isInvalid={
+                                !createAdFormValidation.isPriceLowerBoundValid(
+                                  this.state.priceLowerBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.priceLowerBoundError(
+                                this.state.priceLowerBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
@@ -360,12 +370,24 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.price} ${general.max}`}
                               min={0}
                               max={300000}
+                              isInvalid={
+                                !createAdFormValidation.isPriceHigherBoundValid(
+                                  this.state.priceLowerBound,
+                                  this.state.priceHigherBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.priceHigherrBoundError(
+                                this.state.priceLowerBound,
+                                this.state.priceHigherBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                         </div>
                       </Card.Body>
