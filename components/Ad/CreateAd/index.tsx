@@ -121,20 +121,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     return [];
   };
 
-  isStateValid = () => {
-    return (
-      this.state.manufacturerID != null &&
-      this.state.modelID != null &&
-      this.state.categoryID != null &&
-      this.state.yearHigherBound != null &&
-      this.state.yearLowerBound != null &&
-      this.state.mileageHigherBound != null &&
-      this.state.mileageLowerBound != null &&
-      this.state.priceHigherBound != null &&
-      this.state.priceLowerBound != null
-    );
-  };
-
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
@@ -474,7 +460,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
-                            disabled={!this.isStateValid()}
+                            disabled={
+                              !createAdFormValidation.isCreateAdFormStateValid(
+                                this.state,
+                              )
+                            }
                           >
                             {ad.createAdAction}
                           </Button>

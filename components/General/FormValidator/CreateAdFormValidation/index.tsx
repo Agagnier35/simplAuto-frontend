@@ -189,6 +189,29 @@ class CreateAdFormValidation extends BasicFormValidation {
         .priceHigherBound.priceLowerBoundHigherThanPriceHigherBoundError;
     }
   };
+
+  isCreateAdFormStateValid = (state: any) => {
+    return (
+      state.manufacturerID != null &&
+      state.modelID != null &&
+      state.categoryID != null &&
+      this.isYearLowerBoundValid(state.yearLowerBound) &&
+      this.isYearHigherBoundValid(
+        state.yearLowerBound,
+        state.yearHigherBound,
+      ) &&
+      this.isMileageLowerBoundValid(state.mileageLowerBound) &&
+      this.isMileageHigherBoundValid(
+        state.mileageLowerBound,
+        state.mileageHigherBound,
+      ) &&
+      this.isPriceLowerBoundValid(state.priceLowerBound) &&
+      this.isPriceHigherBoundValid(
+        state.priceLowerBound,
+        state.priceHigherBound,
+      )
+    );
+  };
 }
 
 export default CreateAdFormValidation;
