@@ -128,6 +128,10 @@ export const globalStyles = `
         color: ${theme.colors.primary};
       }
     }
+
+    &-warning {
+      text-transform: uppercase;
+    }
   }
 
   .dropdown {

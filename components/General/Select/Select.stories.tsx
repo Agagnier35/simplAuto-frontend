@@ -21,4 +21,15 @@ storiesOf('Select', module)
         handleChange={(item: any) => action(item.name)}
       />
     </div>
+  ))
+  .add('with initial selected value', () => (
+    <div style={{ padding: '1rem' }}>
+      <Select
+        label="Select"
+        options={[{ name: 'A' }, { name: 'B' }, { name: 'C' }]}
+        accessor="name"
+        handleChange={(item: any) => action(item.name)}
+        selected={{ name: 'A' }}
+      />
+    </div>
   ));

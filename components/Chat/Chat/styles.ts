@@ -29,7 +29,7 @@ export const Message = styled('div')<{ sender: User }>`
 `;
 
 export const Card = styled(BSCard)`
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   .form-control {
     border-right: none;
@@ -52,6 +52,16 @@ export const Card = styled(BSCard)`
     &:hover {
       color: ${props => props.theme.colors.primary};
     }
+  }
+
+  .imagePreview {
+    max-width: 50px;
+    height: 50px;
+  }
+
+  .chatImage {
+    max-width: 300px;
+    height: 200px;
   }
 
   .send-button {
