@@ -138,6 +138,9 @@ const translations: Translations = {
           mileageLesserThanZeroError: 'Kilométrage doit être supérieur à 0',
           mileageTooHighError: 'Kilométrage trop élevé',
         },
+        photos: {
+          atLeastOnePhotoError: 'Voud devez ajouter au moins une photo',
+        },
       },
     },
   },

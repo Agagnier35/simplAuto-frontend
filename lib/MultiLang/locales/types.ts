@@ -133,6 +133,9 @@ export default interface Translations {
           mileageLesserThanZeroError: String;
           mileageTooHighError: String;
         };
+        photos: {
+          atLeastOnePhotoError: String;
+        };
       };
     };
   };
