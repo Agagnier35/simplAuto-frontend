@@ -93,7 +93,6 @@ const translations: Translations = {
           emptyError: 'Location cannot be empty.',
         },
       },
-
       createAdFormFieldsErrors: {
         yearLowerBound: {
           emptyError: 'Year min cannot be empty',

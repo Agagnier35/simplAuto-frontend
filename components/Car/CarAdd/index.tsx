@@ -291,6 +291,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <Form.Control
                               type="number"
                               id="year"
+                              min={1900}
+                              max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
                               required
@@ -306,6 +308,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <Form.Control
                               type="number"
                               id="mileage"
+                              min={0}
+                              max={300000}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
                               required
@@ -345,7 +349,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <span className="card-number">3</span>
                             {carLabel.addons}
                           </Card.Title>
-
                           {fetchedCheckboxFeatures.map((feature: any) => (
                             <Form.Check
                               key={feature.id}
