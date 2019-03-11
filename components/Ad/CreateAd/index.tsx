@@ -230,12 +230,22 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.min}`}
                               min={1900}
                               max={new Date().getFullYear()}
+                              isInvalid={
+                                !createAdFormValidation.isYearLowerBoundValid(
+                                  this.state.yearLowerBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.yearLowerBoundError(
+                                this.state.yearLowerBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -248,12 +258,24 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.max}`}
                               min={1900}
                               max={new Date().getFullYear()}
+                              isInvalid={
+                                !createAdFormValidation.isYearHigherBoundValid(
+                                  this.state.yearLowerBound,
+                                  this.state.yearHigherBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.yearHigherBoundError(
+                                this.state.yearLowerBound,
+                                this.state.yearHigherBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
