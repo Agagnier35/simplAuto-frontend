@@ -96,34 +96,34 @@ const translations: Translations = {
 
       createAdFormFieldsErrors: {
         yearLowerBound: {
-          emptyError: 'Année min ne peut être vide',
-          numberNotIntegerError: 'Année min doit être un entier',
+          emptyError: 'Year min cannot be empty',
+          numberNotIntegerError: 'Year min must be an integer',
         },
         yearHigherBound: {
-          emptyError: 'Année max ne peut être vide',
-          numberNotIntegerError: 'Année max doit être un entier',
+          emptyError: 'Year max cannot be empty',
+          numberNotIntegerError: 'Year max must be an integer',
           yearLowerBoundHigherThanYearHigherBoundError:
-            'Année max doit être supérieur à année min',
+            'Year max must be higher than year min',
         },
         mileageLowerBound: {
-          emptyError: 'Kilométrage min ne peut être vide',
-          numberNotIntegerError: 'Kilométrage min doit être un entier',
+          emptyError: 'Mileage min cannot be empty',
+          numberNotIntegerError: 'Mileage min must be an integer',
         },
         mileageHigherBound: {
-          emptyError: 'Kilométrage max ne peut être vide',
-          numberNotIntegerError: 'Kilométrage max doit être un entier',
+          emptyError: 'Mileage min cannot be empty',
+          numberNotIntegerError: 'Mileage min must be an integer',
           mileageLowerBoundHigherThanMileageHigherBoundError:
-            'Kilométrage max doit être supérieur à kilométrage min',
+            'Mileage max must be higher than mileage min',
         },
         priceLowerBound: {
-          emptyError: 'Prix min ne peut être vide',
-          numberNotIntegerError: 'Prix min doit être un entier',
+          emptyError: 'Price min cannot be empty',
+          numberNotIntegerError: 'Price min must be an integer',
         },
         priceHigherBound: {
-          emptyError: 'Prix max ne peut être vide',
-          numberNotIntegerError: 'Prix max doit être un entier',
+          emptyError: 'Price max cannot be empty',
+          numberNotIntegerError: 'Price max must be an integer',
           priceLowerBoundHigherThanPriceHigherBoundError:
-            'Prix max doit être supérieur à prix min',
+            'Price max must be higher than price min',
         },
       },
     },
