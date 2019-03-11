@@ -21,6 +21,13 @@ interface CarAddState {
   mileage: number;
   photos: any;
   featuresIDs?: Maybe<string[]>;
+  touched: {
+    manufacturerID: boolean;
+    modelID: boolean;
+    categoryID: boolean;
+    year: boolean;
+    mileage: boolean;
+  };
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -74,6 +81,13 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       year: 0,
       mileage: 0,
       featuresIDs: null,
+      touched: {
+        manufacturerID: false,
+        modelID: false,
+        categoryID: false,
+        year: false,
+        mileage: false,
+      },
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
