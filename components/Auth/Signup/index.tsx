@@ -1,5 +1,5 @@
 import React, { Component, FormEvent } from 'react';
-import { multi, MultiProps } from '../../../lib/MultiLang';
+import { multiUpdater, MultiProps } from '../../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import StyledSignup from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
@@ -40,6 +40,7 @@ interface SignupState {
   birthDate: BirthDate;
   clientType: ClientType;
   language: UserLanguage;
+  locale: string;
 }
 
 class Signup extends Component<MultiProps, SignupState> {
@@ -59,6 +60,7 @@ class Signup extends Component<MultiProps, SignupState> {
     },
     clientType: ClientType.Individual,
     language: UserLanguage.English,
+    locale: '',
   };
 
   isBirthDateValid = () => {
@@ -88,12 +90,12 @@ class Signup extends Component<MultiProps, SignupState> {
     this.isStateSignupValid()
       ? await signup()
       : this.setState({
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-        });
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      });
     this.setState({
       firstName: '',
       lastName: '',
@@ -101,11 +103,19 @@ class Signup extends Component<MultiProps, SignupState> {
       password: '',
       confirmPassword: '',
     });
+    this.props.changeLocale(this.state.locale);
     Router.push('/');
   };
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
+    if (e.currentTarget.name === "language") {
+      let localeValue = "fr";
+      if (e.currentTarget.value === UserLanguage.English) {
+        localeValue = "en";
+      }
+      this.setState({ locale: localeValue });
+    }
   };
 
   handleGeoLocChange = (e: string) => {
@@ -347,14 +357,14 @@ class Signup extends Component<MultiProps, SignupState> {
                       <input
                         type="radio"
                         name="language"
-                        onChange={this.handleChange}
+                        onClick={this.handleChange}
                         value={UserLanguage.French}
                       />{' '}
                       {general.langages.english}
                       <input
                         type="radio"
                         name="language"
-                        onChange={this.handleChange}
+                        onClick={this.handleChange}
                         value={UserLanguage.English}
                       />
                     </label>
@@ -386,4 +396,4 @@ class Signup extends Component<MultiProps, SignupState> {
   }
 }
 
-export default multi(Signup);
+export default multiUpdater(Signup);
