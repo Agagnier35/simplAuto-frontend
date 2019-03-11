@@ -185,10 +185,11 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   getModelsForManufacturer = (data: any) => {
     const { manufacturerID } = this.state;
-    return manufacturerID.length > 0
-      ? data.manufacturers.find((item: any) => item.id === manufacturerID)
-          .models
-      : [];
+    if (manufacturerID) {
+      return data.manufacturers.find((item: any) => item.id === manufacturerID)
+        .models;
+    }
+    return [];
   };
 
   render() {
@@ -248,7 +249,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             />
                             <Select
                               options={this.getModelsForManufacturer(data)}
-                              disabled={manufacturerID.length === 0}
+                              disabled={!manufacturerID}
                               accessor="name"
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
@@ -274,11 +275,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                                   <span style={redAsterixStyle}>*</span>
                                 </span>
                               }
-                              isInvalid={true}
+                              // isInvalid={true}
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {/* TODO */}
-                            </Form.Control.Feedback>
+                            {/* <Form.Control.Feedback type="invalid">
+                            </Form.Control.Feedback> */}
                           </InputGroup>
 
                           <label>
