@@ -120,6 +120,20 @@ export default interface Translations {
           priceLowerBoundHigherThanPriceHigherBoundError: String;
         };
       };
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearTooLowError: String;
+          yearTooHighError: String;
+        };
+        mileage: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLesserThanZeroError: String;
+          mileageTooHighError: String;
+        };
+      };
     };
   };
   errors: {

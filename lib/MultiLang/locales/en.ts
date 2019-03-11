@@ -126,6 +126,20 @@ const translations: Translations = {
             'Price max must be higher than price min',
         },
       },
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: 'Year cannot be empty',
+          numberNotIntegerError: 'Year must be an integer',
+          yearTooLowError: 'Year is too low. Go sell that shit somewhere else',
+          yearTooHighError: 'Year too high',
+        },
+        mileage: {
+          emptyError: 'Mileage cannot be empty',
+          numberNotIntegerError: 'Mileage must be an integer',
+          mileageLesserThanZeroError: 'Mileage must be greater than 0',
+          mileageTooHighError: 'Mileage too high',
+        },
+      },
     },
   },
   errors: {

@@ -125,6 +125,20 @@ const translations: Translations = {
             'Prix max doit être supérieur à prix min',
         },
       },
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: 'Année ne peut être vide',
+          numberNotIntegerError: 'Année doit être un entier',
+          yearTooLowError: 'Année trop petite',
+          yearTooHighError: "Année ne peut dépasser l'année courante",
+        },
+        mileage: {
+          emptyError: 'Kilométrage ne peut être vide',
+          numberNotIntegerError: 'Kilométrage doit être un entier',
+          mileageLesserThanZeroError: 'Kilométrage doit être supérieur à 0',
+          mileageTooHighError: 'Kilométrage trop élevé',
+        },
+      },
     },
   },
   errors: {
