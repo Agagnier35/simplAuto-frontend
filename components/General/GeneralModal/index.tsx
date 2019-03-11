@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 
-export enum ModalConcern {
+export enum MainAppObject {
   ad = 'ad',
   offer = 'offer',
   car = 'car',
@@ -18,7 +18,7 @@ export enum ModalAction {
 }
 
 interface GeneralModalProps {
-  modalSubject: ModalConcern;
+  modalSubject: MainAppObject;
   actionType: ModalAction;
   show: boolean;
   onClose: () => void;

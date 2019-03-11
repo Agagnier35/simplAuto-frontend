@@ -7,7 +7,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import GeneralModal, {
-  ModalConcern,
+  MainAppObject,
   ModalAction,
 } from '../../General/GeneralModal';
 import GeneralAdInfos from './GeneralAdInfos';
@@ -79,7 +79,7 @@ const AdSummary = ({ translations, ad, adsQuery, right }: AdSummaryProps) => {
   return (
     <>
       <GeneralModal
-        modalSubject={ModalConcern.ad}
+        modalSubject={MainAppObject.ad}
         actionType={ModalAction.delete}
         show={modalShow}
         onClose={() => setModalShow(false)}
