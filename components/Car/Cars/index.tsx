@@ -12,10 +12,9 @@ import Paging from '../../General/Paging';
 const Cars = ({ translations }: MultiProps) => {
   const CARS_NB_BY_PAGE = 5;
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize] = useState(CARS_NB_BY_PAGE);
 
   const { data, error, loading } = useQuery(PAGE_CARS_QUERY, {
-    variables: { pageNumber: pageIndex, pageSize: pageSize },
+    variables: { pageNumber: pageIndex, pageSize: CARS_NB_BY_PAGE },
   });
 
   if (loading) return <Loading />;

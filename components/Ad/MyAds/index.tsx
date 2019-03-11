@@ -14,10 +14,9 @@ import Paging from '../../General/Paging';
 const MyAds = ({ translations }: MultiProps) => {
   const ADS_NB_BY_PAGE = 5;
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize] = useState(ADS_NB_BY_PAGE);
 
   const { data, loading, error } = useQuery(PAGE_ADS_QUERY, {
-    variables: { pageNumber: pageIndex, pageSize: pageSize },
+    variables: { pageNumber: pageIndex, pageSize: ADS_NB_BY_PAGE },
   });
 
   if (loading) return <Loading />;
