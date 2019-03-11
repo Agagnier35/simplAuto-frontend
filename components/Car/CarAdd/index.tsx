@@ -277,7 +277,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               isInvalid={true}
                             />
                             <Form.Control.Feedback type="invalid">
-                              Hola
+                              {/* TODO */}
                             </Form.Control.Feedback>
                           </InputGroup>
 
@@ -289,7 +289,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               </span>
                             }
                             <Form.Control
-                              type="text"
+                              type="number"
                               id="year"
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
@@ -304,7 +304,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               </span>
                             }
                             <Form.Control
-                              type="text"
+                              type="number"
                               id="mileage"
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
