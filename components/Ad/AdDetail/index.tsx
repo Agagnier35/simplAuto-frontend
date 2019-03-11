@@ -35,12 +35,11 @@ export const AD_DELETE_MUTATION = gql`
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
   const OFFER_NB_BY_PAGE = 5;
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize] = useState(OFFER_NB_BY_PAGE);
 
   const [modalShow, setModalShow] = useState(false);
 
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: pageSize },
+    variables: { id: adID, pageNumber: pageIndex, pageSize: OFFER_NB_BY_PAGE },
   });
 
   async function handleDeleteAd(deleteAd: any) {
