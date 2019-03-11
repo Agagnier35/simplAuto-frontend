@@ -230,7 +230,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.min}`}
                               min={1900}
                               max={new Date().getFullYear()}
+                              onBlur={() => {
+                                this.state.touched.yearLowerBound = true;
+                              }}
                               isInvalid={
+                                this.state.touched.yearLowerBound &&
                                 !createAdFormValidation.isYearLowerBoundValid(
                                   this.state.yearLowerBound,
                                 )
@@ -258,7 +262,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.max}`}
                               min={1900}
                               max={new Date().getFullYear()}
+                              onBlur={() => {
+                                this.state.touched.yearHigherBound = true;
+                              }}
                               isInvalid={
+                                this.state.touched.yearHigherBound &&
                                 !createAdFormValidation.isYearHigherBoundValid(
                                   this.state.yearLowerBound,
                                   this.state.yearHigherBound,
@@ -287,7 +295,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.mileage} ${general.min}`}
                               min={0}
                               max={300000}
+                              onBlur={() => {
+                                this.state.touched.mileageLowerBound = true;
+                              }}
                               isInvalid={
+                                this.state.touched.mileageLowerBound &&
                                 !createAdFormValidation.isMileageLowerBoundValid(
                                   this.state.mileageLowerBound,
                                 )
@@ -314,7 +326,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.mileage} ${general.max}`}
                               min={0}
                               max={300000}
+                              onBlur={() => {
+                                this.state.touched.mileageHigherBound = true;
+                              }}
                               isInvalid={
+                                this.state.touched.mileageHigherBound &&
                                 !createAdFormValidation.isMileageHigherBoundValid(
                                   this.state.mileageLowerBound,
                                   this.state.mileageHigherBound,
@@ -343,7 +359,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.price} ${general.min}`}
                               min={0}
                               max={300000}
+                              onBlur={() => {
+                                this.state.touched.priceLowerBound = true;
+                              }}
                               isInvalid={
+                                this.state.touched.priceLowerBound &&
                                 !createAdFormValidation.isPriceLowerBoundValid(
                                   this.state.priceLowerBound,
                                 )
@@ -370,7 +390,11 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.price} ${general.max}`}
                               min={0}
                               max={300000}
+                              onBlur={() => {
+                                this.state.touched.priceHigherBound = true;
+                              }}
                               isInvalid={
+                                this.state.touched.priceHigherBound &&
                                 !createAdFormValidation.isPriceHigherBoundValid(
                                   this.state.priceLowerBound,
                                   this.state.priceHigherBound,
