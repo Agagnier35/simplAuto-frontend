@@ -2,7 +2,7 @@ import React, { FormEvent, Component } from 'react';
 import Style from './style';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { multi, MultiProps } from '../../../lib/MultiLang';
+import { MultiProps, multiUpdater } from '../../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
 import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../../General/ErrorMessage';
@@ -36,7 +36,7 @@ interface ProfileState {
   gender: string;
   newPassword: string;
   confirmation: string;
-  language: UserLanguage;
+  language: string;
 }
 
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
@@ -49,7 +49,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
-    language: UserLanguage.English,
+    language: '',
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
@@ -81,6 +81,14 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+    console.log(this.state);
+    if (e.currentTarget.name === "language") {
+      let locale = "fr";
+      if (e.currentTarget.value === UserLanguage.English) {
+        locale = "en";
+      }
+      this.props.changeLocale(locale);
+    }
   };
 
   handleChangeGeoLoc = (e: string) => {
@@ -169,7 +177,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
 
   render() {
     const {
-      translations: { profile, general },
+      translations: { profile, general }
     } = this.props;
     return (
       <>
@@ -263,10 +271,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       key={gender}
                                       value={gender}
                                       checked={
-                                        this.state.gender === gender ||
-                                        data.me.gender === gender
+                                        this.state.gender === gender || (data.me.gender === gender && this.state.gender === '')
                                       }
-                                      onChange={this.handleChange}
+                                      onClick={this.handleChange}
                                     />,
                                     <p className="radioNeedSpace" key={i}>
                                       {temp[i]}{' '}
@@ -292,10 +299,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       value={language}
                                       type="radio"
                                       className="radioSelector"
-                                      onChange={this.handleChange}
+                                      onClick={this.handleChange}
                                       checked={
-                                        this.state.language === language ||
-                                        data.me.language === language
+                                        this.state.language === language || (data.me.language === language && this.state.language === '')
                                       }
                                     />,
                                   ];
@@ -343,4 +349,4 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   }
 }
 
-export default multi(Profile);
+export default multiUpdater(Profile);
