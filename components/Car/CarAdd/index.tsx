@@ -5,7 +5,7 @@ import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
 import { CarCreateInput, Maybe } from '../../../generated/graphql';
 import gql from 'graphql-tag';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card, InputGroup } from 'react-bootstrap';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
@@ -56,6 +56,10 @@ const CAR_ADD_MUTATION = gql`
     }
   }
 `;
+
+const redAsterixStyle = {
+  color: 'red',
+};
 
 class CarAdd extends Component<MultiProps, CarAddState> {
   constructor(props: any, context: any) {
@@ -228,34 +232,62 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           {carLabel.general}
                         </Card.Title>
                         <div className="label-wrapper">
-                          <Select
-                            options={data.manufacturers}
-                            accessor="name"
-                            handleChange={(item: any) =>
-                              this.handleChange('manufacturerID', item.id)
-                            }
-                            label={`${cars.manufacturer} :`}
-                          />
-                          <Select
-                            options={this.getModelsForManufacturer(data)}
-                            disabled={manufacturerID.length === 0}
-                            accessor="name"
-                            handleChange={(item: any) =>
-                              this.handleChange('modelID', item.id)
-                            }
-                            label={`${cars.model} :`}
-                          />
-                          <Select
-                            options={data.carCategories}
-                            accessor="name"
-                            handleChange={(item: any) =>
-                              this.handleChange('categoryID', item.id)
-                            }
-                            label={`${cars.category} :`}
-                          />
+                          <InputGroup>
+                            <Select
+                              options={data.manufacturers}
+                              accessor="name"
+                              handleChange={(item: any) =>
+                                this.handleChange('manufacturerID', item.id)
+                              }
+                              label={
+                                <span>
+                                  {cars.manufacturer}
+                                  <span style={redAsterixStyle}>*</span>
+                                </span>
+                              }
+                            />
+                            <Select
+                              options={this.getModelsForManufacturer(data)}
+                              disabled={manufacturerID.length === 0}
+                              accessor="name"
+                              handleChange={(item: any) =>
+                                this.handleChange('modelID', item.id)
+                              }
+                              label={
+                                <span>
+                                  {cars.model}
+                                  <span style={redAsterixStyle}>*</span>
+                                </span>
+                              }
+                            />
+                          </InputGroup>
+                          <InputGroup>
+                            <Select
+                              options={data.carCategories}
+                              accessor="name"
+                              handleChange={(item: any) =>
+                                this.handleChange('categoryID', item.id)
+                              }
+                              label={
+                                <span>
+                                  {cars.category}
+                                  <span style={redAsterixStyle}>*</span>
+                                </span>
+                              }
+                              isInvalid={true}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Hola
+                            </Form.Control.Feedback>
+                          </InputGroup>
 
                           <label>
-                            {cars.year}
+                            {
+                              <span>
+                                {cars.year}
+                                <span style={redAsterixStyle}>*</span>
+                              </span>
+                            }
                             <Form.Control
                               type="text"
                               id="year"
@@ -265,7 +297,12 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             />
                           </label>
                           <label>
-                            {cars.mileage}
+                            {
+                              <span>
+                                {cars.mileage}
+                                <span style={redAsterixStyle}>*</span>
+                              </span>
+                            }
                             <Form.Control
                               type="text"
                               id="mileage"
@@ -295,7 +332,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                                   category: feature.name,
                                 })
                               }
-                              label={`${carFeatureCategory[feature.name]} :`}
+                              label={carFeatureCategory[feature.name]}
                             />
                           ))}
                         </div>
@@ -357,6 +394,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
+                            disabled={false}
                           >
                             {carLabel.carAddSumbit}
                           </Button>
