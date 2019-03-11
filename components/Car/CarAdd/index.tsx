@@ -404,7 +404,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                         <Card.Body>
                           <Card.Title>
                             <span className="card-number">4</span>
-                            {general.images}
+                            <span>
+                              {general.images}{' '}
+                              <span style={redAsterixStyle}>*</span>
+                            </span>
                           </Card.Title>
                           <Card.Subtitle>{carLabel.upload}</Card.Subtitle>
                           <label className="btn btn-primary file-select">
