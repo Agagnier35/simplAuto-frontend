@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import StyledNav from './styles';
 import Router from 'next/router';
@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
+import { FaBell as NotificationIcon } from 'react-icons/fa';
 
 export const LOGGED_IN_QUERY = gql`
   {
@@ -15,6 +16,11 @@ export const LOGGED_IN_QUERY = gql`
       id
       firstName
       lastName
+      notifications {
+        id
+        type
+        objectID
+      }
     }
   }
 `;
@@ -78,6 +84,12 @@ const Header: React.SFC<MultiProps> = ({
                       <Link href="/profile" passHref>
                         <a className="firstName">{data.me.firstName}</a>
                       </Link>
+                      <div className="notifications">
+                        {data.me.notifications.length > 0 && (
+                          <span>{data.me.notifications.length}</span>
+                        )}
+                        <NotificationIcon />
+                      </div>
                     </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}
