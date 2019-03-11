@@ -10,6 +10,7 @@ import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
+import CarAddFormValidation from '../../General/FormValidator/CarAddFormValidation';
 
 interface CarAddState {
   features: any[];
@@ -213,6 +214,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
+
+    const carAddFormValidation = new CarAddFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -289,12 +292,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                                   <span style={redAsterixStyle}>*</span>
                                 </span>
                               }
-                              // isInvalid={true}
                             />
-                            {/* <Form.Control.Feedback type="invalid">
-                            </Form.Control.Feedback> */}
                           </InputGroup>
-
                           <label>
                             {
                               <span>
@@ -309,8 +308,18 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
+                              onBlur={() => (this.state.touched.year = true)}
+                              isInvalid={
+                                this.state.touched.year &&
+                                !carAddFormValidation.isYearValid(
+                                  this.state.year,
+                                )
+                              }
                               required
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {carAddFormValidation.yearError(this.state.year)}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             {
@@ -326,8 +335,20 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               max={300000}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
+                              onBlur={() => (this.state.touched.mileage = true)}
+                              isInvalid={
+                                this.state.touched.mileage &&
+                                !carAddFormValidation.isMileageValid(
+                                  this.state.mileage,
+                                )
+                              }
                               required
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {carAddFormValidation.mileageError(
+                                this.state.mileage,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                         </div>
                       </Card.Body>
@@ -411,7 +432,11 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
-                            disabled={false}
+                            disabled={
+                              !carAddFormValidation.isCarAddFormStateValid(
+                                this.state,
+                              )
+                            }
                           >
                             {carLabel.carAddSumbit}
                           </Button>
