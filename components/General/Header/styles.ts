@@ -17,30 +17,6 @@ const StyledNav = styled.div`
     margin: 10.5px auto;
   }
 
-  .notifications {
-    position: relative;
-    cursor: pointer;
-
-    span {
-      background: ${props => props.theme.colors.primary};
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0 0.42em;
-      height: 1.5em;
-      font-size: 1em;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50px;
-      transform: translate(50%, -30%);
-    }
-
-    svg {
-      font-size: 1.15rem;
-    }
-  }
-
   .navbar-nav {
     align-items: center;
   }

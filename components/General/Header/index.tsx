@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
-import { FaBell as NotificationIcon } from 'react-icons/fa';
+import { Notifications } from '../Notifications';
 
 export const LOGGED_IN_QUERY = gql`
   {
@@ -84,12 +84,7 @@ const Header: React.SFC<MultiProps> = ({
                       <Link href="/profile" passHref>
                         <a className="firstName">{data.me.firstName}</a>
                       </Link>
-                      <div className="notifications">
-                        {data.me.notifications.length > 0 && (
-                          <span>{data.me.notifications.length}</span>
-                        )}
-                        <NotificationIcon />
-                      </div>
+                      <Notifications notifications={data.me.notifications} />
                     </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}
