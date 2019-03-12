@@ -90,12 +90,12 @@ class Signup extends Component<MultiProps, SignupState> {
     this.isStateSignupValid()
       ? await signup()
       : this.setState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      });
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        });
     this.setState({
       firstName: '',
       lastName: '',
@@ -109,10 +109,10 @@ class Signup extends Component<MultiProps, SignupState> {
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
-    if (e.currentTarget.name === "language") {
-      let localeValue = "fr";
+    if (e.currentTarget.name === 'language') {
+      let localeValue = 'fr';
       if (e.currentTarget.value === UserLanguage.English) {
-        localeValue = "en";
+        localeValue = 'en';
       }
       this.setState({ locale: localeValue });
     }
@@ -175,7 +175,11 @@ class Signup extends Component<MultiProps, SignupState> {
       language: UserLanguage.English,
     };
     Object.keys(this.state).map(item => {
-      if (item !== 'confirmPassword' && this.state[item] !== '') {
+      if (
+        item !== 'confirmPassword' &&
+        item !== 'locale' &&
+        this.state[item] !== ''
+      ) {
         myData[item] = this.state[item];
       } else if (this.state[item] === '') {
         delete myData[item];
@@ -184,7 +188,6 @@ class Signup extends Component<MultiProps, SignupState> {
         delete myData[item];
       }
     });
-    console.log(myData);
     return { data: myData };
   };
 
@@ -357,14 +360,14 @@ class Signup extends Component<MultiProps, SignupState> {
                       <input
                         type="radio"
                         name="language"
-                        onClick={this.handleChange}
+                        onChange={this.handleChange}
                         value={UserLanguage.French}
                       />{' '}
                       {general.langages.english}
                       <input
                         type="radio"
                         name="language"
-                        onClick={this.handleChange}
+                        onChange={this.handleChange}
                         value={UserLanguage.English}
                       />
                     </label>

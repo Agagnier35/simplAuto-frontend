@@ -83,10 +83,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
-    if (e.currentTarget.name === "language") {
-      let localeValue = "fr";
+    if (e.currentTarget.name === 'language') {
+      let localeValue = 'fr';
       if (e.currentTarget.value === UserLanguage.English) {
-        localeValue = "en";
+        localeValue = 'en';
       }
       this.setState({ locale: localeValue });
     }
@@ -148,7 +148,11 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
           month,
           year,
         };
-      } else if (item !== 'birthDate' && item !== 'locale' && this.state[item]) {
+      } else if (
+        item !== 'birthDate' &&
+        item !== 'locale' &&
+        this.state[item]
+      ) {
         data[item] = this.state[item];
       }
     });
@@ -171,14 +175,14 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       gender: '',
       password: '',
       confirmation: CLASSNAME_INIT_CONFIRMATION,
-      language: UserLanguage.English,
+      language: '',
     } as any);
     this.props.changeLocale(this.state.locale);
   };
 
   render() {
     const {
-      translations: { profile, general }
+      translations: { profile, general },
     } = this.props;
     return (
       <>
@@ -193,6 +197,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                 refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
               >
                 {(handleMutation, { loading, error }) => {
+                  if (loading) return <Loading />;
                   if (error) return <ErrorMessage error={error} />;
                   return (
                     <Style
@@ -272,7 +277,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       key={gender}
                                       value={gender}
                                       checked={
-                                        this.state.gender === gender || (data.me.gender === gender && this.state.gender === '')
+                                        this.state.gender === gender ||
+                                        (data.me.gender === gender &&
+                                          this.state.gender === '')
                                       }
                                       onChange={this.handleChange}
                                     />,
@@ -302,7 +309,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       className="radioSelector"
                                       onChange={this.handleChange}
                                       checked={
-                                        this.state.language === language || (data.me.language === language && this.state.language === '')
+                                        this.state.language === language ||
+                                        (data.me.language === language &&
+                                          this.state.language === '')
                                       }
                                     />,
                                   ];
