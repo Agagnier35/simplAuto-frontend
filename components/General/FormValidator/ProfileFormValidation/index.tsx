@@ -92,12 +92,14 @@ class ProfileFormValidation extends BasicFormValidation {
   };
 
   isProfileFormStateValid = (state: any) => {
-    return this.isFirstNameValid(state.firstName) &&
+    return (
+      this.isFirstNameValid(state.firstName) &&
       this.isLastNameValid(state.lastName) &&
       this.isEmailFormatValid(state.email) &&
-      this.isWillingToChangePassword(state.password)
-      ? this.isConfirmPasswordValid(state.password, state.confirmPassowrd)
-      : true;
+      (this.isWillingToChangePassword(state.password)
+        ? this.isConfirmPasswordValid(state.password, state.confirmPassowrd)
+        : true)
+    );
   };
 }
 
