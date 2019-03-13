@@ -1,6 +1,6 @@
 class BasicFormValidation {
   isFieldNotEmpty = (field: string) => {
-    return !(field == '');
+    return field !== '';
   };
 
   doesFieldNotContainNumber = (field: string) => {
