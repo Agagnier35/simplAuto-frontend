@@ -125,6 +125,7 @@ const translations: Translations = {
             'Kilométrage max doit être supérieur à kilométrage min',
         },
         priceLowerBound: {
+          priceLowerBoundTooLowError: 'Prix min doit être positif',
           emptyError: 'Prix min ne peut être vide',
           numberNotIntegerError: 'Prix min doit être un entier',
         },

@@ -124,6 +124,7 @@ const translations: Translations = {
             'Mileage max must be higher than mileage min',
         },
         priceLowerBound: {
+          priceLowerBoundTooLowError: 'Price min must be positive',
           emptyError: 'Price min cannot be empty',
           numberNotIntegerError: 'Price min must be an integer',
         },

@@ -119,6 +119,7 @@ export default interface Translations {
           mileageLowerBoundHigherThanMileageHigherBoundError: String;
         };
         priceLowerBound: {
+          priceLowerBoundTooLowError: String;
           emptyError: String;
           numberNotIntegerError: String;
         };

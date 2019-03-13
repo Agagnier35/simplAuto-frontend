@@ -71,6 +71,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       return false;
     }
     return (
+      priceLowerBound >= 0 &&
       this.isFieldNotEmpty(priceLowerBound.toString()) &&
       this.isNumberAnInteger(priceLowerBound)
     );
@@ -194,6 +195,9 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (!this.isFieldNotEmpty(priceLowerBound.toString())) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .priceLowerBound.emptyError;
+    } else if (priceLowerBound < 0) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .priceLowerBound.priceLowerBoundTooLowError;
     } else if (!this.isNumberAnInteger(priceLowerBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .priceLowerBound.numberNotIntegerError;
