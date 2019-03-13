@@ -41,6 +41,13 @@ interface SignupState {
   };
 }
 
+const redText = {
+  width: '100%',
+  'margin-top': '0.25rem',
+  'font-size': '80%',
+  color: '#dc3545',
+};
+
 class Signup extends Component<MultiProps, SignupState> {
   state: SignupState = {
     firstName: '',
@@ -356,7 +363,32 @@ class Signup extends Component<MultiProps, SignupState> {
                     <Form.Group>
                       <Form.Label>Location</Form.Label>
                       <OtherStyle>
-                        <Geosuggest onChange={this.handleGeoLocChange} />
+                        <Geosuggest
+                          onBlur={() => {
+                            const touched = { ...this.state.touched };
+                            touched.location = true;
+                            this.setState({ touched });
+                            console.log(
+                              signupformValidation.isLocationValid(
+                                this.state.location,
+                              ),
+                            );
+                          }}
+                          onChange={this.handleGeoLocChange}
+                        />
+                        <div
+                          style={redText}
+                          hidden={
+                            !(
+                              this.state.touched.location &&
+                              !signupformValidation.isLocationValid(
+                                this.state.location,
+                              )
+                            )
+                          }
+                        >
+                          {signupformValidation.locationError()}
+                        </div>
                       </OtherStyle>
                     </Form.Group>
 
