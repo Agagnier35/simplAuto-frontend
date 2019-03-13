@@ -171,7 +171,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           value={this.state.firstName}
                           onChange={this.handleChange}
                           onBlur={() => {
-                            this.state.touched.firstName = true;
+                            const touched = { ...this.state.touched };
+                            touched.firstName = true;
+                            this.setState({ touched });
                           }}
                           isInvalid={
                             this.state.touched.firstName &&
@@ -200,7 +202,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           value={this.state.lastName}
                           onChange={this.handleChange}
                           onBlur={() => {
-                            this.state.touched.lastName = true;
+                            const touched = { ...this.state.touched };
+                            touched.lastName = true;
+                            this.setState({ touched });
                           }}
                           isInvalid={
                             this.state.touched.lastName &&
@@ -234,7 +238,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           value={this.state.email}
                           onChange={this.handleChange}
                           onBlur={() => {
-                            this.state.touched.email = true;
+                            const touched = { ...this.state.touched };
+                            touched.email = true;
+                            this.setState({ touched });
                           }}
                           isInvalid={
                             this.state.touched.email &&
@@ -264,7 +270,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           value={this.state.password}
                           onChange={this.handleChange}
                           onBlur={() => {
-                            this.state.touched.password = true;
+                            const touched = { ...this.state.touched };
+                            touched.password = true;
+                            this.setState({ touched });
                           }}
                           isInvalid={
                             this.state.touched.password &&
@@ -296,7 +304,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           value={this.state.confirmPassword}
                           onChange={this.handleChange}
                           onBlur={() => {
-                            this.state.touched.confirmPassword = true;
+                            const touched = { ...this.state.touched };
+                            touched.confirmPassword = true;
+                            this.setState({ touched });
                           }}
                           isInvalid={
                             this.state.touched.confirmPassword &&
