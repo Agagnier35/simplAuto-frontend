@@ -220,7 +220,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               min={1900}
                               max={new Date().getFullYear()}
                               onBlur={() => {
-                                this.state.touched.yearLowerBound = true;
+                                const touched = { ...this.state.touched };
+                                touched.yearLowerBound = true;
+                                this.setState({ touched });
                               }}
                               isInvalid={
                                 this.state.touched.yearLowerBound &&
@@ -252,7 +254,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               min={1900}
                               max={new Date().getFullYear()}
                               onBlur={() => {
-                                this.state.touched.yearHigherBound = true;
+                                const touched = { ...this.state.touched };
+                                touched.yearHigherBound = true;
+                                this.setState({ touched });
                               }}
                               isInvalid={
                                 this.state.touched.yearHigherBound &&
@@ -285,7 +289,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               min={0}
                               max={300000}
                               onBlur={() => {
-                                this.state.touched.mileageLowerBound = true;
+                                const touched = { ...this.state.touched };
+                                touched.mileageLowerBound = true;
+                                this.setState({ touched });
                               }}
                               isInvalid={
                                 this.state.touched.mileageLowerBound &&
@@ -316,7 +322,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               min={0}
                               max={300000}
                               onBlur={() => {
-                                this.state.touched.mileageHigherBound = true;
+                                const touched = { ...this.state.touched };
+                                touched.mileageHigherBound = true;
+                                this.setState({ touched });
                               }}
                               isInvalid={
                                 this.state.touched.mileageHigherBound &&
@@ -349,7 +357,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               min={0}
                               max={300000}
                               onBlur={() => {
-                                this.state.touched.priceLowerBound = true;
+                                const touched = { ...this.state.touched };
+                                touched.priceLowerBound = true;
+                                this.setState({ touched });
                               }}
                               isInvalid={
                                 this.state.touched.priceLowerBound &&
@@ -380,7 +390,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               min={0}
                               max={300000}
                               onBlur={() => {
-                                this.state.touched.priceHigherBound = true;
+                                const touched = { ...this.state.touched };
+                                touched.priceHigherBound = true;
+                                this.setState({ touched });
                               }}
                               isInvalid={
                                 this.state.touched.priceHigherBound &&
