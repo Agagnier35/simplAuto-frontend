@@ -17,7 +17,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
-  
+
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
     variables: {
       data: {
