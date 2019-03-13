@@ -34,7 +34,6 @@ class ProfileFormValidation extends BasicFormValidation {
 
   isConfirmPasswordValid = (confirmPassowrd: string, password: string) => {
     return (
-      this.isPasswordValid(password) &&
       this.isFieldNotEmpty(confirmPassowrd) &&
       this.doPasswordsMatch(password, confirmPassowrd)
     );
