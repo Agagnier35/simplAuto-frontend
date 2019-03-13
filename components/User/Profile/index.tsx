@@ -57,6 +57,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
+    isFirstRender: true,
     touched: {
       firstName: false,
       lastName: false,
@@ -180,6 +181,22 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     } as any);
   };
 
+  fillState = (data: any) => {
+    // Cette condition empêche de rentrer dans une boucle infinie
+    if (this.state.isFirstRender) {
+      this.setState({
+        id: data.me.id,
+        email: data.me.email,
+        firstName: data.me.firstName,
+        lastName: data.me.lastName,
+        location: data.me.location,
+        birthDate: data.me.birthDate,
+        gender: data.me.gender,
+        isFirstRender: false,
+      });
+    }
+  };
+
   render() {
     const {
       translations: { profile, general },
@@ -188,7 +205,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     const profileFormValidation = new ProfileFormValidation(general);
     return (
       <>
-        <Query query={GET_USER_INFO_QUERY}>
+        <Query
+          query={GET_USER_INFO_QUERY}
+          onCompleted={data => this.fillState(data)}
+        >
           {({ data, loading, error }) => {
             if (loading) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
@@ -221,9 +241,11 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   type="text"
                                   name="firstName"
                                   onChange={this.handleChange}
-                                  defaultValue={data.me.firstName}
+                                  defaultValue={this.state.firstName}
                                   onBlur={() => {
-                                    this.state.touched.firstName = true;
+                                    const touched = { ...this.state.touched };
+                                    touched.firstName = true;
+                                    this.setState({ touched });
                                   }}
                                   isInvalid={
                                     this.state.touched.firstName &&
@@ -250,9 +272,11 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   type="text"
                                   name="lastName"
                                   onChange={this.handleChange}
-                                  defaultValue={data.me.lastName}
+                                  defaultValue={this.state.lastName}
                                   onBlur={() => {
-                                    this.state.touched.lastName = true;
+                                    const touched = { ...this.state.touched };
+                                    touched.lastName = true;
+                                    this.setState({ touched });
                                   }}
                                   isInvalid={
                                     this.state.touched.lastName &&
@@ -282,10 +306,12 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   aria-describedby="inputGroupPrepend"
                                   type="email"
                                   name="email"
-                                  defaultValue={data.me.email}
+                                  defaultValue={this.state.email}
                                   onChange={this.handleChange}
                                   onBlur={() => {
-                                    this.state.touched.email = true;
+                                    const touched = { ...this.state.touched };
+                                    touched.email = true;
+                                    this.setState({ touched });
                                   }}
                                   isInvalid={
                                     this.state.touched.email &&
@@ -308,7 +334,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <p>{profile.location}: </p>
                               <Geosuggest
-                                initialValue={data.me.location}
+                                initialValue={this.state.location}
                                 onChange={this.handleChangeGeoLoc}
                                 onSuggestSelect={(suggest: any) =>
                                   this.handleChangeGeoLoc(suggest.label)
@@ -371,7 +397,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     value={this.state.password}
                                     onChange={this.handleConfirmationPassword}
                                     onBlur={() => {
-                                      this.state.touched.newPassword = true;
+                                      const touched = { ...this.state.touched };
+                                      touched.newPassword = true;
+                                      this.setState({ touched });
                                     }}
                                     isInvalid={
                                       this.state.touched.newPassword &&
@@ -407,7 +435,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     value={this.state.confirmPassword}
                                     onChange={this.handleConfirmationPassword}
                                     onBlur={() => {
-                                      this.state.touched.confirmation = true;
+                                      const touched = { ...this.state.touched };
+                                      touched.confirmation = true;
+                                      this.setState({ touched });
                                     }}
                                     isInvalid={
                                       this.state.touched.confirmation &&
