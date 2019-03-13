@@ -447,7 +447,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       )
                                     }
                                   />
-
                                   <Form.Control.Feedback type="invalid">
                                     {profileFormValidation.confirmPasswordError(
                                       this.state.password,
@@ -460,7 +459,15 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                           </div>
                         </div>
                         <div className="buttonSection">
-                          <Button variant="primary" type="submit">
+                          <Button
+                            variant="primary"
+                            disabled={
+                              !profileFormValidation.isProfileFormStateValid(
+                                this.state,
+                              )
+                            }
+                            type="submit"
+                          >
                             {profile.save}
                           </Button>
                         </div>
