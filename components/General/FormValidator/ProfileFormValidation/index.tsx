@@ -23,12 +23,18 @@ class ProfileFormValidation extends BasicFormValidation {
     return this.isEmailFormatValid(email);
   };
 
+  isWillingToChangePassword = (password: string) => {
+    return this.isFieldNotEmpty(password);
+  };
+
+  // Pas nécéssaire
   isPasswordValid = (password: string) => {
     return this.isFieldNotEmpty(password);
   };
 
   isConfirmPasswordValid = (confirmPassowrd: string, password: string) => {
     return (
+      this.isPasswordValid(password) &&
       this.isFieldNotEmpty(confirmPassowrd) &&
       this.doPasswordsMatch(password, confirmPassowrd)
     );
@@ -84,6 +90,15 @@ class ProfileFormValidation extends BasicFormValidation {
   locationError = () => {
     return this.general.formFieldsErrors.signupFormFieldsErrors.locationError
       .matchingError;
+  };
+
+  isProfileFormStateValid = (state: any) => {
+    return this.isFirstNameValid(state.firstName) &&
+      this.isLastNameValid(state.lastName) &&
+      this.isEmailFormatValid(state.email) &&
+      this.isWillingToChangePassword(state.password)
+      ? this.isConfirmPasswordValid(state.password, state.confirmPassowrd)
+      : true;
   };
 }
 
