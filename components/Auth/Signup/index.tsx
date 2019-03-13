@@ -166,7 +166,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.firstName}
                           aria-describedby="inputGroupPrepend"
                           required
-                          type="firstName"
+                          type="text"
                           name="firstName"
                           value={this.state.firstName}
                           onChange={this.handleChange}
@@ -195,7 +195,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.lastName}
                           aria-describedby="inputGroupPrepend"
                           required
-                          type="lastName"
+                          type="text"
                           name="lastName"
                           value={this.state.lastName}
                           onChange={this.handleChange}
