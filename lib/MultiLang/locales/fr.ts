@@ -95,10 +95,16 @@ const translations: Translations = {
       },
       createAdFormFieldsErrors: {
         yearLowerBound: {
+          yearLowerBoundTooLow: 'Année min trop basse',
+          yearLowerBoundTooHigh:
+            "Année min ne peut être plus grande que l'année courante.",
           emptyError: 'Année min ne peut être vide',
           numberNotIntegerError: 'Année min doit être un entier',
         },
         yearHigherBound: {
+          yearHigherBoundTooLow: 'Année max trop basse',
+          yearHigherBoundTooHigh:
+            "Année max ne peut être plus grande que l'année courante.",
           emptyError: 'Année max ne peut être vide',
           numberNotIntegerError: 'Année max doit être un entier',
           yearLowerBoundHigherThanYearHigherBoundError:

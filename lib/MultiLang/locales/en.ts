@@ -95,10 +95,15 @@ const translations: Translations = {
       },
       createAdFormFieldsErrors: {
         yearLowerBound: {
+          yearLowerBoundTooLow: 'Year min too low',
+          yearLowerBoundTooHigh: 'Year min cannot be greater than current year',
           emptyError: 'Year min cannot be empty',
           numberNotIntegerError: 'Year min must be an integer',
         },
         yearHigherBound: {
+          yearHigherBoundTooLow: 'Year max too low',
+          yearHigherBoundTooHigh:
+            'Year max cannot be greater than current year',
           emptyError: 'Year max cannot be empty',
           numberNotIntegerError: 'Year max must be an integer',
           yearLowerBoundHigherThanYearHigherBoundError:

@@ -93,10 +93,14 @@ export default interface Translations {
       };
       createAdFormFieldsErrors: {
         yearLowerBound: {
+          yearLowerBoundTooLow: String;
+          yearLowerBoundTooHigh: String;
           emptyError: String;
           numberNotIntegerError: String;
         };
         yearHigherBound: {
+          yearHigherBoundTooLow: String;
+          yearHigherBoundTooHigh: String;
           emptyError: String;
           numberNotIntegerError: String;
           yearLowerBoundHigherThanYearHigherBoundError: String;

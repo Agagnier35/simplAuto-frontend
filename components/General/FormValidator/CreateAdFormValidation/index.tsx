@@ -11,6 +11,8 @@ class CreateAdFormValidation extends BasicFormValidation {
       return false;
     }
     return (
+      yearLowerBound >= 1900 &&
+      yearLowerBound < new Date().getFullYear() &&
       this.isFieldNotEmpty(yearLowerBound.toString()) &&
       this.isNumberAnInteger(yearLowerBound)
     );
@@ -26,6 +28,8 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(yearHigherBound.toString()) &&
       this.isNumberAnInteger(yearHigherBound) &&
+      yearHigherBound >= 1900 &&
+      yearHigherBound < new Date().getFullYear() &&
       (this.isYearLowerBoundValid(yearLowerBound)
         ? yearLowerBound <= yearHigherBound
         : true)
@@ -92,6 +96,12 @@ class CreateAdFormValidation extends BasicFormValidation {
     ) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.emptyError;
+    } else if (yearLowerBound < 1900) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearLowerBound.yearLowerBoundTooLow;
+    } else if (yearLowerBound > new Date().getFullYear()) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearLowerBound.yearLowerBoundTooHigh;
     } else if (!this.isNumberAnInteger(yearLowerBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.numberNotIntegerError;
@@ -111,6 +121,12 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (!this.isNumberAnInteger(yearHigherBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearHigherBound.numberNotIntegerError;
+    } else if (yearHigherBound < 1900) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearHigherBound.yearHigherBoundTooLow;
+    } else if (yearHigherBound > new Date().getFullYear()) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .yearHigherBound.yearHigherBoundTooHigh;
     } else if (
       this.isYearLowerBoundValid(yearLowerBound) &&
       !(yearLowerBound <= yearHigherBound)
