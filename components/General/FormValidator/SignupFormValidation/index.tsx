@@ -72,12 +72,12 @@ class SignupFormValidation extends BasicFormValidation {
 
   confirmPasswordError = (password: string, confirmPassowrd: string) => {
     if (!this.isFieldNotEmpty(confirmPassowrd)) {
-      return this.general.formFieldsErrors.signupFormFieldsErrors.passwordError
-        .emptyError;
+      return this.general.formFieldsErrors.signupFormFieldsErrors
+        .confirmPasswordError.emptyError;
     }
     if (!this.doPasswordsMatch(password, confirmPassowrd)) {
-      return this.general.formFieldsErrors.signupFormFieldsErrors.passwordError
-        .matchingError;
+      return this.general.formFieldsErrors.signupFormFieldsErrors
+        .confirmPasswordError.matchingError;
     }
   };
 
