@@ -83,7 +83,7 @@ class SignupFormValidation extends BasicFormValidation {
 
   locationError = () => {
     return this.general.formFieldsErrors.signupFormFieldsErrors.locationError
-      .matchingError;
+      .emptyError;
   };
 
   isSignupFormStateValid = (state: any) => {
