@@ -43,8 +43,8 @@ interface SignupState {
 
 const redText = {
   width: '100%',
-  'margin-top': '0.25rem',
-  'font-size': '80%',
+  marginTop: '0.25rem',
+  fontSize: '80%',
   color: '#dc3545',
 };
 
