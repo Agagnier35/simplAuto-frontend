@@ -308,7 +308,11 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
-                              onBlur={() => (this.state.touched.year = true)}
+                              onBlur={() => {
+                                const touched = { ...this.state.touched };
+                                touched.year = true;
+                                this.setState({ touched });
+                              }}
                               isInvalid={
                                 this.state.touched.year &&
                                 !carAddFormValidation.isYearValid(
@@ -335,7 +339,11 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               max={300000}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
-                              onBlur={() => (this.state.touched.mileage = true)}
+                              onBlur={() => {
+                                const touched = { ...this.state.touched };
+                                touched.mileage = true;
+                                this.setState({ touched });
+                              }}
                               isInvalid={
                                 this.state.touched.mileage &&
                                 !carAddFormValidation.isMileageValid(
