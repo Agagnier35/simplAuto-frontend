@@ -111,10 +111,14 @@ const translations: Translations = {
             'Année max doit être supérieur à année min',
         },
         mileageLowerBound: {
+          mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
+          mileageLowerBoundTooHigh: 'Kilométrage min trop grand',
           emptyError: 'Kilométrage min ne peut être vide',
           numberNotIntegerError: 'Kilométrage min doit être un entier',
         },
         mileageHigherBound: {
+          mileageHigherBoundTooLow: 'Kilométrage max doit être positif',
+          mileageHigherBoundTooHigh: 'Kilométrage max trop grand',
           emptyError: 'Kilométrage max ne peut être vide',
           numberNotIntegerError: 'Kilométrage max doit être un entier',
           mileageLowerBoundHigherThanMileageHigherBoundError:

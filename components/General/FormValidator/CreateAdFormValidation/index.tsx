@@ -41,6 +41,8 @@ class CreateAdFormValidation extends BasicFormValidation {
       return false;
     }
     return (
+      mileageLowerBound >= 0 &&
+      mileageLowerBound <= 1000000 &&
       this.isFieldNotEmpty(mileageLowerBound.toString()) &&
       this.isNumberAnInteger(mileageLowerBound)
     );
@@ -56,6 +58,8 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(mileageHigherBound.toString()) &&
       this.isNumberAnInteger(mileageHigherBound) &&
+      mileageHigherBound >= 0 &&
+      mileageHigherBound <= 1000000 &&
       (this.isMileageLowerBoundValid(mileageLowerBound)
         ? mileageLowerBound <= mileageHigherBound
         : true)
@@ -143,6 +147,12 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (!this.isFieldNotEmpty(mileageLowerBound.toString())) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.emptyError;
+    } else if (mileageLowerBound < 0) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageLowerBound.mileageLowerBoundTooLow;
+    } else if (mileageLowerBound > 1000000) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageLowerBound.mileageLowerBoundTooHigh;
     } else if (!this.isNumberAnInteger(mileageLowerBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.numberNotIntegerError;
@@ -162,6 +172,12 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (!this.isNumberAnInteger(mileageHigherBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageHigherBound.numberNotIntegerError;
+    } else if (mileageHigherBound < 0) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageHigherBound.mileageHigherBoundTooLow;
+    } else if (mileageHigherBound > 1000000) {
+      return this.general.formFieldsErrors.createAdFormFieldsErrors
+        .mileageHigherBound.mileageHigherBoundTooHigh;
     } else if (
       this.isMileageLowerBoundValid(mileageLowerBound) &&
       !(mileageLowerBound <= mileageHigherBound)

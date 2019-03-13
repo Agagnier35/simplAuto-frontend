@@ -110,10 +110,14 @@ const translations: Translations = {
             'Year max must be higher than year min',
         },
         mileageLowerBound: {
+          mileageLowerBoundTooLow: 'Mileage min must be positive',
+          mileageLowerBoundTooHigh: 'Mileage min too high',
           emptyError: 'Mileage min cannot be empty',
           numberNotIntegerError: 'Mileage min must be an integer',
         },
         mileageHigherBound: {
+          mileageHigherBoundTooLow: 'Mileage max must be positive',
+          mileageHigherBoundTooHigh: 'Mileage max too high ',
           emptyError: 'Mileage min cannot be empty',
           numberNotIntegerError: 'Mileage min must be an integer',
           mileageLowerBoundHigherThanMileageHigherBoundError:

@@ -106,10 +106,14 @@ export default interface Translations {
           yearLowerBoundHigherThanYearHigherBoundError: String;
         };
         mileageLowerBound: {
+          mileageLowerBoundTooLow: String;
+          mileageLowerBoundTooHigh: String;
           emptyError: String;
           numberNotIntegerError: String;
         };
         mileageHigherBound: {
+          mileageHigherBoundTooLow: String;
+          mileageHigherBoundTooHigh: String;
           emptyError: String;
           numberNotIntegerError: String;
           mileageLowerBoundHigherThanMileageHigherBoundError: String;
