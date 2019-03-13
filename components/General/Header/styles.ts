@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledNav = styled.div`
   background-color: ${props => props.theme.colors.dark};
   display: flex;
-  position: absolute;
+  position: absolute !important;
   top: 0;
   min-height: 72.5px;
   width: 100%;

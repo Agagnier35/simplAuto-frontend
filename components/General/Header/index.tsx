@@ -8,10 +8,10 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
-import { Notifications } from '../Notifications';
+import Notifications from '../Notifications';
 
 export const LOGGED_IN_QUERY = gql`
-  {
+  query LOGGED_IN_QUERY {
     me {
       id
       firstName

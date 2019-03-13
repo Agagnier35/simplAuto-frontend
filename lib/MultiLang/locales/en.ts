@@ -181,6 +181,10 @@ const translations: Translations = {
     send: 'Send',
     sendPlaceholder: 'Send a message',
   },
+  Notifications: {
+    newOffer: 'You have a new offer !',
+    newOfferMessage: 'You have a new message !',
+  },
 };
 
 module.exports = translations;
