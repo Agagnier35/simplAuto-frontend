@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const AD_DETAIL_QUERY = gql`
-  query AD_DETAIL_QUERY($id: ID!) {
+  query AD_DETAIL_QUERY($id: ID!, $pageNumber: Int, $pageSize: Int) {
     ad(id: $id) {
       id
       creator {
@@ -36,7 +36,8 @@ export const AD_DETAIL_QUERY = gql`
       isUrgent
       isFirst
       status
-      offers {
+      offerCount
+      offers(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
         car {
           id

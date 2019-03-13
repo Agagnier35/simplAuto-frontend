@@ -3,7 +3,11 @@ import { Mutation } from 'react-apollo';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../../lib/MultiLang';
-import { Gender, Date as BirthDate } from '../../../../generated/graphql';
+import {
+  Gender,
+  Date as BirthDate,
+  ClientType,
+} from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 
 const GOOGLE_LOGIN_MUTATION = gql`
@@ -23,6 +27,7 @@ interface LoginGoogleState {
   gender: Gender;
   birthDate: BirthDate;
   googleID: string;
+  clientType: ClientType;
 }
 
 class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
@@ -39,6 +44,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
       year: 1900,
     },
     googleID: '',
+    clientType: ClientType.Individual,
   };
 
   responseGoogle = (response: any, googleLogin: () => void) => {

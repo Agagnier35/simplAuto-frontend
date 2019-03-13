@@ -9,7 +9,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { AD_DETAIL_QUERY } from './Queries';
 import Router from 'next/router';
 import GeneralModal, {
-  ModalConcern,
+  MainAppObject,
   ModalAction,
 } from '../../General/GeneralModal';
 import gql from 'graphql-tag';
@@ -17,6 +17,7 @@ import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
 import { Tab, TabBadge } from '../Ads/styles';
 import AdSummary from '../AdSummary';
+import Paging from '../../General/Paging';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -32,9 +33,13 @@ export const AD_DELETE_MUTATION = gql`
 `;
 
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
+  const OFFER_NB_BY_PAGE = 5;
+  const [pageIndex, setPageIndex] = useState(0);
+
   const [modalShow, setModalShow] = useState(false);
+
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: { id: adID },
+    variables: { id: adID, pageNumber: pageIndex, pageSize: OFFER_NB_BY_PAGE },
   });
 
   async function handleDeleteAd(deleteAd: any) {
@@ -54,7 +59,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     <>
       <div>
         <GeneralModal
-          modalSubject={ModalConcern.ad}
+          modalSubject={MainAppObject.ad}
           actionType={ModalAction.delete}
           show={modalShow}
           onClose={() => setModalShow(false)}
@@ -73,6 +78,12 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               data.ad.offers.map((offer: Offer) => (
                 <CarSummary key={offer.id} car={offer.car} offer={offer} />
               ))}
+            <Paging
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+              maxItems={data.ad.offerCount}
+              itemsByPage={OFFER_NB_BY_PAGE}
+            />
           </CarSummaries>
         </Card>
       </div>
