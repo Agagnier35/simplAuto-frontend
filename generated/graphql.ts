@@ -458,6 +458,10 @@ export interface Notification {
   type: NotificationType;
 
   objectID?: Maybe<string>;
+
+  count: number;
+
+  createdAt: string;
 }
 
 export interface Mutation {
@@ -496,6 +500,8 @@ export interface Mutation {
   createConversation: Conversation;
 
   sendMessage: Message;
+
+  deleteNotification?: Maybe<Notification>;
 }
 
 export interface Subscription {
@@ -597,6 +603,9 @@ export interface CreateConversationMutationArgs {
 }
 export interface SendMessageMutationArgs {
   data?: Maybe<SendMessageInput>;
+}
+export interface DeleteNotificationMutationArgs {
+  id: string;
 }
 export interface MessageSubscriptionSubscriptionArgs {
   conversationID: string;

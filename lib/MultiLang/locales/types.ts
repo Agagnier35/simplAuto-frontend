@@ -165,6 +165,6 @@ export default interface Translations {
   };
   Notifications: {
     newOffer: string;
-    newOfferMessage: string;
+    newOfferMessage: (x: number) => string;
   };
 }

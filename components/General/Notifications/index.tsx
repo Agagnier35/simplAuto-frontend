@@ -3,7 +3,7 @@ import {
   FaBell as NotificationIcon,
   FaEnvelope as MessageIcon,
 } from 'react-icons/fa';
-import { Wrapper, Badge, Popup, Notification, Icon } from './styles';
+import { Wrapper, Badge, Popup, Notification, Icon, Time } from './styles';
 import {
   Notification as NotificationObject,
   NotificationType,
@@ -11,6 +11,7 @@ import {
 import { GiCarKey as OfferIcon } from 'react-icons/gi';
 import Link from 'next/link';
 import { multi, MultiProps } from '../../../lib/MultiLang';
+import moment from 'moment';
 
 export interface NotificationsProps extends MultiProps {
   notifications: NotificationObject[];
@@ -46,7 +47,7 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
   function getMessage(notification: NotificationObject) {
     switch (notification.type) {
       case NotificationType.OfferMessage:
-        return translations.Notifications.newOfferMessage;
+        return translations.Notifications.newOfferMessage(notification.count);
       case NotificationType.NewOffer:
         return translations.Notifications.newOffer;
       default:
@@ -65,6 +66,9 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
               <Notification>
                 <Icon>{getIcon(notification)}</Icon>
                 {getMessage(notification)}
+                <Time>
+                  {moment(notification.updatedAt).format('DD[/]MM[/]YY')}
+                </Time>
               </Notification>
             </a>
           </Link>

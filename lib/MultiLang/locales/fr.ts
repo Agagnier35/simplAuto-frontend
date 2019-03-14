@@ -183,8 +183,11 @@ const translations: Translations = {
     HowToSellThird: 'Faites une offre',
   },
   Notifications: {
-    newOffer: 'Vous avez une nouvelle offre ! Cliquez ici pour voir.',
-    newOfferMessage: 'Vous avez un nouveau message ! Cliquez ici pour voir.',
+    newOffer: 'Vous avez une nouvelle offre !',
+    newOfferMessage: (x: number) =>
+      `Vous avez ${x} ${
+        x > 1 ? 'nouveaux messages' : 'nouveau message'
+      } sur une offre`,
   },
 };
 

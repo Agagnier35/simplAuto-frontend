@@ -35,7 +35,8 @@ export const Popup = styled.div`
   background: white;
   width: 600px;
   border-radius: 0.25rem;
-  box-shadow: 0 0 8px 1px #0000004f;
+  box-shadow: ${(props: { isOpen: boolean }) =>
+    props.isOpen ? '0 0 8px 1px #0000004f' : '0 0 0 0'};
   color: black;
   overflow: hidden;
   transition: 0.5s ease;
@@ -63,4 +64,12 @@ export const Icon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const Time = styled.div`
+  background: ${props => props.theme.colors.primary};
+  color: white;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  margin-left: auto;
 `;

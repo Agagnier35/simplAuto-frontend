@@ -183,7 +183,8 @@ const translations: Translations = {
   },
   Notifications: {
     newOffer: 'You have a new offer !',
-    newOfferMessage: 'You have a new message !',
+    newOfferMessage: (x: number) =>
+      `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
   },
 };
 
