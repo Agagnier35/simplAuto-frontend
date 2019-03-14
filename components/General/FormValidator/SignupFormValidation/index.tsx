@@ -23,6 +23,10 @@ class SignupFormValidation extends BasicFormValidation {
     return this.isEmailFormatValid(email);
   };
 
+  isBirthDateValid = (birthDate: Date) => {
+    return true;
+  };
+
   isPasswordValid = (password: string) => {
     return this.isFieldNotEmpty(password);
   };
@@ -63,6 +67,10 @@ class SignupFormValidation extends BasicFormValidation {
   emailError = () => {
     return this.general.formFieldsErrors.signupFormFieldsErrors.emailError
       .invalidEmailError;
+  };
+
+  birthDateError = () => {
+    return 'Tamere';
   };
 
   passwordError = () => {
