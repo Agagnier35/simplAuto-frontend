@@ -111,7 +111,7 @@ class Signup extends Component<MultiProps, SignupState> {
   };
 
   handleGeoLocChange = (e: string) => {
-    this.state.location = e;
+    this.setState({ location: e });
   };
 
   datePickerInput = () => {
@@ -175,6 +175,7 @@ class Signup extends Component<MultiProps, SignupState> {
         delete myData[item];
       }
     });
+    delete myData['confirmPassword'];
     console.log(myData);
     return { data: myData };
   };
@@ -235,7 +236,6 @@ class Signup extends Component<MultiProps, SignupState> {
                           <Form.Control
                             placeholder={general.firstName}
                             aria-describedby="inputGroupPrepend"
-                            required
                             type="firstName"
                             name="firstName"
                             value={this.state.firstName}
@@ -253,7 +253,6 @@ class Signup extends Component<MultiProps, SignupState> {
                           <Form.Control
                             placeholder={general.lastName}
                             aria-describedby="inputGroupPrepend"
-                            required
                             type="lastName"
                             name="lastName"
                             value={this.state.lastName}
@@ -274,7 +273,6 @@ class Signup extends Component<MultiProps, SignupState> {
                         <Form.Control
                           placeholder={general.companyName}
                           aria-describedby="inputGroupPrepend"
-                          required
                           type="companyName"
                           name="companyName"
                           value={this.state.companyName}
@@ -389,7 +387,12 @@ class Signup extends Component<MultiProps, SignupState> {
                     <Form.Group>
                       <Form.Label>Location</Form.Label>
                       <OtherStyle>
-                        <Geosuggest onChange={this.handleGeoLocChange} />
+                        <Geosuggest
+                          onChange={this.handleGeoLocChange}
+                          onSuggestSelect={(suggest: any) =>
+                            this.handleGeoLocChange(suggest.label)
+                          }
+                        />
                       </OtherStyle>
                     </Form.Group>
 
