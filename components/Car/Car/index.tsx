@@ -85,23 +85,6 @@ const Car = ({ translations, query }: CarPageProps) => {
     return false;
   }
 
-  const ads: Ad[] = [];
-  const adsOffers: { ad: Ad; offer: Offer }[] = [];
-
-  (function splitAds() {
-    const allAds = adsQuery.data && (adsQuery.data.ads as Ad[]);
-    if (allAds) {
-      allAds.forEach((ad: Ad) => {
-        const offer = findMyOffer(ad);
-        if (offer) {
-          adsOffers.push({ offer, ad });
-        } else {
-          ads.push(ad);
-        }
-      });
-    }
-  })(); // iife
-
   return (
     <>
       <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
@@ -112,19 +95,18 @@ const Car = ({ translations, query }: CarPageProps) => {
         className={isOfferMode ? '' : 'active'}
       >
         {translations.Ads.title}
-        {ads && <TabBadge>{adsQuery.data.adSuggestion.length}</TabBadge>}
+        <TabBadge>{adsQuery.data.adSuggestion.length}</TabBadge>
       </Tab>
       <Tab
         onClick={() => setOfferMode(true)}
         className={isOfferMode ? 'active' : ''}
       >
         {translations.general.offers}
-        {adsOffers && <TabBadge>{carQuery.data.car.offers.length}</TabBadge>}
+        <TabBadge>{carQuery.data.car.offers.length}</TabBadge>
       </Tab>
       {!isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries>
-            {console.log(adsQuery)}
             {adsQuery.data.adSuggestion.map((suggestion: any) => (
               <div key={suggestion.ad.id}>
                 <AdSummary
