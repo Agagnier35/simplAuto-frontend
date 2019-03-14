@@ -75,38 +75,41 @@ export const CAR_BY_ID = gql`
 `;
 
 export const MATCHING_ADS_QUERY = gql`
-  query CAR_BY_ID($pageNumberAds: Int, $pageSizeAds: Int) {
-    ads(pageNumber: $pageNumberAds, pageSize: $pageSizeAds) {
-      id
-      priceLowerBound
-      priceHigherBound
-      manufacturer {
+  query MATCHING_ADS_QUERY($id: ID!, $pageNumberAds: Int, $pageSizeAds: Int) {
+    adSuggestion(id: $id, pageNumber: $pageNumberAds, pageSize: $pageSizeAds) {
+      score
+      ad {
         id
-        name
-      }
-      model {
-        id
-        name
-      }
-      category {
-        id
-        name
-      }
-      mileageLowerBound
-      mileageHigherBound
-      yearLowerBound
-      yearHigherBound
-      features {
-        id
-        name
+        priceLowerBound
+        priceHigherBound
+        manufacturer {
+          id
+          name
+        }
+        model {
+          id
+          name
+        }
         category {
           id
           name
         }
+        mileageLowerBound
+        mileageHigherBound
+        yearLowerBound
+        yearHigherBound
+        features {
+          id
+          name
+          category {
+            id
+            name
+          }
+        }
+        isUrgent
+        isFirst
+        status
       }
-      isUrgent
-      isFirst
-      status
     }
   }
 `;

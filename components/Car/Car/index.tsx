@@ -24,9 +24,7 @@ export interface CarPageProps {
 const Car = ({ translations, query }: CarPageProps) => {
   const OFFERS_NB_BY_PAGE = 10;
   const [pageIndexOffer, setPageIndexOffer] = useState(0);
-  const [pageSizeOffer] = useState(OFFERS_NB_BY_PAGE);
   const [pageIndexAds, setPageIndexAds] = useState(0);
-  const [pageSizeAds] = useState(OFFERS_NB_BY_PAGE);
 
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedAd, setSelectedAd] = useState({});
@@ -38,17 +36,18 @@ const Car = ({ translations, query }: CarPageProps) => {
     variables: {
       id: query.id,
       pageNumberOffer: pageIndexOffer,
-      pageSizeOffer: pageSizeOffer,
+      pageSizeOffer: OFFERS_NB_BY_PAGE,
     },
   });
   const adsQuery = useQuery(MATCHING_ADS_QUERY, {
     variables: {
+      id: query.id,
       pageNumberAds: pageIndexAds,
-      pageSizeAds: pageSizeAds,
+      pageSizeAds: OFFERS_NB_BY_PAGE,
     },
   });
   const errors = carQuery.error || adsQuery.error;
-  if (carQuery.loading) return <Loading />;
+  if (carQuery.loading || adsQuery.loading) return <Loading />;
   if (errors) return <ErrorMessage error={errors} />;
 
   function handlePrint() {
@@ -113,27 +112,28 @@ const Car = ({ translations, query }: CarPageProps) => {
         className={isOfferMode ? '' : 'active'}
       >
         {translations.Ads.title}
-        {ads && <TabBadge>{ads.length}</TabBadge>}
+        {ads && <TabBadge>{adsQuery.data.adSuggestion.length}</TabBadge>}
       </Tab>
       <Tab
         onClick={() => setOfferMode(true)}
         className={isOfferMode ? 'active' : ''}
       >
         {translations.general.offers}
-        {adsOffers && <TabBadge>{adsOffers.length}</TabBadge>}
+        {adsOffers && <TabBadge>{carQuery.data.car.offers.length}</TabBadge>}
       </Tab>
       {!isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries>
-            {ads.map((ad: Ad) => (
-              <div key={ad.id}>
+            {console.log(adsQuery)}
+            {adsQuery.data.adSuggestion.map((suggestion: any) => (
+              <div key={suggestion.ad.id}>
                 <AdSummary
-                  key={ad.id}
-                  ad={ad}
+                  key={suggestion.ad.id}
+                  ad={suggestion.ad}
                   right={
                     <Button
                       onClick={() => {
-                        handleToggleCreateOffer(ad);
+                        handleToggleCreateOffer(suggestion.ad);
                       }}
                       variant="primary"
                     >
