@@ -38,6 +38,7 @@ interface SignupState {
     password: boolean;
     confirmPassword: boolean;
     location: boolean;
+    birthDate: boolean;
   };
 }
 
@@ -69,6 +70,7 @@ class Signup extends Component<MultiProps, SignupState> {
       password: false,
       confirmPassword: false,
       location: false,
+      birthDate: false,
     },
   };
 
@@ -112,19 +114,33 @@ class Signup extends Component<MultiProps, SignupState> {
     this.state.location = e;
   };
 
-  datePickerInput = () => {
+  datePickerInput = (signupformValidation: SignupFormValidation) => {
     const curr = new Date();
     const { birthDate } = this.state;
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
     const date = curr.toISOString().substr(0, 10);
     return (
-      <Form.Control
-        type="date"
-        name="birthDate"
-        className="inputNeedSpace"
-        defaultValue={date}
-        onChange={this.handleChangeDate}
-      />
+      <>
+        <Form.Control
+          type="date"
+          name="birthDate"
+          className="inputNeedSpace"
+          isInvalid={
+            this.state.touched.birthDate &&
+            !signupformValidation.isBirthDateValid(date)
+          }
+          onBlur={() => {
+            const touched = { ...this.state.touched };
+            touched.birthDate = true;
+            this.setState({ touched });
+          }}
+          defaultValue={date}
+          onChange={this.handleChangeDate}
+        />
+        <Form.Control.Feedback type="invalid">
+          {signupformValidation.birthDateError()}
+        </Form.Control.Feedback>
+      </>
     );
   };
 
@@ -394,7 +410,9 @@ class Signup extends Component<MultiProps, SignupState> {
 
                     <Form.Group>
                       <Form.Label>Birth date</Form.Label>
-                      <InputGroup>{this.datePickerInput()}</InputGroup>
+                      <InputGroup>
+                        {this.datePickerInput(signupformValidation)}
+                      </InputGroup>
                     </Form.Group>
 
                     <Button
