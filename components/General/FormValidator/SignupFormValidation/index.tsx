@@ -23,8 +23,13 @@ class SignupFormValidation extends BasicFormValidation {
     return this.isEmailFormatValid(email);
   };
 
-  isBirthDateValid = (birthDate: Date) => {
-    return true;
+  isBirthDateValid = (birthDate: string) => {
+    // Seule validation nécessaire est l'année
+    // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
+    return (
+      parseInt(birthDate.substring(0, 4)) > 1900 &&
+      parseInt(birthDate.substring(0, 4)) <= new Date().getFullYear() - 16
+    );
   };
 
   isPasswordValid = (password: string) => {
