@@ -78,6 +78,7 @@ export const MATCHING_ADS_QUERY = gql`
   query MATCHING_ADS_QUERY($id: ID!, $pageNumberAds: Int, $pageSizeAds: Int) {
     adSuggestion(id: $id, pageNumber: $pageNumberAds, pageSize: $pageSizeAds) {
       score
+      total_length
       ad {
         id
         priceLowerBound

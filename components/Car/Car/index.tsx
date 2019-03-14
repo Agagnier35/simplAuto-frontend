@@ -128,7 +128,7 @@ const Car = ({ translations, query }: CarPageProps) => {
             <Paging
               pageIndex={pageIndexAds}
               setPageIndex={setPageIndexAds}
-              maxItems={1000}
+              maxItems={adsQuery.data.adSuggestion.total_length}
               itemsByPage={OFFERS_NB_BY_PAGE}
             />
           </AdSummaries>
