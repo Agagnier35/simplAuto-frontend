@@ -1,50 +1,42 @@
 import React from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
-import StyledCarSummary from './styles';
-import Link from 'next/link';
-import { Card } from 'react-bootstrap';
-import { Car } from '../../../generated/graphql';
+import { CarPortlet } from './styles';
+import { Car, Offer } from '../../../generated/graphql';
+import GeneralCarInfos from './GeneralCarInfos';
+import CarFeatures from './CarFeatures';
 
 export interface CarSummaryProp {
   translations: Translations;
   car: Car;
+  offer?: Offer;
 }
 
-const CarSummary = ({ translations, car }: CarSummaryProp) => {
-  return (
-    <Link href={{ pathname: '/car', query: { id: car.id } }}>
-      <StyledCarSummary>
-        <Card>
-          {car.photos.length > 0 ? (
-            <Card.Img variant="top" src={car.photos[0]} />
-          ) : (
-            /* TODO: Change Placeholder */
-            <Card.Img
-              variant="top"
-              src="http://clipart-library.com/image_gallery/17559.jpg"
-              alt="No car photos placeholder"
-            />
-          )}
+const CarSummary = ({
+  translations,
+  car,
+  offer,
+  ...otherProps
+}: CarSummaryProp) => {
+  const pages = [<GeneralCarInfos car={car} />];
 
-          <Card.Body>
-            <Card.Title>
-              {translations.cars.model}: {car.model.name}
-            </Card.Title>
-            <Card.Subtitle>
-              {translations.cars.manufacturer}: {car.manufacturer.name}
-            </Card.Subtitle>
-            <Card.Text>
-              {translations.cars.category}:{' '}
-              {translations.carCategory[car.category.name] || car.category.name}
-            </Card.Text>
-            <Card.Text>
-              {translations.cars.year}: {car.year}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </StyledCarSummary>
-    </Link>
+  if (car.features && car.features.length > 0) {
+    pages.push(<CarFeatures car={car} />);
+  }
+
+  return (
+    <CarPortlet
+      {...otherProps}
+      title={`${car.manufacturer.name} ${car.model.name} ${car.year}`}
+      interval={3000}
+      href={
+        offer
+          ? { pathname: '/offer', query: { id: offer.id } }
+          : { pathname: '/car', query: { id: car.id } }
+      }
+      pages={pages}
+      image={<img src={car.photos[0]} />}
+    />
   );
 };
 

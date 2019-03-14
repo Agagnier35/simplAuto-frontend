@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
+import React, { useState, ReactNode } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import Link from 'next/link';
-import { Ad, CarFeature } from '../../../generated/graphql';
+import { Ad } from '../../../generated/graphql';
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import GeneralModal, {
-  ModalConcern,
+  MainAppObject,
   ModalAction,
 } from '../../General/GeneralModal';
-import Select from '../../General/Select';
-import StyledAdSummary from './styles';
+import GeneralAdInfos from './GeneralAdInfos';
+import AdFeatures from './AdFeatures';
+import { IoIosMore as MoreIcon } from 'react-icons/io';
+import { More, AdPortlet } from './styles';
+import AdOffers from './AdOffers';
 
 export interface AdSummaryProps {
   translations: Translations;
   ad: Ad;
   adsQuery: any;
-}
-
-interface AdSummaryOption {
-  action: () => void;
-  label: string;
+  right?: ReactNode;
 }
 
 export const AD_DELETE_MUTATION = gql`
@@ -33,14 +31,8 @@ export const AD_DELETE_MUTATION = gql`
   }
 `;
 
-const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
-  const {
-    Ads,
-    carCategory,
-    carFeatureCategory,
-    carFeature,
-    general,
-  } = translations;
+const AdSummary = ({ translations, ad, adsQuery, right }: AdSummaryProps) => {
+  const { carCategory, general } = translations;
 
   const [modalShow, setModalShow] = useState(false);
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
@@ -48,12 +40,24 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     refetchQueries: [{ query: adsQuery, variables: { id: ad.id } }],
   });
 
-  function handleChange(option: AdSummaryOption) {
-    option.action();
-  }
-
   function hasPermission() {
     return ad.creator && ad.creator.id != null;
+  }
+
+  function getTitle() {
+    let title = '';
+    if (ad.manufacturer) {
+      title += ad.manufacturer.name;
+
+      if (ad.model) {
+        title += ` ${ad.model.name}`;
+      }
+    } else if (ad.category) {
+      title += carCategory[ad.category.name];
+    } else {
+      title += 'Anything';
+    }
+    return title;
   }
 
   async function handleDeleteAd(deleteAd: any) {
@@ -62,69 +66,48 @@ const AdSummary = ({ translations, ad, adsQuery }: AdSummaryProps) => {
     Router.push('/myAds');
   }
 
+  const pages = [<GeneralAdInfos ad={ad} right={right} />];
+
+  if (ad.features && ad.features.length > 0) {
+    pages.push(<AdFeatures ad={ad} />);
+  }
+
+  if (ad.offers && ad.offers.length > 0) {
+    pages.push(<AdOffers ad={ad} />);
+  }
+
   return (
     <>
       <GeneralModal
-        modalSubject={ModalConcern.ad}
+        modalSubject={MainAppObject.ad}
         actionType={ModalAction.delete}
         show={modalShow}
         onClose={() => setModalShow(false)}
         onConfirm={() => handleDeleteAd(deleteAd)}
       />
-      {ad && (
-        <Card>
-          {hasPermission() && (
-            <Select
-              options={[
-                {
-                  option: general.options.delete,
-                  action: () => setModalShow(true),
-                },
-                {
-                  option: general.options.modify,
-                  action: () => console.log(modalShow),
-                },
-              ]}
-              accessor="option"
-              handleChange={(option: AdSummaryOption) => handleChange(option)}
-            />
-          )}
-          <Link href={{ pathname: '/adDetail', query: { id: ad.id } }}>
-            <StyledAdSummary>
-              {ad.priceHigherBound && (
-                <Card.Header>
-                  {Ads.higherPrice}: {ad.priceHigherBound}
-                </Card.Header>
-              )}
-              <ListGroup>
-                {ad.manufacturer && (
-                  <ListGroup.Item>
-                    {Ads.manufacturer}: {ad.manufacturer.name}
-                  </ListGroup.Item>
-                )}
-                {ad.model && (
-                  <ListGroup.Item>
-                    {Ads.model}: {ad.model.name}
-                  </ListGroup.Item>
-                )}
-                {ad.category && (
-                  <ListGroup.Item>
-                    {Ads.category}:{' '}
-                    {carCategory[ad.category.name] || ad.category.name}
-                  </ListGroup.Item>
-                )}
-                {ad.features &&
-                  ad.features.map((feature: CarFeature) => (
-                    <ListGroup.Item key={feature.category.name}>
-                      {carFeatureCategory[feature.category.name]}:{' '}
-                      {carFeature[feature.name] || feature.name}
-                    </ListGroup.Item>
-                  ))}
-              </ListGroup>
-            </StyledAdSummary>
-          </Link>
-        </Card>
-      )}
+      <AdPortlet
+        title={getTitle()}
+        href={{ pathname: '/adDetail', query: { id: ad.id } }}
+        interval={3000}
+        pages={pages}
+        left={
+          hasPermission() && (
+            <Dropdown>
+              <More size="sm" variant="light" id="dropdown-basic">
+                <MoreIcon />
+              </More>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setModalShow(true)}>
+                  {general.options.delete}
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => console.log(modalShow)}>
+                  {general.options.modify}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )
+        }
+      />
     </>
   );
 };

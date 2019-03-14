@@ -174,6 +174,7 @@ const translations: Translations = {
     year: 'Année',
     mileage: 'Kilométrage',
     price: 'Prix',
+    descriptionPlaceholder: 'Entrez une courte description de la voiture',
   },
   carFeatureCategory: {
     color: 'Couleur',
@@ -220,6 +221,7 @@ const translations: Translations = {
     higherYear: 'année maximum',
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
+    title: 'Annonces',
   },
   GeneralModalContent: {
     title: 'Boite de confirmation',
@@ -245,6 +247,28 @@ const translations: Translations = {
     price: 'Prix',
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
+    receivedOffers: 'Offres reçues',
+  },
+  Chat: {
+    title: 'Messagerie',
+    send: 'Envoyer',
+    sendPlaceholder: 'Envoyer un message',
+  },
+  Home: {
+    BannerTitle: 'Trop facile',
+    BannerSubtitle: `Acheter ou vendre votre auto dès aujourd'hui`,
+    LandingTitle: 'Laisser les vendeurs se battrent',
+    LandingSubtitle: 'Une nouvelle façon de magasiner',
+    LandingAdsButton: 'Voir les annonces',
+    LandingSignupButton: 'Créer un compte',
+    HowToBuy: 'Comment acheter',
+    HowToBuyFirst: 'Demander pour un véhicule',
+    HowToBuySecond: 'Recevez des offres',
+    HowToBuyThird: 'Accepter la meilleure',
+    HowToSell: 'Comment vendre',
+    HowToSellFirst: 'Ajouter un véhicule',
+    HowToSellSecond: 'Trouver une demande correspondante',
+    HowToSellThird: 'Faites une offre',
   },
 };
 

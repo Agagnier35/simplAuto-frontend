@@ -19,6 +19,7 @@ interface CarAddState {
   modelID: any;
   categoryID: any;
   year: number;
+  description: string;
   mileage: number;
   photos: any;
   featuresIDs?: Maybe<string[]>;
@@ -81,6 +82,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       categoryID: null,
       year: 0,
       mileage: 0,
+      description: '',
       featuresIDs: null,
       touched: {
         manufacturerID: false,
@@ -136,7 +138,11 @@ class CarAdd extends Component<MultiProps, CarAddState> {
   };
 
   handleInputChange = (e: any) => {
-    this.setState({ [e.target.id]: Number(e.target.value) });
+    if (e.target.id === 'year' || e.target.id === 'mileage') {
+      this.setState({ [e.target.id]: Number(e.target.value) });
+    } else {
+      this.setState({ [e.target.id]: e.target.value });
+    }
   };
 
   handleChange = (key: string, value: any) => {
@@ -193,6 +199,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       categoryID: this.state.categoryID,
       year: this.state.year,
       mileage: this.state.mileage,
+      description: this.state.description,
       photos: this.state.photos,
     };
     return { data };
@@ -382,6 +389,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               label={carFeatureCategory[feature.name]}
                             />
                           ))}
+                          <span>Description :</span>
+                          <textarea
+                            id="description"
+                            cols={50}
+                            rows={2}
+                            placeholder={cars.descriptionPlaceholder}
+                            onChange={this.handleInputChange}
+                          />
                         </div>
                       </Card.Body>
                     </Card>

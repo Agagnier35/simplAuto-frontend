@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
-export const ALL_MY_ADS_QUERY = gql`
-  {
+export const PAGE_ADS_QUERY = gql`
+  query PAGE_ADS_QUERY($pageNumber: Int, $pageSize: Int) {
     me {
       id
-      ads {
+      adCount
+      ads(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
         creator {
           id
@@ -11,12 +12,15 @@ export const ALL_MY_ADS_QUERY = gql`
         priceLowerBound
         priceHigherBound
         manufacturer {
+          id
           name
         }
         model {
+          id
           name
         }
         category {
+          id
           name
         }
         mileageLowerBound
@@ -24,14 +28,34 @@ export const ALL_MY_ADS_QUERY = gql`
         yearLowerBound
         yearHigherBound
         features {
+          id
           name
           category {
+            id
             name
           }
         }
         isUrgent
         isFirst
         status
+        offers {
+          id
+          price
+          car {
+            id
+            photos
+            manufacturer {
+              id
+              name
+            }
+            model {
+              id
+              name
+            }
+            year
+            mileage
+          }
+        }
       }
     }
   }
