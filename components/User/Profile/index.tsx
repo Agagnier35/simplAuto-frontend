@@ -44,6 +44,7 @@ interface ProfileState {
     location: boolean;
     newPassword: boolean;
     confirmation: boolean;
+    birthDate: boolean;
   };
 }
 
@@ -65,22 +66,39 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       location: false,
       newPassword: false,
       confirmation: false,
+      birthDate: false,
     },
   };
 
-  datePickerInput = (birthDate: SchemaDate) => {
+  datePickerInput = (
+    birthDate: SchemaDate,
+    profileFormValidation: ProfileFormValidation,
+  ) => {
     const curr = new Date();
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
     const date = curr.toISOString().substr(0, 10);
-
     return (
-      <Form.Control
-        type="date"
-        name="birthDate"
-        className={CLASSNAME_INIT_CONFIRMATION}
-        defaultValue={date}
-        onChange={this.handleChangeDate}
-      />
+      <>
+        <Form.Control
+          type="date"
+          name="birthDate"
+          className="inputNeedSpace"
+          isInvalid={
+            this.state.touched.birthDate &&
+            !profileFormValidation.isBirthDateValid(date)
+          }
+          onBlur={() => {
+            const touched = { ...this.state.touched };
+            touched.birthDate = true;
+            this.setState({ touched });
+          }}
+          defaultValue={date}
+          onChange={this.handleChangeDate}
+        />
+        <Form.Control.Feedback type="invalid">
+          {profileFormValidation.birthDateError()}
+        </Form.Control.Feedback>
+      </>
     );
   };
 
@@ -344,7 +362,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             </div>
                             <div>
                               <p>{profile.birth}: </p>
-                              {this.datePickerInput(data.me.birthDate)}
+                              {this.datePickerInput(
+                                data.me.birthDate,
+                                profileFormValidation,
+                              )}
                             </div>
                             <div>
                               <p>{profile.sex}: </p>
