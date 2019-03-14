@@ -90,6 +90,9 @@ export default interface Translations {
         locationError: {
           emptyError: String;
         };
+        birthDateError: {
+          invalidYearError: String;
+        };
       };
       createAdFormFieldsErrors: {
         yearLowerBound: {

@@ -75,7 +75,8 @@ class SignupFormValidation extends BasicFormValidation {
   };
 
   birthDateError = () => {
-    return 'Tamere';
+    return this.general.formFieldsErrors.signupFormFieldsErrors.birthDateError
+      .invalidYearError;
   };
 
   passwordError = () => {

@@ -92,6 +92,9 @@ const translations: Translations = {
         locationError: {
           emptyError: 'La location ne peut être vide.',
         },
+        birthDateError: {
+          invalidYearError: "L'année saisie est invalide.",
+        },
       },
       createAdFormFieldsErrors: {
         yearLowerBound: {
