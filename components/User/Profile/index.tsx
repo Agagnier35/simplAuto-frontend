@@ -48,6 +48,13 @@ interface ProfileState {
   };
 }
 
+const redText = {
+  width: '100%',
+  marginTop: '0.25rem',
+  fontSize: '80%',
+  color: '#dc3545',
+};
+
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   state: Dictionary<ProfileState> = {
     email: '',
@@ -353,12 +360,30 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               <p>{profile.location}: </p>
                               <Geosuggest
                                 initialValue={this.state.location}
+                                onBlur={() => {
+                                  const touched = { ...this.state.touched };
+                                  touched.location = true;
+                                  this.setState({ touched });
+                                }}
                                 onChange={this.handleChangeGeoLoc}
                                 onSuggestSelect={(suggest: any) =>
                                   this.handleChangeGeoLoc(suggest.label)
                                 }
                                 placeholder={profile.address}
                               />
+                              <div
+                                style={redText}
+                                hidden={
+                                  !(
+                                    this.state.touched.location &&
+                                    !profileFormValidation.isLocationValid(
+                                      this.state.location,
+                                    )
+                                  )
+                                }
+                              >
+                                {profileFormValidation.locationError()}
+                              </div>
                             </div>
                             <div>
                               <p>{profile.birth}: </p>
