@@ -70,3 +70,42 @@ export const AD_DETAIL_QUERY = gql`
     }
   }
 `;
+
+export const AD_OFFER_SUGGESTION_QUERY = gql`
+  query AD_OFFER_SUGGESTION_QUERY($id: ID!, $pageNumber: Int, $pageSize: Int) {
+    suggestions(id: $id, pageNumber: $pageNumber, pageSize: $pageSize) {
+      position
+      score
+      offer {
+        id
+        car {
+          id
+          manufacturer {
+            id
+            name
+          }
+          model {
+            id
+            name
+          }
+          category {
+            id
+            name
+          }
+          year
+          mileage
+          photos
+          features {
+            id
+            name
+            category {
+              id
+              name
+            }
+          }
+        }
+        price
+      }
+    }
+  }
+`;

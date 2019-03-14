@@ -35,14 +35,15 @@ const MyAds = ({ translations }: MultiProps) => {
           {data.me.ads.map((ad: Ad) => (
             <AdSummary adsQuery={PAGE_ADS_QUERY} key={ad.id} ad={ad} />
           ))}
+
+          <Paging
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            maxItems={data.me.adCount}
+            itemsByPage={ADS_NB_BY_PAGE}
+          />
         </AdSummaries>
       </Card>
-      <Paging
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        maxItems={data.me.adCount}
-        itemsByPage={ADS_NB_BY_PAGE}
-      />
     </>
   );
 };

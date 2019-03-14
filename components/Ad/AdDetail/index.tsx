@@ -6,7 +6,7 @@ import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { AD_DETAIL_QUERY } from './Queries';
+import { AD_DETAIL_QUERY, AD_OFFER_SUGGESTION_QUERY } from './Queries';
 import Router from 'next/router';
 import GeneralModal, {
   MainAppObject,
@@ -34,12 +34,17 @@ export const AD_DELETE_MUTATION = gql`
 
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
   const OFFER_NB_BY_PAGE = 5;
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndexLike, setPageIndexLike] = useState(0);
+  const [pageIndexMayLike, setPageIndexMayLike] = useState(0);
 
   const [modalShow, setModalShow] = useState(false);
 
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: OFFER_NB_BY_PAGE },
+    variables: {
+      id: adID,
+      pageNumber: pageIndexLike,
+      pageSize: OFFER_NB_BY_PAGE,
+    },
   });
 
   async function handleDeleteAd(deleteAd: any) {
@@ -48,12 +53,19 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
+  const likeQuery = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID },
   });
-
-  if (loading) return <Loading />;
-  if (error) return <ErrorMessage error={error} />;
+  const mayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
+    variables: {
+      id: adID,
+      pageNumber: pageIndexMayLike,
+      pageSize: OFFER_NB_BY_PAGE,
+    },
+  });
+  const errors = likeQuery.error || mayLikeQuery.error;
+  if (likeQuery.loading) return <Loading />;
+  if (errors) return <ErrorMessage error={errors} />;
 
   return (
     <>
@@ -66,25 +78,55 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onConfirm={() => handleDeleteAd(deleteAd)}
         />
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
+          <AdSummary
+            adsQuery={AD_DETAIL_QUERY}
+            key={likeQuery.data.ad.id}
+            ad={likeQuery.data.ad}
+          />
         </Card>
         <Tab className="active">
           {translations.offers.receivedOffers}
-          {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
+          {likeQuery.data.ad.offers && (
+            <TabBadge>{likeQuery.data.ad.offers.length}</TabBadge>
+          )}
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
+          <p>you like</p>
           <CarSummaries>
-            {data.ad.offers &&
-              data.ad.offers.map((offer: Offer) => (
+            {likeQuery.data.ad.offers &&
+              likeQuery.data.ad.offers.map((offer: Offer) => (
                 <CarSummary key={offer.id} car={offer.car} offer={offer} />
               ))}
             <Paging
-              pageIndex={pageIndex}
-              setPageIndex={setPageIndex}
-              maxItems={data.ad.offerCount}
+              pageIndex={pageIndexLike}
+              setPageIndex={setPageIndexLike}
+              maxItems={likeQuery.data.ad.offerCount}
               itemsByPage={OFFER_NB_BY_PAGE}
             />
           </CarSummaries>
+          <hr />
+          <p>you may also like</p>
+          <div hidden={mayLikeQuery.loading}>
+            <CarSummaries>
+              {mayLikeQuery.data.suggestions &&
+                mayLikeQuery.data.suggestions.map((suggestion: any) => (
+                  <CarSummary
+                    key={suggestion.offer.id}
+                    car={suggestion.offer.car}
+                    offer={suggestion.offer}
+                  />
+                ))}
+              <Paging
+                pageIndex={pageIndexMayLike}
+                setPageIndex={setPageIndexMayLike}
+                maxItems={likeQuery.data.ad.offerCount}
+                itemsByPage={OFFER_NB_BY_PAGE}
+              />
+            </CarSummaries>
+          </div>
+          <div hidden={!mayLikeQuery.loading}>
+            <Loading />
+          </div>
         </Card>
       </div>
     </>
