@@ -371,6 +371,8 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 }
                                 placeholder={profile.address}
                               />
+                              {/* Custom code for error in the location.*/}
+                              {/*Bug si on efface la location, ça plante.*/}
                               <div
                                 style={redText}
                                 hidden={
