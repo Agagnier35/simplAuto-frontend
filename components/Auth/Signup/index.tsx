@@ -384,11 +384,6 @@ class Signup extends Component<MultiProps, SignupState> {
                             const touched = { ...this.state.touched };
                             touched.location = true;
                             this.setState({ touched });
-                            console.log(
-                              signupformValidation.isLocationValid(
-                                this.state.location,
-                              ),
-                            );
                           }}
                           onChange={this.handleGeoLocChange}
                         />
