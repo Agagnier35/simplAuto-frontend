@@ -186,6 +186,10 @@ const translations: Translations = {
     newOfferMessage: (x: number) =>
       `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
   },
+  Stripe: {
+    PremiumName: 'SimplAuto Premium',
+    PremiumDescription: 'Monthly membership',
+  },
 };
 
 module.exports = translations;
