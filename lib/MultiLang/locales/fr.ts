@@ -153,7 +153,7 @@ const translations: Translations = {
           mileageTooHighError: 'Kilométrage trop élevé',
         },
         photos: {
-          atLeastOnePhotoError: 'Voud devez ajouter au moins une photo',
+          atLeastOnePhotoError: 'Vous devez ajouter au moins une photo',
         },
       },
     },
