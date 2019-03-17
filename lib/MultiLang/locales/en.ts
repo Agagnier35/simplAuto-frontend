@@ -145,6 +145,7 @@ const translations: Translations = {
     chat: 'Contact seller',
     reject: 'Reject offer',
     receivedOffers: 'Received offers',
+    youMayLike: 'You may also like',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

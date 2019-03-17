@@ -91,7 +91,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           )}
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
-          <p>you like</p>
           <CarSummaries>
             {likeQuery.data.ad.offers &&
               likeQuery.data.ad.offers.map((offer: Offer) => (
@@ -105,7 +104,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             />
           </CarSummaries>
           <hr />
-          <p>you may also like</p>
+          <p>{translations.offers.youMayLike}:</p>
           <div hidden={mayLikeQuery.loading}>
             <CarSummaries>
               {mayLikeQuery.data.suggestions &&
@@ -119,7 +118,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               <Paging
                 pageIndex={pageIndexMayLike}
                 setPageIndex={setPageIndexMayLike}
-                maxItems={likeQuery.data.ad.offerCount}
+                maxItems={mayLikeQuery.data.suggestions.length}
                 itemsByPage={OFFER_NB_BY_PAGE}
               />
             </CarSummaries>

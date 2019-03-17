@@ -128,6 +128,7 @@ export default interface Translations {
     chat: string;
     reject: string;
     receivedOffers: string;
+    youMayLike: string;
   };
   GeneralModalContent: {
     title: string;

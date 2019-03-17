@@ -160,6 +160,7 @@ const translations: Translations = {
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
     receivedOffers: 'Offres reçues',
+    youMayLike: 'Vous aimerez peut-être',
   },
   Chat: {
     title: 'Messagerie',
