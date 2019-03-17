@@ -77,6 +77,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onClose={() => setModalShow(false)}
           onConfirm={() => handleDeleteAd(deleteAd)}
         />
+        {console.log(likeQuery.data)}
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary
             adsQuery={AD_DETAIL_QUERY}
@@ -91,21 +92,31 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           )}
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
-          <CarSummaries>
-            {likeQuery.data.ad.offers &&
-              likeQuery.data.ad.offers.map((offer: Offer) => (
-                <CarSummary key={offer.id} car={offer.car} offer={offer} />
-              ))}
-            <Paging
-              pageIndex={pageIndexLike}
-              setPageIndex={setPageIndexLike}
-              maxItems={likeQuery.data.ad.offerCount}
-              itemsByPage={OFFER_NB_BY_PAGE}
-            />
-          </CarSummaries>
+          <div hidden={likeQuery.data.ad.offerCount > 0}>
+            <CarSummaries>
+              {likeQuery.data.ad.offers &&
+                likeQuery.data.ad.offers.map((offer: Offer) => (
+                  <CarSummary key={offer.id} car={offer.car} offer={offer} />
+                ))}
+              <Paging
+                pageIndex={pageIndexLike}
+                setPageIndex={setPageIndexLike}
+                maxItems={likeQuery.data.ad.offerCount}
+                itemsByPage={OFFER_NB_BY_PAGE}
+              />
+            </CarSummaries>
+          </div>
+          <div hidden={likeQuery.data.ad.offerCount === 0}>
+            <p>{translations.offers.noMatch}:</p>
+          </div>
           <hr />
           <p>{translations.offers.youMayLike}:</p>
-          <div hidden={mayLikeQuery.loading}>
+          <div
+            hidden={
+              mayLikeQuery.loading ||
+              mayLikeQuery.data.suggestions.total_length === 0
+            }
+          >
             <CarSummaries>
               {mayLikeQuery.data.suggestions &&
                 mayLikeQuery.data.suggestions.map((suggestion: any) => (
@@ -118,13 +129,10 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               <Paging
                 pageIndex={pageIndexMayLike}
                 setPageIndex={setPageIndexMayLike}
-                maxItems={mayLikeQuery.data.suggestions.length}
+                maxItems={1000}
                 itemsByPage={OFFER_NB_BY_PAGE}
               />
             </CarSummaries>
-          </div>
-          <div hidden={!mayLikeQuery.loading}>
-            <Loading />
           </div>
         </Card>
       </div>

@@ -129,6 +129,7 @@ export default interface Translations {
     reject: string;
     receivedOffers: string;
     youMayLike: string;
+    noMatch: string;
   };
   GeneralModalContent: {
     title: string;
