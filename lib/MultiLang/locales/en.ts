@@ -187,6 +187,11 @@ const translations: Translations = {
     send: 'Send',
     sendPlaceholder: 'Send a message',
   },
+  Notifications: {
+    newOffer: 'You have a new offer !',
+    newOfferMessage: (x: number) =>
+      `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
+  },
 };
 
 module.exports = translations;

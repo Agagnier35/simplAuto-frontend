@@ -175,7 +175,7 @@ const translations: Translations = {
   Home: {
     BannerTitle: 'Trop facile',
     BannerSubtitle: `Acheter ou vendre votre auto dès aujourd'hui`,
-    LandingTitle: 'Laisser les vendeurs se battrent',
+    LandingTitle: 'Laisser les vendeurs se battre',
     LandingSubtitle: 'Une nouvelle façon de magasiner',
     LandingAdsButton: 'Voir les annonces',
     LandingSignupButton: 'Créer un compte',
@@ -187,6 +187,13 @@ const translations: Translations = {
     HowToSellFirst: 'Ajouter un véhicule',
     HowToSellSecond: 'Trouver une demande correspondante',
     HowToSellThird: 'Faites une offre',
+  },
+  Notifications: {
+    newOffer: 'Vous avez une nouvelle offre !',
+    newOfferMessage: (x: number) =>
+      `Vous avez ${x} ${
+        x > 1 ? 'nouveaux messages' : 'nouveau message'
+      } sur une offre`,
   },
 };
 

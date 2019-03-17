@@ -169,4 +169,8 @@ export default interface Translations {
     send: string;
     sendPlaceholder: string;
   };
+  Notifications: {
+    newOffer: string;
+    newOfferMessage: (x: number) => string;
+  };
 }

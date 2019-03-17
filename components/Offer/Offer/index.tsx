@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
@@ -8,7 +8,10 @@ import { Button, ButtonToolbar, Row, Col } from 'react-bootstrap';
 import { OFFER_BY_ID } from './Queries';
 import CarDetails from '../../Car/CarDetails';
 import Chat from '../../Chat/Chat';
-import { CREATE_CONVERSATION_MUTATION } from './Mutations';
+import {
+  CREATE_CONVERSATION_MUTATION,
+  DELETE_NOTIFICATION_MUTATION,
+} from './Mutations';
 import { Offer } from '../../../generated/graphql';
 import { Price, PriceMileageWrapper, OfferButtons } from './styles';
 import { IoIosTimer as KilometerIcon } from 'react-icons/io';
@@ -18,6 +21,7 @@ import {
   FaTimesCircle as RejectIcon,
 } from 'react-icons/fa';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
+import { LOGGED_IN_QUERY } from '../../General/Header';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -36,6 +40,19 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       offerID: offer && offer.id,
     },
   });
+
+  const handleDeleteNotification = useMutation(DELETE_NOTIFICATION_MUTATION, {
+    variables: {
+      id: offer && offer.id,
+    },
+    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+  });
+
+  useEffect(() => {
+    if (offer) {
+      handleDeleteNotification();
+    }
+  }, [offer]);
 
   function handlePrint() {
     window.print();
