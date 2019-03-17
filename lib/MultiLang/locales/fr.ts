@@ -195,6 +195,10 @@ const translations: Translations = {
         x > 1 ? 'nouveaux messages' : 'nouveau message'
       } sur une offre`,
   },
+  Stripe: {
+    PremiumName: 'SimplAuto Premium',
+    PremiumDescription: 'Abonnement mensuel',
+  },
 };
 
 module.exports = translations;

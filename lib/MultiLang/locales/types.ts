@@ -173,4 +173,8 @@ export default interface Translations {
     newOffer: string;
     newOfferMessage: (x: number) => string;
   };
+  Stripe: {
+    PremiumName: string;
+    PremiumDescription: string;
+  };
 }

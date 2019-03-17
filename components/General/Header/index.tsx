@@ -16,6 +16,7 @@ export const LOGGED_IN_QUERY = gql`
       id
       firstName
       lastName
+      email
       notifications {
         id
         type
