@@ -9,6 +9,7 @@ const translations: Translations = {
   },
   signup: {
     title: 'Create an account',
+    clientType: 'Account type',
   },
   profile: {
     profilePage: 'My profile',
@@ -46,6 +47,7 @@ const translations: Translations = {
     min: 'min',
     firstName: 'First name',
     lastName: 'Last name',
+    companyName: 'Company name',
     gender: 'Gender',
     birthDate: {
       day: 'Day',
@@ -87,6 +89,10 @@ const translations: Translations = {
     mileage: 'Kilometers',
     price: 'Price',
     descriptionPlaceholder: 'Enter a small description for the car',
+  },
+  clientType: {
+    company: 'Company',
+    individual: 'Individual',
   },
   carFeatureCategory: {
     color: 'color',

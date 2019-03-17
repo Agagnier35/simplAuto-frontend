@@ -1,10 +1,11 @@
 import gql from 'graphql-tag';
 
-export const MY_CARS_QUERY = gql`
-  {
+export const PAGE_CARS_QUERY = gql`
+  query PAGE_CARS_QUERY($pageNumber: Int, $pageSize: Int) {
     me {
       id
-      cars {
+      carCount
+      cars(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
         manufacturer {
           id
