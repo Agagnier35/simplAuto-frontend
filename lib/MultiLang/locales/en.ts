@@ -142,7 +142,7 @@ const translations: Translations = {
         year: {
           emptyError: 'Year cannot be empty',
           numberNotIntegerError: 'Year must be an integer',
-          yearTooLowError: 'Year is too low. Go sell that shit somewhere else',
+          yearTooLowError: 'Year is too low.',
           yearTooHighError: 'Year too high',
         },
         mileage: {
