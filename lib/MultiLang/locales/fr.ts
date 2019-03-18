@@ -9,6 +9,7 @@ const translations: Translations = {
   },
   signup: {
     title: 'Créer un compte',
+    clientType: 'Type de compte',
   },
   profile: {
     profilePage: 'Mon profile',
@@ -46,6 +47,7 @@ const translations: Translations = {
     min: 'min',
     firstName: 'Prénom',
     lastName: 'Nom de famille',
+    companyName: 'Nom de la compagnie',
     gender: 'genre',
     birthDate: {
       day: 'Jour',
@@ -87,6 +89,10 @@ const translations: Translations = {
     mileage: 'Kilométrage',
     price: 'Prix',
     descriptionPlaceholder: 'Entrez une courte description de la voiture',
+  },
+  clientType: {
+    company: 'Compagnie',
+    individual: 'Particulier',
   },
   carFeatureCategory: {
     color: 'Couleur',
@@ -169,7 +175,7 @@ const translations: Translations = {
   Home: {
     BannerTitle: 'Trop facile',
     BannerSubtitle: `Acheter ou vendre votre auto dès aujourd'hui`,
-    LandingTitle: 'Laisser les vendeurs se battrent',
+    LandingTitle: 'Laisser les vendeurs se battre',
     LandingSubtitle: 'Une nouvelle façon de magasiner',
     LandingAdsButton: 'Voir les annonces',
     LandingSignupButton: 'Créer un compte',
@@ -181,6 +187,17 @@ const translations: Translations = {
     HowToSellFirst: 'Ajouter un véhicule',
     HowToSellSecond: 'Trouver une demande correspondante',
     HowToSellThird: 'Faites une offre',
+  },
+  Notifications: {
+    newOffer: 'Vous avez une nouvelle offre !',
+    newOfferMessage: (x: number) =>
+      `Vous avez ${x} ${
+        x > 1 ? 'nouveaux messages' : 'nouveau message'
+      } sur une offre`,
+  },
+  Stripe: {
+    PremiumName: 'SimplAuto Premium',
+    PremiumDescription: 'Abonnement mensuel',
   },
 };
 

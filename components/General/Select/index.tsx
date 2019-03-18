@@ -58,7 +58,7 @@ class Select extends React.Component<SelectProps, SelectState> {
             variant="secondary"
             id="dropdown-basic"
           >
-            {selectedValue.length > 0 ? selectedValue : general.defaultDropdown}
+            {selectedValue != '' ? selectedValue : general.defaultDropdown}
           </BootStrapDropdown.Toggle>
           <BootStrapDropdown.Menu>
             {options.map((option, index) => (
