@@ -11,7 +11,9 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import CreateAdFormValidation from '../../General/FormValidator/CreateAdFormValidation';
+import CreateAdFormValidation, {
+  MINCARYEAR,
+} from '../../General/FormValidator/CreateAdFormValidation';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -214,7 +216,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.min}`}
-                              min={1900}
+                              min={MINCARYEAR}
                               max={new Date().getFullYear()}
                               onBlur={() => {
                                 const touched = { ...this.state.touched };
@@ -248,7 +250,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.max}`}
-                              min={1900}
+                              min={MINCARYEAR}
                               max={new Date().getFullYear()}
                               onBlur={() => {
                                 const touched = { ...this.state.touched };
