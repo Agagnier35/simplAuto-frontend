@@ -5,6 +5,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { GO_PREMIUM_MUTATION } from './Mutations';
 import { stripeKey } from '../../../config';
 import { multi, MultiProps } from '../../../lib/MultiLang';
+import { premium } from '../../General/Preferences';
 
 export interface PremiumProps extends MultiProps {}
 
@@ -15,7 +16,7 @@ const Premium = ({ translations }: PremiumProps) => {
   if (loading) return null;
   return (
     <div>
-      <p>premium</p>
+      <p>{premium}</p>
       <StripeCheckout
         amount={1000}
         name={translations.Stripe.PremiumName}
