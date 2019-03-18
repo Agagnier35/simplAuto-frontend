@@ -1,5 +1,5 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { MAXMILEAGEALLOWED } from '../CreateAdFormValidation';
+import { MAXMILEAGEALLOWED, MINCARYEAR } from '../CreateAdFormValidation';
 
 class CarAddFormValidation extends BasicFormValidation {
   general: any;
@@ -15,7 +15,7 @@ class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(year.toString()) &&
       this.isNumberAnInteger(year) &&
-      year > 1900 &&
+      year > MINCARYEAR &&
       year < new Date().getFullYear()
     );
   };
