@@ -102,14 +102,16 @@ const translations: Translations = {
           yearLowerBoundTooHigh:
             "Année min ne peut être plus grande que l'année courante.",
           emptyError: 'Année min ne peut être vide',
-          numberNotIntegerError: 'Année min doit être un entier',
+          numberNotIntegerError:
+            'Année min doit être un entier (chiffre sans virgule)',
         },
         yearHigherBound: {
           yearHigherBoundTooLow: 'Année max trop basse',
           yearHigherBoundTooHigh:
             "Année max ne peut être plus grande que l'année courante.",
           emptyError: 'Année max ne peut être vide',
-          numberNotIntegerError: 'Année max doit être un entier',
+          numberNotIntegerError:
+            'Année max doit être un entier (chiffre sans virgule)',
           yearLowerBoundHigherThanYearHigherBoundError:
             'Année max doit être supérieur à année min',
         },
@@ -117,24 +119,28 @@ const translations: Translations = {
           mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
           mileageLowerBoundTooHigh: 'Kilométrage min trop grand',
           emptyError: 'Kilométrage min ne peut être vide',
-          numberNotIntegerError: 'Kilométrage min doit être un entier',
+          numberNotIntegerError:
+            'Kilométrage min doit être un entier (chiffre sans virgule)',
         },
         mileageHigherBound: {
           mileageHigherBoundTooLow: 'Kilométrage max doit être positif',
           mileageHigherBoundTooHigh: 'Kilométrage max trop grand',
           emptyError: 'Kilométrage max ne peut être vide',
-          numberNotIntegerError: 'Kilométrage max doit être un entier',
+          numberNotIntegerError:
+            'Kilométrage max doit être un entier (chiffre sans virgule)',
           mileageLowerBoundHigherThanMileageHigherBoundError:
             'Kilométrage max doit être supérieur à kilométrage min',
         },
         priceLowerBound: {
           priceLowerBoundTooLowError: 'Prix min doit être positif',
           emptyError: 'Prix min ne peut être vide',
-          numberNotIntegerError: 'Prix min doit être un entier',
+          numberNotIntegerError:
+            'Prix min doit être un entier (chiffre sans virgule)',
         },
         priceHigherBound: {
           emptyError: 'Prix max ne peut être vide',
-          numberNotIntegerError: 'Prix max doit être un entier',
+          numberNotIntegerError:
+            'Prix max doit être un entier (chiffre sans virgule)',
           priceLowerBoundHigherThanPriceHigherBoundError:
             'Prix max doit être supérieur à prix min',
         },
@@ -142,13 +148,15 @@ const translations: Translations = {
       cadAddFormFieldsErrors: {
         year: {
           emptyError: 'Année ne peut être vide',
-          numberNotIntegerError: 'Année doit être un entier',
+          numberNotIntegerError:
+            'Année doit être un entier (chiffre sans virgule)',
           yearTooLowError: 'Année trop petite',
           yearTooHighError: "Année ne peut dépasser l'année courante",
         },
         mileage: {
           emptyError: 'Kilométrage ne peut être vide',
-          numberNotIntegerError: 'Kilométrage doit être un entier',
+          numberNotIntegerError:
+            'Kilométrage doit être un entier (chiffre sans virgule)',
           mileageLesserThanZeroError: 'Kilométrage doit être supérieur à 0',
           mileageTooHighError: 'Kilométrage trop élevé',
         },
