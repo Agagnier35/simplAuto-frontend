@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useQuery } from 'react-apollo-hooks';
 import { PAGE_CARS_QUERY } from './Queries';
 import Paging from '../../General/Paging';
+import BuyCarSpot from '../BuyCarSpot';
 
 const Cars = ({ translations }: MultiProps) => {
   const CARS_NB_BY_PAGE = 5;
@@ -30,6 +31,7 @@ const Cars = ({ translations }: MultiProps) => {
           </Button>
         </a>
       </Link>
+      <BuyCarSpot />
       <CarList cars={data.me.cars} />
       <Paging
         pageIndex={pageIndex}
