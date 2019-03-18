@@ -1,4 +1,5 @@
 import BasicFormValidation from '../BasicFormValidation';
+import { declareTypeAlias } from 'babel-types';
 class CarAddFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -14,7 +15,7 @@ class CarAddFormValidation extends BasicFormValidation {
       this.isFieldNotEmpty(year.toString()) &&
       this.isNumberAnInteger(year) &&
       year > 1900 &&
-      year < 2018
+      year < new Date().getFullYear()
     );
   };
 
