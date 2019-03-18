@@ -11,6 +11,7 @@ import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import CarAddFormValidation from '../../General/FormValidator/CarAddFormValidation';
+import { MINCARYEAR } from '../../General/FormValidator/CreateAdFormValidation';
 
 interface CarAddState {
   features: any[];
@@ -311,7 +312,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <Form.Control
                               type="number"
                               id="year"
-                              min={1900}
+                              min={MINCARYEAR}
                               max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
