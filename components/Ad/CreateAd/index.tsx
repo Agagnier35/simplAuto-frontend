@@ -355,7 +355,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
                               min={0}
-                              max={300000}
                               onBlur={() => {
                                 const touched = { ...this.state.touched };
                                 touched.priceLowerBound = true;
@@ -388,7 +387,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}
                               min={0}
-                              max={300000}
                               onBlur={() => {
                                 const touched = { ...this.state.touched };
                                 touched.priceHigherBound = true;
