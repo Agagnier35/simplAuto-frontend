@@ -1,5 +1,6 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { declareTypeAlias } from 'babel-types';
+import { MAXMILEAGEALLOWED } from '../CreateAdFormValidation';
+
 class CarAddFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -27,7 +28,7 @@ class CarAddFormValidation extends BasicFormValidation {
       this.isFieldNotEmpty(mileage.toString()) &&
       this.isNumberAnInteger(mileage) &&
       mileage > 0 &&
-      mileage < 300000
+      mileage < MAXMILEAGEALLOWED
     );
   };
 
@@ -67,7 +68,7 @@ class CarAddFormValidation extends BasicFormValidation {
     } else if (mileage < 0) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageLesserThanZeroError;
-    } else if (mileage > 300000) {
+    } else if (mileage > MAXMILEAGEALLOWED) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageTooHighError;
     }
