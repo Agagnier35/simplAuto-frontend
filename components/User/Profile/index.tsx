@@ -23,6 +23,7 @@ const UPDATE_USER_MUTATION = gql`
   mutation UPDATEUSER_MUTATION($data: UserUpdateInput!) {
     updateUser(data: $data) {
       id
+      language
     }
   }
 `;
@@ -37,7 +38,6 @@ interface ProfileState {
   newPassword: string;
   confirmation: string;
   language: string;
-  locale: string;
 }
 
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
@@ -51,7 +51,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
     language: '',
-    locale: '',
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
@@ -83,14 +82,15 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
-    if (e.currentTarget.name === 'language') {
-      let localeValue = 'fr';
-      if (e.currentTarget.value === UserLanguage.English) {
-        localeValue = 'en';
-      }
-      this.setState({ locale: localeValue });
-    }
   };
+
+  handleLanguage(data: any) {
+    let locale = 'fr';
+    if (data.language === 'ENGLISH') {
+      locale = 'en';
+    }
+    this.props.changeLocale(locale);
+  }
 
   handleChangeGeoLoc = (e: string) => {
     this.setState({ location: e });
@@ -148,11 +148,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
           month,
           year,
         };
-      } else if (
-        item !== 'birthDate' &&
-        item !== 'locale' &&
-        this.state[item]
-      ) {
+      } else if (item !== 'birthDate' && this.state[item]) {
         data[item] = this.state[item];
       }
     });
@@ -177,7 +173,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       confirmation: CLASSNAME_INIT_CONFIRMATION,
       language: '',
     } as any);
-    this.props.changeLocale(this.state.locale);
   };
 
   render() {
@@ -195,6 +190,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                 mutation={UPDATE_USER_MUTATION}
                 variables={this.fillObjectToUpdate(data.me)}
                 refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
+                onCompleted={data => this.handleLanguage(data)}
               >
                 {(handleMutation, { loading, error }) => {
                   if (loading) return <Loading />;
