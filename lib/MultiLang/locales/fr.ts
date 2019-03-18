@@ -15,6 +15,7 @@ const translations: Translations = {
     profilePage: 'Mon profile',
     firstName: 'Prénom',
     lastName: 'Nom',
+    companyName: 'Nom de compagnie',
     location: 'Votre position',
     sex: 'Sexe',
     save: 'Enregistrer',

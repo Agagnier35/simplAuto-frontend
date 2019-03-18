@@ -12,6 +12,7 @@ import {
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
+  ClientType,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
@@ -29,6 +30,7 @@ const UPDATE_USER_MUTATION = gql`
 interface ProfileState {
   firstName: string;
   lastName: string;
+  companyName: string;
   email: string;
   location: string;
   birthDate: SchemaDate;
@@ -42,6 +44,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     email: '',
     firstName: '',
     lastName: '',
+    companyName: '',
     location: '',
     birthDate: { day: 0, month: 0, year: 0 },
     gender: '',
@@ -154,6 +157,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       email: '',
       firstName: '',
       lastName: '',
+      companyName: '',
       location: '',
       birthDate: { day: 0, month: 0, year: 0 },
       gender: '',
@@ -190,7 +194,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                         <div className="firstInfoSection">
                           <div className="nameSection">
                             <h5>{profile.contactInfo}</h5>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.firstName}:</p>
                               <Form.Control
                                 className="inputNeedSpace"
@@ -208,6 +214,21 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 name="lastName"
                                 defaultValue={data.me.lastName}
                                 placeholder={profile.lastName}
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                            <div
+                              hidden={
+                                data.me.clientType === ClientType.Individual
+                              }
+                            >
+                              <p>{profile.companyName}:</p>
+                              <Form.Control
+                                className="inputNeedSpace"
+                                type="text"
+                                name="companyName"
+                                defaultValue={data.me.companyName}
+                                placeholder={profile.companyName}
                                 onChange={this.handleChange}
                               />
                             </div>
@@ -237,11 +258,15 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 placeholder={profile.address}
                               />
                             </div>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.birth}: </p>
                               {this.datePickerInput(data.me.birthDate)}
                             </div>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.sex}: </p>
                               {Object.values(Gender).map(
                                 (gender: Gender, i: number) => {
