@@ -61,7 +61,6 @@ const CAR_ADD_MUTATION = gql`
 class CarAdd extends Component<MultiProps, CarAddState> {
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = {
       photos: [],
       features: [],
@@ -126,7 +125,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     }
   };
 
-  handleChange = (key: string, value: any) => {
+  callThis = () => {
+    console.log(this.refs.value);
+  };
+  handleChange = (key: string, value: any, models?: any) => {
     const { translations } = this.props;
     const features = this.state.features;
 
@@ -165,6 +167,12 @@ class CarAdd extends Component<MultiProps, CarAddState> {
           features: [...features, value],
         });
       }
+    } else if (
+      key === 'manufacturerID' &&
+      this.state.manufacturerID.length !== 0
+    ) {
+      console.log(this.refs);
+      this.callThis();
     } else {
       // Not a feature
       this.setState({ [key]: value });
@@ -201,6 +209,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
+    let models = React.createRef();
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -239,7 +248,11 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             options={data.manufacturers}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange('manufacturerID', item.id)
+                              this.handleChange(
+                                'manufacturerID',
+                                item.id,
+                                models,
+                              )
                             }
                             label={`${cars.manufacturer} :`}
                           />
@@ -247,11 +260,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             options={this.getModelsForManufacturer(data)}
                             disabled={manufacturerID.length === 0}
                             accessor="name"
+                            ref={input => (this.refs = input)}
+                            id="models"
                             handleChange={(item: any) =>
-                              this.handleChange('modelID', item.id)
+                              this.handleChange('modelID', item.id, models)
                             }
                             label={`${cars.model} :`}
                           />
+                          <select ref={input => (this.refs = input)} />
                           <Select
                             options={data.carCategories}
                             accessor="name"
