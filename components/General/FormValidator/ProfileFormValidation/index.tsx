@@ -1,4 +1,8 @@
 import BasicFormValidation from '../BasicFormValidation';
+
+export const MINIMUMBIRTHDATEYEAR: number = 1900;
+export const MINIMUMAGEFORUSINGAPP: number = 16;
+
 class ProfileFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -27,8 +31,9 @@ class ProfileFormValidation extends BasicFormValidation {
     // Seule validation nécessaire est l'année
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
-      parseInt(birthDate.substring(0, 4)) > 1900 &&
-      parseInt(birthDate.substring(0, 4)) <= new Date().getFullYear() - 16
+      parseInt(birthDate.substring(0, 4)) > MINIMUMBIRTHDATEYEAR &&
+      parseInt(birthDate.substring(0, 4)) <=
+        new Date().getFullYear() - MINIMUMAGEFORUSINGAPP
     );
   };
 
