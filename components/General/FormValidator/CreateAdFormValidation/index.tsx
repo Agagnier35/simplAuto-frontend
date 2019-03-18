@@ -1,6 +1,7 @@
 import BasicFormValidation from '../BasicFormValidation';
 
 export const MAXMILEAGEALLOWED: number = 1000000;
+export const MINCARYEAR: number = 1900;
 
 class CreateAdFormValidation extends BasicFormValidation {
   general: any;
@@ -14,7 +15,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       return false;
     }
     return (
-      yearLowerBound >= 1900 &&
+      yearLowerBound >= MINCARYEAR &&
       yearLowerBound < new Date().getFullYear() &&
       this.isFieldNotEmpty(yearLowerBound.toString()) &&
       this.isNumberAnInteger(yearLowerBound)
@@ -31,7 +32,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(yearHigherBound.toString()) &&
       this.isNumberAnInteger(yearHigherBound) &&
-      yearHigherBound >= 1900 &&
+      yearHigherBound >= MINCARYEAR &&
       yearHigherBound < new Date().getFullYear() &&
       (this.isYearLowerBoundValid(yearLowerBound)
         ? yearLowerBound <= yearHigherBound
@@ -104,7 +105,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     ) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.emptyError;
-    } else if (yearLowerBound < 1900) {
+    } else if (yearLowerBound < MINCARYEAR) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.yearLowerBoundTooLow;
     } else if (yearLowerBound > new Date().getFullYear()) {
@@ -129,7 +130,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (!this.isNumberAnInteger(yearHigherBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearHigherBound.numberNotIntegerError;
-    } else if (yearHigherBound < 1900) {
+    } else if (yearHigherBound < MINCARYEAR) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearHigherBound.yearHigherBoundTooLow;
     } else if (yearHigherBound > new Date().getFullYear()) {
@@ -154,7 +155,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (mileageLowerBound < 0) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.mileageLowerBoundTooLow;
-    } else if (mileageLowerBound > 1000000) {
+    } else if (mileageLowerBound > MAXMILEAGEALLOWED) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.mileageLowerBoundTooHigh;
     } else if (!this.isNumberAnInteger(mileageLowerBound)) {
@@ -179,7 +180,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (mileageHigherBound < 0) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageHigherBound.mileageHigherBoundTooLow;
-    } else if (mileageHigherBound > 1000000) {
+    } else if (mileageHigherBound > MAXMILEAGEALLOWED) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageHigherBound.mileageHigherBoundTooHigh;
     } else if (
