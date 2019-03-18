@@ -21,9 +21,6 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-// NOTICE: Lorsque je change le manufacturer, le modèle reste le même -> Changer le modèle à null et son placeholder
-// à "Selectionner"
-
 interface CreateAdState extends AdCreateInput {
   touched: {
     yearLowerBound: boolean;
