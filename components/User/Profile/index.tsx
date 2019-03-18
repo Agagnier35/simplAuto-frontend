@@ -3,7 +3,7 @@ import Style from './style';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
-import Geosuggest from 'react-geosuggest';
+import Geosuggest, { Suggest } from 'react-geosuggest';
 import { Button, Form } from 'react-bootstrap';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
@@ -12,6 +12,7 @@ import {
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
+  Location,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
@@ -30,7 +31,8 @@ interface ProfileState {
   firstName: string;
   lastName: string;
   email: string;
-  location: string;
+  location: Location;
+  radius: number;
   birthDate: SchemaDate;
   gender: string;
   newPassword: string;
@@ -42,7 +44,12 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     email: '',
     firstName: '',
     lastName: '',
-    location: '',
+    location: {
+      name: '',
+      longitude: 0,
+      latitude: 0,
+    },
+    radius: 0,
     birthDate: { day: 0, month: 0, year: 0 },
     gender: '',
     newPassword: '',
@@ -80,8 +87,35 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
   };
 
-  handleChangeGeoLoc = (e: string) => {
-    this.setState({ location: e });
+  handleChangeRadius = (e: FormEvent<any>) => {
+    const re = /^[0-9\b]+$/;
+    if (e.currentTarget.value === '') {
+      this.setState({ radius: 0 });
+    }
+
+    if (re.test(e.currentTarget.value)) {
+      this.setState({ radius: parseInt(e.currentTarget.value, 10) });
+    }
+  };
+
+  handleChangeGeoLoc = (suggest: Suggest) => {
+    this.setState(
+      suggest
+        ? {
+            location: {
+              name: suggest.label,
+              longitude: parseFloat(suggest.location.lng),
+              latitude: parseFloat(suggest.location.lat),
+            },
+          }
+        : {
+            location: {
+              name: '',
+              longitude: 0,
+              latitude: 0,
+            },
+          },
+    );
   };
 
   handleConfirmationPassword = (e: FormEvent<any>) => {
@@ -119,6 +153,15 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     );
   };
 
+  validateLocation = (item: string) => {
+    return (
+      item === 'location' &&
+      this.state.location.name !== '' &&
+      this.state.location.longitude !== 0 &&
+      this.state.location.latitude !== 0
+    );
+  };
+
   fillObjectToUpdate = (me: User) => {
     const data: Dictionary<UserUpdateInput> = { id: me.id };
 
@@ -136,7 +179,20 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
           month,
           year,
         };
-      } else if (item !== 'birthDate' && this.state[item]) {
+      } else if (this.validateLocation(item)) {
+        const name = this.state[item].name;
+        const longitude = this.state[item].longitude;
+        const latitude = this.state[item].latitude;
+        data.location = {
+          name,
+          longitude,
+          latitude,
+        };
+      } else if (
+        item !== 'birthDate' &&
+        item !== 'location' &&
+        this.state[item]
+      ) {
         data[item] = this.state[item];
       }
     });
@@ -154,7 +210,12 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       email: '',
       firstName: '',
       lastName: '',
-      location: '',
+      location: {
+        name: '',
+        longitude: 0,
+        latitude: 0,
+      },
+      radius: 0,
       birthDate: { day: 0, month: 0, year: 0 },
       gender: '',
       password: '',
@@ -229,12 +290,20 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <p>{profile.location}: </p>
                               <Geosuggest
-                                initialValue={data.me.location}
-                                onChange={this.handleChangeGeoLoc}
-                                onSuggestSelect={(suggest: any) =>
-                                  this.handleChangeGeoLoc(suggest.label)
+                                initialValue={data.me.location.name}
+                                onSuggestSelect={(suggest: Suggest) =>
+                                  this.handleChangeGeoLoc(suggest)
                                 }
                                 placeholder={profile.address}
+                              />
+                              <p>{general.radius}: </p>
+                              <Form.Control
+                                className="inputNeedSpace"
+                                type="radius"
+                                name="radius"
+                                placeholder={general.radius}
+                                defaultValue={data.me.radius.toString()}
+                                onChange={this.handleChangeRadius}
                               />
                             </div>
                             <div>

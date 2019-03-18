@@ -69,6 +69,7 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    radius: string;
   };
   errors: {
     invalidEmail: string;

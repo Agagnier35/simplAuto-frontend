@@ -71,6 +71,7 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    radius: 'Radius (KM)',
   },
   errors: {
     invalidEmail: 'Invalid email',

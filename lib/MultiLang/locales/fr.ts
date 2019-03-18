@@ -71,6 +71,7 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    radius: 'Rayon de recherche (KM)',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',
