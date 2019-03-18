@@ -48,7 +48,7 @@ class CarAddFormValidation extends BasicFormValidation {
     } else if (year < 1900) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooLowError;
-    } else if (year > new Date().getFullYear()) {
+    } else if (year > new Date().getFullYear() + 1) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooHighError;
     }
