@@ -449,16 +449,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       touched.newPassword = true;
                                       this.setState({ touched });
                                     }}
-                                    // isInvalid={
-                                    //   this.state.touched.newPassword &&
-                                    //   !profileFormValidation.isPasswordValid(
-                                    //     this.state.password,
-                                    //   )
-                                    // }
                                   />
-                                  {/* <Form.Control.Feedback type="invalid">
-                                    {profileFormValidation.passwordError()}
-                                  </Form.Control.Feedback> */}
                                 </InputGroup>
                               </Form.Group>
                               <br />
