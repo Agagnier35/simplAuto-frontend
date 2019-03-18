@@ -186,6 +186,7 @@ const translations: Translations = {
     title: 'Chat',
     send: 'Send',
     sendPlaceholder: 'Send a message',
+    hideChat: 'Hide/unhide chat',
   },
   Notifications: {
     newOffer: 'You have a new offer !',

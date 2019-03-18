@@ -168,6 +168,7 @@ export default interface Translations {
     title: string;
     send: string;
     sendPlaceholder: string;
+    hideChat: string;
   };
   Notifications: {
     newOffer: string;

@@ -1,13 +1,21 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import { Offer, Message, Maybe } from '../../../generated/graphql';
+import {
+  Offer,
+  Message,
+  Maybe,
+  ConversationStatus,
+} from '../../../generated/graphql';
 import * as Chat from './styles';
-import { InputGroup, Form } from 'react-bootstrap';
-import { FaImage } from 'react-icons/fa';
+import { InputGroup, Form, Button } from 'react-bootstrap';
 import { useMutation, useSubscription } from 'react-apollo-hooks';
-import { SEND_MESSAGE_MUTATION } from './Mutations';
+import {
+  SEND_MESSAGE_MUTATION,
+  UPDATE_CONVERSATION_MUTATION,
+} from './Mutations';
 import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
 import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
+import { FaEyeSlash as HideIcon, FaImage } from 'react-icons/fa';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
@@ -17,6 +25,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
+  const [currentStatus, setCurrentStatus] = useState('');
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
     variables: {
@@ -27,6 +36,16 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       },
     },
   });
+
+  const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION, {
+    variables: {
+      data: {
+        id: offer.conversation && offer.conversation.id,
+        status: currentStatus,
+      },
+    },
+  });
+
   let upload: Maybe<HTMLInputElement>;
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
@@ -61,6 +80,20 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       setCurrentMessage('');
       setCurrentImage('');
     }
+  }
+
+  async function toggleConversationStatus(
+    e: FormEvent<HTMLFormElement> | any,
+    chatStatus: ConversationStatus,
+  ) {
+    e.preventDefault();
+    let status = ConversationStatus.Opened;
+    if (status === chatStatus) {
+      status = ConversationStatus.Deleted;
+    }
+    setCurrentStatus(status);
+    await handleUpdateConversation();
+    console.log('hello?');
   }
 
   async function getURLsFromCloud(file: any) {
@@ -114,7 +147,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   return (
     <Chat.Card>
       <h2>{translations.Chat.title}</h2>
-      {offer.conversation && (
+      {offer.conversation && offer.conversation.status !== 'DELETED' && (
         <>
           <Chat.Container className="chat">
             {offer.conversation.messages.map((message: Message) => (
@@ -161,6 +194,19 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
               </InputGroup.Append>
             </InputGroup>
           </Form>
+          {offer.conversation && (
+            <Button
+              variant="warning"
+              onClick={(e: any) => {
+                if (offer.conversation && offer.conversation.status) {
+                  toggleConversationStatus(e, offer.conversation.status);
+                }
+              }}
+            >
+              <HideIcon />
+              {translations.Chat.hideChat}
+            </Button>
+          )}
         </>
       )}
     </Chat.Card>
