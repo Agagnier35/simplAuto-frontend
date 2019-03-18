@@ -1,4 +1,7 @@
 import BasicFormValidation from '../BasicFormValidation';
+
+export const MAXMILEAGEALLOWED: number = 1000000;
+
 class CreateAdFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -42,7 +45,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     }
     return (
       mileageLowerBound >= 0 &&
-      mileageLowerBound <= 1000000 &&
+      mileageLowerBound <= MAXMILEAGEALLOWED &&
       this.isFieldNotEmpty(mileageLowerBound.toString()) &&
       this.isNumberAnInteger(mileageLowerBound)
     );
