@@ -90,7 +90,7 @@ const translations: Translations = {
           matchingError: 'Mots de passe différents.',
         },
         locationError: {
-          emptyError: 'La location ne peut être vide.',
+          emptyError: 'La localisation ne peut être vide.',
         },
         birthDateError: {
           invalidYearError: "L'année saisie est invalide.",
