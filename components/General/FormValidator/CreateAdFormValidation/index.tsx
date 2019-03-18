@@ -11,7 +11,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   }
 
   isYearLowerBoundValid = (yearLowerBound: number | null | undefined) => {
-    if (yearLowerBound == null || yearLowerBound == undefined) {
+    if (!yearLowerBound) {
       return false;
     }
     return (
@@ -26,7 +26,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     yearLowerBound: number | null | undefined,
     yearHigherBound: number | null | undefined,
   ) => {
-    if (yearHigherBound == null || yearHigherBound == undefined) {
+    if (!yearHigherBound) {
       return false;
     }
     return (
@@ -41,7 +41,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   };
 
   isMileageLowerBoundValid = (mileageLowerBound: number | null | undefined) => {
-    if (mileageLowerBound == null || mileageLowerBound == undefined) {
+    if (!mileageLowerBound) {
       return false;
     }
     return (
@@ -56,7 +56,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     mileageLowerBound: number | null | undefined,
     mileageHigherBound: number | null | undefined,
   ) => {
-    if (mileageHigherBound == null || mileageHigherBound == undefined) {
+    if (!mileageHigherBound) {
       return false;
     }
     return (
@@ -71,7 +71,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   };
 
   isPriceLowerBoundValid = (priceLowerBound: number | null | undefined) => {
-    if (priceLowerBound == null || priceLowerBound == undefined) {
+    if (!priceLowerBound) {
       return false;
     }
     return (
@@ -85,7 +85,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     priceLowerBound: number | null | undefined,
     priceHigherBound: number | null | undefined,
   ) => {
-    if (priceHigherBound == null || priceHigherBound == undefined) {
+    if (!priceHigherBound) {
       return false;
     }
     return (
@@ -98,11 +98,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   };
 
   yearLowerBoundError = (yearLowerBound: number | null | undefined) => {
-    if (
-      yearLowerBound == null ||
-      yearLowerBound == undefined ||
-      !this.isFieldNotEmpty(yearLowerBound.toString())
-    ) {
+    if (!yearLowerBound || !this.isFieldNotEmpty(yearLowerBound.toString())) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.emptyError;
     } else if (yearLowerBound < MINCARYEAR) {
@@ -121,7 +117,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     yearLowerBound: number | null | undefined,
     yearHigherBound: number | null | undefined,
   ) => {
-    if (yearHigherBound == null || yearHigherBound == undefined) {
+    if (!yearHigherBound) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearHigherBound.emptyError;
     } else if (!this.isFieldNotEmpty(yearHigherBound.toString())) {
@@ -146,7 +142,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   };
 
   mileageLowerBoundError = (mileageLowerBound: number | null | undefined) => {
-    if (mileageLowerBound == null || mileageLowerBound == undefined) {
+    if (!mileageLowerBound) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.emptyError;
     } else if (!this.isFieldNotEmpty(mileageLowerBound.toString())) {
@@ -168,7 +164,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     mileageLowerBound: number | null | undefined,
     mileageHigherBound: number | null | undefined,
   ) => {
-    if (mileageHigherBound == null || mileageHigherBound == undefined) {
+    if (!mileageHigherBound) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageHigherBound.emptyError;
     } else if (!this.isFieldNotEmpty(mileageHigherBound.toString())) {
@@ -193,7 +189,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   };
 
   priceLowerBoundError = (priceLowerBound: number | null | undefined) => {
-    if (priceLowerBound == null || priceLowerBound == undefined) {
+    if (!priceLowerBound) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .priceLowerBound.emptyError;
     } else if (!this.isFieldNotEmpty(priceLowerBound.toString())) {
@@ -212,7 +208,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     priceLowerBound: number | null | undefined,
     priceHigherBound: number | null | undefined,
   ) => {
-    if (priceHigherBound == null || priceHigherBound == undefined) {
+    if (!priceHigherBound) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .priceHigherBound.emptyError;
     } else if (!this.isFieldNotEmpty(priceHigherBound.toString())) {

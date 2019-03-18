@@ -9,7 +9,7 @@ class CarAddFormValidation extends BasicFormValidation {
   }
 
   isYearValid = (year: number | null | undefined) => {
-    if (year == null || year == undefined) {
+    if (!year) {
       return false;
     }
     return (
@@ -21,7 +21,7 @@ class CarAddFormValidation extends BasicFormValidation {
   };
 
   isMileageValid = (mileage: number | null | undefined) => {
-    if (mileage == null || mileage == undefined) {
+    if (!mileage) {
       return false;
     }
     return (
@@ -37,7 +37,7 @@ class CarAddFormValidation extends BasicFormValidation {
   };
 
   yearError = (year: number | null | undefined) => {
-    if (year == null || year == undefined) {
+    if (!year) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .emptyError;
     } else if (!this.isFieldNotEmpty(year.toString())) {
@@ -56,7 +56,7 @@ class CarAddFormValidation extends BasicFormValidation {
   };
 
   mileageError = (mileage: number | null | undefined) => {
-    if (mileage == null || mileage == undefined) {
+    if (!mileage) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .emptyError;
     } else if (!this.isFieldNotEmpty(mileage.toString())) {
