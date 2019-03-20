@@ -20,6 +20,10 @@ export const globalStyles = `
   html {
     box-sizing: border-box;
     font-size: 16px;
+
+    @media (max-width: 500px) {
+      font-size: 12px;
+    }
   }
 
   body {
@@ -42,6 +46,11 @@ export const globalStyles = `
     font-size: .75rem;
     padding: .55rem .75rem;
     transition: text-decoration 0s;
+
+    svg {
+      margin-right: 0.4rem;
+      margin-top: -2px;
+    }
 
     &-lg {
       padding: 0.75rem 1rem;

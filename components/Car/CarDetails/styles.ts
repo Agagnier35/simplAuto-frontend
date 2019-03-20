@@ -1,53 +1,25 @@
 import styled from 'styled-components';
-
-const StyledCarDetails = styled.div`
-  .carouselSection {
-    width: auto;
-    margin: auto;
-    margin-bottom: 30px;
-    object-fit: contain;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  label {
-    margin-left: 1.5rem;
-  }
-
-  p {
-    display: inline;
-    margin-bottom: 15%;
-    margin-top: 10%;
-    width: auto;
-  }
-
-  .card-number {
-    color: ${props => props.theme.colors.primary};
-    font-size: 2.5rem;
-    line-height: 1.4rem;
-    margin-right: 1rem;
-  }
-
-  .card-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    margin: -0.5rem;
-
-    .card {
-      margin: 0.5rem;
-      flex-grow: 1;
-      margin-bottom: 15px;
-    }
-  }
-`;
+import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 
 export const BigImage = styled.img`
   width: 75%;
-  height: 100%;
+  height: 450px;
   border-radius: 0.25rem;
+  object-fit: contain;
+  background: white;
+  cursor: pointer;
+  transition: 0.25s ease;
 
   @media (max-width: 700px) {
-    width: 100%;
+    border-radius: 0;
+    height: auto;
+    max-height: 450px;
+    margin: 0 calc(-16px - 1rem);
+    width: 105vw;
+  }
+
+  &:hover {
+    filter: brightness(0.8);
   }
 `;
 
@@ -65,6 +37,9 @@ export const SmallImage = styled.img`
   width: 100%;
   height: calc(33.33% - 0.66rem);
   object-fit: contain;
+  background: white;
+  cursor: pointer;
+  transition: 0.25s ease;
 
   & + & {
     margin-top: 1rem;
@@ -72,11 +47,17 @@ export const SmallImage = styled.img`
 
   @media (max-width: 700px) {
     width: calc(33.33% - 0.66rem);
+    height: 22vw;
+    background: white;
 
     & + & {
       margin-top: 0;
       margin-left: 1rem;
     }
+  }
+
+  &:hover {
+    filter: brightness(0.8);
   }
 `;
 
@@ -90,4 +71,12 @@ export const SmallImages = styled.div`
   }
 `;
 
-export default StyledCarDetails;
+export const OfferFeatureItem = styled(AdSummaryItem)`
+  width: 50%;
+  min-width: 300px;
+`;
+
+export const OfferFeatures = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;

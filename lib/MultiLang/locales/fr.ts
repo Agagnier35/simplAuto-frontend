@@ -111,7 +111,6 @@ const translations: Translations = {
   carCategory: {
     sedan: 'sedan',
   },
-  carFeature: {},
   carLabel: {
     title: 'Veuillez remplir les informations conçernant la voiture',
     general: 'Informations générales',
@@ -198,6 +197,68 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Abonnement mensuel',
+  },
+  offerAddons: {
+    subtitle: 'Le vendeur vous offre aussi',
+    mags: 'Jantes',
+    tires: 'Pneus',
+  },
+  carFeature: {
+    color: {
+      black: 'Noir',
+      blue: 'Bleu',
+      brown: 'Brun',
+      gold: 'Or',
+      green: 'Vert',
+      grey: 'Gris',
+      orange: 'Orange',
+      pink: 'Rose',
+      purple: 'Mauve',
+      red: 'Rouge',
+      silver: 'Argent',
+      tan: 'Beige',
+      teal: 'Turquoise',
+      white: 'Blanc',
+      yellow: 'Jaune',
+      other: 'Autre',
+    },
+    fuelType: {
+      diesel: 'Diesel',
+      electric: 'Électrique',
+      gasoline: 'Essence',
+      hybrid: 'Hybride',
+      other: 'Autre',
+    },
+    doorNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      other: 'Autre',
+    },
+    seatNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      other: 'Autre',
+    },
+    drivetrain: {
+      '4x4': '4x4',
+      awd: 'Traction intégrale',
+      fwd: 'Traction avant',
+      rwd: 'Traction arrière',
+      other: 'Autre',
+    },
+    transmission: {
+      manual: 'Manuelle',
+      automatic: 'Automatique',
+      other: 'Autre',
+    },
+    true: 'Oui',
+    false: 'Non',
   },
 };
 

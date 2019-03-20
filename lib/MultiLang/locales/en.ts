@@ -111,7 +111,6 @@ const translations: Translations = {
   carCategory: {
     sedan: 'sedan',
   },
-  carFeature: {},
   carLabel: {
     title: 'Please fill the information about your car',
     general: 'General information',
@@ -195,6 +194,68 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Monthly membership',
+  },
+  offerAddons: {
+    subtitle: 'The seller offers you also',
+    mags: 'Mags',
+    tires: 'tires',
+  },
+  carFeature: {
+    color: {
+      black: 'Black',
+      blue: 'Blue',
+      brown: 'Brown',
+      gold: 'Gold',
+      green: 'Green',
+      grey: 'Grey',
+      orange: 'Orange',
+      pink: 'Pink',
+      purple: 'Purple',
+      red: 'Red',
+      silver: 'Silver',
+      tan: 'Tan',
+      teal: 'Teal',
+      white: 'White',
+      yellow: 'Yellow',
+      other: 'Other',
+    },
+    fuelType: {
+      diesel: 'Diesel',
+      electric: 'Electric',
+      gasoline: 'Gasoline',
+      hybrid: 'Hybrid',
+      other: 'Other',
+    },
+    doorNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      other: 'Other',
+    },
+    seatNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      other: 'Other',
+    },
+    drivetrain: {
+      '4x4': '4x4',
+      awd: 'AWD',
+      fwd: 'FWD',
+      rwd: 'RWD',
+      other: 'Other',
+    },
+    transmission: {
+      manual: 'Manual',
+      automatic: 'Automatic',
+      other: 'Other',
+    },
+    true: 'Yes',
+    false: 'No',
   },
 };
 

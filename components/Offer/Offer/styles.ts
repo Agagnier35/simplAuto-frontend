@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { OfferPrice } from '../../Ad/AdSummary/styles';
-import { ButtonToolbar } from 'react-bootstrap';
+import { ButtonToolbar, Button } from 'react-bootstrap';
 
 export const Price = styled(OfferPrice)`
   background: white;
@@ -23,10 +23,11 @@ export const OfferButtons = styled(ButtonToolbar)`
     flex-grow: 1;
     margin: 0.5rem;
     max-width: 500px;
-
-    svg {
-      margin-right: 0.4rem;
-      margin-top: -2px;
-    }
   }
+`;
+
+export const CreateConversation = styled(Button)`
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 0 00.25rem 0.25rem;
 `;

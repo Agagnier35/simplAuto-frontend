@@ -4,7 +4,7 @@ import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Button, ButtonToolbar, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col, Card } from 'react-bootstrap';
 import { OFFER_BY_ID } from './Queries';
 import CarDetails from '../../Car/CarDetails';
 import Chat from '../../Chat/Chat';
@@ -13,7 +13,12 @@ import {
   DELETE_NOTIFICATION_MUTATION,
 } from './Mutations';
 import { Offer } from '../../../generated/graphql';
-import { Price, PriceMileageWrapper, OfferButtons } from './styles';
+import {
+  Price,
+  PriceMileageWrapper,
+  OfferButtons,
+  CreateConversation,
+} from './styles';
 import { IoIosTimer as KilometerIcon } from 'react-icons/io';
 import {
   FaPrint as PrintIcon,
@@ -22,6 +27,8 @@ import {
 } from 'react-icons/fa';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { LOGGED_IN_QUERY } from '../../General/Header';
+import OfferAddons from '../OfferAddons';
+import OfferCreator from '../OfferCreator';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -77,26 +84,30 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       <Row>
         <Col md={12} lg={8}>
           <CarDetails car={offer.car} />
-          {offer &&
-            offer.addons &&
-            offer.addons.map((addon: any) => (
-              <ul>
-                <li>{addon.name}</li>
-              </ul>
-            ))}
+          <Card style={{ marginBottom: '1rem' }}>
+            <Card.Body>
+              <h5>Description</h5>
+              {offer.car.description}
+            </Card.Body>
+          </Card>
         </Col>
         <Col md={12} lg={4}>
           <div className="noPrint">
+            <OfferCreator
+              offer={offer}
+              button={
+                !offer.conversation && (
+                  <CreateConversation
+                    onClick={() => handleCreateConversation()}
+                    variant="primary"
+                  >
+                    <MessageIcon />
+                    {translations.offers.chat}
+                  </CreateConversation>
+                )
+              }
+            />
             <OfferButtons>
-              {!offer.conversation && (
-                <Button
-                  onClick={() => handleCreateConversation()}
-                  variant="primary"
-                >
-                  <MessageIcon />
-                  {translations.offers.chat}
-                </Button>
-              )}
               <Button variant="warning">
                 <RejectIcon />
                 {translations.offers.reject}
@@ -107,6 +118,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
               </Button>
             </OfferButtons>
             {offer.conversation && <Chat offer={offer} />}
+            <OfferAddons offer={offer} />
           </div>
         </Col>
       </Row>
