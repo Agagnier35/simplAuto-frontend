@@ -185,4 +185,16 @@ export const globalStyles = `
     padding: 0;
     margin-bottom: 1rem;
   }
+  .kep-login-facebook.metro {
+    width: 100%;
+    width: 100%;
+    border-radius: 0.25rem !important;
+    font-size: .75rem;
+    padding: .55rem .75rem;
+  }
+  .google-login-btn {
+    width: 100%;
+    justify-content: center;
+    margin: 1rem 0;
+  }
 `;

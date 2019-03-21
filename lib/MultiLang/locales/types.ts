@@ -6,10 +6,13 @@ export default interface Translations {
     title: string;
     loginWithFacebook: string;
     loginWithGoogle: string;
+    forgotPassword: string;
   };
   signup: {
     title: string;
     clientType: string;
+    facebookLogin: string;
+    googleLogin: string;
   };
   profile: {
     profilePage: string;

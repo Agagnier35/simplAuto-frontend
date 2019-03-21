@@ -6,10 +6,13 @@ const translations: Translations = {
     title: 'Se connecter',
     loginWithFacebook: 'Se connecter avec Facebook',
     loginWithGoogle: 'Se connecter avec Google',
+    forgotPassword: 'Mot de passe oublié ?',
   },
   signup: {
     title: 'Créer un compte',
     clientType: 'Type de compte',
+    facebookLogin: 'Connexion avec Facebook',
+    googleLogin: 'Connexion avec Google',
   },
   profile: {
     profilePage: 'Mon profile',

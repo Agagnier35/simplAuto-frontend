@@ -176,7 +176,7 @@ class Signup extends Component<MultiProps, SignupState> {
       }
     });
     delete myData['confirmPassword'];
-    console.log(myData);
+
     return { data: myData };
   };
 

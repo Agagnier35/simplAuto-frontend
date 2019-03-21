@@ -69,6 +69,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   render() {
+    const { translations } = this.props;
     return (
       <Mutation
         mutation={GOOGLE_LOGIN_MUTATION}
@@ -77,8 +78,9 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
       >
         {handleMutation => (
           <GoogleLogin
+            className="google-login-btn"
             clientId="336221605230-o9967qlvh1121ublhs76bh9flm6kb3r8.apps.googleusercontent.com"
-            buttonText="Login With Google"
+            buttonText={translations.signup.googleLogin}
             onSuccess={response =>
               this.responseGoogle(response, handleMutation)
             }
