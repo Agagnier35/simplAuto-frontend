@@ -17,6 +17,7 @@ import {
   Date as BirthDate,
   ClientType,
   UserSignupInput,
+  UserLanguage,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 
@@ -39,6 +40,7 @@ interface SignupState {
   gender: Gender;
   birthDate: BirthDate;
   clientType: ClientType;
+  language: string;
 }
 
 class Signup extends Component<MultiProps, SignupState> {
@@ -57,6 +59,7 @@ class Signup extends Component<MultiProps, SignupState> {
       year: 1900,
     },
     clientType: ClientType.Individual,
+    language: '',
   };
 
   isBirthDateValid = () => {
@@ -93,6 +96,7 @@ class Signup extends Component<MultiProps, SignupState> {
           password: '',
           confirmPassword: '',
           clientType: ClientType.Individual,
+          language: '',
         });
     this.setState({
       firstName: '',
@@ -102,20 +106,18 @@ class Signup extends Component<MultiProps, SignupState> {
       password: '',
       confirmPassword: '',
       clientType: ClientType.Individual,
+      language: '',
     });
-    this.props.changeLocale(this.state.locale);
+    let localeValue = 'fr';
+    if (this.state.language === UserLanguage.English) {
+      localeValue = 'en';
+    }
+    this.props.changeLocale(localeValue);
     Router.push('/');
   };
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
-    if (e.currentTarget.name === 'language') {
-      let localeValue = 'fr';
-      if (e.currentTarget.value === UserLanguage.English) {
-        localeValue = 'en';
-      }
-      this.setState({ locale: localeValue });
-    }
   };
 
   handleGeoLocChange = (e: string) => {
@@ -389,6 +391,25 @@ class Signup extends Component<MultiProps, SignupState> {
                           value={Gender.Other}
                         />
                         {Gender.Other}
+                      </label>
+                      <Form.Group>
+                        <Form.Label>{general.langage}</Form.Label>
+                      </Form.Group>
+                      <label htmlFor="language">
+                        {general.langages.french}
+                        <input
+                          type="radio"
+                          name="language"
+                          onChange={this.handleChange}
+                          value={UserLanguage.French}
+                        />{' '}
+                        {general.langages.english}
+                        <input
+                          type="radio"
+                          name="language"
+                          onChange={this.handleChange}
+                          value={UserLanguage.English}
+                        />
                       </label>
                     </div>
 

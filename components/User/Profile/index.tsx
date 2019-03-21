@@ -86,7 +86,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
 
   handleLanguage(data: any) {
     let locale = 'fr';
-    if (data.language === 'ENGLISH') {
+    if (data.updateUser.language === 'ENGLISH') {
       locale = 'en';
     }
     this.props.changeLocale(locale);
