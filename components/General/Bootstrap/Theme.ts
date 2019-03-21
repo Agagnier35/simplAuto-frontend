@@ -179,4 +179,10 @@ export const globalStyles = `
       display: none;
     }
   }
+  .breadcrumb {
+    background: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
 `;

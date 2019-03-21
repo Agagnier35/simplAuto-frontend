@@ -7,6 +7,8 @@ import {
   SmallImage,
   OfferFeatureItem,
   OfferFeatures,
+  MoreImages,
+  MoreAmount,
 } from './styles';
 import { multi } from '../../../lib/MultiLang';
 import { Card } from 'react-bootstrap';
@@ -76,7 +78,12 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
           {car.photos[2] && (
             <SmallImage src={car.photos[2]} alt="No car photos placeholder" />
           )}
-          {car.photos[3] && (
+          {car.photos.length > 4 && car.photos[3] ? (
+            <MoreImages>
+              <img src={car.photos[3]} alt="No car photos placeholder" />
+              <MoreAmount>+ {car.photos.length - 4}</MoreAmount>
+            </MoreImages>
+          ) : (
             <SmallImage src={car.photos[3]} alt="No car photos placeholder" />
           )}
         </SmallImages>

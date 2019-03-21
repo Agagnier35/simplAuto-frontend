@@ -4,7 +4,7 @@ import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Button, Row, Col, Card } from 'react-bootstrap';
+import { Button, Row, Col, Card, Breadcrumb } from 'react-bootstrap';
 import { OFFER_BY_ID } from './Queries';
 import CarDetails from '../../Car/CarDetails';
 import Chat from '../../Chat/Chat';
@@ -72,6 +72,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
 
   return (
     <div>
+      <Breadcrumb>
+        <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+          Library
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Data</Breadcrumb.Item>
+      </Breadcrumb>
       <h1>
         {offer.car.manufacturer.name} {offer.car.model.name} {offer.car.year}
       </h1>
