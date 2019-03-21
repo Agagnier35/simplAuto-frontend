@@ -12,11 +12,18 @@ export const Price = styled(OfferPrice)`
 export const PriceMileageWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin: -0.5rem -1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+
+  & > * {
+    margin: 0.5rem 1.5rem;
+  }
 `;
 
 export const OfferButtons = styled(ButtonToolbar)`
   margin: -0.5rem;
+  margin-top: 1rem;
 
   button {
     width: fit-content;
@@ -28,6 +35,5 @@ export const OfferButtons = styled(ButtonToolbar)`
 
 export const CreateConversation = styled(Button)`
   width: 100%;
-  margin-bottom: 1rem;
   border-radius: 0 00.25rem 0.25rem;
 `;

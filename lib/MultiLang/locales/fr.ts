@@ -71,6 +71,7 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    offered: 'Offert le',
   },
   errors: {
     invalidEmail: 'Mauvaise adresse courriel',

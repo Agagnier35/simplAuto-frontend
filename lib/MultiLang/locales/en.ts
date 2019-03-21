@@ -71,6 +71,7 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    offered: 'Offered',
   },
   errors: {
     invalidEmail: 'Invalid email',

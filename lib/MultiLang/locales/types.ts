@@ -1,4 +1,3 @@
-import { string } from 'prop-types';
 import { Dictionary } from '../../Types/Dictionary';
 
 export default interface Translations {
@@ -72,6 +71,7 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    offered: string;
   };
   errors: {
     invalidEmail: string;

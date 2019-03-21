@@ -5,6 +5,7 @@ import { Offer, OfferAddon } from '../../../generated/graphql';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import AddonIcon from '../AddonIcon';
+import { Subtitle } from './styles';
 
 export interface OfferAddonsProps extends MultiProps {
   offer: Offer | null | undefined;
@@ -18,8 +19,10 @@ const OfferAddons = ({ offer, translations }: OfferAddonsProps) => {
   return (
     <Card style={{ marginTop: '1rem' }}>
       <Card.Body>
-        <Card.Title>{translations.offers.addons}</Card.Title>
-
+        <Card.Title style={{ marginBottom: 0 }}>
+          {translations.offers.addons}
+        </Card.Title>
+        <Subtitle>{translations.offerAddons.subtitle}</Subtitle>
         {offer.addons.map((addon: OfferAddon) => (
           <AdSummaryItem
             key={addon.id}

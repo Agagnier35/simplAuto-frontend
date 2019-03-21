@@ -29,6 +29,8 @@ import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import OfferAddons from '../OfferAddons';
 import OfferCreator from '../OfferCreator';
+import moment from 'moment';
+import { MdEvent } from 'react-icons/md';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -79,6 +81,11 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
           icon={<KilometerIcon />}
           label={translations.cars.mileage}
           value={offer.car.mileage}
+        />
+        <AdSummaryItem
+          icon={<MdEvent />}
+          label={translations.general.offered}
+          value={moment(offer.createdAt).format('DD[/]MM[/]YY')}
         />
       </PriceMileageWrapper>
       <Row>
