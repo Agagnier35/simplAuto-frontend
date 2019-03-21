@@ -13,6 +13,7 @@ import Router from 'next/router';
 import OtherStyle from './otherstyle';
 import { Gender, Date as BirthDate } from '../../../generated/graphql';
 import SignupFormValidation from '../../../lib/FormValidator/SignupFormValidation';
+import { Dictionary } from '../../../lib/Types/Dictionary';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -31,7 +32,7 @@ interface SignupState {
   location: string;
   gender: Gender;
   birthDate: BirthDate;
-  touched: {
+  touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
     email: boolean;
@@ -39,7 +40,7 @@ interface SignupState {
     confirmPassword: boolean;
     location: boolean;
     birthDate: boolean;
-  };
+  }>;
 }
 
 const redText = {
@@ -129,11 +130,7 @@ class Signup extends Component<MultiProps, SignupState> {
             this.state.touched.birthDate &&
             !signupformValidation.isBirthDateValid(date)
           }
-          onBlur={() => {
-            const touched = { ...this.state.touched };
-            touched.birthDate = true;
-            this.setState({ touched });
-          }}
+          onBlur={() => this.fieldTouched('birthDate')}
           defaultValue={date}
           onChange={this.handleChangeDate}
         />
@@ -158,6 +155,12 @@ class Signup extends Component<MultiProps, SignupState> {
   getSignupPayload = () => {
     const { confirmPassword, ...userInfos } = this.state;
     return { data: userInfos };
+  };
+
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
   };
 
   render() {
@@ -193,11 +196,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="firstName"
                           value={this.state.firstName}
                           onChange={this.handleChange}
-                          onBlur={() => {
-                            const touched = { ...this.state.touched };
-                            touched.firstName = true;
-                            this.setState({ touched });
-                          }}
+                          onBlur={() => this.fieldTouched('firstName')}
                           isInvalid={
                             this.state.touched.firstName &&
                             !signupformValidation.isFirstNameValid(
@@ -224,11 +223,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="lastName"
                           value={this.state.lastName}
                           onChange={this.handleChange}
-                          onBlur={() => {
-                            const touched = { ...this.state.touched };
-                            touched.lastName = true;
-                            this.setState({ touched });
-                          }}
+                          onBlur={() => this.fieldTouched('lastName')}
                           isInvalid={
                             this.state.touched.lastName &&
                             !signupformValidation.isLastNameValid(
@@ -260,11 +255,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="email"
                           value={this.state.email}
                           onChange={this.handleChange}
-                          onBlur={() => {
-                            const touched = { ...this.state.touched };
-                            touched.email = true;
-                            this.setState({ touched });
-                          }}
+                          onBlur={() => this.fieldTouched('email')}
                           isInvalid={
                             this.state.touched.email &&
                             !signupformValidation.isEmailValid(this.state.email)
@@ -292,11 +283,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.password}
                           value={this.state.password}
                           onChange={this.handleChange}
-                          onBlur={() => {
-                            const touched = { ...this.state.touched };
-                            touched.password = true;
-                            this.setState({ touched });
-                          }}
+                          onBlur={() => this.fieldTouched('password')}
                           isInvalid={
                             this.state.touched.password &&
                             !signupformValidation.isPasswordValid(
@@ -326,11 +313,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.confirmPassword}
                           value={this.state.confirmPassword}
                           onChange={this.handleChange}
-                          onBlur={() => {
-                            const touched = { ...this.state.touched };
-                            touched.confirmPassword = true;
-                            this.setState({ touched });
-                          }}
+                          onBlur={() => this.fieldTouched('confirmPassword')}
                           isInvalid={
                             this.state.touched.confirmPassword &&
                             !signupformValidation.isConfirmPasswordValid(
@@ -380,11 +363,7 @@ class Signup extends Component<MultiProps, SignupState> {
                       <Form.Label>Location</Form.Label>
                       <OtherStyle>
                         <Geosuggest
-                          onBlur={() => {
-                            const touched = { ...this.state.touched };
-                            touched.location = true;
-                            this.setState({ touched });
-                          }}
+                          onBlur={() => this.fieldTouched('location')}
                           onChange={this.handleGeoLocChange}
                         />
                         <div
