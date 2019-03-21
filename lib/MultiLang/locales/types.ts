@@ -27,6 +27,11 @@ export default interface Translations {
     contactInfo: string;
     genrealInfo: string;
     newPWSection: string;
+    email: string;
+    inApp: string;
+    notificattionSettings: string;
+    notificationOffer: string;
+    notificationMessage: string;
   };
   general: {
     email: string;

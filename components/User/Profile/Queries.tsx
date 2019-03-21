@@ -14,6 +14,10 @@ export const GET_USER_INFO_QUERY = gql`
         year
       }
       gender
+      notificationEmailOffer
+      notificationEmailMessage
+      notificationInAppOffer
+      notificationInAppMessage
     }
   }
 `;

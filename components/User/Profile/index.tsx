@@ -4,7 +4,7 @@ import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, ToggleButton } from 'react-bootstrap';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import {
@@ -35,6 +35,10 @@ interface ProfileState {
   gender: string;
   newPassword: string;
   confirmation: string;
+  notificationEmailOffer: boolean;
+  notificationEmailMessage: boolean;
+  notificationInAppOffer: boolean;
+  notificationInAppMessage: boolean;
 }
 
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
@@ -47,6 +51,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
+    notificationEmailOffer: true,
+    notificationEmailMessage: true,
+    notificationInAppOffer: true,
+    notificationInAppMessage: true,
   };
 
   datePickerInput = (birthDate: SchemaDate) => {
@@ -159,6 +167,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       gender: '',
       password: '',
       confirmation: CLASSNAME_INIT_CONFIRMATION,
+      notificationEmailOffer: true,
+      notificationEmailMessage: true,
+      notificationInAppOffer: true,
+      notificationInAppMessage: true,
     } as any);
   };
 
@@ -269,6 +281,27 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   ];
                                 },
                               )}
+                            </div>
+                            <div>
+                              <hr />
+                              <h5>{profile.notificattionSettings}</h5>
+                              <p>{profile.inApp}: </p>
+                              <br />
+                              <p>{profile.changePassword}: </p>
+                              <input
+                                type="checkbox"
+                                checked
+                                data-toggle="toggle"
+                              />
+                              <p>{profile.changePassword}: </p>
+                              <ToggleButton value="on" />
+                              <br />
+                              <p>{profile.email}: </p>
+                              <br />
+                              <p>{profile.changePassword}: </p>
+                              <ToggleButton value="on" />
+                              <p>{profile.changePassword}: </p>
+                              <ToggleButton value="on" />
                             </div>
                             <div>
                               <hr />

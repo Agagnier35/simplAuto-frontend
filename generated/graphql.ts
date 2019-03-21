@@ -13,9 +13,9 @@ export interface UserSignupInput {
 
   location: string;
 
-  birthDate: DateInput;
+  birthDate?: Maybe<DateInput>;
 
-  gender: Gender;
+  gender?: Maybe<Gender>;
 
   permissions?: Maybe<Permission[]>;
 
@@ -24,6 +24,8 @@ export interface UserSignupInput {
   googleID?: Maybe<string>;
 
   clientType: ClientType;
+
+  language?: Maybe<UserLanguage>;
 }
 
 export interface DateInput {
@@ -56,6 +58,16 @@ export interface UserUpdateInput {
   permissions?: Maybe<Permission[]>;
 
   clientType?: Maybe<ClientType>;
+
+  language?: Maybe<UserLanguage>;
+
+  notificationEmailOffer?: Maybe<boolean>;
+
+  notificationEmailMessage?: Maybe<boolean>;
+
+  notificationInAppOffer?: Maybe<boolean>;
+
+  notificationInAppMessage?: Maybe<boolean>;
 }
 
 export interface CarCreateInput {
@@ -185,6 +197,11 @@ export enum OfferStatus {
   Deleted = 'DELETED',
 }
 
+export enum ConversationStatus {
+  Opened = 'OPENED',
+  Deleted = 'DELETED',
+}
+
 export enum AdStatus {
   Published = 'PUBLISHED',
   Accepted = 'ACCEPTED',
@@ -194,6 +211,11 @@ export enum AdStatus {
 export enum ClientType {
   Company = 'COMPANY',
   Individual = 'INDIVIDUAL',
+}
+
+export enum UserLanguage {
+  French = 'FRENCH',
+  English = 'ENGLISH',
 }
 
 export enum NotificationType {
@@ -218,6 +240,10 @@ export interface Query {
   ads?: Maybe<Ad[]>;
 
   ad?: Maybe<Ad>;
+
+  suggestions?: Maybe<(Maybe<OfferPosition>)[]>;
+
+  adSuggestion?: Maybe<(Maybe<AdPosition>)[]>;
 
   car?: Maybe<Car>;
 
@@ -275,6 +301,8 @@ export interface User {
 
   clientType: ClientType;
 
+  language?: Maybe<UserLanguage>;
+
   offers: Offer[];
 
   offerCount: number;
@@ -282,6 +310,14 @@ export interface User {
   notifications: Notification[];
 
   notificationCount: number;
+
+  notificationEmailOffer: boolean;
+
+  notificationEmailMessage: boolean;
+
+  notificationInAppOffer: boolean;
+
+  notificationInAppMessage: boolean;
 }
 
 export interface Date {
@@ -436,6 +472,8 @@ export interface Conversation {
   messages: Message[];
 
   messageCount: number;
+
+  status?: Maybe<ConversationStatus>;
 }
 
 export interface Message {
@@ -461,7 +499,25 @@ export interface Notification {
 
   count: number;
 
-  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OfferPosition {
+  offer?: Maybe<Offer>;
+
+  position?: Maybe<number>;
+
+  score?: Maybe<number>;
+}
+
+export interface AdPosition {
+  ad?: Maybe<Ad>;
+
+  position?: Maybe<number>;
+
+  score?: Maybe<number>;
+
+  total_length?: Maybe<number>;
 }
 
 export interface Mutation {
@@ -502,6 +558,8 @@ export interface Mutation {
   sendMessage: Message;
 
   deleteNotification?: Maybe<Notification>;
+
+  goPremium: User;
 }
 
 export interface Subscription {
@@ -519,6 +577,20 @@ export interface AdsQueryArgs {
 }
 export interface AdQueryArgs {
   id: string;
+}
+export interface SuggestionsQueryArgs {
+  id: string;
+
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
+}
+export interface AdSuggestionQueryArgs {
+  id: string;
+
+  pageNumber?: Maybe<number>;
+
+  pageSize?: Maybe<number>;
 }
 export interface CarQueryArgs {
   id: string;
@@ -606,6 +678,9 @@ export interface SendMessageMutationArgs {
 }
 export interface DeleteNotificationMutationArgs {
   id: string;
+}
+export interface GoPremiumMutationArgs {
+  stripeToken: string;
 }
 export interface MessageSubscriptionSubscriptionArgs {
   conversationID: string;
