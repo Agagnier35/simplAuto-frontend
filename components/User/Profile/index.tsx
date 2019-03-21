@@ -37,7 +37,7 @@ interface ProfileState {
   gender: string;
   newPassword: string;
   confirmation: string;
-  touched: {
+  touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
     email: boolean;
@@ -45,7 +45,7 @@ interface ProfileState {
     newPassword: boolean;
     confirmation: boolean;
     birthDate: boolean;
-  };
+  }>;
 }
 
 const redText = {
@@ -94,11 +94,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
             this.state.touched.birthDate &&
             !profileFormValidation.isBirthDateValid(date)
           }
-          onBlur={() => {
-            const touched = { ...this.state.touched };
-            touched.birthDate = true;
-            this.setState({ touched });
-          }}
+          onBlur={() => this.fieldTouched('birthDate')}
           defaultValue={date}
           onChange={this.handleChangeDate}
         />
@@ -222,6 +218,12 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     }
   };
 
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
+  };
+
   render() {
     const {
       translations: { profile, general },
@@ -267,11 +269,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   name="firstName"
                                   onChange={this.handleChange}
                                   defaultValue={this.state.firstName}
-                                  onBlur={() => {
-                                    const touched = { ...this.state.touched };
-                                    touched.firstName = true;
-                                    this.setState({ touched });
-                                  }}
+                                  onBlur={() => this.fieldTouched('firstName')}
                                   isInvalid={
                                     this.state.touched.firstName &&
                                     !profileFormValidation.isFirstNameValid(
@@ -298,11 +296,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   name="lastName"
                                   onChange={this.handleChange}
                                   defaultValue={this.state.lastName}
-                                  onBlur={() => {
-                                    const touched = { ...this.state.touched };
-                                    touched.lastName = true;
-                                    this.setState({ touched });
-                                  }}
+                                  onBlur={() => this.fieldTouched('lastName')}
                                   isInvalid={
                                     this.state.touched.lastName &&
                                     !profileFormValidation.isLastNameValid(
@@ -333,11 +327,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   name="email"
                                   defaultValue={this.state.email}
                                   onChange={this.handleChange}
-                                  onBlur={() => {
-                                    const touched = { ...this.state.touched };
-                                    touched.email = true;
-                                    this.setState({ touched });
-                                  }}
+                                  onBlur={() => this.fieldTouched('email')}
                                   isInvalid={
                                     this.state.touched.email &&
                                     !profileFormValidation.isEmailValid(
@@ -360,11 +350,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               <p>{profile.location}: </p>
                               <Geosuggest
                                 initialValue={this.state.location}
-                                onBlur={() => {
-                                  const touched = { ...this.state.touched };
-                                  touched.location = true;
-                                  this.setState({ touched });
-                                }}
+                                onBlur={() => this.fieldTouched('location')}
                                 onChange={this.handleChangeGeoLoc}
                                 onSuggestSelect={(suggest: any) =>
                                   this.handleChangeGeoLoc(suggest.label)
@@ -444,11 +430,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     placeholder={profile.changePassword}
                                     value={this.state.password}
                                     onChange={this.handleConfirmationPassword}
-                                    onBlur={() => {
-                                      const touched = { ...this.state.touched };
-                                      touched.newPassword = true;
-                                      this.setState({ touched });
-                                    }}
+                                    onBlur={() =>
+                                      this.fieldTouched('newPassword')
+                                    }
                                   />
                                 </InputGroup>
                               </Form.Group>
@@ -473,11 +457,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     }
                                     value={this.state.confirmPassword}
                                     onChange={this.handleConfirmationPassword}
-                                    onBlur={() => {
-                                      const touched = { ...this.state.touched };
-                                      touched.confirmation = true;
-                                      this.setState({ touched });
-                                    }}
+                                    onBlur={() =>
+                                      this.fieldTouched('confirmation')
+                                    }
                                     isInvalid={
                                       this.state.touched.confirmation &&
                                       !profileFormValidation.isConfirmPasswordValid(
