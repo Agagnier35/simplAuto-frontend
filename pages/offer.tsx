@@ -10,7 +10,6 @@ class OfferPage extends PrivateComponent {
 
     const offer = await checkOfferExists(ctx.apolloClient, ctx.query.id);
 
-    console.log(offer);
     if (!offer) {
       redirect(ctx, '/login');
     }
