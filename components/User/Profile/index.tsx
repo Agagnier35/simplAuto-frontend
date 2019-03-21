@@ -17,7 +17,6 @@ import {
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
 import ProfileFormValidation from '../../../lib/FormValidator/ProfileFormValidation';
-// import ProfileFormValidation from '../../General/FormValidator/ProfileFormValidation';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
