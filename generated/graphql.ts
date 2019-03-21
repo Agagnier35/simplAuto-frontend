@@ -24,8 +24,6 @@ export interface UserSignupInput {
   googleID?: Maybe<string>;
 
   clientType: ClientType;
-
-  language?: Maybe<UserLanguage>;
 }
 
 export interface DateInput {
@@ -58,8 +56,6 @@ export interface UserUpdateInput {
   permissions?: Maybe<Permission[]>;
 
   clientType?: Maybe<ClientType>;
-
-  language?: Maybe<UserLanguage>;
 }
 
 export interface CarCreateInput {
@@ -189,11 +185,6 @@ export enum OfferStatus {
   Deleted = 'DELETED',
 }
 
-export enum ConversationStatus {
-  Opened = 'OPENED',
-  Deleted = 'DELETED',
-}
-
 export enum AdStatus {
   Published = 'PUBLISHED',
   Accepted = 'ACCEPTED',
@@ -205,9 +196,10 @@ export enum ClientType {
   Individual = 'INDIVIDUAL',
 }
 
-export enum UserLanguage {
-  French = 'FRENCH',
-  English = 'ENGLISH',
+export enum NotificationType {
+  General = 'GENERAL',
+  OfferMessage = 'OFFER_MESSAGE',
+  NewOffer = 'NEW_OFFER',
 }
 
 export enum AdFeatureImportance {
@@ -283,7 +275,13 @@ export interface User {
 
   clientType: ClientType;
 
-  language?: Maybe<UserLanguage>;
+  offers: Offer[];
+
+  offerCount: number;
+
+  notifications: Notification[];
+
+  notificationCount: number;
 }
 
 export interface Date {
@@ -294,40 +292,36 @@ export interface Date {
   year: number;
 }
 
-export interface Ad {
+export interface Car {
   id: string;
 
-  creator?: Maybe<User>;
+  owner?: Maybe<User>;
 
-  offers: Offer[];
+  manufacturer: Manufacturer;
 
   offerCount: number;
 
   priceLowerBound?: Maybe<number>;
 
-  priceHigherBound?: Maybe<number>;
+  category: CarCategory;
 
-  manufacturer?: Maybe<Manufacturer>;
+  description?: Maybe<string>;
 
-  model?: Maybe<CarModel>;
+  year: number;
 
-  category?: Maybe<CarCategory>;
+  mileage: number;
 
-  mileageLowerBound?: Maybe<number>;
+  photos: string[];
 
-  mileageHigherBound?: Maybe<number>;
+  photoCount: number;
 
-  yearLowerBound?: Maybe<number>;
+  features: CarFeature[];
 
-  yearHigherBound?: Maybe<number>;
+  status: CarStatus;
 
-  features?: Maybe<CarFeature[]>;
+  offers?: Maybe<Offer[]>;
 
-  isUrgent: boolean;
-
-  isFirst: boolean;
-
-  status: AdStatus;
+  offerCount: number;
 }
 
 export interface Offer {
@@ -438,8 +432,6 @@ export interface Conversation {
   messages: Message[];
 
   messageCount: number;
-
-  status?: Maybe<ConversationStatus>;
 }
 
 export interface Message {
@@ -452,6 +444,20 @@ export interface Message {
   image?: Maybe<string>;
 
   conversation: Conversation;
+}
+
+export interface Notification {
+  id: string;
+
+  owner: User;
+
+  type: NotificationType;
+
+  objectID?: Maybe<string>;
+
+  count: number;
+
+  createdAt: string;
 }
 
 export interface Mutation {
@@ -490,6 +496,8 @@ export interface Mutation {
   createConversation: Conversation;
 
   sendMessage: Message;
+
+  deleteNotification?: Maybe<Notification>;
 }
 
 export interface Subscription {
@@ -591,6 +599,9 @@ export interface CreateConversationMutationArgs {
 }
 export interface SendMessageMutationArgs {
   data?: Maybe<SendMessageInput>;
+}
+export interface DeleteNotificationMutationArgs {
+  id: string;
 }
 export interface MessageSubscriptionSubscriptionArgs {
   conversationID: string;

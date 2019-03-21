@@ -15,7 +15,9 @@ interface ChatSectionProps extends MultiProps {
 
 const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
+  const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
+
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
     variables: {
       data: {
@@ -24,21 +26,27 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
         image: currentImage,
       },
     },
-    update: handleUpdateMessageCache,
   });
   let upload: Maybe<HTMLInputElement>;
 
-  const { data, loading, error } = useSubscription(MESSAGE_SUBSCRIPTION, {
+  useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
       conversationID: offer.conversation && offer.conversation.id,
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
-      console.log(client);
-      console.log(subscriptionData);
-      // Optional callback which provides you access to the new subscription
-      // data and the Apollo client. You can use methods of the client to update
-      // the Apollo cache:
-      // https://www.apollographql.com/docs/react/advanced/caching.html#direct
+      const offerQuery = {
+        query: OFFER_BY_ID,
+        variables: { id: offer.id },
+      };
+      const message = subscriptionData.data.messageSubscription;
+      const data = client.cache.readQuery(offerQuery) as any; // sketch
+
+      if (data) {
+        data.offer.conversation.messages.push(message);
+      }
+
+      client.cache.writeQuery({ ...offerQuery, data });
+      forceRefresh(refreshCount + 1);
     },
   });
 
@@ -101,7 +109,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [offer]);
+  }, [offer.conversation && offer.conversation.messages.length]);
 
   return (
     <Chat.Card>

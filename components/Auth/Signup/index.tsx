@@ -3,6 +3,7 @@ import { multiUpdater, MultiProps } from '../../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import StyledSignup from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
+import Select from '../../General/Select';
 import gql from 'graphql-tag';
 import ErrorMessage from '../../General/ErrorMessage';
 import Geosuggest from 'react-geosuggest';
@@ -14,7 +15,6 @@ import OtherStyle from './otherstyle';
 import {
   Gender,
   Date as BirthDate,
-  UserLanguage,
   ClientType,
   UserSignupInput,
 } from '../../../generated/graphql';
@@ -39,8 +39,6 @@ interface SignupState {
   gender: Gender;
   birthDate: BirthDate;
   clientType: ClientType;
-  language: UserLanguage;
-  locale: string;
 }
 
 class Signup extends Component<MultiProps, SignupState> {
@@ -59,8 +57,6 @@ class Signup extends Component<MultiProps, SignupState> {
       year: 1900,
     },
     clientType: ClientType.Individual,
-    language: UserLanguage.English,
-    locale: '',
   };
 
   isBirthDateValid = () => {
@@ -75,8 +71,8 @@ class Signup extends Component<MultiProps, SignupState> {
 
   isStateSignupValid = () => {
     return (
-      this.state.firstName !== '' &&
-      this.state.lastName !== '' &&
+      ((this.state.firstName !== '' && this.state.lastName !== '') ||
+        this.state.companyName !== '') &&
       this.state.email !== '' &&
       this.state.location !== '' &&
       this.state.password === this.state.confirmPassword &&
@@ -92,16 +88,20 @@ class Signup extends Component<MultiProps, SignupState> {
       : this.setState({
           firstName: '',
           lastName: '',
+          companyName: '',
           email: '',
           password: '',
           confirmPassword: '',
+          clientType: ClientType.Individual,
         });
     this.setState({
       firstName: '',
       lastName: '',
+      companyName: '',
       email: '',
       password: '',
       confirmPassword: '',
+      clientType: ClientType.Individual,
     });
     this.props.changeLocale(this.state.locale);
     Router.push('/');
@@ -119,7 +119,7 @@ class Signup extends Component<MultiProps, SignupState> {
   };
 
   handleGeoLocChange = (e: string) => {
-    this.state.location = e;
+    this.setState({ location: e });
   };
 
   datePickerInput = () => {
@@ -172,14 +172,9 @@ class Signup extends Component<MultiProps, SignupState> {
         year: 1900,
       },
       clientType: ClientType.Individual,
-      language: UserLanguage.English,
     };
     Object.keys(this.state).map(item => {
-      if (
-        item !== 'confirmPassword' &&
-        item !== 'locale' &&
-        this.state[item] !== ''
-      ) {
+      if (item !== 'confirmPassword' && this.state[item] !== '') {
         myData[item] = this.state[item];
       } else if (this.state[item] === '') {
         delete myData[item];
@@ -188,6 +183,8 @@ class Signup extends Component<MultiProps, SignupState> {
         delete myData[item];
       }
     });
+    delete myData['confirmPassword'];
+    console.log(myData);
     return { data: myData };
   };
 
@@ -202,7 +199,7 @@ class Signup extends Component<MultiProps, SignupState> {
 
   render() {
     const {
-      translations: { signup, general },
+      translations: { signup, general, clientType },
     } = this.props;
     return (
       <Mutation
@@ -220,38 +217,77 @@ class Signup extends Component<MultiProps, SignupState> {
                   onSubmit={(e: any) => this.handleSignup(e, handleMutation)}
                 >
                   <fieldset disabled={loading} aria-busy={loading}>
-                    <Form.Group>
-                      <Form.Label>{general.firstName}</Form.Label>
-                      <InputGroup>
-                        <Form.Control
-                          placeholder={general.firstName}
-                          aria-describedby="inputGroupPrepend"
-                          required
-                          type="firstName"
-                          name="firstName"
-                          value={this.state.firstName}
-                          onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {general.firstName}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
+                    <Select
+                      options={[
+                        { name: clientType.company, value: ClientType.Company },
+                        {
+                          name: clientType.individual,
+                          value: ClientType.Individual,
+                        },
+                      ]}
+                      accessor="name"
+                      handleChange={(item: any) =>
+                        this.handleChangeSelect(item.value)
+                      }
+                      label={`${signup.clientType} :`}
+                      selected={{
+                        name: clientType.individual,
+                        value: ClientType.Individual,
+                      }}
+                    />
+                    <div
+                      hidden={this.state.clientType != ClientType.Individual}
+                    >
+                      <Form.Group>
+                        <Form.Label>{general.firstName}</Form.Label>
+                        <InputGroup>
+                          <Form.Control
+                            placeholder={general.firstName}
+                            aria-describedby="inputGroupPrepend"
+                            type="firstName"
+                            name="firstName"
+                            value={this.state.firstName}
+                            onChange={this.handleChange}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {general.firstName}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
 
-                    <Form.Group>
-                      <Form.Label>{general.lastName}</Form.Label>
+                      <Form.Group>
+                        <Form.Label>{general.lastName}</Form.Label>
+                        <InputGroup>
+                          <Form.Control
+                            placeholder={general.lastName}
+                            aria-describedby="inputGroupPrepend"
+                            type="lastName"
+                            name="lastName"
+                            value={this.state.lastName}
+                            onChange={this.handleChange}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {general.lastName}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <Form.Group
+                      hidden={this.state.clientType != ClientType.Company}
+                    >
+                      <Form.Label>{general.companyName}</Form.Label>
                       <InputGroup>
                         <Form.Control
-                          placeholder={general.lastName}
+                          placeholder={general.companyName}
                           aria-describedby="inputGroupPrepend"
-                          required
-                          type="lastName"
-                          name="lastName"
-                          value={this.state.lastName}
+                          type="companyName"
+                          name="companyName"
+                          value={this.state.companyName}
                           onChange={this.handleChange}
                         />
                         <Form.Control.Feedback type="invalid">
-                          {general.lastName}
+                          {general.companyName}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -325,61 +361,52 @@ class Signup extends Component<MultiProps, SignupState> {
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
-
-                    <Form.Group>
-                      <Form.Label>{general.gender}</Form.Label>
-                    </Form.Group>
-                    <label htmlFor="gender">
-                      <input
-                        type="radio"
-                        name="gender"
-                        onChange={this.handleChange}
-                        value={Gender.Male}
-                      />
-                      {Gender.Male}
-                      <input
-                        type="radio"
-                        name="gender"
-                        onChange={this.handleChange}
-                        value={Gender.Female}
-                      />
-                      {Gender.Female}
-                      <input
-                        type="radio"
-                        name="gender"
-                        onChange={this.handleChange}
-                        value={Gender.Other}
-                      />
-                      {Gender.Other}
-                    </label>
-                    <Form.Group>
-                      <Form.Label>{general.langage}</Form.Label>
-                    </Form.Group>
-                    <label htmlFor="language">
-                      {general.langages.french}
-                      <input
-                        type="radio"
-                        name="language"
-                        onChange={this.handleChange}
-                        value={UserLanguage.French}
-                      />{' '}
-                      {general.langages.english}
-                      <input
-                        type="radio"
-                        name="language"
-                        onChange={this.handleChange}
-                        value={UserLanguage.English}
-                      />
-                    </label>
+                    <div
+                      hidden={this.state.clientType != ClientType.Individual}
+                    >
+                      <Form.Group>
+                        <Form.Label>{general.gender}</Form.Label>
+                      </Form.Group>
+                      <label htmlFor="gender">
+                        <input
+                          type="radio"
+                          name="gender"
+                          onChange={this.handleChange}
+                          value={Gender.Male}
+                        />
+                        {Gender.Male}
+                        <input
+                          type="radio"
+                          name="gender"
+                          onChange={this.handleChange}
+                          value={Gender.Female}
+                        />
+                        {Gender.Female}
+                        <input
+                          type="radio"
+                          name="gender"
+                          onChange={this.handleChange}
+                          value={Gender.Other}
+                        />
+                        {Gender.Other}
+                      </label>
+                    </div>
 
                     <Form.Group>
                       <Form.Label>Location</Form.Label>
                       <OtherStyle>
-                        <Geosuggest onChange={this.handleGeoLocChange} />
+                        <Geosuggest
+                          onChange={this.handleGeoLocChange}
+                          onSuggestSelect={(suggest: any) =>
+                            this.handleGeoLocChange(suggest.label)
+                          }
+                        />
                       </OtherStyle>
                     </Form.Group>
 
-                    <Form.Group>
+                    <Form.Group
+                      hidden={this.state.clientType != ClientType.Individual}
+                    >
                       <Form.Label>Birth date</Form.Label>
                       <InputGroup>{this.datePickerInput()}</InputGroup>
                     </Form.Group>

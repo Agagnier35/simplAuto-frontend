@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
-export const ALL_MY_ADS_QUERY = gql`
-  {
+export const PAGE_ADS_QUERY = gql`
+  query PAGE_ADS_QUERY($pageNumber: Int, $pageSize: Int) {
     me {
       id
-      ads {
+      adCount
+      ads(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
         creator {
           id
