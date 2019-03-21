@@ -8,6 +8,9 @@ export const OFFER_BY_ID = gql`
       price
       ad {
         id
+        creator {
+          id
+        }
       }
       creator {
         createdAt

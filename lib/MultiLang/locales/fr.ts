@@ -205,7 +205,7 @@ const translations: Translations = {
     PremiumDescription: 'Abonnement mensuel',
   },
   offerAddons: {
-    subtitle: 'Le vendeur vous offre aussi',
+    subtitle: 'Le vendeur offre aussi',
     mags: 'Jantes',
     tires: 'Pneus',
   },

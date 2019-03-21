@@ -74,6 +74,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   if (error) return <ErrorMessage error={error} />;
 
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
+  const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
 
   return (
     <div>
@@ -98,7 +99,10 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
           <Link href={{ pathname: '/myAds' }} passHref>
             <Breadcrumb.Item>Acheter</Breadcrumb.Item>
           </Link>
-          <Link href={{ pathname: '/ad', query: { id: offer.ad.id } }} passHref>
+          <Link
+            href={{ pathname: '/adDetail', query: { id: offer.ad.id } }}
+            passHref
+          >
             <Breadcrumb.Item>Annonce</Breadcrumb.Item>
           </Link>
           <Breadcrumb.Item active>Offre</Breadcrumb.Item>
@@ -133,31 +137,35 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
         </Col>
         <Col md={12} lg={4}>
           <div className="noPrint">
-            <OfferCreator
-              offer={offer}
-              button={
-                !offer.conversation && (
-                  <CreateConversation
-                    onClick={() => handleCreateConversation()}
-                    variant="primary"
-                  >
-                    <MessageIcon />
-                    {translations.offers.chat}
-                  </CreateConversation>
-                )
-              }
-            />
-            <OfferButtons>
-              <Button variant="warning">
-                <RejectIcon />
-                {translations.offers.reject}
-              </Button>
-              <Button variant="primary" onClick={handlePrint}>
-                <PrintIcon />
-                {translations.general.print}
-              </Button>
-            </OfferButtons>
-            {offer.conversation && <Chat offer={offer} />}
+            {(isMyOffer || isMyAd) && (
+              <>
+                <OfferCreator
+                  offer={offer}
+                  button={
+                    !offer.conversation && (
+                      <CreateConversation
+                        onClick={() => handleCreateConversation()}
+                        variant="primary"
+                      >
+                        <MessageIcon />
+                        {translations.offers.chat}
+                      </CreateConversation>
+                    )
+                  }
+                />
+                <OfferButtons>
+                  <Button variant="warning">
+                    <RejectIcon />
+                    {translations.offers.reject}
+                  </Button>
+                  <Button variant="primary" onClick={handlePrint}>
+                    <PrintIcon />
+                    {translations.general.print}
+                  </Button>
+                </OfferButtons>
+                {offer.conversation && <Chat offer={offer} />}
+              </>
+            )}
             <OfferAddons offer={offer} />
           </div>
         </Col>

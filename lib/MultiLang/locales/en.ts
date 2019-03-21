@@ -202,7 +202,7 @@ const translations: Translations = {
     PremiumDescription: 'Monthly membership',
   },
   offerAddons: {
-    subtitle: 'The seller offers you also',
+    subtitle: 'The seller offers also',
     mags: 'Mags',
     tires: 'tires',
   },
