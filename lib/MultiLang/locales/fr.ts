@@ -98,22 +98,22 @@ const translations: Translations = {
       },
       createAdFormFieldsErrors: {
         yearLowerBound: {
-          yearLowerBoundTooLow: 'Année min trop basse',
+          yearLowerBoundTooLow: "L'année minimale trop basse",
           yearLowerBoundTooHigh:
-            "Année min ne peut être plus grande que l'année courante.",
-          emptyError: 'Année min ne peut être vide',
+            "L'année minimale ne peut être plus grande que l'année courante.",
+          emptyError: "L'année minimale ne peut être vide",
           numberNotIntegerError:
-            'Année min doit être un entier (chiffre sans virgule)',
+            "L'année minimale doit être un entier (chiffre sans virgule)",
         },
         yearHigherBound: {
-          yearHigherBoundTooLow: 'Année max trop basse',
+          yearHigherBoundTooLow: "L'année maximale trop basse",
           yearHigherBoundTooHigh:
-            "Année max ne peut être plus grande que l'année courante.",
-          emptyError: 'Année max ne peut être vide',
+            "L'année maximale ne peut être plus grande que l'année courante.",
+          emptyError: "L'année maximale ne peut être vide",
           numberNotIntegerError:
-            'Année max doit être un entier (chiffre sans virgule)',
+            "L'année maximale doit être un entier (chiffre sans virgule)",
           yearLowerBoundHigherThanYearHigherBoundError:
-            'Année max doit être supérieur à année min',
+            "L'année maximale doit être supérieur à l'année minimale",
         },
         mileageLowerBound: {
           mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
@@ -147,11 +147,11 @@ const translations: Translations = {
       },
       cadAddFormFieldsErrors: {
         year: {
-          emptyError: 'Année ne peut être vide',
+          emptyError: "L'année ne peut être vide",
           numberNotIntegerError:
-            'Année doit être un entier (chiffre sans virgule)',
-          yearTooLowError: 'Année trop petite',
-          yearTooHighError: "Année ne peut dépasser l'année courante",
+            "L'année doit être un entier (chiffre sans virgule)",
+          yearTooLowError: "L'année est trop petite",
+          yearTooHighError: "L'année ne peut dépasser l'année courante",
         },
         mileage: {
           emptyError: 'Kilométrage ne peut être vide',
