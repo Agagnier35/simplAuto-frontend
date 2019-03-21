@@ -12,7 +12,7 @@ import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
 import { Gender, Date as BirthDate } from '../../../generated/graphql';
-import SignupFormValidation from '../../General/FormValidator/SignupFormValidation';
+import SignupFormValidation from '../../../lib/FormValidator/SignupFormValidation';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {

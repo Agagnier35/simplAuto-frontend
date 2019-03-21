@@ -10,8 +10,8 @@ import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
-import CarAddFormValidation from '../../General/FormValidator/CarAddFormValidation';
-import { MINCARYEAR } from '../../General/FormValidator/CreateAdFormValidation';
+import CarAddFormValidation from '../../../lib/FormValidator/CarAddFormValidation';
+import { MINCARYEAR } from '../../../lib/FormValidator/CreateAdFormValidation';
 
 interface CarAddState {
   features: any[];

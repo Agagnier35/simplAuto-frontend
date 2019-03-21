@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import Translations from '../../../lib/MultiLang/locales/types';
-import StyledCarDetails, {
-  BigImage,
-  Images,
-  SmallImages,
-  SmallImage,
-} from './styles';
+import { BigImage, Images, SmallImages, SmallImage } from './styles';
 import { multi } from '../../../lib/MultiLang';
-import { Carousel, Button, Card, Col, Row } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Car, CarFeature } from '../../../generated/graphql';
 import GeneralModal from '../../General/GeneralModal';
 import gql from 'graphql-tag';
