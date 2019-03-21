@@ -126,6 +126,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     return [];
   };
 
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
+  };
+
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
@@ -221,11 +227,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.min}`}
                               min={MINCARYEAR}
                               max={new Date().getFullYear()}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.yearLowerBound = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() => this.fieldTouched('yearLowerBound')}
                               isInvalid={
                                 this.state.touched.yearLowerBound &&
                                 !createAdFormValidation.isYearLowerBoundValid(
@@ -255,11 +257,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.max}`}
                               min={MINCARYEAR}
                               max={new Date().getFullYear()}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.yearHigherBound = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() =>
+                                this.fieldTouched('yearHigherBound')
+                              }
                               isInvalid={
                                 this.state.touched.yearHigherBound &&
                                 !createAdFormValidation.isYearHigherBoundValid(
@@ -290,11 +290,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.mileage} ${general.min}`}
                               min={0}
                               max={300000}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.mileageLowerBound = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() =>
+                                this.fieldTouched('mileageLowerBound')
+                              }
                               isInvalid={
                                 this.state.touched.mileageLowerBound &&
                                 !createAdFormValidation.isMileageLowerBoundValid(
@@ -323,11 +321,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.mileage} ${general.max}`}
                               min={0}
                               max={300000}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.mileageHigherBound = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() =>
+                                this.fieldTouched('mileageHigherBound')
+                              }
                               isInvalid={
                                 this.state.touched.mileageHigherBound &&
                                 !createAdFormValidation.isMileageHigherBoundValid(
@@ -357,11 +353,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
                               min={0}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.priceLowerBound = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() =>
+                                this.fieldTouched('priceLowerBound')
+                              }
                               isInvalid={
                                 this.state.touched.priceLowerBound &&
                                 !createAdFormValidation.isPriceLowerBoundValid(
@@ -389,11 +383,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}
                               min={0}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.priceHigherBound = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() =>
+                                this.fieldTouched('priceHigherBound')
+                              }
                               isInvalid={
                                 this.state.touched.priceHigherBound &&
                                 !createAdFormValidation.isPriceHigherBoundValid(
