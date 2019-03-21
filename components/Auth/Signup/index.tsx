@@ -167,7 +167,7 @@ class Signup extends Component<MultiProps, SignupState> {
     const {
       translations: { signup, general },
     } = this.props;
-
+    const touched = { ...this.state.touched };
     const signupformValidation = new SignupFormValidation(general);
     return (
       <Mutation
@@ -198,7 +198,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           onChange={this.handleChange}
                           onBlur={() => this.fieldTouched('firstName')}
                           isInvalid={
-                            this.state.touched.firstName &&
+                            touched.firstName &&
                             !signupformValidation.isFirstNameValid(
                               this.state.firstName,
                             )
@@ -225,7 +225,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           onChange={this.handleChange}
                           onBlur={() => this.fieldTouched('lastName')}
                           isInvalid={
-                            this.state.touched.lastName &&
+                            touched.lastName &&
                             !signupformValidation.isLastNameValid(
                               this.state.lastName,
                             )
@@ -257,7 +257,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           onChange={this.handleChange}
                           onBlur={() => this.fieldTouched('email')}
                           isInvalid={
-                            this.state.touched.email &&
+                            touched.email &&
                             !signupformValidation.isEmailValid(this.state.email)
                           }
                         />
@@ -285,7 +285,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           onChange={this.handleChange}
                           onBlur={() => this.fieldTouched('password')}
                           isInvalid={
-                            this.state.touched.password &&
+                            touched.password &&
                             !signupformValidation.isPasswordValid(
                               this.state.password,
                             )
@@ -315,7 +315,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           onChange={this.handleChange}
                           onBlur={() => this.fieldTouched('confirmPassword')}
                           isInvalid={
-                            this.state.touched.confirmPassword &&
+                            touched.confirmPassword &&
                             !signupformValidation.isConfirmPasswordValid(
                               this.state.confirmPassword,
                               this.state.password,
@@ -370,7 +370,7 @@ class Signup extends Component<MultiProps, SignupState> {
                           style={redText}
                           hidden={
                             !(
-                              this.state.touched.location &&
+                              touched.location &&
                               !signupformValidation.isLocationValid(
                                 this.state.location,
                               )

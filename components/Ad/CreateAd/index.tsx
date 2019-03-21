@@ -139,6 +139,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
+    const touched = { ...this.state.touched };
     const createAdFormValidation = new CreateAdFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
@@ -229,7 +230,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               max={new Date().getFullYear()}
                               onBlur={() => this.fieldTouched('yearLowerBound')}
                               isInvalid={
-                                this.state.touched.yearLowerBound &&
+                                touched.yearLowerBound &&
                                 !createAdFormValidation.isYearLowerBoundValid(
                                   this.state.yearLowerBound,
                                 )
@@ -261,7 +262,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 this.fieldTouched('yearHigherBound')
                               }
                               isInvalid={
-                                this.state.touched.yearHigherBound &&
+                                touched.yearHigherBound &&
                                 !createAdFormValidation.isYearHigherBoundValid(
                                   this.state.yearLowerBound,
                                   this.state.yearHigherBound,
@@ -294,7 +295,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 this.fieldTouched('mileageLowerBound')
                               }
                               isInvalid={
-                                this.state.touched.mileageLowerBound &&
+                                touched.mileageLowerBound &&
                                 !createAdFormValidation.isMileageLowerBoundValid(
                                   this.state.mileageLowerBound,
                                 )
@@ -325,7 +326,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 this.fieldTouched('mileageHigherBound')
                               }
                               isInvalid={
-                                this.state.touched.mileageHigherBound &&
+                                touched.mileageHigherBound &&
                                 !createAdFormValidation.isMileageHigherBoundValid(
                                   this.state.mileageLowerBound,
                                   this.state.mileageHigherBound,
@@ -357,7 +358,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 this.fieldTouched('priceLowerBound')
                               }
                               isInvalid={
-                                this.state.touched.priceLowerBound &&
+                                touched.priceLowerBound &&
                                 !createAdFormValidation.isPriceLowerBoundValid(
                                   this.state.priceLowerBound,
                                 )
@@ -387,7 +388,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 this.fieldTouched('priceHigherBound')
                               }
                               isInvalid={
-                                this.state.touched.priceHigherBound &&
+                                touched.priceHigherBound &&
                                 !createAdFormValidation.isPriceHigherBoundValid(
                                   this.state.priceLowerBound,
                                   this.state.priceHigherBound,

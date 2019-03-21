@@ -229,6 +229,8 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       translations: { profile, general },
     } = this.props;
 
+    const touched = { ...this.state.touched };
+
     const profileFormValidation = new ProfileFormValidation(general);
     return (
       <>
@@ -271,7 +273,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   defaultValue={this.state.firstName}
                                   onBlur={() => this.fieldTouched('firstName')}
                                   isInvalid={
-                                    this.state.touched.firstName &&
+                                    touched.firstName &&
                                     !profileFormValidation.isFirstNameValid(
                                       this.state.firstName,
                                     )
@@ -298,7 +300,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   defaultValue={this.state.lastName}
                                   onBlur={() => this.fieldTouched('lastName')}
                                   isInvalid={
-                                    this.state.touched.lastName &&
+                                    touched.lastName &&
                                     !profileFormValidation.isLastNameValid(
                                       this.state.lastName,
                                     )
@@ -329,7 +331,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   onChange={this.handleChange}
                                   onBlur={() => this.fieldTouched('email')}
                                   isInvalid={
-                                    this.state.touched.email &&
+                                    touched.email &&
                                     !profileFormValidation.isEmailValid(
                                       this.state.email,
                                     )
@@ -363,7 +365,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 style={redText}
                                 hidden={
                                   !(
-                                    this.state.touched.location &&
+                                    touched.location &&
                                     !profileFormValidation.isLocationValid(
                                       this.state.location,
                                     )
@@ -461,7 +463,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       this.fieldTouched('confirmation')
                                     }
                                     isInvalid={
-                                      this.state.touched.confirmation &&
+                                      touched.confirmation &&
                                       !profileFormValidation.isConfirmPasswordValid(
                                         this.state.confirmPassword,
                                         this.state.password,

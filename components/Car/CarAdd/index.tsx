@@ -230,6 +230,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
 
+    const touched = { ...this.state.touched };
     const carAddFormValidation = new CarAddFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
@@ -325,7 +326,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               onChange={this.handleInputChange}
                               onBlur={() => this.fieldTouched('year')}
                               isInvalid={
-                                this.state.touched.year &&
+                                touched.year &&
                                 !carAddFormValidation.isYearValid(
                                   this.state.year,
                                 )
@@ -352,7 +353,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               onChange={this.handleInputChange}
                               onBlur={() => this.fieldTouched('mileage')}
                               isInvalid={
-                                this.state.touched.mileage &&
+                                touched.mileage &&
                                 !carAddFormValidation.isMileageValid(
                                   this.state.mileage,
                                 )
