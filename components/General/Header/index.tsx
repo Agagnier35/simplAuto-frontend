@@ -18,6 +18,7 @@ export const LOGGED_IN_QUERY = gql`
       firstName
       lastName
       companyName
+      clientType
       email
       notifications {
         id
@@ -49,8 +50,8 @@ Router.onRouteChangeError = () => {
 };
 
 const handleLogout = async (logout: () => void) => {
-  await logout();
   Router.push('/');
+  await logout();
 };
 
 const Header: React.SFC<MultiProps> = ({
@@ -79,6 +80,9 @@ const Header: React.SFC<MultiProps> = ({
                       </Link>
                       <Link href="/cars" passHref prefetch>
                         <Nav.Item as="a">{general.sell}</Nav.Item>
+                      </Link>
+                      <Link href="/premium" passHref prefetch>
+                        <Nav.Item as="a">Premium</Nav.Item>
                       </Link>
                       <Link href="/profile" passHref>
                         <a className="firstName">
