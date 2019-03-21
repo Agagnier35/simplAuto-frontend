@@ -12,6 +12,7 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import CarAddFormValidation from '../../../lib/FormValidator/CarAddFormValidation';
 import { MINCARYEAR } from '../../../lib/FormValidator/CreateAdFormValidation';
+import { Dictionary } from '../../../lib/Types/Dictionary';
 
 interface CarAddState {
   features: any[];
@@ -24,13 +25,13 @@ interface CarAddState {
   mileage: number;
   photos: any;
   featuresIDs?: Maybe<string[]>;
-  touched: {
+  touched: Dictionary<{
     manufacturerID: boolean;
     modelID: boolean;
     categoryID: boolean;
     year: boolean;
     mileage: boolean;
-  };
+  }>;
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -215,6 +216,12 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     return [];
   };
 
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
+  };
+
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory },
@@ -316,11 +323,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.year = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() => this.fieldTouched('year')}
                               isInvalid={
                                 this.state.touched.year &&
                                 !carAddFormValidation.isYearValid(
@@ -347,11 +350,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               max={300000}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
-                              onBlur={() => {
-                                const touched = { ...this.state.touched };
-                                touched.mileage = true;
-                                this.setState({ touched });
-                              }}
+                              onBlur={() => this.fieldTouched('mileage')}
                               isInvalid={
                                 this.state.touched.mileage &&
                                 !carAddFormValidation.isMileageValid(
