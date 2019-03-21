@@ -93,6 +93,7 @@ export default interface Translations {
     mileage: string;
     price: string;
     descriptionPlaceholder: string;
+    noCars: string;
   };
   clientType: {
     company: string;

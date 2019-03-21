@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   opacity: 0.8;
   background-position: top;
   background-size: cover;
-  height: 400px;
+  height: 430px;
   position: absolute;
   left: 0;
   top: 72px;

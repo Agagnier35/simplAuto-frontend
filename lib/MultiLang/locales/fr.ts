@@ -93,6 +93,7 @@ const translations: Translations = {
     mileage: 'Kilométrage',
     price: 'Prix',
     descriptionPlaceholder: 'Entrez une courte description de la voiture',
+    noCars: `Vous n'avez pas de véhicule`,
   },
   clientType: {
     company: 'Compagnie',

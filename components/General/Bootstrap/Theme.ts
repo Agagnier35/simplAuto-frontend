@@ -167,6 +167,8 @@ export const globalStyles = `
     .dropdown-menu {
       border: none;
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.07);
+      max-height: 315px;
+      overflow: scroll;
     }
   }
 

@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useQuery } from 'react-apollo-hooks';
 import { PAGE_CARS_QUERY } from './Queries';
 import Paging from '../../General/Paging';
+import VehiclesSVG from '../../Svg/VehiclesSVG';
+import { NoCar } from './styles';
 
 const Cars = ({ translations }: MultiProps) => {
   const CARS_NB_BY_PAGE = 5;
@@ -30,13 +32,23 @@ const Cars = ({ translations }: MultiProps) => {
           </Button>
         </a>
       </Link>
-      <CarList cars={data.me.cars} />
-      <Paging
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        maxItems={data.me.carCount}
-        itemsByPage={CARS_NB_BY_PAGE}
-      />
+
+      {data.me.carCount > 0 ? (
+        <>
+          <CarList cars={data.me.cars} />
+          <Paging
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            maxItems={data.me.carCount}
+            itemsByPage={CARS_NB_BY_PAGE}
+          />
+        </>
+      ) : (
+        <NoCar>
+          <h3>{translations.cars.noCars}</h3>
+          <VehiclesSVG />
+        </NoCar>
+      )}
     </div>
   );
 };
