@@ -19,8 +19,12 @@ const StyledNav = styled.div`
 
   .navbar-nav {
     align-items: center;
-    width: 100%;
+    flex-grow: 1;
     margin-right: 1rem !important;
+
+    @media (max-width: 767px) {
+      margin-right: auto !important;
+    }
   }
 
   .navbar-brand {

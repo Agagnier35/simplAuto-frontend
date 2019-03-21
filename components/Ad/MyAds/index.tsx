@@ -10,6 +10,8 @@ import { PAGE_ADS_QUERY } from './Queries';
 import { AdSummaries } from '../Ads/styles';
 import { useQuery } from 'react-apollo-hooks';
 import Paging from '../../General/Paging';
+import { Empty } from '../../Car/Cars/styles';
+import BuyerSellerSVG from '../../Svg/BuyerSellerSVG';
 
 const MyAds = ({ translations }: MultiProps) => {
   const ADS_NB_BY_PAGE = 5;
@@ -30,19 +32,28 @@ const MyAds = ({ translations }: MultiProps) => {
         </Button>
       </Link>
 
-      <Card>
-        <AdSummaries>
-          {data.me.ads.map((ad: Ad) => (
-            <AdSummary adsQuery={PAGE_ADS_QUERY} key={ad.id} ad={ad} />
-          ))}
-        </AdSummaries>
-      </Card>
-      <Paging
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        maxItems={data.me.adCount}
-        itemsByPage={ADS_NB_BY_PAGE}
-      />
+      {data.me.adCount > 0 ? (
+        <>
+          <Card>
+            <AdSummaries>
+              {data.me.ads.map((ad: Ad) => (
+                <AdSummary adsQuery={PAGE_ADS_QUERY} key={ad.id} ad={ad} />
+              ))}
+            </AdSummaries>
+          </Card>
+          <Paging
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            maxItems={data.me.adCount}
+            itemsByPage={ADS_NB_BY_PAGE}
+          />
+        </>
+      ) : (
+        <Empty>
+          <h3>{translations.cars.noCars}</h3>
+          <BuyerSellerSVG />
+        </Empty>
+      )}
     </>
   );
 };

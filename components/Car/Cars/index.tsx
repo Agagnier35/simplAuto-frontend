@@ -9,7 +9,7 @@ import { useQuery } from 'react-apollo-hooks';
 import { PAGE_CARS_QUERY } from './Queries';
 import Paging from '../../General/Paging';
 import VehiclesSVG from '../../Svg/VehiclesSVG';
-import { NoCar } from './styles';
+import { Empty } from './styles';
 
 const Cars = ({ translations }: MultiProps) => {
   const CARS_NB_BY_PAGE = 5;
@@ -44,10 +44,10 @@ const Cars = ({ translations }: MultiProps) => {
           />
         </>
       ) : (
-        <NoCar>
+        <Empty>
           <h3>{translations.cars.noCars}</h3>
           <VehiclesSVG />
-        </NoCar>
+        </Empty>
       )}
     </div>
   );

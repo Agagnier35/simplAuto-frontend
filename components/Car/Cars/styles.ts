@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const NoCar = styled.div`
+export const Empty = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

@@ -121,11 +121,6 @@ const Header: React.SFC<MultiProps> = ({
                       <a>{signup.title}</a>
                     </Link>
                   </p>
-                  <Link href="/premium">
-                    <a>
-                      <Button variant="primary">{general.becomePremium}</Button>
-                    </a>
-                  </Link>
                 </>
               );
             }}
