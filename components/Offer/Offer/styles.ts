@@ -35,5 +35,5 @@ export const OfferButtons = styled(ButtonToolbar)`
 
 export const CreateConversation = styled(Button)`
   width: 100%;
-  border-radius: 0 00.25rem 0.25rem;
+  border-radius: 0 0 0.25rem 0.25rem;
 `;

@@ -31,6 +31,7 @@ import OfferAddons from '../OfferAddons';
 import OfferCreator from '../OfferCreator';
 import moment from 'moment';
 import { MdEvent } from 'react-icons/md';
+import Link from 'next/link';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -41,6 +42,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   const { data, error, loading } = useQuery(OFFER_BY_ID, {
     variables: { id: query.id },
   });
+
+  const meQuery = useQuery(LOGGED_IN_QUERY);
 
   const offer = data.offer as Offer;
 
@@ -70,15 +73,38 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
+  const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
+
   return (
     <div>
-      <Breadcrumb>
-        <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-        <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
-          Library
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>Data</Breadcrumb.Item>
-      </Breadcrumb>
+      {isMyOffer ? (
+        <Breadcrumb>
+          <Link href={{ pathname: '/cars' }} passHref>
+            <Breadcrumb.Item>Vendre</Breadcrumb.Item>
+          </Link>
+          <Link
+            href={{ pathname: '/car', query: { id: offer.car.id } }}
+            passHref
+          >
+            <Breadcrumb.Item>
+              {offer.car.manufacturer.name} {offer.car.model.name}{' '}
+              {offer.car.year}
+            </Breadcrumb.Item>
+          </Link>
+          <Breadcrumb.Item active>Offre</Breadcrumb.Item>
+        </Breadcrumb>
+      ) : (
+        <Breadcrumb>
+          <Link href={{ pathname: '/myAds' }} passHref>
+            <Breadcrumb.Item>Acheter</Breadcrumb.Item>
+          </Link>
+          <Link href={{ pathname: '/ad', query: { id: offer.ad.id } }} passHref>
+            <Breadcrumb.Item>Annonce</Breadcrumb.Item>
+          </Link>
+          <Breadcrumb.Item active>Offre</Breadcrumb.Item>
+        </Breadcrumb>
+      )}
+
       <h1>
         {offer.car.manufacturer.name} {offer.car.model.name} {offer.car.year}
       </h1>

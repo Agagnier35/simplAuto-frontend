@@ -72,20 +72,16 @@ const Header: React.SFC<MultiProps> = ({
                 return (
                   <>
                     <Nav className="mr-auto">
-                      <Link href="/carAds" passHref prefetch>
+                      <Link href="/myAds" passHref prefetch>
                         <Nav.Item as="a">{general.buy}</Nav.Item>
                       </Link>
-                      <Link href="/carAds" passHref prefetch>
+                      <Link href="/cars" passHref prefetch>
                         <Nav.Item as="a">{general.sell}</Nav.Item>
                       </Link>
-                      <Link href="/cars" passHref prefetch>
-                        <Nav.Item as="a">{general.myCars}</Nav.Item>
-                      </Link>
-                      <Link href="/myAds" passHref prefetch>
-                        <Nav.Item as="a">{general.myAds}</Nav.Item>
-                      </Link>
                       <Link href="/profile" passHref>
-                        <a className="firstName">{data.me.firstName}</a>
+                        <a className="firstName">
+                          {data.me.firstName.charAt(0)}
+                        </a>
                       </Link>
                       <Notifications notifications={data.me.notifications} />
                     </Nav>
