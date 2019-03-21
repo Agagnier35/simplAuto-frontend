@@ -10,10 +10,12 @@ import { PAGE_ADS_QUERY } from './Queries';
 import { AdSummaries } from '../Ads/styles';
 import { useQuery } from 'react-apollo-hooks';
 import Paging from '../../General/Paging';
+import ConfirmationModal from '../../Confirmation/ConfirmationModal';
 
 const MyAds = ({ translations }: MultiProps) => {
   const ADS_NB_BY_PAGE = 5;
   const [pageIndex, setPageIndex] = useState(0);
+  const [showModal, setshowModal] = useState(false);
 
   const { data, loading, error } = useQuery(PAGE_ADS_QUERY, {
     variables: { pageNumber: pageIndex, pageSize: ADS_NB_BY_PAGE },
@@ -30,6 +32,12 @@ const MyAds = ({ translations }: MultiProps) => {
         </Button>
       </Link>
 
+      <button onClick={() => setshowModal(true)}>lolModal</button>
+      <ConfirmationModal
+        show={showModal}
+        onClose={() => setshowModal(false)}
+        onConfirm={() => console.log('yopyop')}
+      />
       <Card>
         <AdSummaries>
           {data.me.ads.map((ad: Ad) => (

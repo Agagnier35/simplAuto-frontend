@@ -11,6 +11,15 @@ const translations: Translations = {
     title: 'Créer un compte',
     clientType: 'Type de compte',
   },
+  confirmation: {
+    title: 'Accepter une offre',
+    contract: 'Contrat',
+    content:
+      "Je m'engage a blablabla, essai routier dans 3 jours chez qui j'accepte l'offre actuelle. blablabla",
+    confirmation: 'Confirmer',
+    cancel: 'Annuler',
+    read: "Je confirme avoir lu l'entente",
+  },
   profile: {
     profilePage: 'Mon profile',
     firstName: 'Prénom',

@@ -9,6 +9,14 @@ export default interface Translations {
     title: string;
     clientType: string;
   };
+  confirmation: {
+    title: string;
+    contract: string;
+    content: string;
+    confirmation: string;
+    cancel: string;
+    read: string;
+  };
   profile: {
     profilePage: string;
     firstName: string;
