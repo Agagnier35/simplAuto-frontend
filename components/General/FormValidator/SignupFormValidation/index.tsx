@@ -106,11 +106,7 @@ class SignupFormValidation extends BasicFormValidation {
       this.isLastNameValid(state.lastMame) &&
       this.isEmailValid(state.email) &&
       this.isBirthDateValid(
-        state.birthDate.year.toString() +
-          '-' +
-          state.birthDate.month.toString() +
-          '-' +
-          state.birthDate.day.toString(),
+        `${state.birthDate.year.toString()} - ${state.birthDate.month.toString()} - ${state.birthDate.day.toString()}`,
       ) &&
       this.isPasswordValid(state.password) &&
       this.isConfirmPasswordValid(state.confirmPassword, state.password) &&

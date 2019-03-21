@@ -117,11 +117,7 @@ class ProfileFormValidation extends BasicFormValidation {
       this.isLastNameValid(state.lastName) &&
       this.isEmailFormatValid(state.email) &&
       this.isBirthDateValid(
-        state.birthDate.year.toString() +
-          '-' +
-          state.birthDate.month.toString() +
-          '-' +
-          state.birthDate.day.toString(),
+        `${state.birthDate.year.toString()} - ${state.birthDate.month.toString()} - ${state.birthDate.day.toString()}`,
       ) &&
       (this.isWillingToChangePassword(state.password)
         ? this.isConfirmPasswordValid(state.password, state.confirmPassowrd)
