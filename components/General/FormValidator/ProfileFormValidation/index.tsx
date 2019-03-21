@@ -32,8 +32,9 @@ class ProfileFormValidation extends BasicFormValidation {
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
       parseInt(birthDate.substring(0, 4)) > MINIMUMBIRTHDATEYEAR &&
-      parseInt(birthDate.substring(0, 4)) <=
-        new Date().getFullYear() - MINIMUMAGEFORUSINGAPP
+        parseInt(birthDate.substring(0, 4), 10) <=
+          new Date().getFullYear() - MINIMUMAGEFORUSINGAPP,
+      10
     );
   };
 
