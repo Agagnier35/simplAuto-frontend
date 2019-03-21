@@ -27,14 +27,14 @@ const CREATE_ADD_MUTATION = gql`
 `;
 
 interface CreateAdState extends AdCreateInput {
-  touched: {
+  touched: Dictionary<{
     yearLowerBound: boolean;
     yearHigherBound: boolean;
     mileageLowerBound: boolean;
     mileageHigherBound: boolean;
     priceLowerBound: boolean;
     priceHigherBound: boolean;
-  };
+  }>;
 }
 
 const redAsterixStyle = {
