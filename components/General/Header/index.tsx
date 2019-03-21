@@ -9,6 +9,7 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Notifications from '../Notifications';
+import { ClientType } from '../../../generated/graphql';
 
 export const LOGGED_IN_QUERY = gql`
   query LOGGED_IN_QUERY {
@@ -16,6 +17,7 @@ export const LOGGED_IN_QUERY = gql`
       id
       firstName
       lastName
+      companyName
       email
       notifications {
         id
@@ -80,7 +82,9 @@ const Header: React.SFC<MultiProps> = ({
                       </Link>
                       <Link href="/profile" passHref>
                         <a className="firstName">
-                          {data.me.firstName.charAt(0)}
+                          {data.me.clientType === ClientType.Individual
+                            ? data.me.firstName.charAt(0)
+                            : data.me.companyName.charAt(0)}
                         </a>
                       </Link>
                       <Notifications notifications={data.me.notifications} />

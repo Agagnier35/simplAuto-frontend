@@ -354,7 +354,7 @@ class Signup extends Component<MultiProps, SignupState> {
                       </InputGroup>
                     </Form.Group>
                     <div
-                      hidden={this.state.clientType != ClientType.Individual}
+                      hidden={this.state.clientType !== ClientType.Individual}
                     >
                       <Form.Group>
                         <Form.Label>{general.gender}</Form.Label>
@@ -397,7 +397,7 @@ class Signup extends Component<MultiProps, SignupState> {
                     </Form.Group>
 
                     <Form.Group
-                      hidden={this.state.clientType != ClientType.Individual}
+                      hidden={this.state.clientType !== ClientType.Individual}
                     >
                       <Form.Label>Birth date</Form.Label>
                       <InputGroup>{this.datePickerInput()}</InputGroup>
