@@ -50,7 +50,7 @@ const MyAds = ({ translations }: MultiProps) => {
         </>
       ) : (
         <Empty>
-          <h3>{translations.cars.noCars}</h3>
+          <h3>{translations.Ads.noAds}</h3>
           <BuyerSellerSVG />
         </Empty>
       )}

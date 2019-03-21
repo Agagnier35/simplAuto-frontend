@@ -128,6 +128,7 @@ export default interface Translations {
     features: string;
     addAds: string;
     title: string;
+    noAds: string;
   };
   offers: {
     createOffer: string;

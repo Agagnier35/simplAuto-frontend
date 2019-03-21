@@ -144,6 +144,7 @@ const translations: Translations = {
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
     title: 'Annonces',
+    noAds: `Vous n'avez pas d'annonce`,
   },
   GeneralModalContent: {
     title: 'Boite de confirmation',

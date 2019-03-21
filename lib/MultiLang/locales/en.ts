@@ -137,8 +137,9 @@ const translations: Translations = {
     lowerYear: 'Lower Year',
     higherYear: 'Higher Year',
     features: 'features',
-    addAds: 'Add an Ad',
+    addAds: 'Create an Ad',
     title: 'Ads',
+    noAds: 'No ads yet',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',

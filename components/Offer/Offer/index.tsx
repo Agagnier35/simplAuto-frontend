@@ -70,7 +70,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     window.print();
   }
 
-  if (loading) return <Loading />;
+  if (loading || !meQuery.data.me) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
