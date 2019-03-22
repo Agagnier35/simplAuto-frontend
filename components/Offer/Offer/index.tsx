@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
@@ -19,9 +19,11 @@ import {
   FaPrint as PrintIcon,
   FaEnvelope as MessageIcon,
   FaTimesCircle as RejectIcon,
+  FaCheck as AcceptIcon,
 } from 'react-icons/fa';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { LOGGED_IN_QUERY } from '../../General/Header';
+import ConfirmationModal from '../../Confirmation/ConfirmationModal';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -34,6 +36,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   });
 
   const offer = data.offer as Offer;
+
+  const [showModal, setshowModal] = useState(false);
 
   const handleCreateConversation = useMutation(CREATE_CONVERSATION_MUTATION, {
     variables: {
@@ -56,6 +60,11 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
 
   function handlePrint() {
     window.print();
+  }
+
+  function handleConfirmation() {
+    //all confirmation logic is going here
+    setshowModal(false);
   }
 
   if (loading) return <Loading />;
@@ -101,6 +110,10 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                 <RejectIcon />
                 {translations.offers.reject}
               </Button>
+              <Button variant="primary" onClick={() => setshowModal(true)}>
+                <AcceptIcon />
+                {translations.general.accept}
+              </Button>
               <Button variant="primary" onClick={handlePrint}>
                 <PrintIcon />
                 {translations.general.print}
@@ -108,6 +121,12 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
             </OfferButtons>
             {offer.conversation && <Chat offer={offer} />}
           </div>
+
+          <ConfirmationModal
+            show={showModal}
+            onClose={() => setshowModal(false)}
+            onConfirm={handleConfirmation}
+          />
         </Col>
       </Row>
     </div>

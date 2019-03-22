@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { multi } from '../../../lib/MultiLang';
 import { Button, Modal, Card } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
+import ModalStyle from './style';
 
 interface ConfirmationModalProps {
   show: boolean;
@@ -10,15 +11,32 @@ interface ConfirmationModalProps {
   translations: Translations;
 }
 
+interface ConfirmationModalState {
+  isChecked: boolean;
+}
+
 class ConfirmationModal extends Component<ConfirmationModalProps> {
+  state: ConfirmationModalState = {
+    isChecked: false,
+  };
+
   modalConfirm = () => {
     this.props.onConfirm();
     this.props.onClose();
   };
 
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.state.isChecked) {
+      this.setState({ isChecked: false });
+    } else {
+      this.setState({ isChecked: true });
+    }
+  };
+
   render() {
     const { show, onClose, translations } = this.props;
     const { confirmation } = translations;
+
     return (
       <Modal
         size="lg"
@@ -32,16 +50,21 @@ class ConfirmationModal extends Component<ConfirmationModalProps> {
             {confirmation.title}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <h4>{confirmation.contract}:</h4>
-          <Card>
-            <p>{confirmation.content}</p>
-          </Card>
-          <p>{confirmation.read}</p>
-        </Modal.Body>
+        <ModalStyle>
+          <Modal.Body>
+            <h4>{confirmation.contract}:</h4>
+            <Card>{confirmation.content}</Card>
+            <input
+              type="checkbox"
+              onChange={this.handleChange}
+              checked={this.state.isChecked}
+            />
+            <p>{confirmation.read}</p>
+          </Modal.Body>
+        </ModalStyle>
         <Modal.Footer>
           <Button onClick={onClose}>{confirmation.cancel}</Button>
-          <Button onClick={this.modalConfirm}>
+          <Button onClick={this.modalConfirm} disabled={!this.state.isChecked}>
             {confirmation.confirmation}
           </Button>
         </Modal.Footer>
