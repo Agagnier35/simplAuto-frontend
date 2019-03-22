@@ -51,6 +51,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     variables: {
       offerID: offer && offer.id,
     },
+    refetchQueries: [{ query: OFFER_BY_ID, variables: { id: query.id } }],
   });
 
   const handleDeleteNotification = useMutation(DELETE_NOTIFICATION_MUTATION, {
@@ -142,7 +143,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                 <OfferCreator
                   offer={offer}
                   button={
-                    !offer.conversation && (
+                    !offer.conversation &&
+                    isMyAd && (
                       <CreateConversation
                         onClick={() => handleCreateConversation()}
                         variant="primary"

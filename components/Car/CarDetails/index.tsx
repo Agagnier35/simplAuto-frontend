@@ -70,22 +70,19 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
       />
 
       <Images>
-        <BigImage src={car.photos[0]} alt="No car photos placeholder" />
+        <BigImage src={car.photos[0]} />
         <SmallImages>
-          {car.photos[1] && (
-            <SmallImage src={car.photos[1]} alt="No car photos placeholder" />
-          )}
-          {car.photos[2] && (
-            <SmallImage src={car.photos[2]} alt="No car photos placeholder" />
-          )}
-          {car.photos.length > 4 && car.photos[3] ? (
-            <MoreImages>
-              <img src={car.photos[3]} alt="No car photos placeholder" />
-              <MoreAmount>+ {car.photos.length - 4}</MoreAmount>
-            </MoreImages>
-          ) : (
-            <SmallImage src={car.photos[3]} alt="No car photos placeholder" />
-          )}
+          {car.photos[1] && <SmallImage src={car.photos[1]} />}
+          {car.photos[2] && <SmallImage src={car.photos[2]} />}
+          {car.photos.length > 4 &&
+            (car.photos[3] ? (
+              <MoreImages>
+                <img src={car.photos[3]} />
+                <MoreAmount>+ {car.photos.length - 4}</MoreAmount>
+              </MoreImages>
+            ) : (
+              <SmallImage src={car.photos[3]} />
+            ))}
         </SmallImages>
       </Images>
 
