@@ -4,13 +4,14 @@ import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Button, ButtonToolbar, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { OFFER_BY_ID } from './Queries';
 import CarDetails from '../../Car/CarDetails';
 import Chat from '../../Chat/Chat';
 import {
   CREATE_CONVERSATION_MUTATION,
   DELETE_NOTIFICATION_MUTATION,
+  ACCEPT_OFFER_MUTATION,
 } from './Mutations';
 import { Offer } from '../../../generated/graphql';
 import { Price, PriceMileageWrapper, OfferButtons } from './styles';
@@ -52,6 +53,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     refetchQueries: [{ query: LOGGED_IN_QUERY }],
   });
 
+  const handleAcceptOffer = useMutation(ACCEPT_OFFER_MUTATION, {
+    variables: {
+      id: offer.id,
+    },
+    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+  });
+
   useEffect(() => {
     if (offer) {
       handleDeleteNotification();
@@ -64,7 +72,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
 
   async function handleConfirmation() {
     //all confirmation logic is going here
-    // should send emails here to buyer and seller
+    //should send emails here to buyer and seller
+    handleAcceptOffer();
     setshowModal(false);
   }
 
