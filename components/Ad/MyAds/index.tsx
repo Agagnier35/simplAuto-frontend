@@ -26,6 +26,7 @@ const MyAds = ({ translations }: MultiProps) => {
 
   return (
     <>
+      <h2>{translations.general.myAds}</h2>
       <Link href="/createAd" prefetch>
         <Button style={{ marginBottom: '1rem' }}>
           {translations.Ads.addAds}

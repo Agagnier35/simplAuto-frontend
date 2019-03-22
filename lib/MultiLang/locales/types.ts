@@ -75,6 +75,7 @@ export default interface Translations {
     update: string;
     print: string;
     offered: string;
+    memberSince: string;
   };
   errors: {
     invalidEmail: string;

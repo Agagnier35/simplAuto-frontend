@@ -30,7 +30,7 @@ const OfferAddons = ({ offer, translations, button }: OfferAddonsProps) => {
             />
             <AdSummaryItem
               icon={<MdEvent />}
-              label={'Membre depuis'}
+              label={translations.general.memberSince}
               value={moment(creator.createdAt).format('DD[/]MM[/]YY')}
             />
           </div>

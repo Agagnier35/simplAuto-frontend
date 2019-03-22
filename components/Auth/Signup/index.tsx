@@ -191,7 +191,7 @@ class Signup extends Component<MultiProps, SignupState> {
 
   render() {
     const {
-      translations: { signup, general, clientType },
+      translations: { signup, general, clientType, profile },
     } = this.props;
     return (
       <Mutation
@@ -266,7 +266,7 @@ class Signup extends Component<MultiProps, SignupState> {
                     </div>
 
                     <Form.Group
-                      hidden={this.state.clientType != ClientType.Company}
+                      hidden={this.state.clientType !== ClientType.Company}
                     >
                       <Form.Label>{general.companyName}</Form.Label>
                       <InputGroup>
@@ -359,33 +359,39 @@ class Signup extends Component<MultiProps, SignupState> {
                       <Form.Group>
                         <Form.Label>{general.gender}</Form.Label>
                       </Form.Group>
-                      <label htmlFor="gender">
-                        <input
-                          type="radio"
-                          name="gender"
-                          onChange={this.handleChange}
-                          value={Gender.Male}
-                        />
-                        {Gender.Male}
-                        <input
-                          type="radio"
-                          name="gender"
-                          onChange={this.handleChange}
-                          value={Gender.Female}
-                        />
-                        {Gender.Female}
-                        <input
-                          type="radio"
-                          name="gender"
-                          onChange={this.handleChange}
-                          value={Gender.Other}
-                        />
-                        {Gender.Other}
-                      </label>
+                      <div className="gender">
+                        <label htmlFor="gender">
+                          <input
+                            type="radio"
+                            name="gender"
+                            onChange={this.handleChange}
+                            value={Gender.Male}
+                          />
+                          {Gender.Male}
+                        </label>
+                        <label htmlFor="gender">
+                          <input
+                            type="radio"
+                            name="gender"
+                            onChange={this.handleChange}
+                            value={Gender.Female}
+                          />
+                          {Gender.Female}
+                        </label>
+                        <label htmlFor="gender">
+                          <input
+                            type="radio"
+                            name="gender"
+                            onChange={this.handleChange}
+                            value={Gender.Other}
+                          />
+                          {Gender.Other}
+                        </label>
+                      </div>
                     </div>
 
                     <Form.Group>
-                      <Form.Label>Location</Form.Label>
+                      <Form.Label>{profile.location}</Form.Label>
                       <OtherStyle>
                         <Geosuggest
                           onChange={this.handleGeoLocChange}
@@ -399,7 +405,7 @@ class Signup extends Component<MultiProps, SignupState> {
                     <Form.Group
                       hidden={this.state.clientType !== ClientType.Individual}
                     >
-                      <Form.Label>Birth date</Form.Label>
+                      <Form.Label>{profile.birth}</Form.Label>
                       <InputGroup>{this.datePickerInput()}</InputGroup>
                     </Form.Group>
 

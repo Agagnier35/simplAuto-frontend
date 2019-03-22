@@ -81,7 +81,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       {isMyOffer ? (
         <Breadcrumb>
           <Link href={{ pathname: '/cars' }} passHref>
-            <Breadcrumb.Item>Vendre</Breadcrumb.Item>
+            <Breadcrumb.Item>{translations.general.sell}</Breadcrumb.Item>
           </Link>
           <Link
             href={{ pathname: '/car', query: { id: offer.car.id } }}
@@ -92,20 +92,20 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
               {offer.car.year}
             </Breadcrumb.Item>
           </Link>
-          <Breadcrumb.Item active>Offre</Breadcrumb.Item>
+          <Breadcrumb.Item active>{translations.offers.title}</Breadcrumb.Item>
         </Breadcrumb>
       ) : (
         <Breadcrumb>
           <Link href={{ pathname: '/myAds' }} passHref>
-            <Breadcrumb.Item>Acheter</Breadcrumb.Item>
+            <Breadcrumb.Item>{translations.general.buy}</Breadcrumb.Item>
           </Link>
           <Link
             href={{ pathname: '/adDetail', query: { id: offer.ad.id } }}
             passHref
           >
-            <Breadcrumb.Item>Annonce</Breadcrumb.Item>
+            <Breadcrumb.Item>{translations.general.Ad}</Breadcrumb.Item>
           </Link>
-          <Breadcrumb.Item active>Offre</Breadcrumb.Item>
+          <Breadcrumb.Item active>{translations.offers.title}</Breadcrumb.Item>
         </Breadcrumb>
       )}
 

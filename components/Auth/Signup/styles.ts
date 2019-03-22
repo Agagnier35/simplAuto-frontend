@@ -16,7 +16,7 @@ const StyledSignup = styled.div`
   }
 
   .btn-primary {
-    margin: 1rem 0;
+    margin-top: 1rem;
   }
 
   a {
@@ -30,6 +30,16 @@ const StyledSignup = styled.div`
 
   .form-group:nth-child(2) {
     margin-bottom: 0;
+  }
+
+  .gender {
+    input {
+      margin-right: 0.5rem;
+    }
+
+    label + label {
+      margin-left: 1rem;
+    }
   }
 `;
 

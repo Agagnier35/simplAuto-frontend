@@ -75,6 +75,7 @@ const translations: Translations = {
     update: 'Update',
     print: 'Print',
     offered: 'Offered',
+    memberSince: 'Member since',
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -204,7 +205,7 @@ const translations: Translations = {
   offerAddons: {
     subtitle: 'The seller offers also',
     mags: 'Mags',
-    tires: 'tires',
+    tires: 'Tires',
   },
   carFeature: {
     color: {
