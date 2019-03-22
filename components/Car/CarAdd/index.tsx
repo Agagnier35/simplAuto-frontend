@@ -22,6 +22,7 @@ interface CarAddState {
   mileage: number;
   photos: any;
   featuresIDs?: Maybe<string[]>;
+  selected: string;
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -71,6 +72,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       mileage: 0,
       description: '',
       featuresIDs: null,
+      selected: '',
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
@@ -125,10 +127,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     }
   };
 
-  callThis = () => {
-    console.log(this.refs.value);
-  };
-  handleChange = (key: string, value: any, models?: any) => {
+  handleChange = (key: string, value: any, changeSelected?: boolean) => {
     const { translations } = this.props;
     const features = this.state.features;
 
@@ -167,16 +166,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
           features: [...features, value],
         });
       }
-    } else if (
-      key === 'manufacturerID' &&
-      this.state.manufacturerID.length !== 0
-    ) {
-      console.log(this.refs);
-      this.callThis();
     } else {
       // Not a feature
       this.setState({ [key]: value });
+      if (changeSelected) {
+        this.setState({ selected: value });
+      }
     }
+    console.log(this.state);
   };
 
   getCreateCarPayload = () => {
@@ -209,7 +206,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
-    let models = React.createRef();
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -248,11 +244,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             options={data.manufacturers}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange(
-                                'manufacturerID',
-                                item.id,
-                                models,
-                              )
+                              this.handleChange('manufacturerID', item.id, true)
                             }
                             label={`${cars.manufacturer} :`}
                           />
@@ -260,14 +252,13 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             options={this.getModelsForManufacturer(data)}
                             disabled={manufacturerID.length === 0}
                             accessor="name"
-                            ref={input => (this.refs = input)}
                             id="models"
+                            selected=""
                             handleChange={(item: any) =>
-                              this.handleChange('modelID', item.id, models)
+                              this.handleChange('modelID', item.id)
                             }
                             label={`${cars.model} :`}
                           />
-                          <select ref={input => (this.refs = input)} />
                           <Select
                             options={data.carCategories}
                             accessor="name"
