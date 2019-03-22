@@ -1,23 +1,23 @@
 import React from 'react';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { useQuery } from 'react-apollo-hooks';
-import { AD_STATS_QUERY } from './Queries';
+import { OFFER_STATS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { multi } from '../../../lib/MultiLang';
 import { Statistics } from '../../../generated/graphql';
 
-export interface AdStatsProps {
-  adID: string;
+export interface OfferStatsProps {
+  offerID: string;
   translations: Translations;
 }
 
-const AdStats = ({ adID, translations }: AdStatsProps) => {
-  const { data, loading, error } = useQuery(AD_STATS_QUERY, {
-    variables: { id: adID },
+const OfferStats = ({ offerID, translations }: OfferStatsProps) => {
+  const { data, loading, error } = useQuery(OFFER_STATS_QUERY, {
+    variables: { id: offerID },
   });
 
-  const stats: Statistics = data.statsForAds;
+  const stats: Statistics = data.statsForOffer;
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
@@ -38,4 +38,4 @@ const AdStats = ({ adID, translations }: AdStatsProps) => {
   );
 };
 
-export default multi(AdStats);
+export default multi(OfferStats);

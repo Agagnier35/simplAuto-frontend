@@ -4,7 +4,7 @@ import Translations from '../../../lib/MultiLang/locales/types';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Button, ButtonToolbar, Row, Col } from 'react-bootstrap';
+import { Button, ButtonToolbar, Row, Col, Card } from 'react-bootstrap';
 import { OFFER_BY_ID } from './Queries';
 import CarDetails from '../../Car/CarDetails';
 import Chat from '../../Chat/Chat';
@@ -22,6 +22,7 @@ import {
 } from 'react-icons/fa';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { LOGGED_IN_QUERY } from '../../General/Header';
+import OfferStats from './OfferStats';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -108,6 +109,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
             </OfferButtons>
             {offer.conversation && <Chat offer={offer} />}
           </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} lg={4}>
+          <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+            <OfferStats offerID={query.id} />
+          </Card>
         </Col>
       </Row>
     </div>
