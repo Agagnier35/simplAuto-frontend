@@ -173,7 +173,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
         this.setState({ selected: value });
       }
     }
-    console.log(this.state);
   };
 
   getCreateCarPayload = () => {
@@ -253,7 +252,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             disabled={manufacturerID.length === 0}
                             accessor="name"
                             id="models"
-                            selected=""
+                            selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', item.id)
                             }
