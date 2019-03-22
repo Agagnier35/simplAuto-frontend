@@ -24,7 +24,6 @@ import {
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import ConfirmationModal from '../../Confirmation/ConfirmationModal';
-import { AD_DELETE_MUTATION } from '../../Ad/AdDetail';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -46,10 +45,6 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     },
   });
 
-  const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: { id: offer.ad.id },
-  });
-
   const handleDeleteNotification = useMutation(DELETE_NOTIFICATION_MUTATION, {
     variables: {
       id: offer && offer.id,
@@ -69,7 +64,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
 
   async function handleConfirmation() {
     //all confirmation logic is going here
-    await deleteAd();
+    // should send emails here to buyer and seller
     setshowModal(false);
   }
 
