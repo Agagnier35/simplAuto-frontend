@@ -80,13 +80,16 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     }
   };
 
-  handleChange = (key: string, value: any) => {
+  handleChange = (key: string, value: any, changeSelected?: boolean) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
     } else {
       // Not a feature
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
+      if (changeSelected) {
+        this.setState({ selected: value, modelID: '' });
+      }
     }
   };
 
@@ -142,9 +145,13 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             options={data.manufacturers}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange('manufacturerID', {
-                                value: item.id,
-                              })
+                              this.handleChange(
+                                'manufacturerID',
+                                {
+                                  value: item.id,
+                                },
+                                true,
+                              )
                             }
                             label={`${cars.manufacturer} :`}
                           />
@@ -152,6 +159,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             options={this.getModelsForManufacturer(data)}
                             disabled={!manufacturerID}
                             accessor="name"
+                            selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }

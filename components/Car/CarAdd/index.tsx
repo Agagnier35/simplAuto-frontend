@@ -170,7 +170,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       // Not a feature
       this.setState({ [key]: value });
       if (changeSelected) {
-        this.setState({ selected: value });
+        this.setState({ selected: value, modelID: '' });
       }
     }
   };
