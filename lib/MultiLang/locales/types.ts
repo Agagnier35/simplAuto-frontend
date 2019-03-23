@@ -177,4 +177,12 @@ export default interface Translations {
     PremiumName: string;
     PremiumDescription: string;
   };
+  Premium: {
+    Introduction: string;
+    Join: string;
+    CarLimit: string;
+    Features: string;
+    CarLimitUser: string;
+    CarLimitPremium: string;
+  };
 }

@@ -196,6 +196,14 @@ const translations: Translations = {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Monthly membership',
   },
+  Premium: {
+    Introduction: 'The advantages of a premium subscription',
+    Join: 'Join now !',
+    CarLimit: 'Car Limit',
+    Features: 'Feature',
+    CarLimitUser: '2 free car slots and possibility to buy up to 5 car slots',
+    CarLimitPremium: 'UNLIMITED amount of car slots',
+  },
 };
 
 module.exports = translations;

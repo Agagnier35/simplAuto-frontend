@@ -199,6 +199,15 @@ const translations: Translations = {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Abonnement mensuel',
   },
+  Premium: {
+    Introduction: 'Les advantages de souscrire à un abonnement Premium',
+    Join: 'Abonnez vous !',
+    CarLimit: 'Limite de voitures',
+    Features: 'Fonctionnalité',
+    CarLimitUser:
+      "2 voitures gratuite avec une possibilité d'en obtenir jusqu'à 5",
+    CarLimitPremium: 'Nombre de voitures illimitées',
+  },
 };
 
 module.exports = translations;
