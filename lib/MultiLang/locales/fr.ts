@@ -207,6 +207,10 @@ const translations: Translations = {
     CarLimitUser:
       "2 voitures gratuite avec une possibilité d'en obtenir jusqu'à 5",
     CarLimitPremium: 'Nombre de voitures illimitées',
+    Statistics: 'Accès aux statistiques',
+    StatisticsUser: 'Accès aux statistiques de base',
+    StatisticsPremium:
+      'Accès à toutes les statistiques pour vous guider au maximum dans vos ventes',
   },
 };
 

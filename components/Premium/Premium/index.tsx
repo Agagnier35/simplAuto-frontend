@@ -33,6 +33,11 @@ const Premium = ({ translations }: PremiumProps) => {
             <td>{premium.CarLimitPremium}</td>
           </tr>
           <tr>
+            <td>{premium.Statistics}</td>
+            <td>{premium.StatisticsUser}</td>
+            <td>{premium.StatisticsPremium}</td>
+          </tr>
+          <tr>
             <td colSpan={3} align="center">
               {premium.Join}
             </td>

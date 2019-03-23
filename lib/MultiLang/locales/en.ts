@@ -203,6 +203,10 @@ const translations: Translations = {
     Features: 'Feature',
     CarLimitUser: '2 free car slots and possibility to buy up to 5 car slots',
     CarLimitPremium: 'UNLIMITED amount of car slots',
+    Statistics: 'Statistics access',
+    StatisticsUser: 'Access only to a few basic statistics',
+    StatisticsPremium:
+      'Acess to the whole range of available statistics to help you the most in selling your cars',
   },
 };
 

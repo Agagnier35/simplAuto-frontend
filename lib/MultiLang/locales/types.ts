@@ -184,5 +184,8 @@ export default interface Translations {
     Features: string;
     CarLimitUser: string;
     CarLimitPremium: string;
+    Statistics: string;
+    StatisticsUser: string;
+    StatisticsPremium: string;
   };
 }
