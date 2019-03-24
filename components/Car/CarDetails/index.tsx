@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import Translations from '../../../lib/MultiLang/locales/types';
-import { BigImage, Images, SmallImages, SmallImage } from './styles';
+import {
+  BigImage,
+  Images,
+  SmallImages,
+  SmallImage,
+  OfferFeatureItem,
+  OfferFeatures,
+  MoreImages,
+  MoreAmount,
+} from './styles';
 import { multi } from '../../../lib/MultiLang';
 import { Card } from 'react-bootstrap';
-import { Car, CarFeature } from '../../../generated/graphql';
+import { Car, CarFeature, CarFeatureType } from '../../../generated/graphql';
 import GeneralModal from '../../General/GeneralModal';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import { useMutation } from 'react-apollo-hooks';
-import { AdFeatureItem } from '../../Ad/AdSummary/styles';
+import FeatureIcon from '../../General/FeatureIcon';
 
 export interface CarDetailsProps {
   translations: Translations;
@@ -35,6 +44,21 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
     Router.push('/cars');
   }
 
+  function getFeatureValue(feature: CarFeature) {
+    if (feature.category.type === CarFeatureType.TrueFalse) {
+      return carFeature[feature.name];
+    }
+
+    const featureCategoryTranslation = carFeature[feature.category.name];
+    if (featureCategoryTranslation) {
+      const featureTranslation = featureCategoryTranslation[feature.name];
+      if (featureTranslation) {
+        return featureTranslation;
+      }
+    }
+    return feature.name;
+  }
+
   return (
     <>
       <GeneralModal
@@ -46,11 +70,19 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
       />
 
       <Images>
-        <BigImage src={car.photos[0]} alt="No car photos placeholder" />
+        <BigImage src={car.photos[0]} />
         <SmallImages>
-          <SmallImage src={car.photos[0]} alt="No car photos placeholder" />
-          <SmallImage src={car.photos[0]} alt="No car photos placeholder" />
-          <SmallImage src={car.photos[0]} alt="No car photos placeholder" />
+          {car.photos[1] && <SmallImage src={car.photos[1]} />}
+          {car.photos[2] && <SmallImage src={car.photos[2]} />}
+          {car.photos.length > 4 &&
+            (car.photos[3] ? (
+              <MoreImages>
+                <img src={car.photos[3]} />
+                <MoreAmount>+ {car.photos.length - 4}</MoreAmount>
+              </MoreImages>
+            ) : (
+              <SmallImage src={car.photos[3]} />
+            ))}
         </SmallImages>
       </Images>
 
@@ -63,14 +95,16 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
           <Card.Body>
             <Card.Title>{general.features}</Card.Title>
 
-            {car.features.map((feature: CarFeature) => (
-              <AdFeatureItem
-                key={feature.category.name}
-                icon={null}
-                label={carFeatureCategory[feature.category.name]}
-                value={carFeature[feature.name] || feature.name}
-              />
-            ))}
+            <OfferFeatures>
+              {car.features.map((feature: CarFeature) => (
+                <OfferFeatureItem
+                  key={feature.category.name}
+                  icon={<FeatureIcon feature={feature} />}
+                  label={carFeatureCategory[feature.category.name]}
+                  value={getFeatureValue(feature)}
+                />
+              ))}
+            </OfferFeatures>
           </Card.Body>
         </Card>
       </div>

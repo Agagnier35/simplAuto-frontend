@@ -75,7 +75,6 @@ const redAsterixStyle = {
 class CarAdd extends Component<MultiProps, CarAddState> {
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = {
       photos: [],
       features: [],
@@ -189,6 +188,9 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     } else {
       // Not a feature
       this.setState({ [key]: value });
+      if (key === 'manufacturerID') {
+        this.setState({ modelID: '' });
+      }
     }
   };
 
@@ -284,6 +286,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               options={this.getModelsForManufacturer(data)}
                               disabled={!manufacturerID}
                               accessor="name"
+                              selected={manufacturerID}
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
                               }

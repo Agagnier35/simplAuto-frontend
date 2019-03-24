@@ -6,15 +6,33 @@ const translations: Translations = {
     title: 'Se connecter',
     loginWithFacebook: 'Se connecter avec Facebook',
     loginWithGoogle: 'Se connecter avec Google',
+    forgotPassword: 'Mot de passe oublié ?',
   },
   signup: {
     title: 'Créer un compte',
     clientType: 'Type de compte',
+    facebookLogin: 'Connexion avec Facebook',
+    googleLogin: 'Connexion avec Google',
+  },
+  confirmation: {
+    title: 'Accepter une offre',
+    contract: 'Contrat',
+    content:
+      'Lorem ipsum dolor sit amet, ' +
+      'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ' +
+      'et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut' +
+      'aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse ' +
+      'cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, ' +
+      'sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    confirmation: 'Confirmer',
+    cancel: 'Annuler',
+    read: "Je confirme avoir lu l'entente",
   },
   profile: {
     profilePage: 'Mon profile',
     firstName: 'Prénom',
     lastName: 'Nom',
+    companyName: 'Nom de compagnie',
     location: 'Votre position',
     sex: 'Sexe',
     save: 'Enregistrer',
@@ -29,6 +47,11 @@ const translations: Translations = {
     contactInfo: 'Informations de mise en contact',
     genrealInfo: 'Informations générales',
     newPWSection: 'Nouveau mot de passe',
+    notificattionSettings: 'Option de notification',
+    email: 'Courriel',
+    inApp: 'Application',
+    notificationOffer: 'Nouvelle offre',
+    notificationMessage: 'Nouveau message',
   },
   general: {
     email: 'Courriel',
@@ -71,6 +94,15 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    offered: 'Offert le',
+    memberSince: 'Membre depuis',
+    accept: "Accepter l'offre",
+    radius: 'Rayon de recherche (KM)',
+    langage: 'Langue',
+    langages: {
+      english: 'Anglais',
+      french: 'Français',
+    },
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
@@ -185,6 +217,7 @@ const translations: Translations = {
     mileage: 'Kilométrage',
     price: 'Prix',
     descriptionPlaceholder: 'Entrez une courte description de la voiture',
+    noCars: `Vous n'avez pas de véhicule`,
   },
   clientType: {
     company: 'Compagnie',
@@ -207,7 +240,6 @@ const translations: Translations = {
   carCategory: {
     sedan: 'sedan',
   },
-  carFeature: {},
   carLabel: {
     title: 'Veuillez remplir les informations conçernant la voiture',
     general: 'Informations générales',
@@ -236,6 +268,7 @@ const translations: Translations = {
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
     title: 'Annonces',
+    noAds: `Vous n'avez pas d'annonce`,
   },
   GeneralModalContent: {
     title: 'Boite de confirmation',
@@ -294,6 +327,68 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Abonnement mensuel',
+  },
+  offerAddons: {
+    subtitle: 'Le vendeur offre aussi',
+    mags: 'Jantes',
+    tires: 'Pneus',
+  },
+  carFeature: {
+    color: {
+      black: 'Noir',
+      blue: 'Bleu',
+      brown: 'Brun',
+      gold: 'Or',
+      green: 'Vert',
+      grey: 'Gris',
+      orange: 'Orange',
+      pink: 'Rose',
+      purple: 'Mauve',
+      red: 'Rouge',
+      silver: 'Argent',
+      tan: 'Beige',
+      teal: 'Turquoise',
+      white: 'Blanc',
+      yellow: 'Jaune',
+      other: 'Autre',
+    },
+    fuelType: {
+      diesel: 'Diesel',
+      electric: 'Électrique',
+      gasoline: 'Essence',
+      hybrid: 'Hybride',
+      other: 'Autre',
+    },
+    doorNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      other: 'Autre',
+    },
+    seatNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      other: 'Autre',
+    },
+    drivetrain: {
+      '4x4': '4x4',
+      awd: 'Traction intégrale',
+      fwd: 'Traction avant',
+      rwd: 'Traction arrière',
+      other: 'Autre',
+    },
+    transmission: {
+      manual: 'Manuelle',
+      automatic: 'Automatique',
+      other: 'Autre',
+    },
+    true: 'Oui',
+    false: 'Non',
   },
 };
 

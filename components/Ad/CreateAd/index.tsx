@@ -114,6 +114,9 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
       // Not a feature
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
+      if (key === 'manufacturerID') {
+        this.setState({ modelID: '' });
+      }
     }
   };
 
@@ -192,6 +195,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             options={this.getModelsForManufacturer(data)}
                             disabled={!manufacturerID}
                             accessor="name"
+                            selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }

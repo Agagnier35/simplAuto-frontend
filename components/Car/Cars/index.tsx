@@ -8,13 +8,16 @@ import Link from 'next/link';
 import { useQuery } from 'react-apollo-hooks';
 import { PAGE_CARS_QUERY } from './Queries';
 import Paging from '../../General/Paging';
+import { paging5pages } from '../../General/Preferences';
+import VehiclesSVG from '../../Svg/VehiclesSVG';
+import { Empty } from './styles';
+import BuyCarSpot from '../BuyCarSpot';
 
 const Cars = ({ translations }: MultiProps) => {
-  const CARS_NB_BY_PAGE = 5;
   const [pageIndex, setPageIndex] = useState(0);
 
   const { data, error, loading } = useQuery(PAGE_CARS_QUERY, {
-    variables: { pageNumber: pageIndex, pageSize: CARS_NB_BY_PAGE },
+    variables: { pageNumber: pageIndex, pageSize: paging5pages },
   });
 
   if (loading) return <Loading />;
@@ -30,13 +33,24 @@ const Cars = ({ translations }: MultiProps) => {
           </Button>
         </a>
       </Link>
-      <CarList cars={data.me.cars} />
-      <Paging
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        maxItems={data.me.carCount}
-        itemsByPage={CARS_NB_BY_PAGE}
-      />
+      <BuyCarSpot />
+
+      {data.me.carCount > 0 ? (
+        <>
+          <CarList cars={data.me.cars} />
+          <Paging
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            maxItems={data.me.carCount}
+            itemsByPage={paging5pages}
+          />
+        </>
+      ) : (
+        <Empty>
+          <h3>{translations.cars.noCars}</h3>
+          <VehiclesSVG />
+        </Empty>
+      )}
     </div>
   );
 };

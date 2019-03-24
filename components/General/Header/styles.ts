@@ -19,6 +19,12 @@ const StyledNav = styled.div`
 
   .navbar-nav {
     align-items: center;
+    flex-grow: 1;
+    margin-right: 1rem !important;
+
+    @media (max-width: 767px) {
+      margin-right: auto !important;
+    }
   }
 
   .navbar-brand {
@@ -57,8 +63,23 @@ const StyledNav = styled.div`
       color: ${props => props.theme.colors.primary};
 
       &.firstName {
-        margin: 0 1rem;
+        background: ${props => props.theme.colors.primary};
         color: white;
+        font-size: 1rem;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        margin-right: 1rem;
+        margin-left: auto;
+
+        @media (max-width: 767px) {
+          margin-left: 1rem;
+          margin-bottom: 1rem;
+          margin-top: 1rem;
+        }
       }
 
       &.nav-item {

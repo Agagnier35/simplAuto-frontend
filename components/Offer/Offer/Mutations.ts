@@ -15,3 +15,11 @@ export const DELETE_NOTIFICATION_MUTATION = gql`
     }
   }
 `;
+
+export const ACCEPT_OFFER_MUTATION = gql`
+  mutation ACCEPT_OFFER_MUTATION($id: ID!) {
+    acceptOffer(id: $id) {
+      id
+    }
+  }
+`;
