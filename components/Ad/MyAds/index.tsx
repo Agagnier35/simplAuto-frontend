@@ -29,7 +29,6 @@ const MyAds = ({ translations }: MultiProps) => {
           {translations.Ads.addAds}
         </Button>
       </Link>
-
       <Card>
         <AdSummaries>
           {data.me.ads.map((ad: Ad) => (

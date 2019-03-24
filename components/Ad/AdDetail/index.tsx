@@ -42,14 +42,14 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
   });
 
-  async function handleDeleteAd(deleteAd: any) {
+  async function handleDeleteAd() {
     await deleteAd();
     setModalShow(false);
     Router.push('/myAds');
   }
 
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID },
+    variables: { id: adID, pageNumber: pageIndex, pageSize: OFFER_NB_BY_PAGE },
   });
 
   if (loading) return <Loading />;
@@ -63,7 +63,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           actionType={ModalAction.delete}
           show={modalShow}
           onClose={() => setModalShow(false)}
-          onConfirm={() => handleDeleteAd(deleteAd)}
+          onConfirm={() => handleDeleteAd()}
         />
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
