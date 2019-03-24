@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Translations from '../../../lib/MultiLang/locales/types';
-import StyledCarDetails from './styles';
+import { BigImage, Images, SmallImages, SmallImage } from './styles';
 import { multi } from '../../../lib/MultiLang';
-import { Carousel, Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Car, CarFeature } from '../../../generated/graphql';
 import GeneralModal from '../../General/GeneralModal';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import { useMutation } from 'react-apollo-hooks';
+import { AdFeatureItem } from '../../Ad/AdSummary/styles';
 
 export interface CarDetailsProps {
   translations: Translations;
@@ -22,14 +23,7 @@ export const DELETE_CAR_MUTATION = gql`
   }
 `;
 const CarDetails = ({ translations, car }: CarDetailsProps) => {
-  const {
-    cars,
-    carCategory,
-    carFeatureCategory,
-    carFeature,
-    carLabel,
-    general,
-  } = translations;
+  const { carFeatureCategory, carFeature, general } = translations;
   const [showModal, setShowModal] = useState(false);
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
@@ -50,77 +44,36 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         onClose={() => setShowModal(false)}
         onConfirm={() => handleDeleteCar(deleteCar)}
       />
-      <div>
-        <Button variant="danger" onClick={() => setShowModal(true)}>
-          {general.delete}
-        </Button>
-      </div>
-      <StyledCarDetails>
-        <Carousel className="carouselSection">
-          {car.photos.length > 0 ? (
-            car.photos.map((photo: string, i: number) => (
-              <Carousel.Item key={i}>
-                <img src={photo} />
-              </Carousel.Item>
-            ))
-          ) : (
-            <Carousel.Item>
-              {/*TODO: change placeholder*/}
-              <img
-                className="d-block w-100"
-                src="http://clipart-library.com/image_gallery/17559.jpg"
-                alt="No car photos placeholder"
+
+      <Images>
+        <BigImage src={car.photos[0]} alt="No car photos placeholder" />
+        <SmallImages>
+          <SmallImage src={car.photos[0]} alt="No car photos placeholder" />
+          <SmallImage src={car.photos[0]} alt="No car photos placeholder" />
+          <SmallImage src={car.photos[0]} alt="No car photos placeholder" />
+        </SmallImages>
+      </Images>
+
+      {/* <Button variant="danger" onClick={() => setShowModal(true)}>
+        {general.delete}
+      </Button> */}
+
+      <div className="card-wrapper">
+        <Card style={{ marginBottom: '1rem' }}>
+          <Card.Body>
+            <Card.Title>{general.features}</Card.Title>
+
+            {car.features.map((feature: CarFeature) => (
+              <AdFeatureItem
+                key={feature.category.name}
+                icon={null}
+                label={carFeatureCategory[feature.category.name]}
+                value={carFeature[feature.name] || feature.name}
               />
-            </Carousel.Item>
-          )}
-        </Carousel>
-
-        <div className="card-wrapper">
-          <Card>
-            <Card.Body>
-              <Card.Title>
-                <span className="card-number">1</span>
-                {carLabel.general}
-              </Card.Title>
-              <label>
-                <p>
-                  <b>{cars.manufacturer}</b>: {car.manufacturer.name}
-                </p>
-                <p>
-                  <b>{cars.model}</b>: {car.model.name}
-                </p>
-                <p>
-                  <b>{cars.category}</b>:{' '}
-                  {carCategory[car.category.name] || car.category.name}
-                </p>
-                <p>
-                  <b>{cars.year}</b>: {car.year}
-                </p>
-                <p>
-                  <b>{cars.mileage}</b>: {car.mileage}
-                </p>
-              </label>
-            </Card.Body>
-          </Card>
-
-          <Card>
-            <Card.Body>
-              <Card.Title>
-                <span className="card-number">2</span>
-                {general.features}
-              </Card.Title>
-              <label>
-                {car.features.map((f: CarFeature) => (
-                  <p>
-                    <b>{carFeatureCategory[f.category.name]}</b>:{' '}
-                    {carFeature[f.name] || f.name}
-                  </p>
-                ))}
-              </label>
-            </Card.Body>
-          </Card>
-        </div>
-      </StyledCarDetails>
+            ))}
+          </Card.Body>
+        </Card>
+      </div>
     </>
   );
 };

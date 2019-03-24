@@ -3,8 +3,11 @@ import styled from 'styled-components';
 const StyledNav = styled.div`
   background-color: ${props => props.theme.colors.dark};
   display: flex;
-  position: relative;
+  position: absolute !important;
+  top: 0;
   min-height: 72.5px;
+  width: 100%;
+  z-index: 99;
 
   nav {
     width: 100%;
@@ -12,6 +15,10 @@ const StyledNav = styled.div`
     background: none !important; /* No choice to overwrite bootstrap */
     padding: 0;
     margin: 10.5px auto;
+  }
+
+  .navbar-nav {
+    align-items: center;
   }
 
   .navbar-brand {

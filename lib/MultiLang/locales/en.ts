@@ -9,6 +9,7 @@ const translations: Translations = {
   },
   signup: {
     title: 'Create an account',
+    clientType: 'Account type',
   },
   profile: {
     profilePage: 'My profile',
@@ -46,6 +47,7 @@ const translations: Translations = {
     min: 'min',
     firstName: 'First name',
     lastName: 'Last name',
+    companyName: 'Company name',
     gender: 'Gender',
     birthDate: {
       day: 'Day',
@@ -69,6 +71,102 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
+          emptyError: 'First name cannot be empty.',
+          containsNumberError: 'First name cannot contain a number.',
+        },
+        lastNameError: {
+          emptyError: 'Last name cannot be empty.',
+          containsNumberError: 'Last name cannot contain a number.',
+        },
+        emailError: {
+          invalidEmailError: 'Email format is invalid.',
+        },
+        passwordError: {
+          emptyError: 'Password cannot be empty.',
+        },
+        confirmPasswordError: {
+          emptyError: 'Confirmation password cannot be empty.',
+          matchingError: 'Passwords do not match.',
+        },
+        locationError: {
+          emptyError: 'Location cannot be empty.',
+        },
+        birthDateError: {
+          invalidYearError: 'The year is invalid.',
+        },
+      },
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          yearLowerBoundTooLow: 'Year min too low',
+          yearLowerBoundTooHigh:
+            'Year min cannot be greater than the current year',
+          emptyError: 'Year min cannot be empty',
+          numberNotIntegerError:
+            'Year min must be an integer (no comma or dot in the number)',
+        },
+        yearHigherBound: {
+          yearHigherBoundTooLow: 'Year max too low',
+          yearHigherBoundTooHigh:
+            'Year max cannot be greater than the current year',
+          emptyError: 'Year max cannot be empty',
+          numberNotIntegerError:
+            'Year max must be an integer (no comma or dot in the number)',
+          yearLowerBoundHigherThanYearHigherBoundError:
+            'Year max must be higher than year min',
+        },
+        mileageLowerBound: {
+          mileageLowerBoundTooLow: 'Mileage min must be positive',
+          mileageLowerBoundTooHigh: 'Mileage min too high',
+          emptyError: 'Mileage min cannot be empty',
+          numberNotIntegerError:
+            'Mileage min must be an integer (no comma or dot in the number)',
+        },
+        mileageHigherBound: {
+          mileageHigherBoundTooLow: 'Mileage max must be positive',
+          mileageHigherBoundTooHigh: 'Mileage max too high ',
+          emptyError: 'Mileage min cannot be empty',
+          numberNotIntegerError:
+            'Mileage min must be an integer (no comma or dot in the number)',
+          mileageLowerBoundHigherThanMileageHigherBoundError:
+            'Mileage max must be higher than mileage min',
+        },
+        priceLowerBound: {
+          priceLowerBoundTooLowError: 'Price min must be positive',
+          emptyError: 'Price min cannot be empty',
+          numberNotIntegerError:
+            'Price min must be an integer (no comma or dot in the number)',
+        },
+        priceHigherBound: {
+          emptyError: 'Price max cannot be empty',
+          numberNotIntegerError:
+            'Price max must be an integer (no comma or dot in the number)',
+          priceLowerBoundHigherThanPriceHigherBoundError:
+            'Price max must be higher than price min',
+        },
+      },
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: 'Year cannot be empty',
+          numberNotIntegerError:
+            'Year must be an integer (no comma or dot in the number)',
+          yearTooLowError: 'Year is too low.',
+          yearTooHighError: 'Year too high',
+        },
+        mileage: {
+          emptyError: 'Mileage cannot be empty',
+          numberNotIntegerError:
+            'Mileage must be an integer (no comma or dot in the number)',
+          mileageLesserThanZeroError: 'Mileage must be greater than 0',
+          mileageTooHighError: 'Mileage too high',
+        },
+        photos: {
+          atLeastOnePhotoError: 'You must add at least one photo',
+        },
+      },
+    },
   },
   errors: {
     invalidEmail: 'Invalid email',
@@ -84,8 +182,13 @@ const translations: Translations = {
     model: 'Model',
     category: 'Category',
     year: 'Year',
-    mileage: 'Mileage',
+    mileage: 'Kilometers',
     price: 'Price',
+    descriptionPlaceholder: 'Enter a small description for the car',
+  },
+  clientType: {
+    company: 'Company',
+    individual: 'Individual',
   },
   carFeatureCategory: {
     color: 'color',
@@ -127,6 +230,7 @@ const translations: Translations = {
     higherYear: 'Higher Year',
     features: 'features',
     addAds: 'Add an Ad',
+    title: 'Ads',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',
@@ -142,6 +246,7 @@ const translations: Translations = {
     price: 'Price',
     chat: 'Contact seller',
     reject: 'Reject offer',
+    receivedOffers: 'Received offers',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -156,6 +261,36 @@ const translations: Translations = {
     delete: 'Delete',
     save: 'Save',
     edit: 'Edit',
+  },
+  Home: {
+    BannerTitle: 'So easy',
+    BannerSubtitle: 'Buy or sell your car today!',
+    LandingTitle: 'Let the sellers fight for you',
+    LandingSubtitle: 'A new way to shop for your car',
+    LandingAdsButton: 'See ads',
+    LandingSignupButton: 'Create an account',
+    HowToBuy: 'How to buy',
+    HowToBuyFirst: 'Ask for a car',
+    HowToBuySecond: 'Receive offers',
+    HowToBuyThird: 'Accept the best one',
+    HowToSell: 'How to sell',
+    HowToSellFirst: 'Add a car',
+    HowToSellSecond: 'Find a matching ad',
+    HowToSellThird: 'Sell your car',
+  },
+  Chat: {
+    title: 'Chat',
+    send: 'Send',
+    sendPlaceholder: 'Send a message',
+  },
+  Notifications: {
+    newOffer: 'You have a new offer !',
+    newOfferMessage: (x: number) =>
+      `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
+  },
+  Stripe: {
+    PremiumName: 'SimplAuto Premium',
+    PremiumDescription: 'Monthly membership',
   },
 };
 

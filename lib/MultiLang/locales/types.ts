@@ -7,6 +7,7 @@ export default interface Translations {
   };
   signup: {
     title: string;
+    clientType: string;
   };
   profile: {
     profilePage: string;
@@ -44,6 +45,7 @@ export default interface Translations {
     max: string;
     firstName: string;
     lastName: string;
+    companyName: string;
     gender: string;
     birthDate: {
       day: string;
@@ -67,6 +69,89 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
+          emptyError: String;
+          containsNumberError: String;
+        };
+        lastNameError: {
+          emptyError: String;
+          containsNumberError: String;
+        };
+        emailError: {
+          invalidEmailError: String;
+        };
+        passwordError: {
+          emptyError: String;
+        };
+        confirmPasswordError: {
+          emptyError: String;
+          matchingError: String;
+        };
+        locationError: {
+          emptyError: String;
+        };
+        birthDateError: {
+          invalidYearError: String;
+        };
+      };
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          yearLowerBoundTooLow: String;
+          yearLowerBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        yearHigherBound: {
+          yearHigherBoundTooLow: String;
+          yearHigherBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearLowerBoundHigherThanYearHigherBoundError: String;
+        };
+        mileageLowerBound: {
+          mileageLowerBoundTooLow: String;
+          mileageLowerBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        mileageHigherBound: {
+          mileageHigherBoundTooLow: String;
+          mileageHigherBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLowerBoundHigherThanMileageHigherBoundError: String;
+        };
+        priceLowerBound: {
+          priceLowerBoundTooLowError: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        priceHigherBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          priceLowerBoundHigherThanPriceHigherBoundError: String;
+        };
+      };
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearTooLowError: String;
+          yearTooHighError: String;
+        };
+        mileage: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLesserThanZeroError: String;
+          mileageTooHighError: String;
+        };
+        photos: {
+          atLeastOnePhotoError: String;
+        };
+      };
+    };
   };
   errors: {
     invalidEmail: string;
@@ -84,6 +169,11 @@ export default interface Translations {
     year: string;
     mileage: string;
     price: string;
+    descriptionPlaceholder: string;
+  };
+  clientType: {
+    company: string;
+    individual: string;
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
@@ -114,6 +204,7 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+    title: string;
   };
   offers: {
     createOffer: string;
@@ -125,6 +216,7 @@ export default interface Translations {
     price: string;
     chat: string;
     reject: string;
+    receivedOffers: string;
   };
   GeneralModalContent: {
     title: string;
@@ -138,5 +230,34 @@ export default interface Translations {
     delete: string;
     save: string;
     edit: string;
+  };
+  Home: {
+    BannerTitle: string;
+    BannerSubtitle: string;
+    LandingTitle: string;
+    LandingSubtitle: string;
+    LandingAdsButton: string;
+    LandingSignupButton: string;
+    HowToBuy: string;
+    HowToBuyFirst: string;
+    HowToBuySecond: string;
+    HowToBuyThird: string;
+    HowToSell: string;
+    HowToSellFirst: string;
+    HowToSellSecond: string;
+    HowToSellThird: string;
+  };
+  Chat: {
+    title: string;
+    send: string;
+    sendPlaceholder: string;
+  };
+  Notifications: {
+    newOffer: string;
+    newOfferMessage: (x: number) => string;
+  };
+  Stripe: {
+    PremiumName: string;
+    PremiumDescription: string;
   };
 }
