@@ -12,6 +12,7 @@ import {
   CREATE_CONVERSATION_MUTATION,
   DELETE_NOTIFICATION_MUTATION,
   ACCEPT_OFFER_MUTATION,
+  ACCEPT_OFFER_EMAIL_MUTATION,
 } from './Mutations';
 import { Offer } from '../../../generated/graphql';
 import {
@@ -73,6 +74,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     refetchQueries: [{ query: LOGGED_IN_QUERY }],
   });
 
+  const handleAcceptOfferEmail = useMutation(ACCEPT_OFFER_EMAIL_MUTATION, {
+    variables: {
+      id: offer && offer.id,
+    },
+    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+  });
+
   useEffect(() => {
     if (offer) {
       handleDeleteNotification();
@@ -84,9 +92,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   }
 
   async function handleConfirmation() {
-    //all confirmation logic is going here
-    //should send emails here to buyer and seller
     handleAcceptOffer();
+    handleAcceptOfferEmail();
     setshowModal(false);
   }
 

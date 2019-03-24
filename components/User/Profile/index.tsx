@@ -286,6 +286,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
         data[item] = this.state[item];
       }
     });
+    console.log(data);
     return { data };
   };
 
