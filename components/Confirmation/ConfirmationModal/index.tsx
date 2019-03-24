@@ -15,7 +15,10 @@ interface ConfirmationModalState {
   isChecked: boolean;
 }
 
-class ConfirmationModal extends Component<ConfirmationModalProps, ConfirmationModalState> {
+class ConfirmationModal extends Component<
+  ConfirmationModalProps,
+  ConfirmationModalState
+> {
   state: ConfirmationModalState = {
     isChecked: false,
   };
