@@ -14,6 +14,7 @@ import {
   Gender,
   Date as SchemaDate,
   UserLanguage,
+  ClientType,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
@@ -33,6 +34,7 @@ const UPDATE_USER_MUTATION = gql`
 interface ProfileState {
   firstName: string;
   lastName: string;
+  companyName: string;
   email: string;
   location: string;
   birthDate: SchemaDate;
@@ -63,6 +65,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     email: '',
     firstName: '',
     lastName: '',
+    companyName: '',
     location: '',
     birthDate: { day: 0, month: 0, year: 0 },
     gender: '',
@@ -206,6 +209,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       email: '',
       firstName: '',
       lastName: '',
+      companyName: '',
       location: '',
       birthDate: { day: 0, month: 0, year: 0 },
       gender: '',
@@ -274,60 +278,81 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                         <div className="firstInfoSection">
                           <div className="nameSection">
                             <h5>{profile.contactInfo}</h5>
-                            <Form.Group>
-                              <Form.Label>{profile.firstName}</Form.Label>
-                              <InputGroup>
-                                <Form.Control
-                                  className="inputNeedSpace"
-                                  placeholder={profile.firstName}
-                                  aria-describedby="inputGroupPrepend"
-                                  required
-                                  type="text"
-                                  name="firstName"
-                                  onChange={this.handleChange}
-                                  defaultValue={this.state.firstName}
-                                  onBlur={() => this.fieldTouched('firstName')}
-                                  isInvalid={
-                                    touched.firstName &&
-                                    !profileFormValidation.isFirstNameValid(
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
+                              <Form.Group>
+                                <Form.Label>{profile.firstName}</Form.Label>
+                                <InputGroup>
+                                  <Form.Control
+                                    className="inputNeedSpace"
+                                    placeholder={profile.firstName}
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                    type="text"
+                                    name="firstName"
+                                    onChange={this.handleChange}
+                                    defaultValue={this.state.firstName}
+                                    onBlur={() =>
+                                      this.fieldTouched('firstName')
+                                    }
+                                    isInvalid={
+                                      touched.firstName &&
+                                      !profileFormValidation.isFirstNameValid(
+                                        this.state.firstName,
+                                      )
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.firstNameError(
                                       this.state.firstName,
-                                    )
-                                  }
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  {profileFormValidation.firstNameError(
-                                    this.state.firstName,
-                                  )}
-                                </Form.Control.Feedback>
-                              </InputGroup>
-                            </Form.Group>
-                            <Form.Group>
-                              <Form.Label>{profile.lastName}</Form.Label>
-                              <InputGroup>
-                                <Form.Control
-                                  className="inputNeedSpace"
-                                  placeholder={profile.lastName}
-                                  aria-describedby="inputGroupPrepend"
-                                  required
-                                  type="text"
-                                  name="lastName"
-                                  onChange={this.handleChange}
-                                  defaultValue={this.state.lastName}
-                                  onBlur={() => this.fieldTouched('lastName')}
-                                  isInvalid={
-                                    touched.lastName &&
-                                    !profileFormValidation.isLastNameValid(
+                                    )}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                              <Form.Group>
+                                <Form.Label>{profile.lastName}</Form.Label>
+                                <InputGroup>
+                                  <Form.Control
+                                    className="inputNeedSpace"
+                                    placeholder={profile.lastName}
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                    type="text"
+                                    name="lastName"
+                                    onChange={this.handleChange}
+                                    defaultValue={this.state.lastName}
+                                    onBlur={() => this.fieldTouched('lastName')}
+                                    isInvalid={
+                                      touched.lastName &&
+                                      !profileFormValidation.isLastNameValid(
+                                        this.state.lastName,
+                                      )
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.lastNameError(
                                       this.state.lastName,
-                                    )
-                                  }
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  {profileFormValidation.lastNameError(
-                                    this.state.lastName,
-                                  )}
-                                </Form.Control.Feedback>
-                              </InputGroup>
-                            </Form.Group>
+                                    )}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+                            <div
+                              hidden={
+                                data.me.clientType === ClientType.Individual
+                              }
+                            >
+                              <p>{profile.companyName}:</p>
+                              <Form.Control
+                                className="inputNeedSpace"
+                                type="text"
+                                name="companyName"
+                                defaultValue={data.me.companyName}
+                                placeholder={profile.companyName}
+                                onChange={this.handleChange}
+                              />
+                            </div>
                             <Form.Group>
                               <Form.Label>{general.email}</Form.Label>
                               <InputGroup>
@@ -390,14 +415,18 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 {profileFormValidation.locationError()}
                               </div>
                             </div>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.birth}: </p>
                               {this.datePickerInput(
                                 data.me.birthDate,
                                 profileFormValidation,
                               )}
                             </div>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.sex}: </p>
                               {Object.values(Gender).map(
                                 (gender: Gender, i: number) => {

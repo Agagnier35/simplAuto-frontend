@@ -6,6 +6,7 @@ export const GET_USER_INFO_QUERY = gql`
       id
       firstName
       lastName
+      companyName
       email
       location
       language
@@ -15,6 +16,7 @@ export const GET_USER_INFO_QUERY = gql`
         year
       }
       gender
+      clientType
     }
   }
 `;

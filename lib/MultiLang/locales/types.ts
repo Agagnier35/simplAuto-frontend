@@ -13,6 +13,7 @@ export default interface Translations {
     profilePage: string;
     firstName: string;
     lastName: string;
+    companyName: string;
     location: string;
     sex: string;
     save: string;
