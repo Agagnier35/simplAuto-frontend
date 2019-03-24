@@ -2,9 +2,10 @@ import React, { FormEvent, Component } from 'react';
 import Style from './style';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { multi, MultiProps } from '../../../lib/MultiLang';
+import { MultiProps, multiUpdater } from '../../../lib/MultiLang';
 import Geosuggest from 'react-geosuggest';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { MdLockOutline } from 'react-icons/md';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import Toggle from 'react-toggle';
@@ -13,9 +14,12 @@ import {
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
+  UserLanguage,
+  ClientType,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { GET_USER_INFO_QUERY } from './Queries';
+import ProfileFormValidation from '../../../lib/FormValidator/ProfileFormValidation';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
@@ -23,6 +27,7 @@ const UPDATE_USER_MUTATION = gql`
   mutation UPDATEUSER_MUTATION($data: UserUpdateInput!) {
     updateUser(data: $data) {
       id
+      language
     }
   }
 `;
@@ -30,6 +35,7 @@ const UPDATE_USER_MUTATION = gql`
 interface ProfileState {
   firstName: string;
   lastName: string;
+  companyName: string;
   email: string;
   location: string;
   birthDate: SchemaDate;
@@ -40,13 +46,31 @@ interface ProfileState {
   notificationEmailMessage: boolean | null;
   notificationInAppOffer: boolean | null;
   notificationInAppMessage: boolean | null;
+  language: string;
+  touched: Dictionary<{
+    firstName: boolean;
+    lastName: boolean;
+    email: boolean;
+    location: boolean;
+    newPassword: boolean;
+    confirmation: boolean;
+    birthDate: boolean;
+  }>;
 }
+
+const redText = {
+  width: '100%',
+  marginTop: '0.25rem',
+  fontSize: '80%',
+  color: '#dc3545',
+};
 
 class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   state: Dictionary<ProfileState> = {
     email: '',
     firstName: '',
     lastName: '',
+    companyName: '',
     location: '',
     birthDate: { day: 0, month: 0, year: 0 },
     gender: '',
@@ -56,21 +80,44 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     notificationEmailMessage: null,
     notificationInAppOffer: null,
     notificationInAppMessage: null,
+    language: '',
+    isFirstRender: true,
+    touched: {
+      firstName: false,
+      lastName: false,
+      email: false,
+      location: false,
+      newPassword: false,
+      confirmation: false,
+      birthDate: false,
+    },
   };
 
-  datePickerInput = (birthDate: SchemaDate) => {
+  datePickerInput = (
+    birthDate: SchemaDate,
+    profileFormValidation: ProfileFormValidation,
+  ) => {
     const curr = new Date();
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
     const date = curr.toISOString().substr(0, 10);
-
     return (
-      <Form.Control
-        type="date"
-        name="birthDate"
-        className={CLASSNAME_INIT_CONFIRMATION}
-        defaultValue={date}
-        onChange={this.handleChangeDate}
-      />
+      <>
+        <Form.Control
+          type="date"
+          name="birthDate"
+          className="inputNeedSpace"
+          isInvalid={
+            this.state.touched.birthDate &&
+            !profileFormValidation.isBirthDateValid(date)
+          }
+          onBlur={() => this.fieldTouched('birthDate')}
+          defaultValue={date}
+          onChange={this.handleChangeDate}
+        />
+        <Form.Control.Feedback type="invalid">
+          {profileFormValidation.birthDateError()}
+        </Form.Control.Feedback>
+      </>
     );
   };
 
@@ -103,6 +150,13 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   getToggleValue = (name: string, data: any) => {
     return this.state[name] === null ? data.me[name] : this.state[name];
   };
+  handleLanguage(data: any) {
+    let locale = 'fr';
+    if (data.updateUser.language === 'ENGLISH') {
+      locale = 'en';
+    }
+    this.props.changeLocale(locale);
+  }
 
   handleChangeGeoLoc = (e: string) => {
     this.setState({ location: e });
@@ -190,6 +244,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       email: '',
       firstName: '',
       lastName: '',
+      companyName: '',
       location: '',
       birthDate: { day: 0, month: 0, year: 0 },
       gender: '',
@@ -199,16 +254,46 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       notificationEmailMessage: null,
       notificationInAppOffer: null,
       notificationInAppMessage: null,
+      language: '',
     } as any);
+  };
+
+  fillState = (data: any) => {
+    // Cette condition empêche de rentrer dans une boucle infinie
+    if (this.state.isFirstRender) {
+      this.setState({
+        id: data.me.id,
+        email: data.me.email,
+        firstName: data.me.firstName,
+        lastName: data.me.lastName,
+        location: data.me.location,
+        birthDate: data.me.birthDate,
+        gender: data.me.gender,
+        isFirstRender: false,
+      });
+    }
+  };
+
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
   };
 
   render() {
     const {
       translations: { profile, general },
     } = this.props;
+
+    const touched = { ...this.state.touched };
+
+    const profileFormValidation = new ProfileFormValidation(general);
     return (
       <>
-        <Query query={GET_USER_INFO_QUERY}>
+        <Query
+          query={GET_USER_INFO_QUERY}
+          onCompleted={data => this.fillState(data)}
+        >
           {({ data, loading, error }) => {
             if (loading) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
@@ -217,8 +302,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                 mutation={UPDATE_USER_MUTATION}
                 variables={this.fillObjectToUpdate(data.me)}
                 refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
+                onCompleted={data => this.handleLanguage(data)}
               >
                 {(handleMutation, { loading, error }) => {
+                  if (loading) return <Loading />;
                   if (error) return <ErrorMessage error={error} />;
                   return (
                     <Style
@@ -230,36 +317,110 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                         <div className="firstInfoSection">
                           <div className="nameSection">
                             <h5>{profile.contactInfo}</h5>
-                            <div>
-                              <p>{profile.firstName}:</p>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
+                              <Form.Group>
+                                <Form.Label>{profile.firstName}</Form.Label>
+                                <InputGroup>
+                                  <Form.Control
+                                    className="inputNeedSpace"
+                                    placeholder={profile.firstName}
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                    type="text"
+                                    name="firstName"
+                                    onChange={this.handleChange}
+                                    defaultValue={this.state.firstName}
+                                    onBlur={() =>
+                                      this.fieldTouched('firstName')
+                                    }
+                                    isInvalid={
+                                      touched.firstName &&
+                                      !profileFormValidation.isFirstNameValid(
+                                        this.state.firstName,
+                                      )
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.firstNameError(
+                                      this.state.firstName,
+                                    )}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                              <Form.Group>
+                                <Form.Label>{profile.lastName}</Form.Label>
+                                <InputGroup>
+                                  <Form.Control
+                                    className="inputNeedSpace"
+                                    placeholder={profile.lastName}
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                    type="text"
+                                    name="lastName"
+                                    onChange={this.handleChange}
+                                    defaultValue={this.state.lastName}
+                                    onBlur={() => this.fieldTouched('lastName')}
+                                    isInvalid={
+                                      touched.lastName &&
+                                      !profileFormValidation.isLastNameValid(
+                                        this.state.lastName,
+                                      )
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.lastNameError(
+                                      this.state.lastName,
+                                    )}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+                            <div
+                              hidden={
+                                data.me.clientType === ClientType.Individual
+                              }
+                            >
+                              <p>{profile.companyName}:</p>
                               <Form.Control
                                 className="inputNeedSpace"
                                 type="text"
-                                name="firstName"
-                                defaultValue={data.me.firstName}
-                                placeholder={profile.firstName}
-                                onChange={this.handleChange}
-                              />
-                              <br />
-                              <p>{profile.lastName}: </p>
-                              <Form.Control
-                                className="inputNeedSpace"
-                                type="text"
-                                name="lastName"
-                                defaultValue={data.me.lastName}
-                                placeholder={profile.lastName}
+                                name="companyName"
+                                defaultValue={data.me.companyName}
+                                placeholder={profile.companyName}
                                 onChange={this.handleChange}
                               />
                             </div>
-                            <p>{general.email}: </p>
-                            <Form.Control
-                              className="inputNeedSpace"
-                              type="email"
-                              name="email"
-                              placeholder={general.email}
-                              defaultValue={data.me.email}
-                              onChange={this.handleChange}
-                            />
+                            <Form.Group>
+                              <Form.Label>{general.email}</Form.Label>
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text id="inputGroupPrepend">
+                                    @
+                                  </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control
+                                  className="inputNeedSpace"
+                                  placeholder={general.email}
+                                  aria-describedby="inputGroupPrepend"
+                                  type="email"
+                                  name="email"
+                                  defaultValue={this.state.email}
+                                  onChange={this.handleChange}
+                                  onBlur={() => this.fieldTouched('email')}
+                                  isInvalid={
+                                    touched.email &&
+                                    !profileFormValidation.isEmailValid(
+                                      this.state.email,
+                                    )
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {profileFormValidation.emailError()}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
                           </div>
                         </div>
                         <div className="secondInfoSection">
@@ -269,19 +430,42 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <p>{profile.location}: </p>
                               <Geosuggest
-                                initialValue={data.me.location}
+                                initialValue={this.state.location}
+                                onBlur={() => this.fieldTouched('location')}
                                 onChange={this.handleChangeGeoLoc}
                                 onSuggestSelect={(suggest: any) =>
                                   this.handleChangeGeoLoc(suggest.label)
                                 }
                                 placeholder={profile.address}
                               />
+                              {/* Custom code for error in the location.*/}
+                              {/*Bug si on efface la location, ça plante.*/}
+                              <div
+                                style={redText}
+                                hidden={
+                                  !(
+                                    touched.location &&
+                                    !profileFormValidation.isLocationValid(
+                                      this.state.location,
+                                    )
+                                  )
+                                }
+                              >
+                                {profileFormValidation.locationError()}
+                              </div>
                             </div>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.birth}: </p>
-                              {this.datePickerInput(data.me.birthDate)}
+                              {this.datePickerInput(
+                                data.me.birthDate,
+                                profileFormValidation,
+                              )}
                             </div>
-                            <div>
+                            <div
+                              hidden={data.me.clientType === ClientType.Company}
+                            >
                               <p>{profile.sex}: </p>
                               {Object.values(Gender).map(
                                 (gender: Gender, i: number) => {
@@ -299,13 +483,42 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                       value={gender}
                                       checked={
                                         this.state.gender === gender ||
-                                        data.me.gender === gender
+                                        (data.me.gender === gender &&
+                                          this.state.gender === '')
                                       }
                                       onChange={this.handleChange}
                                     />,
                                     <p className="radioNeedSpace" key={i}>
                                       {temp[i]}{' '}
                                     </p>,
+                                  ];
+                                },
+                              )}
+                            </div>
+                            <div>
+                              <p>{general.langage}: </p>
+                              {Object.values(UserLanguage).map(
+                                (language: UserLanguage, i: number) => {
+                                  const temp = [
+                                    general.langages.french,
+                                    general.langages.english,
+                                  ];
+                                  return [
+                                    <p className="radioNeedSpace" key={i}>
+                                      {temp[i]}{' '}
+                                    </p>,
+                                    <Form.Control
+                                      name={'language'}
+                                      value={language}
+                                      type="radio"
+                                      className="radioSelector"
+                                      onChange={this.handleChange}
+                                      checked={
+                                        this.state.language === language ||
+                                        (data.me.language === language &&
+                                          this.state.language === '')
+                                      }
+                                    />,
                                   ];
                                 },
                               )}
@@ -374,28 +587,83 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <hr />
                               <h5>{profile.newPWSection}</h5>
-                              <p>{profile.changePassword}: </p>
-                              <Form.Control
-                                className="inputNeedSpace"
-                                type="password"
-                                name="password"
-                                placeholder={profile.changePassword}
-                                onChange={this.handleConfirmationPassword}
-                              />
+                              <Form.Group>
+                                <Form.Label>
+                                  {profile.changePassword}
+                                </Form.Label>
+                                <InputGroup>
+                                  <InputGroup.Prepend>
+                                    <InputGroup.Text id="inputGroupPrepend">
+                                      <MdLockOutline />
+                                    </InputGroup.Text>
+                                  </InputGroup.Prepend>
+                                  <Form.Control
+                                    className="inputNeedSpace"
+                                    aria-describedby="inputGroupPrepend"
+                                    type="password"
+                                    name="password"
+                                    placeholder={profile.changePassword}
+                                    value={this.state.password}
+                                    onChange={this.handleConfirmationPassword}
+                                    onBlur={() =>
+                                      this.fieldTouched('newPassword')
+                                    }
+                                  />
+                                </InputGroup>
+                              </Form.Group>
                               <br />
-                              <p>{profile.confirmationChangePassword}: </p>
-                              <Form.Control
-                                className={this.state.confirmation}
-                                type="password"
-                                name="confirmation"
-                                placeholder={profile.confirmationChangePassword}
-                                onChange={this.handleConfirmationPassword}
-                              />
+                              <Form.Group>
+                                <Form.Label>
+                                  {profile.confirmationChangePassword}
+                                </Form.Label>
+                                <InputGroup>
+                                  <InputGroup.Prepend>
+                                    <InputGroup.Text id="inputGroupPrepend">
+                                      <MdLockOutline />
+                                    </InputGroup.Text>
+                                  </InputGroup.Prepend>
+                                  <Form.Control
+                                    className={this.state.confirmation}
+                                    aria-describedby="inputGroupPrepend"
+                                    type="password"
+                                    name="confirmation"
+                                    placeholder={
+                                      profile.confirmationChangePassword
+                                    }
+                                    value={this.state.confirmPassword}
+                                    onChange={this.handleConfirmationPassword}
+                                    onBlur={() =>
+                                      this.fieldTouched('confirmation')
+                                    }
+                                    isInvalid={
+                                      touched.confirmation &&
+                                      !profileFormValidation.isConfirmPasswordValid(
+                                        this.state.confirmPassword,
+                                        this.state.password,
+                                      )
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {profileFormValidation.confirmPasswordError(
+                                      this.state.password,
+                                      this.state.confirmPassword,
+                                    )}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
                             </div>
                           </div>
                         </div>
                         <div className="buttonSection">
-                          <Button variant="primary" type="submit">
+                          <Button
+                            variant="primary"
+                            disabled={
+                              !profileFormValidation.isProfileFormStateValid(
+                                this.state,
+                              )
+                            }
+                            type="submit"
+                          >
                             {profile.save}
                           </Button>
                         </div>
@@ -412,4 +680,4 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   }
 }
 
-export default multi(Profile);
+export default multiUpdater(Profile);

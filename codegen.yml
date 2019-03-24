@@ -5,6 +5,5 @@ documents: '**/*.graphql'
 generates:
   generated/graphql.ts:
     plugins:
-      - 'typescript-common'
-      - 'typescript-client'
-      - 'typescript-server'
+      - typescript
+      - typescript-operations

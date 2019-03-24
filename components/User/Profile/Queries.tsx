@@ -6,8 +6,10 @@ export const GET_USER_INFO_QUERY = gql`
       id
       firstName
       lastName
+      companyName
       email
       location
+      language
       birthDate {
         day
         month
@@ -18,6 +20,7 @@ export const GET_USER_INFO_QUERY = gql`
       notificationEmailMessage
       notificationInAppOffer
       notificationInAppMessage
+      clientType
     }
   }
 `;
