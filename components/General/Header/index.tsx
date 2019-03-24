@@ -9,6 +9,8 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Notifications from '../Notifications';
+import CommonDataManager, { appName } from '../Preferences';
+import { ClientType } from '../../../generated/graphql';
 
 export const LOGGED_IN_QUERY = gql`
   query LOGGED_IN_QUERY {
@@ -16,6 +18,8 @@ export const LOGGED_IN_QUERY = gql`
       id
       firstName
       lastName
+      companyName
+      clientType
       email
       notifications {
         id
@@ -48,8 +52,8 @@ Router.onRouteChangeError = () => {
 };
 
 const handleLogout = async (logout: () => void) => {
-  await logout();
   Router.push('/');
+  await logout();
 };
 
 const Header: React.SFC<MultiProps> = ({
@@ -60,7 +64,7 @@ const Header: React.SFC<MultiProps> = ({
       <Link href="/" passHref>
         <Navbar.Brand>
           <IoMdCar />
-          Simplauto
+          {appName}
         </Navbar.Brand>
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
@@ -73,20 +77,21 @@ const Header: React.SFC<MultiProps> = ({
                 return (
                   <>
                     <Nav className="mr-auto">
-                      <Link href="/carAds" passHref prefetch>
+                      <Link href="/myAds" passHref prefetch>
                         <Nav.Item as="a">{general.buy}</Nav.Item>
                       </Link>
-                      <Link href="/carAds" passHref prefetch>
+                      <Link href="/cars" passHref prefetch>
                         <Nav.Item as="a">{general.sell}</Nav.Item>
                       </Link>
-                      <Link href="/cars" passHref prefetch>
-                        <Nav.Item as="a">{general.myCars}</Nav.Item>
-                      </Link>
-                      <Link href="/myAds" passHref prefetch>
-                        <Nav.Item as="a">{general.myAds}</Nav.Item>
+                      <Link href="/premium" passHref prefetch>
+                        <Nav.Item as="a">Premium</Nav.Item>
                       </Link>
                       <Link href="/profile" passHref>
-                        <a className="firstName">{data.me.firstName}</a>
+                        <a className="firstName">
+                          {data.me.clientType === ClientType.Individual
+                            ? data.me.firstName.charAt(0)
+                            : data.me.companyName.charAt(0)}
+                        </a>
                       </Link>
                       <Notifications notifications={data.me.notifications} />
                     </Nav>
@@ -118,11 +123,6 @@ const Header: React.SFC<MultiProps> = ({
                       <a>{signup.title}</a>
                     </Link>
                   </p>
-                  <Link href="/premium">
-                    <a>
-                      <Button variant="primary">{general.becomePremium}</Button>
-                    </a>
-                  </Link>
                 </>
               );
             }}

@@ -2,7 +2,7 @@ import React, { useState, ReactNode } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import { Ad } from '../../../generated/graphql';
+import { Ad, Offer } from '../../../generated/graphql';
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -21,6 +21,7 @@ export interface AdSummaryProps {
   ad: Ad;
   adsQuery: any;
   right?: ReactNode;
+  offer?: Offer;
 }
 
 export const AD_DELETE_MUTATION = gql`
@@ -31,7 +32,13 @@ export const AD_DELETE_MUTATION = gql`
   }
 `;
 
-const AdSummary = ({ translations, ad, adsQuery, right }: AdSummaryProps) => {
+const AdSummary = ({
+  translations,
+  ad,
+  adsQuery,
+  right,
+  offer,
+}: AdSummaryProps) => {
   const { carCategory, general } = translations;
 
   const [modalShow, setModalShow] = useState(false);
@@ -66,7 +73,7 @@ const AdSummary = ({ translations, ad, adsQuery, right }: AdSummaryProps) => {
     Router.push('/myAds');
   }
 
-  const pages = [<GeneralAdInfos ad={ad} right={right} />];
+  const pages = [<GeneralAdInfos ad={ad} right={right} offer={offer} />];
 
   if (ad.features && ad.features.length > 0) {
     pages.push(<AdFeatures ad={ad} />);
@@ -87,7 +94,11 @@ const AdSummary = ({ translations, ad, adsQuery, right }: AdSummaryProps) => {
       />
       <AdPortlet
         title={getTitle()}
-        href={{ pathname: '/adDetail', query: { id: ad.id } }}
+        href={
+          offer
+            ? { pathname: '/offer', query: { id: offer.id } }
+            : { pathname: '/adDetail', query: { id: ad.id } }
+        }
         interval={3000}
         pages={pages}
         left={
