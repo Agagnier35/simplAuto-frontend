@@ -11,6 +11,7 @@ import Paging from '../../General/Paging';
 import { paging5pages } from '../../General/Preferences';
 import VehiclesSVG from '../../Svg/VehiclesSVG';
 import { Empty } from './styles';
+import BuyCarSpot from '../BuyCarSpot';
 
 const Cars = ({ translations }: MultiProps) => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -32,6 +33,7 @@ const Cars = ({ translations }: MultiProps) => {
           </Button>
         </a>
       </Link>
+      <BuyCarSpot />
 
       {data.me.carCount > 0 ? (
         <>
