@@ -89,7 +89,7 @@ export default interface Translations {
     langages: {
       english: string;
       french: string;
-    },
+    };
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
