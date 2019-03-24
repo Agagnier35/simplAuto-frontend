@@ -60,6 +60,14 @@ export interface UserUpdateInput {
   clientType?: Maybe<ClientType>;
 
   language?: Maybe<UserLanguage>;
+
+  notificationEmailOffer?: Maybe<boolean>;
+
+  notificationEmailMessage?: Maybe<boolean>;
+
+  notificationInAppOffer?: Maybe<boolean>;
+
+  notificationInAppMessage?: Maybe<boolean>;
 }
 
 export interface CarCreateInput {
@@ -302,6 +310,14 @@ export interface User {
   notifications: Notification[];
 
   notificationCount: number;
+
+  notificationEmailOffer: boolean;
+
+  notificationEmailMessage: boolean;
+
+  notificationInAppOffer: boolean;
+
+  notificationInAppMessage: boolean;
 }
 
 export interface Date {

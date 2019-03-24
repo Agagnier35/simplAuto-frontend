@@ -8,6 +8,7 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import { MdLockOutline } from 'react-icons/md';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
+import Toggle from 'react-toggle';
 import {
   User,
   UserUpdateInput,
@@ -41,6 +42,10 @@ interface ProfileState {
   gender: string;
   newPassword: string;
   confirmation: string;
+  notificationEmailOffer: boolean | null;
+  notificationEmailMessage: boolean | null;
+  notificationInAppOffer: boolean | null;
+  notificationInAppMessage: boolean | null;
   language: string;
   touched: Dictionary<{
     firstName: boolean;
@@ -71,6 +76,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     gender: '',
     newPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
+    notificationEmailOffer: null,
+    notificationEmailMessage: null,
+    notificationInAppOffer: null,
+    notificationInAppMessage: null,
     language: '',
     isFirstRender: true,
     touched: {
@@ -127,6 +136,20 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
   };
 
+  handleChangeToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (
+      this.state[e.currentTarget.name] ||
+      this.state[e.currentTarget.name] === null
+    ) {
+      this.setState({ [e.currentTarget.name]: false });
+    } else {
+      this.setState({ [e.currentTarget.name]: true });
+    }
+  };
+
+  getToggleValue = (name: string, data: any) => {
+    return this.state[name] === null ? data.me[name] : this.state[name];
+  };
   handleLanguage(data: any) {
     let locale = 'fr';
     if (data.updateUser.language === 'ENGLISH') {
@@ -174,7 +197,17 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     );
   };
 
+  validateNotifications = (item: string) => {
+    return (
+      item === 'notificationEmailOffer' ||
+      item === 'notificationEmailMessage' ||
+      item === 'notificationInAppOffer' ||
+      item === 'notificationInAppMessage'
+    );
+  };
+
   fillObjectToUpdate = (me: User) => {
+    const tempMe: Dictionary<User> = me;
     const data: Dictionary<UserUpdateInput> = { id: me.id };
 
     Object.keys(this.state).map(item => {
@@ -192,6 +225,8 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
           year,
         };
       } else if (item !== 'birthDate' && this.state[item]) {
+        data[item] = this.state[item];
+      } else if (this.validateNotifications(item) && this.state[item] != null) {
         data[item] = this.state[item];
       }
     });
@@ -215,6 +250,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       gender: '',
       password: '',
       confirmation: CLASSNAME_INIT_CONFIRMATION,
+      notificationEmailOffer: null,
+      notificationEmailMessage: null,
+      notificationInAppOffer: null,
+      notificationInAppMessage: null,
       language: '',
     } as any);
   };
@@ -483,6 +522,67 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   ];
                                 },
                               )}
+                            </div>
+                            <div>
+                              <hr />
+                              <h5>{profile.notificattionSettings}</h5>
+                              <p>{profile.inApp}: </p>
+                              <br />
+                              <p>{profile.notificationMessage}: </p>
+                              <Toggle
+                                checked={this.getToggleValue(
+                                  'notificationInAppMessage',
+                                  data,
+                                )}
+                                defaultValue={this.getToggleValue(
+                                  'notificationInAppMessage',
+                                  data,
+                                )}
+                                name="notificationInAppMessage"
+                                onChange={this.handleChangeToggle}
+                              />
+                              <p>{profile.notificationOffer}: </p>
+                              <Toggle
+                                checked={this.getToggleValue(
+                                  'notificationInAppOffer',
+                                  data,
+                                )}
+                                defaultValue={this.getToggleValue(
+                                  'notificationInAppOffer',
+                                  data,
+                                )}
+                                name="notificationInAppOffer"
+                                onChange={this.handleChangeToggle}
+                              />
+                              <br />
+                              <p>{profile.email}: </p>
+                              <br />
+                              <p>{profile.notificationMessage}: </p>
+                              <Toggle
+                                checked={this.getToggleValue(
+                                  'notificationEmailMessage',
+                                  data,
+                                )}
+                                defaultValue={this.getToggleValue(
+                                  'notificationEmailMessage',
+                                  data,
+                                )}
+                                name="notificationEmailMessage"
+                                onChange={this.handleChangeToggle}
+                              />
+                              <p>{profile.notificationOffer}: </p>
+                              <Toggle
+                                checked={this.getToggleValue(
+                                  'notificationEmailOffer',
+                                  data,
+                                )}
+                                defaultValue={this.getToggleValue(
+                                  'notificationEmailOffer',
+                                  data,
+                                )}
+                                name="notificationEmailOffer"
+                                onChange={this.handleChangeToggle}
+                              />
                             </div>
                             <div>
                               <hr />

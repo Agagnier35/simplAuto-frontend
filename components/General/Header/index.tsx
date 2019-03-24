@@ -9,6 +9,7 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Notifications from '../Notifications';
+import CommonDataManager, { appName } from '../Preferences';
 
 export const LOGGED_IN_QUERY = gql`
   query LOGGED_IN_QUERY {
@@ -59,7 +60,7 @@ const Header: React.SFC<MultiProps> = ({
       <Link href="/" passHref>
         <Navbar.Brand>
           <IoMdCar />
-          Simplauto
+          {appName}
         </Navbar.Brand>
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">

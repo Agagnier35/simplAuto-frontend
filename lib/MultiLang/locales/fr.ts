@@ -30,6 +30,11 @@ const translations: Translations = {
     contactInfo: 'Informations de mise en contact',
     genrealInfo: 'Informations générales',
     newPWSection: 'Nouveau mot de passe',
+    notificattionSettings: 'Option de notification',
+    email: 'Courriel',
+    inApp: 'Application',
+    notificationOffer: 'Nouvelle offre',
+    notificationMessage: 'Nouveau message',
   },
   general: {
     email: 'Courriel',

@@ -242,7 +242,7 @@ class Signup extends Component<MultiProps, SignupState> {
 
   render() {
     const {
-      translations: { signup, general, clientType },
+      translations: { signup, general, clientType, profile },
     } = this.props;
     const touched = { ...this.state.touched };
     const signupformValidation = new SignupFormValidation(general);
@@ -500,7 +500,7 @@ class Signup extends Component<MultiProps, SignupState> {
                     </div>
 
                     <Form.Group>
-                      <Form.Label>Location</Form.Label>
+                      <Form.Label>{profile.location}</Form.Label>
                       <OtherStyle>
                         <Geosuggest
                           onBlur={() => this.fieldTouched('location')}
@@ -528,7 +528,7 @@ class Signup extends Component<MultiProps, SignupState> {
                     <Form.Group
                       hidden={this.state.clientType != ClientType.Individual}
                     >
-                      <Form.Label>Birth date</Form.Label>
+                      <Form.Label>{profile.birth}</Form.Label>
                       <InputGroup>
                         {this.datePickerInput(signupformValidation)}
                       </InputGroup>
