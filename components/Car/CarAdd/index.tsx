@@ -22,7 +22,6 @@ interface CarAddState {
   mileage: number;
   photos: any;
   featuresIDs?: Maybe<string[]>;
-  selected: string;
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -72,7 +71,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       mileage: 0,
       description: '',
       featuresIDs: null,
-      selected: '',
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
@@ -127,7 +125,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     }
   };
 
-  handleChange = (key: string, value: any, changeSelected?: boolean) => {
+  handleChange = (key: string, value: any) => {
     const { translations } = this.props;
     const features = this.state.features;
 
@@ -169,8 +167,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     } else {
       // Not a feature
       this.setState({ [key]: value });
-      if (changeSelected) {
-        this.setState({ selected: value, modelID: '' });
+      if (key === 'manufacturerID') {
+        this.setState({ modelID: '' });
       }
     }
   };
@@ -243,7 +241,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             options={data.manufacturers}
                             accessor="name"
                             handleChange={(item: any) =>
-                              this.handleChange('manufacturerID', item.id, true)
+                              this.handleChange('manufacturerID', item.id)
                             }
                             label={`${cars.manufacturer} :`}
                           />
@@ -251,7 +249,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             options={this.getModelsForManufacturer(data)}
                             disabled={manufacturerID.length === 0}
                             accessor="name"
-                            id="models"
                             selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', item.id)
