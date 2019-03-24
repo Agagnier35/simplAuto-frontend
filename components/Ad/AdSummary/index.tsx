@@ -111,7 +111,14 @@ const AdSummary = ({
                 <Dropdown.Item onClick={() => setModalShow(true)}>
                   {general.options.delete}
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => console.log(modalShow)}>
+                <Dropdown.Item
+                  onClick={() =>
+                    Router.push({
+                      pathname: '/updateAd',
+                      search: `?adId=${ad.id}`,
+                    })
+                  }
+                >
                   {general.options.modify}
                 </Dropdown.Item>
               </Dropdown.Menu>
