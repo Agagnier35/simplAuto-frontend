@@ -164,7 +164,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     }
     this.props.changeLocale(locale);
   }
-  
+
   handleChangeRadius = (e: FormEvent<any>) => {
     const re = /^[0-9\b]+$/;
     if (e.currentTarget.value === '') {
@@ -174,8 +174,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     if (re.test(e.currentTarget.value)) {
       this.setState({ radius: parseInt(e.currentTarget.value, 10) });
     }
-  }
-  
+  };
 
   handleChangeGeoLoc = (suggest: Suggest) => {
     this.setState(
