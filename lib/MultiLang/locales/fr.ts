@@ -71,6 +71,11 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    langage: 'Langue',
+    langages: {
+      english: 'Anglais',
+      french: 'Français',
+    },
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {

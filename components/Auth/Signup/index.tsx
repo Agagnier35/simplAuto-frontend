@@ -1,5 +1,5 @@
 import React, { Component, FormEvent } from 'react';
-import { multi, MultiProps } from '../../../lib/MultiLang';
+import { multiUpdater, MultiProps } from '../../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import StyledSignup from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
@@ -18,6 +18,7 @@ import {
   Date as BirthDate,
   ClientType,
   UserSignupInput,
+  UserLanguage,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 
@@ -40,6 +41,7 @@ interface SignupState {
   gender: Gender;
   birthDate: BirthDate;
   clientType: ClientType;
+  language: string;
   touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
@@ -74,6 +76,7 @@ class Signup extends Component<MultiProps, SignupState> {
       year: 1900,
     },
     clientType: ClientType.Individual,
+    language: '',
     touched: {
       firstName: false,
       lastName: false,
@@ -118,6 +121,7 @@ class Signup extends Component<MultiProps, SignupState> {
           password: '',
           confirmPassword: '',
           clientType: ClientType.Individual,
+          language: '',
         });
     this.setState({
       firstName: '',
@@ -127,7 +131,13 @@ class Signup extends Component<MultiProps, SignupState> {
       password: '',
       confirmPassword: '',
       clientType: ClientType.Individual,
+      language: '',
     });
+    let localeValue = 'fr';
+    if (this.state.language === UserLanguage.English) {
+      localeValue = 'en';
+    }
+    this.props.changeLocale(localeValue);
     Router.push('/');
   };
 
@@ -468,6 +478,25 @@ class Signup extends Component<MultiProps, SignupState> {
                         />
                         {Gender.Other}
                       </label>
+                      <Form.Group>
+                        <Form.Label>{general.langage}</Form.Label>
+                      </Form.Group>
+                      <label htmlFor="language">
+                        {general.langages.french}
+                        <input
+                          type="radio"
+                          name="language"
+                          onChange={this.handleChange}
+                          value={UserLanguage.French}
+                        />{' '}
+                        {general.langages.english}
+                        <input
+                          type="radio"
+                          name="language"
+                          onChange={this.handleChange}
+                          value={UserLanguage.English}
+                        />
+                      </label>
                     </div>
 
                     <Form.Group>
@@ -527,4 +556,4 @@ class Signup extends Component<MultiProps, SignupState> {
   }
 }
 
-export default multi(Signup);
+export default multiUpdater(Signup);

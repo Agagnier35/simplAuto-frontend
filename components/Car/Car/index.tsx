@@ -35,10 +35,6 @@ const Car = ({ translations, query }: CarPageProps) => {
   if (carQuery.loading) return <Loading />;
   if (errors) return <ErrorMessage error={errors} />;
 
-  function handlePrint() {
-    window.print();
-  }
-
   function handleToggleCreateOffer(ad: Ad) {
     setSelectedAd(ad);
     setModalOpened(true);

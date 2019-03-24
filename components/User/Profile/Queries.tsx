@@ -8,6 +8,7 @@ export const GET_USER_INFO_QUERY = gql`
       lastName
       email
       location
+      language
       birthDate {
         day
         month
