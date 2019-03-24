@@ -71,6 +71,102 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
+          emptyError: 'First name cannot be empty.',
+          containsNumberError: 'First name cannot contain a number.',
+        },
+        lastNameError: {
+          emptyError: 'Last name cannot be empty.',
+          containsNumberError: 'Last name cannot contain a number.',
+        },
+        emailError: {
+          invalidEmailError: 'Email format is invalid.',
+        },
+        passwordError: {
+          emptyError: 'Password cannot be empty.',
+        },
+        confirmPasswordError: {
+          emptyError: 'Confirmation password cannot be empty.',
+          matchingError: 'Passwords do not match.',
+        },
+        locationError: {
+          emptyError: 'Location cannot be empty.',
+        },
+        birthDateError: {
+          invalidYearError: 'The year is invalid.',
+        },
+      },
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          yearLowerBoundTooLow: 'Year min too low',
+          yearLowerBoundTooHigh:
+            'Year min cannot be greater than the current year',
+          emptyError: 'Year min cannot be empty',
+          numberNotIntegerError:
+            'Year min must be an integer (no comma or dot in the number)',
+        },
+        yearHigherBound: {
+          yearHigherBoundTooLow: 'Year max too low',
+          yearHigherBoundTooHigh:
+            'Year max cannot be greater than the current year',
+          emptyError: 'Year max cannot be empty',
+          numberNotIntegerError:
+            'Year max must be an integer (no comma or dot in the number)',
+          yearLowerBoundHigherThanYearHigherBoundError:
+            'Year max must be higher than year min',
+        },
+        mileageLowerBound: {
+          mileageLowerBoundTooLow: 'Mileage min must be positive',
+          mileageLowerBoundTooHigh: 'Mileage min too high',
+          emptyError: 'Mileage min cannot be empty',
+          numberNotIntegerError:
+            'Mileage min must be an integer (no comma or dot in the number)',
+        },
+        mileageHigherBound: {
+          mileageHigherBoundTooLow: 'Mileage max must be positive',
+          mileageHigherBoundTooHigh: 'Mileage max too high ',
+          emptyError: 'Mileage min cannot be empty',
+          numberNotIntegerError:
+            'Mileage min must be an integer (no comma or dot in the number)',
+          mileageLowerBoundHigherThanMileageHigherBoundError:
+            'Mileage max must be higher than mileage min',
+        },
+        priceLowerBound: {
+          priceLowerBoundTooLowError: 'Price min must be positive',
+          emptyError: 'Price min cannot be empty',
+          numberNotIntegerError:
+            'Price min must be an integer (no comma or dot in the number)',
+        },
+        priceHigherBound: {
+          emptyError: 'Price max cannot be empty',
+          numberNotIntegerError:
+            'Price max must be an integer (no comma or dot in the number)',
+          priceLowerBoundHigherThanPriceHigherBoundError:
+            'Price max must be higher than price min',
+        },
+      },
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: 'Year cannot be empty',
+          numberNotIntegerError:
+            'Year must be an integer (no comma or dot in the number)',
+          yearTooLowError: 'Year is too low.',
+          yearTooHighError: 'Year too high',
+        },
+        mileage: {
+          emptyError: 'Mileage cannot be empty',
+          numberNotIntegerError:
+            'Mileage must be an integer (no comma or dot in the number)',
+          mileageLesserThanZeroError: 'Mileage must be greater than 0',
+          mileageTooHighError: 'Mileage too high',
+        },
+        photos: {
+          atLeastOnePhotoError: 'You must add at least one photo',
+        },
+      },
+    },
   },
   errors: {
     invalidEmail: 'Invalid email',

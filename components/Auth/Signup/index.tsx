@@ -12,6 +12,7 @@ import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
+import SignupFormValidation from '../../../lib/FormValidator/SignupFormValidation';
 import {
   Gender,
   Date as BirthDate,
@@ -39,7 +40,23 @@ interface SignupState {
   gender: Gender;
   birthDate: BirthDate;
   clientType: ClientType;
+  touched: Dictionary<{
+    firstName: boolean;
+    lastName: boolean;
+    email: boolean;
+    password: boolean;
+    confirmPassword: boolean;
+    location: boolean;
+    birthDate: boolean;
+  }>;
 }
+
+const redText = {
+  width: '100%',
+  marginTop: '0.25rem',
+  fontSize: '80%',
+  color: '#dc3545',
+};
 
 class Signup extends Component<MultiProps, SignupState> {
   state: Dictionary<SignupState> = {
@@ -57,6 +74,15 @@ class Signup extends Component<MultiProps, SignupState> {
       year: 1900,
     },
     clientType: ClientType.Individual,
+    touched: {
+      firstName: false,
+      lastName: false,
+      email: false,
+      password: false,
+      confirmPassword: false,
+      location: false,
+      birthDate: false,
+    },
   };
 
   isBirthDateValid = () => {
@@ -75,8 +101,7 @@ class Signup extends Component<MultiProps, SignupState> {
         this.state.companyName !== '') &&
       this.state.email !== '' &&
       this.state.location !== '' &&
-      this.state.password === this.state.confirmPassword &&
-      this.isBirthDateValid()
+      this.state.password === this.state.confirmPassword
     );
   };
 
@@ -114,19 +139,29 @@ class Signup extends Component<MultiProps, SignupState> {
     this.setState({ location: e });
   };
 
-  datePickerInput = () => {
+  datePickerInput = (signupformValidation: SignupFormValidation) => {
     const curr = new Date();
     const { birthDate } = this.state;
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
     const date = curr.toISOString().substr(0, 10);
     return (
-      <Form.Control
-        type="date"
-        name="birthDate"
-        className="inputNeedSpace"
-        defaultValue={date}
-        onChange={this.handleChangeDate}
-      />
+      <>
+        <Form.Control
+          type="date"
+          name="birthDate"
+          className="inputNeedSpace"
+          isInvalid={
+            this.state.touched.birthDate &&
+            !signupformValidation.isBirthDateValid(date)
+          }
+          onBlur={() => this.fieldTouched('birthDate')}
+          defaultValue={date}
+          onChange={this.handleChangeDate}
+        />
+        <Form.Control.Feedback type="invalid">
+          {signupformValidation.birthDateError()}
+        </Form.Control.Feedback>
+      </>
     );
   };
 
@@ -189,10 +224,18 @@ class Signup extends Component<MultiProps, SignupState> {
     }
   };
 
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
+  };
+
   render() {
     const {
       translations: { signup, general, clientType },
     } = this.props;
+    const touched = { ...this.state.touched };
+    const signupformValidation = new SignupFormValidation(general);
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
@@ -236,13 +279,23 @@ class Signup extends Component<MultiProps, SignupState> {
                           <Form.Control
                             placeholder={general.firstName}
                             aria-describedby="inputGroupPrepend"
-                            type="firstName"
+                            required
+                            type="text"
                             name="firstName"
                             value={this.state.firstName}
                             onChange={this.handleChange}
+                            onBlur={() => this.fieldTouched('firstName')}
+                            isInvalid={
+                              touched.firstName &&
+                              !signupformValidation.isFirstNameValid(
+                                this.state.firstName,
+                              )
+                            }
                           />
                           <Form.Control.Feedback type="invalid">
-                            {general.firstName}
+                            {signupformValidation.firstNameError(
+                              this.state.firstName,
+                            )}
                           </Form.Control.Feedback>
                         </InputGroup>
                       </Form.Group>
@@ -273,13 +326,23 @@ class Signup extends Component<MultiProps, SignupState> {
                         <Form.Control
                           placeholder={general.companyName}
                           aria-describedby="inputGroupPrepend"
-                          type="companyName"
+                          required
+                          type="text"
                           name="companyName"
                           value={this.state.companyName}
                           onChange={this.handleChange}
+                          onBlur={() => this.fieldTouched('lastName')}
+                          isInvalid={
+                            touched.lastName &&
+                            !signupformValidation.isLastNameValid(
+                              this.state.lastName,
+                            )
+                          }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {general.companyName}
+                          {signupformValidation.lastNameError(
+                            this.state.lastName,
+                          )}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -300,9 +363,14 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="email"
                           value={this.state.email}
                           onChange={this.handleChange}
+                          onBlur={() => this.fieldTouched('email')}
+                          isInvalid={
+                            touched.email &&
+                            !signupformValidation.isEmailValid(this.state.email)
+                          }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {general.email}
+                          {signupformValidation.emailError()}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -323,9 +391,16 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.password}
                           value={this.state.password}
                           onChange={this.handleChange}
+                          onBlur={() => this.fieldTouched('password')}
+                          isInvalid={
+                            touched.password &&
+                            !signupformValidation.isPasswordValid(
+                              this.state.password,
+                            )
+                          }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {general.password}
+                          {signupformValidation.passwordError()}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -346,10 +421,21 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.confirmPassword}
                           value={this.state.confirmPassword}
                           onChange={this.handleChange}
+                          onBlur={() => this.fieldTouched('confirmPassword')}
+                          isInvalid={
+                            touched.confirmPassword &&
+                            !signupformValidation.isConfirmPasswordValid(
+                              this.state.confirmPassword,
+                              this.state.password,
+                            )
+                          }
                         />
 
                         <Form.Control.Feedback type="invalid">
-                          {general.confirmPassword}
+                          {signupformValidation.confirmPasswordError(
+                            this.state.password,
+                            this.state.confirmPassword,
+                          )}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -388,11 +474,25 @@ class Signup extends Component<MultiProps, SignupState> {
                       <Form.Label>Location</Form.Label>
                       <OtherStyle>
                         <Geosuggest
+                          onBlur={() => this.fieldTouched('location')}
                           onChange={this.handleGeoLocChange}
                           onSuggestSelect={(suggest: any) =>
                             this.handleGeoLocChange(suggest.label)
                           }
                         />
+                        <div
+                          style={redText}
+                          hidden={
+                            !(
+                              touched.location &&
+                              !signupformValidation.isLocationValid(
+                                this.state.location,
+                              )
+                            )
+                          }
+                        >
+                          {signupformValidation.locationError()}
+                        </div>
                       </OtherStyle>
                     </Form.Group>
 
@@ -400,10 +500,19 @@ class Signup extends Component<MultiProps, SignupState> {
                       hidden={this.state.clientType != ClientType.Individual}
                     >
                       <Form.Label>Birth date</Form.Label>
-                      <InputGroup>{this.datePickerInput()}</InputGroup>
+                      <InputGroup>
+                        {this.datePickerInput(signupformValidation)}
+                      </InputGroup>
                     </Form.Group>
 
-                    <Button variant="primary" type="submit" block>
+                    <Button
+                      disabled={
+                        !signupformValidation.isSignupFormStateValid(this.state)
+                      }
+                      variant="primary"
+                      type="submit"
+                      block
+                    >
                       {signup.title}
                     </Button>
                   </fieldset>

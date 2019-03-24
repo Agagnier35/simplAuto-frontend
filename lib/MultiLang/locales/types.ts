@@ -69,6 +69,89 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
+          emptyError: String;
+          containsNumberError: String;
+        };
+        lastNameError: {
+          emptyError: String;
+          containsNumberError: String;
+        };
+        emailError: {
+          invalidEmailError: String;
+        };
+        passwordError: {
+          emptyError: String;
+        };
+        confirmPasswordError: {
+          emptyError: String;
+          matchingError: String;
+        };
+        locationError: {
+          emptyError: String;
+        };
+        birthDateError: {
+          invalidYearError: String;
+        };
+      };
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          yearLowerBoundTooLow: String;
+          yearLowerBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        yearHigherBound: {
+          yearHigherBoundTooLow: String;
+          yearHigherBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearLowerBoundHigherThanYearHigherBoundError: String;
+        };
+        mileageLowerBound: {
+          mileageLowerBoundTooLow: String;
+          mileageLowerBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        mileageHigherBound: {
+          mileageHigherBoundTooLow: String;
+          mileageHigherBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLowerBoundHigherThanMileageHigherBoundError: String;
+        };
+        priceLowerBound: {
+          priceLowerBoundTooLowError: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        priceHigherBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          priceLowerBoundHigherThanPriceHigherBoundError: String;
+        };
+      };
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearTooLowError: String;
+          yearTooHighError: String;
+        };
+        mileage: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLesserThanZeroError: String;
+          mileageTooHighError: String;
+        };
+        photos: {
+          atLeastOnePhotoError: String;
+        };
+      };
+    };
   };
   errors: {
     invalidEmail: string;
