@@ -10,6 +10,8 @@ import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
+import { ALL_ADS_QUERY } from '../Ads/Queries';
+import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -18,26 +20,6 @@ const UPDATE_AD_MUTATION = gql`
     }
   }
 `;
-
-const GET_AD_QUERY = gql`
-  ad {
-    id
-    priceLowerBound
-    priceHigherBound
-    manufacturer
-    model
-    category
-    mileageLowerBound
-    mileageHigherBound
-    yearLowerBound
-    yearHigherBound
-    features
-  }
-`;
-
-// 1. Get la ad à partir du ID du query string
-// 2. Handle les changements de la ad
-// 3. Lorsque la personne submit, call la mutation
 
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
@@ -56,6 +38,8 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     priceLowerBound: null,
     priceHigherBound: null,
   };
+
+  isFirstRender: Boolean = true;
 
   // Get l'offre, puis mettre les infos dans le state.
 
@@ -103,20 +87,23 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     }
   };
 
-  setState = (data: any) => {
-    this.setState({
-      id: data.id,
-      features: data.features,
-      manufacturerFeature: data.manufacturerFeature,
-      modelFeature: data.modelFeature,
-      categoryFeature: data.categoryFeature,
-      yearLowerBoundFeature: data.yearLowerBoundFeature,
-      yearHigherBoundFeature: data.yearHigherBoundFeature,
-      mileageLowerBoundFeature: data.mileageLowerBoundFeature,
-      mileageHigherBoundFeature: data.mileageHigherBoundFeature,
-      priceLowerBoundFeature: data.priceLowerBoundFeature,
-      priceHigherBoundFeature: data.priceHigherBoundFeature,
-    });
+  fillState = (data: any) => {
+    if (this.isFirstRender) {
+      this.setState({
+        id: data.ad.id,
+        features: data.ad.features,
+        manufacturerID: data.ad.manufacturer.id,
+        modelID: data.ad.model.id,
+        categoryID: data.ad.category.id,
+        yearLowerBound: data.ad.yearLowerBound,
+        yearHigherBound: data.ad.yearHigherBound,
+        mileageLowerBound: data.ad.mileageLowerBound,
+        mileageHigherBound: data.ad.mileageHigherBound,
+        priceLowerBound: data.ad.priceLowerBound,
+        priceHigherBound: data.ad.priceHigherBound,
+      });
+      this.isFirstRender = false;
+    }
   };
 
   handleChange = (key: string, value: any, accessor?: string) => {
@@ -141,6 +128,14 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     return [];
   };
 
+  fieldToString = (field: number | null | undefined) => {
+    if (!field) {
+      return '';
+    }
+
+    return field.toString();
+  };
+
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
@@ -149,8 +144,12 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     return (
-      <Query query={GET_AD_QUERY}>
-        {({ data, loading, error }) => {
+      <Query
+        query={AD_DETAIL_QUERY}
+        variables={{ id: this.props.adId }}
+        onCompleted={data => this.fillState(data)}
+      >
+        {({ loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
           return (
@@ -195,6 +194,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
+                                  value={data.manufacturers}
                                   label={`${cars.manufacturer} :`}
                                 />
                                 <Select
@@ -224,6 +224,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.year} ${general.min}`}
+                                    defaultValue={this.fieldToString(
+                                      this.state.yearLowerBound,
+                                    )}
                                     onChange={(e: any) =>
                                       this.handleChange('yearLowerBound', {
                                         value: parseInt(
@@ -234,12 +237,14 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     }
                                   />
                                 </label>
-
                                 <label>
                                   {cars.year} {general.max}
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.year} ${general.max}`}
+                                    defaultValue={this.fieldToString(
+                                      this.state.yearHigherBound,
+                                    )}
                                     onChange={(e: any) =>
                                       this.handleChange('yearHigherBound', {
                                         value: parseInt(
@@ -257,6 +262,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     placeholder={`${cars.mileage} ${
                                       general.min
                                     }`}
+                                    defaultValue={this.fieldToString(
+                                      this.state.mileageLowerBound,
+                                    )}
                                     onChange={(e: any) =>
                                       this.handleChange('mileageLowerBound', {
                                         value: parseInt(
@@ -274,6 +282,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     placeholder={`${cars.mileage} ${
                                       general.max
                                     }`}
+                                    defaultValue={this.fieldToString(
+                                      this.state.mileageHigherBound,
+                                    )}
                                     onChange={(e: any) =>
                                       this.handleChange('mileageHigherBound', {
                                         value: parseInt(
@@ -289,6 +300,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.price} ${general.min}`}
+                                    defaultValue={this.fieldToString(
+                                      this.state.priceLowerBound,
+                                    )}
                                     onChange={(e: any) =>
                                       this.handleChange('priceLowerBound', {
                                         value: parseInt(
@@ -304,6 +318,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.price} ${general.max}`}
+                                    defaultValue={this.fieldToString(
+                                      this.state.priceHigherBound,
+                                    )}
                                     onChange={(e: any) =>
                                       this.handleChange('priceHigherBound', {
                                         value: parseInt(
