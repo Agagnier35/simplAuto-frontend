@@ -16,7 +16,7 @@ const StyledSignup = styled.div`
   }
 
   .btn-primary {
-    margin: 1rem 0;
+    margin-top: 1rem;
   }
 
   a {
@@ -31,31 +31,27 @@ const StyledSignup = styled.div`
   .form-group:nth-child(2) {
     margin-bottom: 0;
   }
-
   .geosuggest__item--active {
     background: #267dc0;
     color: #fff;
   }
-
-  .geosuggest__suggests--hidden {
-    max-height: 0;
-    overflow: hidden;
-    border-width: 0;
-  }
-
-  .geosuggest__suggests {
-    max-width: 65%;
-    min-width: 65%;
-  }
-
   .geosuggest__item:hover,
   .geosuggest__item:focus {
     background: #267dc0;
     color: #fff;
   }
-
   .geosuggest__item__matched-text {
     font-weight: bold;
+  }
+
+  .gender {
+    input {
+      margin-right: 0.5rem;
+    }
+
+    label + label {
+      margin-left: 1rem;
+    }
   }
 `;
 

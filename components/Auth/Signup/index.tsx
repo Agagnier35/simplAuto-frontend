@@ -260,7 +260,7 @@ class Signup extends Component<MultiProps, SignupState> {
       }
     });
     delete myData['confirmPassword'];
-    console.log(myData);
+
     return { data: myData };
   };
 
@@ -494,29 +494,35 @@ class Signup extends Component<MultiProps, SignupState> {
                       <Form.Group>
                         <Form.Label>{general.gender}</Form.Label>
                       </Form.Group>
-                      <label htmlFor="gender">
-                        <input
-                          type="radio"
-                          name="gender"
-                          onChange={this.handleChange}
-                          value={Gender.Male}
-                        />
-                        {Gender.Male}
-                        <input
-                          type="radio"
-                          name="gender"
-                          onChange={this.handleChange}
-                          value={Gender.Female}
-                        />
-                        {Gender.Female}
-                        <input
-                          type="radio"
-                          name="gender"
-                          onChange={this.handleChange}
-                          value={Gender.Other}
-                        />
-                        {Gender.Other}
-                      </label>
+                      <div className="gender">
+                        <label htmlFor="gender">
+                          <input
+                            type="radio"
+                            name="gender"
+                            onChange={this.handleChange}
+                            value={Gender.Male}
+                          />
+                          {Gender.Male}
+                        </label>
+                        <label htmlFor="gender">
+                          <input
+                            type="radio"
+                            name="gender"
+                            onChange={this.handleChange}
+                            value={Gender.Female}
+                          />
+                          {Gender.Female}
+                        </label>
+                        <label htmlFor="gender">
+                          <input
+                            type="radio"
+                            name="gender"
+                            onChange={this.handleChange}
+                            value={Gender.Other}
+                          />
+                          {Gender.Other}
+                        </label>
+                      </div>
                       <Form.Group>
                         <Form.Label>{general.langage}</Form.Label>
                       </Form.Group>

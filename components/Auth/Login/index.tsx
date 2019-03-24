@@ -120,7 +120,7 @@ class Login extends Component<MultiProps, LoginState> {
                       </InputGroup>
                     </Form.Group>
                     <Link href="/reset">
-                      <a>Forgot your password ?</a>
+                      <a>{login.forgotPassword}</a>
                     </Link>
                     <Button variant="primary" type="submit" block>
                       {login.title}

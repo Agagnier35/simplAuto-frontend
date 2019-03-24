@@ -11,6 +11,8 @@ import { AdSummaries } from '../Ads/styles';
 import { useQuery } from 'react-apollo-hooks';
 import Paging from '../../General/Paging';
 import { paging5pages } from '../../General/Preferences';
+import { Empty } from '../../Car/Cars/styles';
+import BuyerSellerSVG from '../../Svg/BuyerSellerSVG';
 
 const MyAds = ({ translations }: MultiProps) => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -24,24 +26,35 @@ const MyAds = ({ translations }: MultiProps) => {
 
   return (
     <>
+      <h2>{translations.general.myAds}</h2>
       <Link href="/createAd" prefetch>
         <Button style={{ marginBottom: '1rem' }}>
           {translations.Ads.addAds}
         </Button>
       </Link>
-      <Card>
-        <AdSummaries>
-          {data.me.ads.map((ad: Ad) => (
-            <AdSummary adsQuery={PAGE_ADS_QUERY} key={ad.id} ad={ad} />
-          ))}
-        </AdSummaries>
-      </Card>
-      <Paging
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        maxItems={data.me.adCount}
-        itemsByPage={paging5pages}
-      />
+
+      {data.me.adCount > 0 ? (
+        <>
+          <Card>
+            <AdSummaries>
+              {data.me.ads.map((ad: Ad) => (
+                <AdSummary adsQuery={PAGE_ADS_QUERY} key={ad.id} ad={ad} />
+              ))}
+            </AdSummaries>
+          </Card>
+          <Paging
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            maxItems={data.me.adCount}
+            itemsByPage={paging5pages}
+          />
+        </>
+      ) : (
+        <Empty>
+          <h3>{translations.Ads.noAds}</h3>
+          <BuyerSellerSVG />
+        </Empty>
+      )}
     </>
   );
 };

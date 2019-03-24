@@ -5,13 +5,14 @@ import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { useQuery } from 'react-apollo-hooks';
 import { CAR_BY_ID, MATCHING_ADS_QUERY } from './Queries';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Breadcrumb } from 'react-bootstrap';
 import { Ad, Offer } from '../../../generated/graphql';
 import AdSummary from '../../Ad/AdSummary';
 import OfferModal from '../../Offer/OfferModal';
 import CarSummary from '../CarSummary';
 import { AdSummaries, Tab, TabBadge } from '../../Ad/Ads/styles';
 import { OfferPrice } from '../../Ad/AdSummary/styles';
+import Link from 'next/link';
 
 export interface CarPageProps {
   translations: Translations;
@@ -85,6 +86,16 @@ const Car = ({ translations, query }: CarPageProps) => {
 
   return (
     <>
+      <Breadcrumb>
+        <Link href={{ pathname: '/cars' }} passHref>
+          <Breadcrumb.Item>{translations.general.sell}</Breadcrumb.Item>
+        </Link>
+        <Breadcrumb.Item active>
+          {carQuery.data.car.manufacturer.name} {carQuery.data.car.model.name}{' '}
+          {carQuery.data.car.year}
+        </Breadcrumb.Item>
+      </Breadcrumb>
+
       <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
         <CarSummary car={carQuery.data.car} />
       </Card>
@@ -134,6 +145,7 @@ const Car = ({ translations, query }: CarPageProps) => {
                 <AdSummary
                   key={adOffer.ad.id}
                   ad={adOffer.ad}
+                  offer={adOffer.offer}
                   right={
                     <>
                       <Button

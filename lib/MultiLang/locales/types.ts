@@ -1,13 +1,18 @@
+import { Dictionary } from '../../Types/Dictionary';
+
 export default interface Translations {
   loading: String;
   login: {
     title: string;
     loginWithFacebook: string;
     loginWithGoogle: string;
+    forgotPassword: string;
   };
   signup: {
     title: string;
     clientType: string;
+    facebookLogin: string;
+    googleLogin: string;
   };
   confirmation: {
     title: string;
@@ -83,6 +88,8 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    offered: string;
+    memberSince: string;
     accept: string;
     radius: string;
     langage: string;
@@ -191,6 +198,7 @@ export default interface Translations {
     mileage: string;
     price: string;
     descriptionPlaceholder: string;
+    noCars: string;
   };
   clientType: {
     company: string;
@@ -198,7 +206,6 @@ export default interface Translations {
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
-  carFeature: { [key: string]: string };
   carLabel: {
     title: string;
     carAddSumbit: string;
@@ -226,6 +233,7 @@ export default interface Translations {
     features: string;
     addAds: string;
     title: string;
+    noAds: string;
   };
   offers: {
     createOffer: string;
@@ -281,4 +289,66 @@ export default interface Translations {
     PremiumName: string;
     PremiumDescription: string;
   };
+  offerAddons: {
+    subtitle: string;
+    mags: string;
+    tires: string;
+  };
+  carFeature: Dictionary<{
+    color: Dictionary<{
+      black: string;
+      blue: string;
+      brown: string;
+      gold: string;
+      green: string;
+      grey: string;
+      orange: string;
+      pink: string;
+      purple: string;
+      red: string;
+      silver: string;
+      tan: string;
+      teal: string;
+      white: string;
+      yellow: string;
+      other: string;
+    }>;
+    fuelType: Dictionary<{
+      diesel: string;
+      electric: string;
+      gasoline: string;
+      hybrid: string;
+      other: string;
+    }>;
+    doorNumber: Dictionary<{
+      2: string;
+      3: string;
+      4: string;
+      5: string;
+      other: string;
+    }>;
+    seatNumber: Dictionary<{
+      2: string;
+      3: string;
+      4: string;
+      5: string;
+      6: string;
+      7: string;
+      other: string;
+    }>;
+    drivetrain: Dictionary<{
+      '4x4': string;
+      awd: string;
+      fwd: string;
+      rwd: string;
+      other: string;
+    }>;
+    transmission: Dictionary<{
+      manual: string;
+      automatic: string;
+      other: string;
+    }>;
+    true: string;
+    false: string;
+  }>;
 }

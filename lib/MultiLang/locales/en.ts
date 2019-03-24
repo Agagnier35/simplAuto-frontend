@@ -6,10 +6,13 @@ const translations: Translations = {
     title: 'Login',
     loginWithFacebook: 'Login with Facebook',
     loginWithGoogle: 'Login with Google',
+    forgotPassword: 'Forgot password ?',
   },
   signup: {
     title: 'Create an account',
     clientType: 'Account type',
+    facebookLogin: 'Login with Facebook',
+    googleLogin: 'Login with Google',
   },
   confirmation: {
     title: 'Accept an offer',
@@ -91,6 +94,8 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    offered: 'Offered',
+    memberSince: 'Member since',
     accept: 'Accept offer',
     radius: 'Radius (KM)',
     langage: 'Language',
@@ -212,6 +217,7 @@ const translations: Translations = {
     mileage: 'Kilometers',
     price: 'Price',
     descriptionPlaceholder: 'Enter a small description for the car',
+    noCars: 'No cars yet',
   },
   clientType: {
     company: 'Company',
@@ -234,7 +240,6 @@ const translations: Translations = {
   carCategory: {
     sedan: 'sedan',
   },
-  carFeature: {},
   carLabel: {
     title: 'Please fill the information about your car',
     general: 'General information',
@@ -256,8 +261,9 @@ const translations: Translations = {
     lowerYear: 'Lower Year',
     higherYear: 'Higher Year',
     features: 'features',
-    addAds: 'Add an Ad',
+    addAds: 'Create an Ad',
     title: 'Ads',
+    noAds: 'No ads yet',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',
@@ -318,6 +324,68 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Monthly membership',
+  },
+  offerAddons: {
+    subtitle: 'The seller offers also',
+    mags: 'Mags',
+    tires: 'Tires',
+  },
+  carFeature: {
+    color: {
+      black: 'Black',
+      blue: 'Blue',
+      brown: 'Brown',
+      gold: 'Gold',
+      green: 'Green',
+      grey: 'Grey',
+      orange: 'Orange',
+      pink: 'Pink',
+      purple: 'Purple',
+      red: 'Red',
+      silver: 'Silver',
+      tan: 'Tan',
+      teal: 'Teal',
+      white: 'White',
+      yellow: 'Yellow',
+      other: 'Other',
+    },
+    fuelType: {
+      diesel: 'Diesel',
+      electric: 'Electric',
+      gasoline: 'Gasoline',
+      hybrid: 'Hybrid',
+      other: 'Other',
+    },
+    doorNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      other: 'Other',
+    },
+    seatNumber: {
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      other: 'Other',
+    },
+    drivetrain: {
+      '4x4': '4x4',
+      awd: 'AWD',
+      fwd: 'FWD',
+      rwd: 'RWD',
+      other: 'Other',
+    },
+    transmission: {
+      manual: 'Manual',
+      automatic: 'Automatic',
+      other: 'Other',
+    },
+    true: 'Yes',
+    false: 'No',
   },
 };
 

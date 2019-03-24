@@ -72,6 +72,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
   };
 
   render() {
+    const { translations } = this.props;
     return (
       <Mutation
         mutation={FACEBOOK_LOGIN_MUTATION}
@@ -81,7 +82,9 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         {handleMutation => (
           <FacebookLogin
             appId="1017021355164596"
-            autoLoad={true}
+            icon="fa-facebook"
+            language="fr_CA"
+            textButton={translations.signup.facebookLogin}
             fields="first_name,name,last_name,email,gender,birthday,picture"
             callback={response =>
               this.responseFacebook(response, handleMutation)
