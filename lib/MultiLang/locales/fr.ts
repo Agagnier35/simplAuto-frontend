@@ -26,8 +26,8 @@ const translations: Translations = {
     address: 'Entrée votre adresse',
     changePassword: 'Nouveau mot de passe',
     confirmationChangePassword: 'Confirmer mot de passe',
-    contactInfo: 'Information de mise en contact',
-    genrealInfo: 'Information générale',
+    contactInfo: 'Informations de mise en contact',
+    genrealInfo: 'Informations générales',
     newPWSection: 'Nouveau mot de passe',
   },
   general: {
@@ -75,6 +75,102 @@ const translations: Translations = {
     langages: {
       english: 'Anglais',
       french: 'Français',
+    },
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
+          emptyError: 'Prénom ne peut être vide.',
+          containsNumberError: 'Prénom ne peut contenir un chiffre.',
+        },
+        lastNameError: {
+          emptyError: 'Nom de famille ne peut être vide.',
+          containsNumberError: 'Nom de famille ne peut contenir un chiffre.',
+        },
+        emailError: {
+          invalidEmailError: 'Adresse courriel invalide.',
+        },
+        passwordError: {
+          emptyError: 'Mot de passe ne peut être vide.',
+        },
+        confirmPasswordError: {
+          emptyError: 'Mot de passe de confirmation ne peut être vide.',
+          matchingError: 'Mots de passe différents.',
+        },
+        locationError: {
+          emptyError: 'La localisation ne peut être vide.',
+        },
+        birthDateError: {
+          invalidYearError: "L'année saisie est invalide.",
+        },
+      },
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          yearLowerBoundTooLow: "L'année minimale trop basse",
+          yearLowerBoundTooHigh:
+            "L'année minimale ne peut être plus grande que l'année courante.",
+          emptyError: "L'année minimale ne peut être vide",
+          numberNotIntegerError:
+            "L'année minimale doit être un entier (chiffre sans virgule)",
+        },
+        yearHigherBound: {
+          yearHigherBoundTooLow: "L'année maximale trop basse",
+          yearHigherBoundTooHigh:
+            "L'année maximale ne peut être plus grande que l'année courante.",
+          emptyError: "L'année maximale ne peut être vide",
+          numberNotIntegerError:
+            "L'année maximale doit être un entier (chiffre sans virgule)",
+          yearLowerBoundHigherThanYearHigherBoundError:
+            "L'année maximale doit être supérieur à l'année minimale",
+        },
+        mileageLowerBound: {
+          mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
+          mileageLowerBoundTooHigh: 'Kilométrage min trop grand',
+          emptyError: 'Kilométrage min ne peut être vide',
+          numberNotIntegerError:
+            'Kilométrage min doit être un entier (chiffre sans virgule)',
+        },
+        mileageHigherBound: {
+          mileageHigherBoundTooLow: 'Kilométrage max doit être positif',
+          mileageHigherBoundTooHigh: 'Kilométrage max trop grand',
+          emptyError: 'Kilométrage max ne peut être vide',
+          numberNotIntegerError:
+            'Kilométrage max doit être un entier (chiffre sans virgule)',
+          mileageLowerBoundHigherThanMileageHigherBoundError:
+            'Kilométrage max doit être supérieur à kilométrage min',
+        },
+        priceLowerBound: {
+          priceLowerBoundTooLowError: 'Prix min doit être positif',
+          emptyError: 'Prix min ne peut être vide',
+          numberNotIntegerError:
+            'Prix min doit être un entier (chiffre sans virgule)',
+        },
+        priceHigherBound: {
+          emptyError: 'Prix max ne peut être vide',
+          numberNotIntegerError:
+            'Prix max doit être un entier (chiffre sans virgule)',
+          priceLowerBoundHigherThanPriceHigherBoundError:
+            'Prix max doit être supérieur à prix min',
+        },
+      },
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: "L'année ne peut être vide",
+          numberNotIntegerError:
+            "L'année doit être un entier (chiffre sans virgule)",
+          yearTooLowError: "L'année est trop petite",
+          yearTooHighError: "L'année ne peut dépasser l'année courante",
+        },
+        mileage: {
+          emptyError: 'Kilométrage ne peut être vide',
+          numberNotIntegerError:
+            'Kilométrage doit être un entier (chiffre sans virgule)',
+          mileageLesserThanZeroError: 'Kilométrage doit être supérieur à 0',
+          mileageTooHighError: 'Kilométrage trop élevé',
+        },
+        photos: {
+          atLeastOnePhotoError: 'Vous devez ajouter au moins une photo',
+        },
+      },
     },
   },
   errors: {
