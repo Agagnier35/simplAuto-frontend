@@ -7,6 +7,7 @@ import {
   Gender,
   Date as BirthDate,
   ClientType,
+  Location,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 
@@ -23,7 +24,8 @@ interface LoginGoogleState {
   lastName: string;
   email: string;
   password: string;
-  location: string;
+  location: Location;
+  radius: number;
   gender: Gender;
   birthDate: BirthDate;
   googleID: string;
@@ -36,7 +38,12 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
     lastName: '',
     email: '',
     password: '',
-    location: '',
+    location: {
+      name: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    radius: 0,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -69,6 +76,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   render() {
+    const { translations } = this.props;
     return (
       <Mutation
         mutation={GOOGLE_LOGIN_MUTATION}
@@ -77,8 +85,9 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
       >
         {handleMutation => (
           <GoogleLogin
+            className="google-login-btn"
             clientId="336221605230-o9967qlvh1121ublhs76bh9flm6kb3r8.apps.googleusercontent.com"
-            buttonText="Login With Google"
+            buttonText={translations.signup.googleLogin}
             onSuccess={response =>
               this.responseGoogle(response, handleMutation)
             }
