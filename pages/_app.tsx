@@ -10,7 +10,7 @@ import { ApolloClient } from 'apollo-client';
 import MultiLang from '../lib/MultiLang';
 import 'bootstrap/dist/css/bootstrap.css';
 import gql from 'graphql-tag';
-import { User } from '../generated/graphql';
+import { User, UserLanguage } from '../generated/graphql';
 
 interface PageProps {
   query?: any;
@@ -44,7 +44,7 @@ class MyApp extends App<Props> {
   }
   getLanguage(me: User) {
     let initialeLocale = 'fr';
-    if (me && me.language === 'ENGLISH') {
+    if (me && me.language === UserLanguage.English) {
       initialeLocale = 'en';
     }
     return initialeLocale;
