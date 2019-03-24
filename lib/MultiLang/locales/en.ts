@@ -77,6 +77,7 @@ const translations: Translations = {
     create: 'Create',
     update: 'Update',
     print: 'Print',
+    radius: 'Radius (KM)',
     langage: 'Language',
     langages: {
       english: 'English',

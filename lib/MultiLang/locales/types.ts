@@ -75,6 +75,7 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    radius: string;
     langage: string;
     langages: {
       english: string;

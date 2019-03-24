@@ -8,8 +8,13 @@ export const GET_USER_INFO_QUERY = gql`
       lastName
       companyName
       email
-      location
       language
+      location {
+        name
+        longitude
+        latitude
+      }
+      radius
       birthDate {
         day
         month

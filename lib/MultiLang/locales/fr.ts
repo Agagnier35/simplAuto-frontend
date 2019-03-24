@@ -77,6 +77,7 @@ const translations: Translations = {
     update: 'Modifier',
     delete: 'Supprimer',
     print: 'Imprimer',
+    radius: 'Rayon de recherche (KM)',
     langage: 'Langue',
     langages: {
       english: 'Anglais',

@@ -7,6 +7,7 @@ import {
   Gender,
   Date as BirthDate,
   ClientType,
+  Location,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 
@@ -23,7 +24,8 @@ interface LoginGoogleState {
   lastName: string;
   email: string;
   password: string;
-  location: string;
+  location: Location;
+  radius: number;
   gender: Gender;
   birthDate: BirthDate;
   googleID: string;
@@ -36,7 +38,12 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
     lastName: '',
     email: '',
     password: '',
-    location: '',
+    location: {
+      name: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    radius: 0,
     gender: Gender.Other,
     birthDate: {
       day: 1,

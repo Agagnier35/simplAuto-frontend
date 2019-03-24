@@ -41,6 +41,11 @@ const ProfileStyle = styled.form`
     max-width: 3%;
   }
 
+  .geosuggest__item--active {
+    background: #267dc0;
+    color: #fff;
+  }
+
   .geosuggest__suggests--hidden {
     max-height: 0;
     overflow: hidden;
@@ -54,7 +59,8 @@ const ProfileStyle = styled.form`
 
   .geosuggest__item:hover,
   .geosuggest__item:focus {
-    background: #f5f5f5;
+    background: #267dc0;
+    color: #fff;
   }
 
   .geosuggest__item__matched-text {

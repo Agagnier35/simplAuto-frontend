@@ -6,7 +6,7 @@ import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import Select from '../../General/Select';
 import gql from 'graphql-tag';
 import ErrorMessage from '../../General/ErrorMessage';
-import Geosuggest from 'react-geosuggest';
+import Geosuggest, { Suggest } from 'react-geosuggest';
 import { MdLockOutline } from 'react-icons/md';
 import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../../General/Header';
@@ -19,6 +19,7 @@ import {
   ClientType,
   UserSignupInput,
   UserLanguage,
+  Location,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 
@@ -37,7 +38,8 @@ interface SignupState {
   email: string;
   password: string;
   confirmPassword: string;
-  location: string;
+  location: Location;
+  radius: number;
   gender: Gender;
   birthDate: BirthDate;
   clientType: ClientType;
@@ -68,7 +70,12 @@ class Signup extends Component<MultiProps, SignupState> {
     email: '',
     password: '',
     confirmPassword: '',
-    location: '',
+    location: {
+      name: '',
+      longitude: 0,
+      latitude: 0,
+    },
+    radius: 0,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -103,8 +110,9 @@ class Signup extends Component<MultiProps, SignupState> {
       ((this.state.firstName !== '' && this.state.lastName !== '') ||
         this.state.companyName !== '') &&
       this.state.email !== '' &&
-      this.state.location !== '' &&
-      this.state.password === this.state.confirmPassword
+      this.state.location.name !== '' &&
+      this.state.password === this.state.confirmPassword &&
+      this.isBirthDateValid()
     );
   };
 
@@ -144,9 +152,35 @@ class Signup extends Component<MultiProps, SignupState> {
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
+  handleChangeRadius = (e: FormEvent<any>) => {
+    const re = /^[0-9\b]+$/;
+    if (e.currentTarget.value === '') {
+      this.setState({ radius: 0 });
+    }
 
-  handleGeoLocChange = (e: string) => {
-    this.setState({ location: e });
+    if (re.test(e.currentTarget.value)) {
+      this.setState({ radius: parseInt(e.currentTarget.value, 10) });
+    }
+  };
+
+  handleGeoLocChange = (suggest: Suggest) => {
+    this.setState(
+      suggest
+        ? {
+            location: {
+              name: suggest.label,
+              longitude: parseFloat(suggest.location.lng),
+              latitude: parseFloat(suggest.location.lat),
+            },
+          }
+        : {
+            location: {
+              name: '',
+              longitude: 0,
+              latitude: 0,
+            },
+          },
+    );
   };
 
   datePickerInput = (signupformValidation: SignupFormValidation) => {
@@ -201,7 +235,12 @@ class Signup extends Component<MultiProps, SignupState> {
       email: '',
       password: '',
       confirmPassword: '',
-      location: '',
+      location: {
+        name: '',
+        longitude: 0,
+        latitude: 0,
+      },
+      radius: 0,
       gender: Gender.Other,
       birthDate: {
         day: 1,
@@ -281,7 +320,7 @@ class Signup extends Component<MultiProps, SignupState> {
                       }}
                     />
                     <div
-                      hidden={this.state.clientType != ClientType.Individual}
+                      hidden={this.state.clientType !== ClientType.Individual}
                     >
                       <Form.Group>
                         <Form.Label>{general.firstName}</Form.Label>
@@ -329,7 +368,7 @@ class Signup extends Component<MultiProps, SignupState> {
                     </div>
 
                     <Form.Group
-                      hidden={this.state.clientType != ClientType.Company}
+                      hidden={this.state.clientType !== ClientType.Company}
                     >
                       <Form.Label>{general.companyName}</Form.Label>
                       <InputGroup>
@@ -450,7 +489,7 @@ class Signup extends Component<MultiProps, SignupState> {
                       </InputGroup>
                     </Form.Group>
                     <div
-                      hidden={this.state.clientType != ClientType.Individual}
+                      hidden={this.state.clientType !== ClientType.Individual}
                     >
                       <Form.Group>
                         <Form.Label>{general.gender}</Form.Label>
@@ -504,9 +543,8 @@ class Signup extends Component<MultiProps, SignupState> {
                       <OtherStyle>
                         <Geosuggest
                           onBlur={() => this.fieldTouched('location')}
-                          onChange={this.handleGeoLocChange}
-                          onSuggestSelect={(suggest: any) =>
-                            this.handleGeoLocChange(suggest.label)
+                          onSuggestSelect={(suggest: Suggest) =>
+                            this.handleGeoLocChange(suggest)
                           }
                         />
                         <div
@@ -525,8 +563,25 @@ class Signup extends Component<MultiProps, SignupState> {
                       </OtherStyle>
                     </Form.Group>
 
+                    <Form.Group>
+                      <Form.Label>{general.radius}</Form.Label>
+                      <InputGroup>
+                        <Form.Control
+                          placeholder={general.radius}
+                          aria-describedby="inputGroupPrepend"
+                          type="radius"
+                          name="radius"
+                          value={this.state.radius.toString()}
+                          onChange={this.handleChangeRadius}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {general.radius}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+
                     <Form.Group
-                      hidden={this.state.clientType != ClientType.Individual}
+                      hidden={this.state.clientType !== ClientType.Individual}
                     >
                       <Form.Label>{profile.birth}</Form.Label>
                       <InputGroup>
