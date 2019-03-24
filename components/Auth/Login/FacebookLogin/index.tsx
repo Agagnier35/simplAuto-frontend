@@ -7,7 +7,6 @@ import {
   Gender,
   Date as BirthDate,
   ClientType,
-  Location,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 
@@ -24,8 +23,7 @@ interface LoginFacebookState {
   lastName: string;
   email: string;
   password: string;
-  location: Location;
-  radius: number;
+  location: string;
   gender: Gender;
   birthDate: BirthDate;
   facebookID: string;
@@ -38,12 +36,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
     lastName: '',
     email: '',
     password: '',
-    location: {
-      name: '',
-      latitude: 0,
-      longitude: 0,
-    },
-    radius: 0,
+    location: '',
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -72,7 +65,6 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
   };
 
   render() {
-    const { translations } = this.props;
     return (
       <Mutation
         mutation={FACEBOOK_LOGIN_MUTATION}
@@ -82,9 +74,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         {handleMutation => (
           <FacebookLogin
             appId="1017021355164596"
-            icon="fa-facebook"
-            language="fr_CA"
-            textButton={translations.signup.facebookLogin}
+            autoLoad={true}
             fields="first_name,name,last_name,email,gender,birthday,picture"
             callback={response =>
               this.responseFacebook(response, handleMutation)

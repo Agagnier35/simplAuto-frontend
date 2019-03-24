@@ -5,33 +5,23 @@ import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
 import { CarCreateInput, Maybe } from '../../../generated/graphql';
 import gql from 'graphql-tag';
-import { Form, Button, Card, InputGroup } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
-import CarAddFormValidation from '../../../lib/FormValidator/CarAddFormValidation';
-import { MINCARYEAR } from '../../../lib/FormValidator/CreateAdFormValidation';
-import { Dictionary } from '../../../lib/Types/Dictionary';
 
 interface CarAddState {
   features: any[];
   [key: string]: any;
-  manufacturerID: any;
-  modelID: any;
-  categoryID: any;
+  manufacturerID: string;
+  modelID: string;
+  categoryID: string;
   year: number;
   description: string;
   mileage: number;
   photos: any;
   featuresIDs?: Maybe<string[]>;
-  touched: Dictionary<{
-    manufacturerID: boolean;
-    modelID: boolean;
-    categoryID: boolean;
-    year: boolean;
-    mileage: boolean;
-  }>;
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -68,30 +58,20 @@ const CAR_ADD_MUTATION = gql`
   }
 `;
 
-const redAsterixStyle = {
-  color: 'red',
-};
-
 class CarAdd extends Component<MultiProps, CarAddState> {
   constructor(props: any, context: any) {
     super(props, context);
+
     this.state = {
       photos: [],
       features: [],
-      manufacturerID: null,
-      modelID: null,
-      categoryID: null,
+      manufacturerID: '',
+      modelID: '',
+      categoryID: '',
       year: 0,
       mileage: 0,
       description: '',
       featuresIDs: null,
-      touched: {
-        manufacturerID: false,
-        modelID: false,
-        categoryID: false,
-        year: false,
-        mileage: false,
-      },
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
@@ -188,9 +168,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     } else {
       // Not a feature
       this.setState({ [key]: value });
-      if (key === 'manufacturerID') {
-        this.setState({ modelID: '' });
-      }
     }
   };
 
@@ -211,17 +188,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   getModelsForManufacturer = (data: any) => {
     const { manufacturerID } = this.state;
-    if (manufacturerID) {
-      return data.manufacturers.find((item: any) => item.id === manufacturerID)
-        .models;
-    }
-    return [];
-  };
-
-  fieldTouched = (key: string) => {
-    const touched = { ...this.state.touched };
-    touched[key] = true;
-    this.setState({ touched });
+    return manufacturerID.length > 0
+      ? data.manufacturers.find((item: any) => item.id === manufacturerID)
+          .models
+      : [];
   };
 
   render() {
@@ -231,9 +201,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
-
-    const touched = { ...this.state.touched };
-    const carAddFormValidation = new CarAddFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -268,106 +235,51 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           {carLabel.general}
                         </Card.Title>
                         <div className="label-wrapper">
-                          <InputGroup>
-                            <Select
-                              options={data.manufacturers}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('manufacturerID', item.id)
-                              }
-                              label={
-                                <span>
-                                  {cars.manufacturer}
-                                  <span style={redAsterixStyle}>*</span>
-                                </span>
-                              }
-                            />
-                            <Select
-                              options={this.getModelsForManufacturer(data)}
-                              disabled={!manufacturerID}
-                              accessor="name"
-                              selected={manufacturerID}
-                              handleChange={(item: any) =>
-                                this.handleChange('modelID', item.id)
-                              }
-                              label={
-                                <span>
-                                  {cars.model}
-                                  <span style={redAsterixStyle}>*</span>
-                                </span>
-                              }
-                            />
-                          </InputGroup>
-                          <InputGroup>
-                            <Select
-                              options={data.carCategories}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('categoryID', item.id)
-                              }
-                              label={
-                                <span>
-                                  {cars.category}
-                                  <span style={redAsterixStyle}>*</span>
-                                </span>
-                              }
-                            />
-                          </InputGroup>
-                          <label>
-                            {
-                              <span>
-                                {cars.year}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
+                          <Select
+                            options={data.manufacturers}
+                            accessor="name"
+                            handleChange={(item: any) =>
+                              this.handleChange('manufacturerID', item.id)
                             }
+                            label={`${cars.manufacturer} :`}
+                          />
+                          <Select
+                            options={this.getModelsForManufacturer(data)}
+                            disabled={manufacturerID.length === 0}
+                            accessor="name"
+                            handleChange={(item: any) =>
+                              this.handleChange('modelID', item.id)
+                            }
+                            label={`${cars.model} :`}
+                          />
+                          <Select
+                            options={data.carCategories}
+                            accessor="name"
+                            handleChange={(item: any) =>
+                              this.handleChange('categoryID', item.id)
+                            }
+                            label={`${cars.category} :`}
+                          />
+
+                          <label>
+                            {cars.year}
                             <Form.Control
-                              type="number"
+                              type="text"
                               id="year"
-                              min={MINCARYEAR}
-                              max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}
-                              onBlur={() => this.fieldTouched('year')}
-                              isInvalid={
-                                touched.year &&
-                                !carAddFormValidation.isYearValid(
-                                  this.state.year,
-                                )
-                              }
                               required
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {carAddFormValidation.yearError(this.state.year)}
-                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            {
-                              <span>
-                                {cars.mileage}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            {cars.mileage}
                             <Form.Control
-                              type="number"
+                              type="text"
                               id="mileage"
-                              min={0}
-                              max={300000}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
-                              onBlur={() => this.fieldTouched('mileage')}
-                              isInvalid={
-                                touched.mileage &&
-                                !carAddFormValidation.isMileageValid(
-                                  this.state.mileage,
-                                )
-                              }
                               required
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {carAddFormValidation.mileageError(
-                                this.state.mileage,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                         </div>
                       </Card.Body>
@@ -390,7 +302,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                                   category: feature.name,
                                 })
                               }
-                              label={carFeatureCategory[feature.name]}
+                              label={`${carFeatureCategory[feature.name]} :`}
                             />
                           ))}
                           <span>Description :</span>
@@ -411,6 +323,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <span className="card-number">3</span>
                             {carLabel.addons}
                           </Card.Title>
+
                           {fetchedCheckboxFeatures.map((feature: any) => (
                             <Form.Check
                               key={feature.id}
@@ -431,10 +344,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                         <Card.Body>
                           <Card.Title>
                             <span className="card-number">4</span>
-                            <span>
-                              {general.images}{' '}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {general.images}
                           </Card.Title>
                           <Card.Subtitle>{carLabel.upload}</Card.Subtitle>
                           <label className="btn btn-primary file-select">
@@ -462,11 +372,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
-                            disabled={
-                              !carAddFormValidation.isCarAddFormStateValid(
-                                this.state,
-                              )
-                            }
                           >
                             {carLabel.carAddSumbit}
                           </Button>

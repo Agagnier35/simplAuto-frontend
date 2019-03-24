@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledNav = styled.div`
   background-color: ${props => props.theme.colors.dark};
   display: flex;
-  position: absolute !important;
+  position: absolute;
   top: 0;
   min-height: 72.5px;
   width: 100%;
@@ -15,16 +15,6 @@ const StyledNav = styled.div`
     background: none !important; /* No choice to overwrite bootstrap */
     padding: 0;
     margin: 10.5px auto;
-  }
-
-  .navbar-nav {
-    align-items: center;
-    flex-grow: 1;
-    margin-right: 1rem !important;
-
-    @media (max-width: 767px) {
-      margin-right: auto !important;
-    }
   }
 
   .navbar-brand {
@@ -63,23 +53,8 @@ const StyledNav = styled.div`
       color: ${props => props.theme.colors.primary};
 
       &.firstName {
-        background: ${props => props.theme.colors.primary};
+        margin: 0 1rem;
         color: white;
-        font-size: 1rem;
-        width: 2rem;
-        height: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50px;
-        margin-right: 1rem;
-        margin-left: auto;
-
-        @media (max-width: 767px) {
-          margin-left: 1rem;
-          margin-bottom: 1rem;
-          margin-top: 1rem;
-        }
       }
 
       &.nav-item {

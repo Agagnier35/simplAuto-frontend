@@ -1,27 +1,17 @@
 import React, { Component, FormEvent } from 'react';
-import { multiUpdater, MultiProps } from '../../../lib/MultiLang';
+import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
 import StyledSignup from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
-import Select from '../../General/Select';
 import gql from 'graphql-tag';
 import ErrorMessage from '../../General/ErrorMessage';
-import Geosuggest, { Suggest } from 'react-geosuggest';
+import Geosuggest from 'react-geosuggest';
 import { MdLockOutline } from 'react-icons/md';
 import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
 import OtherStyle from './otherstyle';
-import SignupFormValidation from '../../../lib/FormValidator/SignupFormValidation';
-import {
-  Gender,
-  Date as BirthDate,
-  ClientType,
-  UserSignupInput,
-  UserLanguage,
-  Location,
-} from '../../../generated/graphql';
-import { Dictionary } from '../../../lib/Types/Dictionary';
+import { Gender, Date as BirthDate } from '../../../generated/graphql';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($data: UserSignupInput!) {
@@ -34,64 +24,27 @@ const SIGNUP_MUTATION = gql`
 interface SignupState {
   firstName: string;
   lastName: string;
-  companyName: string;
   email: string;
   password: string;
   confirmPassword: string;
-  location: Location;
-  radius: number;
+  location: string;
   gender: Gender;
   birthDate: BirthDate;
-  clientType: ClientType;
-  language: string;
-  touched: Dictionary<{
-    firstName: boolean;
-    lastName: boolean;
-    email: boolean;
-    password: boolean;
-    confirmPassword: boolean;
-    location: boolean;
-    birthDate: boolean;
-  }>;
 }
 
-const redText = {
-  width: '100%',
-  marginTop: '0.25rem',
-  fontSize: '80%',
-  color: '#dc3545',
-};
-
 class Signup extends Component<MultiProps, SignupState> {
-  state: Dictionary<SignupState> = {
+  state: SignupState = {
     firstName: '',
     lastName: '',
-    companyName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    location: {
-      name: '',
-      longitude: 0,
-      latitude: 0,
-    },
-    radius: 0,
+    location: '',
     gender: Gender.Other,
     birthDate: {
       day: 1,
       month: 1,
       year: 1900,
-    },
-    clientType: ClientType.Individual,
-    language: '',
-    touched: {
-      firstName: false,
-      lastName: false,
-      email: false,
-      password: false,
-      confirmPassword: false,
-      location: false,
-      birthDate: false,
     },
   };
 
@@ -107,10 +60,10 @@ class Signup extends Component<MultiProps, SignupState> {
 
   isStateSignupValid = () => {
     return (
-      ((this.state.firstName !== '' && this.state.lastName !== '') ||
-        this.state.companyName !== '') &&
+      this.state.firstName !== '' &&
+      this.state.lastName !== '' &&
       this.state.email !== '' &&
-      this.state.location.name !== '' &&
+      this.state.location !== '' &&
       this.state.password === this.state.confirmPassword &&
       this.isBirthDateValid()
     );
@@ -124,88 +77,41 @@ class Signup extends Component<MultiProps, SignupState> {
       : this.setState({
           firstName: '',
           lastName: '',
-          companyName: '',
           email: '',
           password: '',
           confirmPassword: '',
-          clientType: ClientType.Individual,
-          language: '',
         });
     this.setState({
       firstName: '',
       lastName: '',
-      companyName: '',
       email: '',
       password: '',
       confirmPassword: '',
-      clientType: ClientType.Individual,
-      language: '',
     });
-    let localeValue = 'fr';
-    if (this.state.language === UserLanguage.English) {
-      localeValue = 'en';
-    }
-    this.props.changeLocale(localeValue);
     Router.push('/');
   };
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
-  handleChangeRadius = (e: FormEvent<any>) => {
-    const re = /^[0-9\b]+$/;
-    if (e.currentTarget.value === '') {
-      this.setState({ radius: 0 });
-    }
 
-    if (re.test(e.currentTarget.value)) {
-      this.setState({ radius: parseInt(e.currentTarget.value, 10) });
-    }
+  handleGeoLocChange = (e: string) => {
+    this.state.location = e;
   };
 
-  handleGeoLocChange = (suggest: Suggest) => {
-    this.setState(
-      suggest
-        ? {
-            location: {
-              name: suggest.label,
-              longitude: parseFloat(suggest.location.lng),
-              latitude: parseFloat(suggest.location.lat),
-            },
-          }
-        : {
-            location: {
-              name: '',
-              longitude: 0,
-              latitude: 0,
-            },
-          },
-    );
-  };
-
-  datePickerInput = (signupformValidation: SignupFormValidation) => {
+  datePickerInput = () => {
     const curr = new Date();
     const { birthDate } = this.state;
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
     const date = curr.toISOString().substr(0, 10);
     return (
-      <>
-        <Form.Control
-          type="date"
-          name="birthDate"
-          className="inputNeedSpace"
-          isInvalid={
-            this.state.touched.birthDate &&
-            !signupformValidation.isBirthDateValid(date)
-          }
-          onBlur={() => this.fieldTouched('birthDate')}
-          defaultValue={date}
-          onChange={this.handleChangeDate}
-        />
-        <Form.Control.Feedback type="invalid">
-          {signupformValidation.birthDateError()}
-        </Form.Control.Feedback>
-      </>
+      <Form.Control
+        type="date"
+        name="birthDate"
+        className="inputNeedSpace"
+        defaultValue={date}
+        onChange={this.handleChangeDate}
+      />
     );
   };
 
@@ -220,71 +126,15 @@ class Signup extends Component<MultiProps, SignupState> {
     } as SignupState);
   };
 
-  isNotUsefullCompanyInfo = (item: string) => {
-    return (
-      this.state.clientType === ClientType.Company &&
-      (item === 'gender' || item === 'birthDate')
-    );
-  };
-
   getSignupPayload = () => {
-    const myData: Dictionary<UserSignupInput> = {
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      location: {
-        name: '',
-        longitude: 0,
-        latitude: 0,
-      },
-      radius: 0,
-      gender: Gender.Other,
-      birthDate: {
-        day: 1,
-        month: 1,
-        year: 1900,
-      },
-      clientType: ClientType.Individual,
-    };
-    Object.keys(this.state).map(item => {
-      if (item !== 'confirmPassword' && this.state[item] !== '') {
-        myData[item] = this.state[item];
-      } else if (this.state[item] === '') {
-        delete myData[item];
-      }
-      if (this.isNotUsefullCompanyInfo(item)) {
-        delete myData[item];
-      }
-    });
-    delete myData['confirmPassword'];
-
-    return { data: myData };
-  };
-
-  handleChangeSelect = (value: any) => {
-    this.setState({ firstName: '', lastName: '', companyName: '' });
-    if (value === ClientType.Company) {
-      this.setState({ clientType: ClientType.Company });
-    } else {
-      this.setState({ clientType: ClientType.Individual });
-    }
-  };
-
-  fieldTouched = (key: string) => {
-    const touched = { ...this.state.touched };
-    touched[key] = true;
-    this.setState({ touched });
+    const { confirmPassword, ...userInfos } = this.state;
+    return { data: userInfos };
   };
 
   render() {
     const {
-      translations: { signup, general, clientType, profile },
+      translations: { signup, general },
     } = this.props;
-    const touched = { ...this.state.touched };
-    const signupformValidation = new SignupFormValidation(general);
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
@@ -301,97 +151,38 @@ class Signup extends Component<MultiProps, SignupState> {
                   onSubmit={(e: any) => this.handleSignup(e, handleMutation)}
                 >
                   <fieldset disabled={loading} aria-busy={loading}>
-                    <Select
-                      options={[
-                        { name: clientType.company, value: ClientType.Company },
-                        {
-                          name: clientType.individual,
-                          value: ClientType.Individual,
-                        },
-                      ]}
-                      accessor="name"
-                      handleChange={(item: any) =>
-                        this.handleChangeSelect(item.value)
-                      }
-                      label={`${signup.clientType} :`}
-                      selected={{
-                        name: clientType.individual,
-                        value: ClientType.Individual,
-                      }}
-                    />
-                    <div
-                      hidden={this.state.clientType !== ClientType.Individual}
-                    >
-                      <Form.Group>
-                        <Form.Label>{general.firstName}</Form.Label>
-                        <InputGroup>
-                          <Form.Control
-                            placeholder={general.firstName}
-                            aria-describedby="inputGroupPrepend"
-                            required
-                            type="text"
-                            name="firstName"
-                            value={this.state.firstName}
-                            onChange={this.handleChange}
-                            onBlur={() => this.fieldTouched('firstName')}
-                            isInvalid={
-                              touched.firstName &&
-                              !signupformValidation.isFirstNameValid(
-                                this.state.firstName,
-                              )
-                            }
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {signupformValidation.firstNameError(
-                              this.state.firstName,
-                            )}
-                          </Form.Control.Feedback>
-                        </InputGroup>
-                      </Form.Group>
-
-                      <Form.Group>
-                        <Form.Label>{general.lastName}</Form.Label>
-                        <InputGroup>
-                          <Form.Control
-                            placeholder={general.lastName}
-                            aria-describedby="inputGroupPrepend"
-                            type="lastName"
-                            name="lastName"
-                            value={this.state.lastName}
-                            onChange={this.handleChange}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {general.lastName}
-                          </Form.Control.Feedback>
-                        </InputGroup>
-                      </Form.Group>
-                    </div>
-
-                    <Form.Group
-                      hidden={this.state.clientType !== ClientType.Company}
-                    >
-                      <Form.Label>{general.companyName}</Form.Label>
+                    <Form.Group>
+                      <Form.Label>{general.firstName}</Form.Label>
                       <InputGroup>
                         <Form.Control
-                          placeholder={general.companyName}
+                          placeholder={general.firstName}
                           aria-describedby="inputGroupPrepend"
                           required
-                          type="text"
-                          name="companyName"
-                          value={this.state.companyName}
+                          type="firstName"
+                          name="firstName"
+                          value={this.state.firstName}
                           onChange={this.handleChange}
-                          onBlur={() => this.fieldTouched('lastName')}
-                          isInvalid={
-                            touched.lastName &&
-                            !signupformValidation.isLastNameValid(
-                              this.state.lastName,
-                            )
-                          }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {signupformValidation.lastNameError(
-                            this.state.lastName,
-                          )}
+                          {general.firstName}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Label>{general.lastName}</Form.Label>
+                      <InputGroup>
+                        <Form.Control
+                          placeholder={general.lastName}
+                          aria-describedby="inputGroupPrepend"
+                          required
+                          type="lastName"
+                          name="lastName"
+                          value={this.state.lastName}
+                          onChange={this.handleChange}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {general.lastName}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -412,14 +203,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="email"
                           value={this.state.email}
                           onChange={this.handleChange}
-                          onBlur={() => this.fieldTouched('email')}
-                          isInvalid={
-                            touched.email &&
-                            !signupformValidation.isEmailValid(this.state.email)
-                          }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {signupformValidation.emailError()}
+                          {general.email}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -440,16 +226,9 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.password}
                           value={this.state.password}
                           onChange={this.handleChange}
-                          onBlur={() => this.fieldTouched('password')}
-                          isInvalid={
-                            touched.password &&
-                            !signupformValidation.isPasswordValid(
-                              this.state.password,
-                            )
-                          }
                         />
                         <Form.Control.Feedback type="invalid">
-                          {signupformValidation.passwordError()}
+                          {general.password}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
@@ -470,139 +249,54 @@ class Signup extends Component<MultiProps, SignupState> {
                           placeholder={general.confirmPassword}
                           value={this.state.confirmPassword}
                           onChange={this.handleChange}
-                          onBlur={() => this.fieldTouched('confirmPassword')}
-                          isInvalid={
-                            touched.confirmPassword &&
-                            !signupformValidation.isConfirmPasswordValid(
-                              this.state.confirmPassword,
-                              this.state.password,
-                            )
-                          }
                         />
 
                         <Form.Control.Feedback type="invalid">
-                          {signupformValidation.confirmPasswordError(
-                            this.state.password,
-                            this.state.confirmPassword,
-                          )}
+                          {general.confirmPassword}
                         </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
-                    <div
-                      hidden={this.state.clientType !== ClientType.Individual}
-                    >
-                      <Form.Group>
-                        <Form.Label>{general.gender}</Form.Label>
-                      </Form.Group>
-                      <div className="gender">
-                        <label htmlFor="gender">
-                          <input
-                            type="radio"
-                            name="gender"
-                            onChange={this.handleChange}
-                            value={Gender.Male}
-                          />
-                          {Gender.Male}
-                        </label>
-                        <label htmlFor="gender">
-                          <input
-                            type="radio"
-                            name="gender"
-                            onChange={this.handleChange}
-                            value={Gender.Female}
-                          />
-                          {Gender.Female}
-                        </label>
-                        <label htmlFor="gender">
-                          <input
-                            type="radio"
-                            name="gender"
-                            onChange={this.handleChange}
-                            value={Gender.Other}
-                          />
-                          {Gender.Other}
-                        </label>
-                      </div>
-                      <Form.Group>
-                        <Form.Label>{general.langage}</Form.Label>
-                      </Form.Group>
-                      <label htmlFor="language">
-                        {general.langages.french}
-                        <input
-                          type="radio"
-                          name="language"
-                          onChange={this.handleChange}
-                          value={UserLanguage.French}
-                        />{' '}
-                        {general.langages.english}
-                        <input
-                          type="radio"
-                          name="language"
-                          onChange={this.handleChange}
-                          value={UserLanguage.English}
-                        />
-                      </label>
-                    </div>
 
                     <Form.Group>
-                      <Form.Label>{profile.location}</Form.Label>
+                      <Form.Label>{general.gender}</Form.Label>
+                    </Form.Group>
+                    <label htmlFor="gender">
+                      <input
+                        type="radio"
+                        name="gender"
+                        onChange={this.handleChange}
+                        value={Gender.Male}
+                      />
+                      {Gender.Male}
+                      <input
+                        type="radio"
+                        name="gender"
+                        onChange={this.handleChange}
+                        value={Gender.Female}
+                      />
+                      {Gender.Female}
+                      <input
+                        type="radio"
+                        name="gender"
+                        onChange={this.handleChange}
+                        value={Gender.Other}
+                      />
+                      {Gender.Other}
+                    </label>
+
+                    <Form.Group>
+                      <Form.Label>Location</Form.Label>
                       <OtherStyle>
-                        <Geosuggest
-                          onBlur={() => this.fieldTouched('location')}
-                          onSuggestSelect={(suggest: Suggest) =>
-                            this.handleGeoLocChange(suggest)
-                          }
-                        />
-                        <div
-                          style={redText}
-                          hidden={
-                            !(
-                              touched.location &&
-                              !signupformValidation.isLocationValid(
-                                this.state.location,
-                              )
-                            )
-                          }
-                        >
-                          {signupformValidation.locationError()}
-                        </div>
+                        <Geosuggest onChange={this.handleGeoLocChange} />
                       </OtherStyle>
                     </Form.Group>
 
                     <Form.Group>
-                      <Form.Label>{general.radius}</Form.Label>
-                      <InputGroup>
-                        <Form.Control
-                          placeholder={general.radius}
-                          aria-describedby="inputGroupPrepend"
-                          type="radius"
-                          name="radius"
-                          value={this.state.radius.toString()}
-                          onChange={this.handleChangeRadius}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {general.radius}
-                        </Form.Control.Feedback>
-                      </InputGroup>
+                      <Form.Label>Birth date</Form.Label>
+                      <InputGroup>{this.datePickerInput()}</InputGroup>
                     </Form.Group>
 
-                    <Form.Group
-                      hidden={this.state.clientType !== ClientType.Individual}
-                    >
-                      <Form.Label>{profile.birth}</Form.Label>
-                      <InputGroup>
-                        {this.datePickerInput(signupformValidation)}
-                      </InputGroup>
-                    </Form.Group>
-
-                    <Button
-                      disabled={
-                        !signupformValidation.isSignupFormStateValid(this.state)
-                      }
-                      variant="primary"
-                      type="submit"
-                      block
-                    >
+                    <Button variant="primary" type="submit" block>
                       {signup.title}
                     </Button>
                   </fieldset>
@@ -617,4 +311,4 @@ class Signup extends Component<MultiProps, SignupState> {
   }
 }
 
-export default multiUpdater(Signup);
+export default multi(Signup);

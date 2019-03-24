@@ -20,10 +20,6 @@ export const globalStyles = `
   html {
     box-sizing: border-box;
     font-size: 16px;
-
-    @media (max-width: 500px) {
-      font-size: 12px;
-    }
   }
 
   body {
@@ -46,11 +42,6 @@ export const globalStyles = `
     font-size: .75rem;
     padding: .55rem .75rem;
     transition: text-decoration 0s;
-
-    svg {
-      margin-right: 0.4rem;
-      margin-top: -2px;
-    }
 
     &-lg {
       padding: 0.75rem 1rem;
@@ -167,8 +158,6 @@ export const globalStyles = `
     .dropdown-menu {
       border: none;
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.07);
-      max-height: 315px;
-      overflow: scroll;
     }
   }
 
@@ -180,23 +169,5 @@ export const globalStyles = `
     .noPrint {
       display: none;
     }
-  }
-  .breadcrumb {
-    background: none;
-    margin: 0;
-    padding: 0;
-    margin-bottom: 1rem;
-  }
-  .kep-login-facebook.metro {
-    width: 100%;
-    width: 100%;
-    border-radius: 0.25rem !important;
-    font-size: .75rem;
-    padding: .55rem .75rem;
-  }
-  .google-login-btn {
-    width: 100%;
-    justify-content: center;
-    margin: 1rem 0;
   }
 `;

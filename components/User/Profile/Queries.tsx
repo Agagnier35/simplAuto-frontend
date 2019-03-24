@@ -6,26 +6,14 @@ export const GET_USER_INFO_QUERY = gql`
       id
       firstName
       lastName
-      companyName
       email
-      language
-      location {
-        name
-        longitude
-        latitude
-      }
-      radius
+      location
       birthDate {
         day
         month
         year
       }
       gender
-      notificationEmailOffer
-      notificationEmailMessage
-      notificationInAppOffer
-      notificationInAppMessage
-      clientType
     }
   }
 `;

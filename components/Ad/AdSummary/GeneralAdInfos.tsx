@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Ad, CarFeature, Offer } from '../../../generated/graphql';
+import { Ad, CarFeature } from '../../../generated/graphql';
 import { Row, Col, Button } from 'react-bootstrap';
 import {
   IoIosCar as CarIcon,
@@ -13,20 +13,13 @@ import {
 import { MdEvent as YearIcon } from 'react-icons/md';
 import AdSummaryItem from './AdSummaryItem';
 import { multi, MultiProps } from '../../../lib/MultiLang';
-import Link from 'next/link';
 
 export interface GeneralAdInfosProps extends MultiProps {
   ad: Ad;
   right: ReactNode;
-  offer?: Offer;
 }
 
-const GeneralAdInfos = ({
-  ad,
-  right,
-  translations,
-  offer,
-}: GeneralAdInfosProps) => {
+const GeneralAdInfos = ({ ad, right, translations }: GeneralAdInfosProps) => {
   function findColor() {
     if (ad.features) {
       const colorFeature = ad.features.find(
@@ -39,39 +32,17 @@ const GeneralAdInfos = ({
   function getCarIcon() {
     const color = findColor();
     if (color) {
-      return (
-        <Link
-          href={
-            offer
-              ? { pathname: '/offer', query: { id: offer.id } }
-              : { pathname: '/adDetail', query: { id: ad.id } }
-          }
-        >
-          <a>
-            <CarIcon className="car-icon" style={{ color: findColor() }} />
-          </a>
-        </Link>
-      );
+      return <CarIcon className="car-icon" style={{ color: findColor() }} />;
     }
     return (
       <div>
         <span>
           <QuestionMark />
         </span>
-        <Link
-          href={
-            offer
-              ? { pathname: '/offer', query: { id: offer.id } }
-              : { pathname: '/adDetail', query: { id: ad.id } }
-          }
-        >
-          <a>
-            <CarIcon
-              className="car-icon"
-              style={{ color: 'white', stroke: 'transparent' }}
-            />
-          </a>
-        </Link>
+        <CarIcon
+          className="car-icon"
+          style={{ color: 'white', stroke: 'transparent' }}
+        />
       </div>
     );
   }

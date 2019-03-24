@@ -32,16 +32,6 @@ class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
-  componentDidUpdate(prevProps: SelectProps) {
-    if (
-      prevProps &&
-      prevProps.selected &&
-      prevProps.selected !== this.props.selected
-    ) {
-      this.setState({ selectedValue: '' });
-    }
-  }
-
   handleSelect = (option: any) => {
     const { accessor, handleChange } = this.props;
     this.setState({ selectedValue: option[accessor] }, () => {
@@ -68,7 +58,7 @@ class Select extends React.Component<SelectProps, SelectState> {
             variant="secondary"
             id="dropdown-basic"
           >
-            {selectedValue !== '' ? selectedValue : general.defaultDropdown}
+            {selectedValue.length > 0 ? selectedValue : general.defaultDropdown}
           </BootStrapDropdown.Toggle>
           <BootStrapDropdown.Menu>
             {options.map((option, index) => (

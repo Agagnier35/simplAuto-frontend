@@ -1,9 +1,8 @@
 import React from 'react';
-import { Ad, CarFeature, CarFeatureType } from '../../../generated/graphql';
+import { Ad, CarFeature } from '../../../generated/graphql';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Col, Row } from 'react-bootstrap';
 import { AdFeatureItem } from './styles';
-import FeatureIcon from '../../General/FeatureIcon';
 
 export interface AdFeaturesProps extends MultiProps {
   ad: Ad;
@@ -12,21 +11,6 @@ export interface AdFeaturesProps extends MultiProps {
 const AdFeatures = ({ ad, translations }: AdFeaturesProps) => {
   const { carFeature, carFeatureCategory } = translations;
 
-  function getFeatureValue(feature: CarFeature) {
-    if (feature.category.type === CarFeatureType.TrueFalse) {
-      return carFeature[feature.name];
-    }
-
-    const featureCategoryTranslation = carFeature[feature.category.name];
-    if (featureCategoryTranslation) {
-      const featureTranslation = featureCategoryTranslation[feature.name];
-      if (featureTranslation) {
-        return featureTranslation;
-      }
-    }
-    return feature.name;
-  }
-
   return (
     <Col md={12}>
       <Row>
@@ -34,9 +18,9 @@ const AdFeatures = ({ ad, translations }: AdFeaturesProps) => {
           ad.features.map((feature: CarFeature) => (
             <AdFeatureItem
               key={feature.category.name}
-              icon={<FeatureIcon feature={feature} />}
+              icon={null}
               label={carFeatureCategory[feature.category.name]}
-              value={getFeatureValue(feature)}
+              value={carFeature[feature.name] || feature.name}
             />
           ))}
       </Row>

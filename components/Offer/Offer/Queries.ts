@@ -3,24 +3,9 @@ import gql from 'graphql-tag';
 export const OFFER_BY_ID = gql`
   query OFFER_BY_ID($id: ID!) {
     offer(id: $id) {
-      createdAt
       id
       price
-      ad {
-        id
-        creator {
-          id
-        }
-      }
-      creator {
-        createdAt
-        id
-        firstName
-        lastName
-        clientType
-      }
       car {
-        description
         id
         manufacturer {
           id
@@ -43,7 +28,6 @@ export const OFFER_BY_ID = gql`
           category {
             id
             name
-            type
           }
         }
       }

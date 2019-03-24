@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Col, Dropdown, Row } from 'react-bootstrap';
 import Portlet from '../../General/Portlet';
-import AdSummaryItem from './AdSummaryItem2';
+import AdSummaryItem from './AdSummaryItem';
 
 export const AdPortlet = styled(Portlet)`
   .portlet-title a {
@@ -53,12 +53,6 @@ export const More = styled(Dropdown.Toggle)`
 `;
 
 export const StyledAdSummaryItem = styled.div`
-  color: ${props => props.theme.colors.primary};
-
-  b {
-    color: black;
-  }
-
   svg {
     font-size: 1.5rem;
     margin-right: 0.5rem;

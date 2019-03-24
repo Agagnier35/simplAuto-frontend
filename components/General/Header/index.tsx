@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import Link from 'next/link';
 import StyledNav from './styles';
 import Router from 'next/router';
@@ -8,26 +8,13 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
-import Notifications from '../Notifications';
-import CommonDataManager, { appName } from '../Preferences';
-import { ClientType } from '../../../generated/graphql';
 
 export const LOGGED_IN_QUERY = gql`
-  query LOGGED_IN_QUERY {
+  {
     me {
       id
       firstName
       lastName
-      companyName
-      clientType
-      email
-      notifications {
-        id
-        type
-        objectID
-        updatedAt
-        count
-      }
     }
   }
 `;
@@ -51,8 +38,8 @@ Router.onRouteChangeError = () => {
 };
 
 const handleLogout = async (logout: () => void) => {
-  Router.push('/');
   await logout();
+  Router.push('/');
 };
 
 const Header: React.SFC<MultiProps> = ({
@@ -63,36 +50,34 @@ const Header: React.SFC<MultiProps> = ({
       <Link href="/" passHref>
         <Navbar.Brand>
           <IoMdCar />
-          {appName}
+          Simplauto
         </Navbar.Brand>
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Query query={LOGGED_IN_QUERY} pollInterval={10000}>
+          <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
               if (loading) return null;
               if (data && data.me) {
                 return (
                   <>
                     <Nav className="mr-auto">
-                      <Link href="/myAds" passHref prefetch>
+                      <Link href="/carAds" passHref prefetch>
                         <Nav.Item as="a">{general.buy}</Nav.Item>
                       </Link>
-                      <Link href="/cars" passHref prefetch>
+                      <Link href="/carAds" passHref prefetch>
                         <Nav.Item as="a">{general.sell}</Nav.Item>
                       </Link>
-                      <Link href="/premium" passHref prefetch>
-                        <Nav.Item as="a">Premium</Nav.Item>
+                      <Link href="/cars" passHref prefetch>
+                        <Nav.Item as="a">{general.myCars}</Nav.Item>
+                      </Link>
+                      <Link href="/myAds" passHref prefetch>
+                        <Nav.Item as="a">{general.myAds}</Nav.Item>
                       </Link>
                       <Link href="/profile" passHref>
-                        <a className="firstName">
-                          {data.me.clientType === ClientType.Individual
-                            ? data.me.firstName.charAt(0)
-                            : data.me.companyName.charAt(0)}
-                        </a>
+                        <a className="firstName">{data.me.firstName}</a>
                       </Link>
-                      <Notifications notifications={data.me.notifications} />
                     </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}
@@ -122,6 +107,11 @@ const Header: React.SFC<MultiProps> = ({
                       <a>{signup.title}</a>
                     </Link>
                   </p>
+                  <Link href="/premium">
+                    <a>
+                      <Button variant="primary">{general.becomePremium}</Button>
+                    </a>
+                  </Link>
                 </>
               );
             }}

@@ -11,12 +11,6 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import CreateAdFormValidation, {
-  MINCARYEAR,
-} from '../../../lib/FormValidator/CreateAdFormValidation';
-// import CreateAdFormValidation, {
-//   MINCARYEAR,
-// } from '../../General/FormValidator/CreateAdFormValidation';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -26,20 +20,7 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-interface CreateAdState extends AdCreateInput {
-  touched: Dictionary<{
-    yearLowerBound: boolean;
-    yearHigherBound: boolean;
-    mileageLowerBound: boolean;
-    mileageHigherBound: boolean;
-    priceLowerBound: boolean;
-    priceHigherBound: boolean;
-  }>;
-}
-
-const redAsterixStyle = {
-  color: 'red',
-};
+interface CreateAdState extends AdCreateInput {}
 
 class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
   state: CreateAdState = {
@@ -53,14 +34,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     mileageHigherBound: null,
     priceLowerBound: null,
     priceHigherBound: null,
-    touched: {
-      yearLowerBound: false,
-      yearHigherBound: false,
-      mileageLowerBound: false,
-      mileageHigherBound: false,
-      priceLowerBound: false,
-      priceHigherBound: false,
-    },
   };
 
   handleCreateAd = async (e: any, createAd: any) => {
@@ -114,9 +87,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
       // Not a feature
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
-      if (key === 'manufacturerID') {
-        this.setState({ modelID: '' });
-      }
     }
   };
 
@@ -129,12 +99,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     return [];
   };
 
-  fieldTouched = (key: string) => {
-    const touched = { ...this.state.touched };
-    touched[key] = true;
-    this.setState({ touched });
-  };
-
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
@@ -142,8 +106,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
-    const touched = { ...this.state.touched };
-    const createAdFormValidation = new CreateAdFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -184,27 +146,16 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 value: item.id,
                               })
                             }
-                            label={
-                              <span>
-                                {cars.manufacturer}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            label={`${cars.manufacturer} :`}
                           />
                           <Select
                             options={this.getModelsForManufacturer(data)}
                             disabled={!manufacturerID}
                             accessor="name"
-                            selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
-                            label={
-                              <span>
-                                {cars.model}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            label={`${cars.model} :`}
                           />
                           <Select
                             options={data.carCategories}
@@ -214,202 +165,81 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 value: item.id,
                               })
                             }
-                            label={
-                              <span>
-                                {cars.category}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            label={`${cars.category} :`}
                           />
 
                           <label>
-                            <span>
-                              {cars.year} {general.min}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {cars.year} {general.min}
                             <Form.Control
-                              type="number"
+                              type="text"
                               placeholder={`${cars.year} ${general.min}`}
-                              min={MINCARYEAR}
-                              max={new Date().getFullYear()}
-                              onBlur={() => this.fieldTouched('yearLowerBound')}
-                              isInvalid={
-                                touched.yearLowerBound &&
-                                !createAdFormValidation.isYearLowerBoundValid(
-                                  this.state.yearLowerBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.yearLowerBoundError(
-                                this.state.yearLowerBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
-                            <span>
-                              {cars.year} {general.max}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {cars.year} {general.max}
                             <Form.Control
-                              type="number"
+                              type="text"
                               placeholder={`${cars.year} ${general.max}`}
-                              min={MINCARYEAR}
-                              max={new Date().getFullYear()}
-                              onBlur={() =>
-                                this.fieldTouched('yearHigherBound')
-                              }
-                              isInvalid={
-                                touched.yearHigherBound &&
-                                !createAdFormValidation.isYearHigherBoundValid(
-                                  this.state.yearLowerBound,
-                                  this.state.yearHigherBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.yearHigherBoundError(
-                                this.state.yearLowerBound,
-                                this.state.yearHigherBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.mileage} {general.min}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {cars.mileage} {general.min}
                             <Form.Control
-                              type="number"
+                              type="text"
                               placeholder={`${cars.mileage} ${general.min}`}
-                              min={0}
-                              max={300000}
-                              onBlur={() =>
-                                this.fieldTouched('mileageLowerBound')
-                              }
-                              isInvalid={
-                                touched.mileageLowerBound &&
-                                !createAdFormValidation.isMileageLowerBoundValid(
-                                  this.state.mileageLowerBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.mileageLowerBoundError(
-                                this.state.mileageLowerBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.mileage} {general.max}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {cars.mileage} {general.max}
                             <Form.Control
-                              type="number"
+                              type="text"
                               placeholder={`${cars.mileage} ${general.max}`}
-                              min={0}
-                              max={300000}
-                              onBlur={() =>
-                                this.fieldTouched('mileageHigherBound')
-                              }
-                              isInvalid={
-                                touched.mileageHigherBound &&
-                                !createAdFormValidation.isMileageHigherBoundValid(
-                                  this.state.mileageLowerBound,
-                                  this.state.mileageHigherBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.mileageHigherBoundError(
-                                this.state.mileageLowerBound,
-                                this.state.mileageHigherBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.price} {general.min}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {cars.price} {general.min}
                             <Form.Control
-                              type="number"
+                              type="text"
                               placeholder={`${cars.price} ${general.min}`}
-                              min={0}
-                              onBlur={() =>
-                                this.fieldTouched('priceLowerBound')
-                              }
-                              isInvalid={
-                                touched.priceLowerBound &&
-                                !createAdFormValidation.isPriceLowerBoundValid(
-                                  this.state.priceLowerBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.priceLowerBoundError(
-                                this.state.priceLowerBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.price} {general.max}
-                              <span style={redAsterixStyle}>*</span>
-                            </span>
+                            {cars.price} {general.max}
                             <Form.Control
-                              type="number"
+                              type="text"
                               placeholder={`${cars.price} ${general.max}`}
-                              min={0}
-                              onBlur={() =>
-                                this.fieldTouched('priceHigherBound')
-                              }
-                              isInvalid={
-                                touched.priceHigherBound &&
-                                !createAdFormValidation.isPriceHigherBoundValid(
-                                  this.state.priceLowerBound,
-                                  this.state.priceHigherBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.priceHigherrBoundError(
-                                this.state.priceLowerBound,
-                                this.state.priceHigherBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                         </div>
                       </Card.Body>
@@ -472,11 +302,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
-                            disabled={
-                              !createAdFormValidation.isCreateAdFormStateValid(
-                                this.state,
-                              )
-                            }
                           >
                             {ad.createAdAction}
                           </Button>

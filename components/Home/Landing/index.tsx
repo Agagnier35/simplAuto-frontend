@@ -12,9 +12,7 @@ const Landing = ({ translations }: LandingProps) => {
   const { data } = useQuery(LOGGED_IN_QUERY);
 
   return (
-    // Link to image if client wants to buy it
-    // https://www.istockphoto.com/ie/photo/aerial-view-on-red-car-on-the-road-near-tea-plantation-gm641294046-116218053
-    <Wrapper style={{ backgroundImage: 'url("/static/car-bg.jpg")' }}>
+    <Wrapper>
       <Title>{translations.Home.LandingTitle}</Title>
       <Subtitle>{translations.Home.LandingSubtitle}</Subtitle>
       <Links>

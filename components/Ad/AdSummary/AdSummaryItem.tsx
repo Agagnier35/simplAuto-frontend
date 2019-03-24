@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 import { StyledAdSummaryItem } from './styles';
 
 export interface AdSummaryItemProps {
-  label?: string;
-  value?: string | number;
+  label: string;
+  value: string | number;
   icon: ReactNode;
   className?: string;
 }
@@ -17,7 +17,7 @@ const AdSummaryItem = ({
   return (
     <StyledAdSummaryItem className={className}>
       {icon}
-      {label && <b>{`${label} ${value ? ': ' : ''}`}</b>}
+      <b>{`${label} : `}</b>
       {value}
     </StyledAdSummaryItem>
   );
