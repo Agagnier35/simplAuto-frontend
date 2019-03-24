@@ -55,7 +55,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
 
   const handleAcceptOffer = useMutation(ACCEPT_OFFER_MUTATION, {
     variables: {
-      id: offer.id,
+      id: offer && offer.id,
     },
     refetchQueries: [{ query: LOGGED_IN_QUERY }],
   });
