@@ -7,3 +7,19 @@ export const CREATE_CONVERSATION_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_NOTIFICATION_MUTATION = gql`
+  mutation DELETE_NOTIFICATION_MUTATION($id: ID!) {
+    deleteNotification(id: $id) {
+      id
+    }
+  }
+`;
+
+export const ACCEPT_OFFER_MUTATION = gql`
+  mutation ACCEPT_OFFER_MUTATION($id: ID!) {
+    acceptOffer(id: $id) {
+      id
+    }
+  }
+`;

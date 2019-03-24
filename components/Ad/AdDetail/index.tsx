@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Offer } from '../../../generated/graphql';
@@ -18,6 +18,8 @@ import CarSummary from '../../Car/CarSummary';
 import { Tab, TabBadge } from '../Ads/styles';
 import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
+import Link from 'next/link';
+import { paging5pages } from '../../General/Preferences';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -33,28 +35,22 @@ export const AD_DELETE_MUTATION = gql`
 `;
 
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
-  const OFFER_NB_BY_PAGE = 5;
-  const [pageIndexLike, setPageIndexLike] = useState(0);
-  const [pageIndexMayLike, setPageIndexMayLike] = useState(0);
+  const [pageIndex, setPageIndex] = useState(0);
 
   const [modalShow, setModalShow] = useState(false);
 
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: {
-      id: adID,
-      pageNumber: pageIndexLike,
-      pageSize: OFFER_NB_BY_PAGE,
-    },
+    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
   });
 
-  async function handleDeleteAd(deleteAd: any) {
+  async function handleDeleteAd() {
     await deleteAd();
     setModalShow(false);
     Router.push('/myAds');
   }
 
-  const likeQuery = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID },
+  const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
+    variables: { id: adID, pageNumber: pageIndex, pageSize: OFFER_NB_BY_PAGE },
   });
   const mayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
     variables: {
@@ -70,12 +66,19 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   return (
     <>
       <div>
+        <Breadcrumb>
+          <Link href={{ pathname: '/myAds' }} passHref>
+            <Breadcrumb.Item>{translations.general.buy}</Breadcrumb.Item>
+          </Link>
+          <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
+        </Breadcrumb>
+
         <GeneralModal
           modalSubject={MainAppObject.ad}
           actionType={ModalAction.delete}
           show={modalShow}
           onClose={() => setModalShow(false)}
-          onConfirm={() => handleDeleteAd(deleteAd)}
+          onConfirm={() => handleDeleteAd()}
         />
         {console.log(likeQuery.data)}
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
@@ -85,56 +88,28 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             ad={likeQuery.data.ad}
           />
         </Card>
-        <Tab className="active">
-          {translations.offers.receivedOffers}
-          {likeQuery.data.ad.offers && (
-            <TabBadge>{likeQuery.data.ad.offers.length}</TabBadge>
-          )}
-        </Tab>
-        <Card style={{ overflow: 'hidden' }}>
-          <div hidden={likeQuery.data.ad.offerCount > 0}>
-            <CarSummaries>
-              {likeQuery.data.ad.offers &&
-                likeQuery.data.ad.offers.map((offer: Offer) => (
-                  <CarSummary key={offer.id} car={offer.car} offer={offer} />
-                ))}
-              <Paging
-                pageIndex={pageIndexLike}
-                setPageIndex={setPageIndexLike}
-                maxItems={likeQuery.data.ad.offerCount}
-                itemsByPage={OFFER_NB_BY_PAGE}
-              />
-            </CarSummaries>
-          </div>
-          <div hidden={likeQuery.data.ad.offerCount === 0}>
-            <p>{translations.offers.noMatch}:</p>
-          </div>
-          <hr />
-          <p>{translations.offers.youMayLike}:</p>
-          <div
-            hidden={
-              mayLikeQuery.loading ||
-              mayLikeQuery.data.suggestions.total_length === 0
-            }
-          >
-            <CarSummaries>
-              {mayLikeQuery.data.suggestions &&
-                mayLikeQuery.data.suggestions.map((suggestion: any) => (
-                  <CarSummary
-                    key={suggestion.offer.id}
-                    car={suggestion.offer.car}
-                    offer={suggestion.offer}
-                  />
-                ))}
-              <Paging
-                pageIndex={pageIndexMayLike}
-                setPageIndex={setPageIndexMayLike}
-                maxItems={1000}
-                itemsByPage={OFFER_NB_BY_PAGE}
-              />
-            </CarSummaries>
-          </div>
-        </Card>
+        {data.ad.offerCount > 0 && (
+          <>
+            <Tab className="active">
+              {translations.offers.receivedOffers}
+              {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
+            </Tab>
+            <Card style={{ overflow: 'hidden' }}>
+              <CarSummaries>
+                {data.ad.offers &&
+                  data.ad.offers.map((offer: Offer) => (
+                    <CarSummary key={offer.id} car={offer.car} offer={offer} />
+                  ))}
+                <Paging
+                  pageIndex={pageIndex}
+                  setPageIndex={setPageIndex}
+                  maxItems={data.ad.offerCount}
+                  itemsByPage={paging5pages}
+                />
+              </CarSummaries>
+            </Card>
+          </>
+        )}
       </div>
     </>
   );

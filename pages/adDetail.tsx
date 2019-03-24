@@ -1,14 +1,25 @@
 import React from 'react';
-import { multi } from '../lib/MultiLang';
 import AdDetail from '../components/Ad/AdDetail';
-import Translations from '../lib/MultiLang/locales/types';
+import redirect from '../lib/Auth/Redirect';
+import checkAdExists from '../lib/PostExists/checkAdExists';
 
 export interface AdDetailProps {
-  translations: Translations;
   query: { id: string };
 }
 
-const FullAd = ({ translations, query }: AdDetailProps) => {
-  return <AdDetail adID={query.id} />;
-};
-export default multi(FullAd);
+class FullAd extends React.Component<AdDetailProps> {
+  static async getInitialProps(ctx: any) {
+    const ad = await checkAdExists(ctx.apolloClient, ctx.query.id);
+
+    if (!ad) {
+      redirect(ctx, '/login');
+    }
+    return { ad };
+  }
+  render() {
+    const { query } = this.props;
+    return <AdDetail adID={query.id} />;
+  }
+}
+
+export default FullAd;
