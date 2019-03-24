@@ -196,6 +196,12 @@ export enum ClientType {
   Individual = 'INDIVIDUAL',
 }
 
+export enum NotificationType {
+  General = 'GENERAL',
+  OfferMessage = 'OFFER_MESSAGE',
+  NewOffer = 'NEW_OFFER',
+}
+
 export enum AdFeatureImportance {
   Low = 'LOW',
   Medium = 'MEDIUM',
@@ -268,6 +274,14 @@ export interface User {
   carCount: number;
 
   clientType: ClientType;
+
+  offers: Offer[];
+
+  offerCount: number;
+
+  notifications: Notification[];
+
+  notificationCount: number;
 }
 
 export interface Date {
@@ -436,6 +450,20 @@ export interface Message {
   conversation: Conversation;
 }
 
+export interface Notification {
+  id: string;
+
+  owner: User;
+
+  type: NotificationType;
+
+  objectID?: Maybe<string>;
+
+  count: number;
+
+  createdAt: string;
+}
+
 export interface Mutation {
   signup: User;
 
@@ -472,6 +500,8 @@ export interface Mutation {
   createConversation: Conversation;
 
   sendMessage: Message;
+
+  deleteNotification?: Maybe<Notification>;
 }
 
 export interface Subscription {
@@ -573,6 +603,9 @@ export interface CreateConversationMutationArgs {
 }
 export interface SendMessageMutationArgs {
   data?: Maybe<SendMessageInput>;
+}
+export interface DeleteNotificationMutationArgs {
+  id: string;
 }
 export interface MessageSubscriptionSubscriptionArgs {
   conversationID: string;

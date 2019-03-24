@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import StyledNav from './styles';
 import Router from 'next/router';
@@ -8,13 +8,22 @@ import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
+import Notifications from '../Notifications';
 
 export const LOGGED_IN_QUERY = gql`
-  {
+  query LOGGED_IN_QUERY {
     me {
       id
       firstName
       lastName
+      email
+      notifications {
+        id
+        type
+        objectID
+        updatedAt
+        count
+      }
     }
   }
 `;
@@ -56,7 +65,7 @@ const Header: React.SFC<MultiProps> = ({
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Query query={LOGGED_IN_QUERY}>
+          <Query query={LOGGED_IN_QUERY} pollInterval={10000}>
             {({ data, loading }) => {
               if (loading) return null;
               if (data && data.me) {
@@ -78,6 +87,7 @@ const Header: React.SFC<MultiProps> = ({
                       <Link href="/profile" passHref>
                         <a className="firstName">{data.me.firstName}</a>
                       </Link>
+                      <Notifications notifications={data.me.notifications} />
                     </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}

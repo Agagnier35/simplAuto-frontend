@@ -9,6 +9,7 @@ const translations: Translations = {
   },
   signup: {
     title: 'Create an account',
+    clientType: 'Account type',
   },
   profile: {
     profilePage: 'My profile',
@@ -46,6 +47,7 @@ const translations: Translations = {
     min: 'min',
     firstName: 'First name',
     lastName: 'Last name',
+    companyName: 'Company name',
     gender: 'Gender',
     birthDate: {
       day: 'Day',
@@ -184,6 +186,10 @@ const translations: Translations = {
     price: 'Price',
     descriptionPlaceholder: 'Enter a small description for the car',
   },
+  clientType: {
+    company: 'Company',
+    individual: 'Individual',
+  },
   carFeatureCategory: {
     color: 'color',
     fuelType: 'Fuel Type',
@@ -276,6 +282,15 @@ const translations: Translations = {
     title: 'Chat',
     send: 'Send',
     sendPlaceholder: 'Send a message',
+  },
+  Notifications: {
+    newOffer: 'You have a new offer !',
+    newOfferMessage: (x: number) =>
+      `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
+  },
+  Stripe: {
+    PremiumName: 'SimplAuto Premium',
+    PremiumDescription: 'Monthly membership',
   },
 };
 
