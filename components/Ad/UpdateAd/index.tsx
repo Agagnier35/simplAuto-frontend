@@ -116,7 +116,6 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
         this.setState({ modelID: '' });
       }
     }
-    console.log(this.state.features);
   };
 
   getModelsForManufacturer = (data: any) => {
@@ -152,7 +151,6 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
   };
 
   getDefaultCategory = (carCategories: any) => {
-    console.log(this.state.features);
     const carCategory = carCategories.find(
       (carCtg: any) => carCtg.id === this.state.categoryID,
     );
