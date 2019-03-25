@@ -1,11 +1,12 @@
 import React from 'react';
 import Translations from '../lib/MultiLang/locales/types';
 import PrivateComponent from '../lib/Auth/PrivateComponent';
+import Conversations from '../components/User/Conversations';
 
-class Conversations extends PrivateComponent {
+class ConversationsPage extends PrivateComponent {
   render() {
-    return <div>Messages</div>;
+    return <Conversations />;
   }
 }
 
-export default Conversations;
+export default ConversationsPage;
