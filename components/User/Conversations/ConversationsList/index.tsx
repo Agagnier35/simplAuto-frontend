@@ -1,12 +1,16 @@
 // Ceci est le component qui recoit la liste des conversations et les display au format de linkedin.
 import React, { Component } from 'react';
 import { multiUpdater } from '../../../../lib/MultiLang';
+import SingleConversationSummary from './SingleConversationSummary';
 
 class ConversationsList extends Component {
   state = {};
 
   render = () => {
-    return <div>Vulve</div>;
+    const { conversations }: any = this.props;
+    return conversations.map((conversation: any) => {
+      return <SingleConversationSummary conversation={conversation} />;
+    });
   };
 }
 
