@@ -78,6 +78,7 @@ export default interface Translations {
     resetPw: string;
     buy: string;
     sell: string;
+    myConversations: string;
     myCars: string;
     myAds: string;
     disconnect: string;

@@ -84,6 +84,7 @@ const translations: Translations = {
     resetPw: 'Reset password',
     buy: 'Buy',
     sell: 'Sell',
+    myConversations: 'My conversations',
     myAds: 'My ads',
     myCars: 'My cars',
     disconnect: 'Logout',

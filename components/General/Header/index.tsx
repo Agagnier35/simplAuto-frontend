@@ -82,6 +82,9 @@ const Header: React.SFC<MultiProps> = ({
                       <Link href="/cars" passHref prefetch>
                         <Nav.Item as="a">{general.sell}</Nav.Item>
                       </Link>
+                      <Link href="/messages" passHref prefetch>
+                        <Nav.Item as="a">{general.myConversations}</Nav.Item>
+                      </Link>
                       <Link href="/premium" passHref prefetch>
                         <Nav.Item as="a">Premium</Nav.Item>
                       </Link>
