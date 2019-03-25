@@ -115,9 +115,10 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
 
   fillState = (data: any) => {
     if (this.isFirstRender) {
+      const featuresIds = data.ad.features.map((ft: any) => ft.id);
       this.setState({
         id: data.ad.id,
-        features: data.ad.features,
+        features: featuresIds,
         manufacturerID: data.ad.manufacturer.id,
         modelID: data.ad.model.id,
         categoryID: data.ad.category.id,
@@ -188,16 +189,13 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     features.map((ft1: any) => {
       if (this.state.features) {
         this.state.features.map((ft2: any) => {
-          ft2.id === ft1.id ? (defaultFeature = ft1) : null;
+          ft2 === ft1.id ? (defaultFeature = ft1) : null;
         });
       } else {
         defaultFeature = undefined;
       }
     });
 
-    if (defaultFeature) {
-      console.log(defaultFeature);
-    }
     return defaultFeature;
   };
 
