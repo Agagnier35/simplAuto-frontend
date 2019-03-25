@@ -35,8 +35,6 @@ export const PAGE_ADS_QUERY = gql`
             name
           }
         }
-        isUrgent
-        isFirst
         status
         offers {
           id

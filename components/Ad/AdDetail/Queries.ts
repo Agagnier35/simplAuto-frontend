@@ -33,8 +33,6 @@ export const AD_DETAIL_QUERY = gql`
           name
         }
       }
-      isUrgent
-      isFirst
       status
       offerCount
       offers(pageNumber: $pageNumber, pageSize: $pageSize) {
