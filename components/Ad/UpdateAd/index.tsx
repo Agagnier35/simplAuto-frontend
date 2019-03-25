@@ -173,7 +173,6 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     const model = this.getDefaultManufacturer(manufacturers).models.find(
       (mdl: any) => mdl.id === this.state.modelID,
     );
-
     return model;
   };
 
@@ -197,8 +196,8 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     });
 
     if (defaultFeature) {
-      console.log(this.state.features);
-      console.log(defaultFeature);
+      // console.log(this.state.features);
+      // console.log(defaultFeature);
     }
     return defaultFeature;
   };
@@ -269,10 +268,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  placeholder={this.getDefaultManufacturer(
-                                    data.manufacturers,
-                                  )}
-                                  value={this.getDefaultManufacturer(
+                                  defaultValue={this.getDefaultManufacturer(
                                     data.manufacturers,
                                   )}
                                   label={
@@ -291,7 +287,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  value={this.getDefaultModel(
+                                  defaultValue={this.getDefaultModel(
                                     data.manufacturers,
                                   )}
                                   label={
@@ -309,7 +305,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  default={this.getDefaultCategory(
+                                  defaultValue={this.getDefaultCategory(
                                     data.carCategories,
                                   )}
                                   label={

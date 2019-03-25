@@ -59,7 +59,6 @@ class Select extends React.Component<SelectProps, SelectState> {
       translations: { general },
     } = this.props;
     const { selectedValue } = this.state;
-    console.log(this.props.defaultValue);
 
     return (
       <label>
