@@ -1,18 +1,32 @@
+import { Dictionary } from '../../Types/Dictionary';
+
 export default interface Translations {
   loading: String;
   login: {
     title: string;
     loginWithFacebook: string;
     loginWithGoogle: string;
+    forgotPassword: string;
   };
   signup: {
     title: string;
     clientType: string;
+    facebookLogin: string;
+    googleLogin: string;
+  };
+  confirmation: {
+    title: string;
+    contract: string;
+    content: string;
+    confirmation: string;
+    cancel: string;
+    read: string;
   };
   profile: {
     profilePage: string;
     firstName: string;
     lastName: string;
+    companyName: string;
     location: string;
     sex: string;
     save: string;
@@ -27,6 +41,11 @@ export default interface Translations {
     contactInfo: string;
     genrealInfo: string;
     newPWSection: string;
+    email: string;
+    inApp: string;
+    notificattionSettings: string;
+    notificationOffer: string;
+    notificationMessage: string;
   };
   general: {
     email: string;
@@ -69,6 +88,98 @@ export default interface Translations {
     create: string;
     update: string;
     print: string;
+    offered: string;
+    memberSince: string;
+    accept: string;
+    radius: string;
+    langage: string;
+    langages: {
+      english: string;
+      french: string;
+    };
+    formFieldsErrors: {
+      signupFormFieldsErrors: {
+        firstNameError: {
+          emptyError: String;
+          containsNumberError: String;
+        };
+        lastNameError: {
+          emptyError: String;
+          containsNumberError: String;
+        };
+        emailError: {
+          invalidEmailError: String;
+        };
+        passwordError: {
+          emptyError: String;
+        };
+        confirmPasswordError: {
+          emptyError: String;
+          matchingError: String;
+        };
+        locationError: {
+          emptyError: String;
+        };
+        birthDateError: {
+          invalidYearError: String;
+        };
+      };
+      createAdFormFieldsErrors: {
+        yearLowerBound: {
+          yearLowerBoundTooLow: String;
+          yearLowerBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        yearHigherBound: {
+          yearHigherBoundTooLow: String;
+          yearHigherBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearLowerBoundHigherThanYearHigherBoundError: String;
+        };
+        mileageLowerBound: {
+          mileageLowerBoundTooLow: String;
+          mileageLowerBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        mileageHigherBound: {
+          mileageHigherBoundTooLow: String;
+          mileageHigherBoundTooHigh: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLowerBoundHigherThanMileageHigherBoundError: String;
+        };
+        priceLowerBound: {
+          priceLowerBoundTooLowError: String;
+          emptyError: String;
+          numberNotIntegerError: String;
+        };
+        priceHigherBound: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          priceLowerBoundHigherThanPriceHigherBoundError: String;
+        };
+      };
+      cadAddFormFieldsErrors: {
+        year: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          yearTooLowError: String;
+          yearTooHighError: String;
+        };
+        mileage: {
+          emptyError: String;
+          numberNotIntegerError: String;
+          mileageLesserThanZeroError: String;
+          mileageTooHighError: String;
+        };
+        photos: {
+          atLeastOnePhotoError: String;
+        };
+      };
+    };
   };
   errors: {
     invalidEmail: string;
@@ -87,6 +198,7 @@ export default interface Translations {
     mileage: string;
     price: string;
     descriptionPlaceholder: string;
+    noCars: string;
   };
   clientType: {
     company: string;
@@ -94,7 +206,6 @@ export default interface Translations {
   };
   carFeatureCategory: { [key: string]: string };
   carCategory: { [key: string]: string };
-  carFeature: { [key: string]: string };
   carLabel: {
     title: string;
     carAddSumbit: string;
@@ -122,6 +233,7 @@ export default interface Translations {
     features: string;
     addAds: string;
     title: string;
+    noAds: string;
   };
   offers: {
     createOffer: string;
@@ -178,4 +290,66 @@ export default interface Translations {
     PremiumName: string;
     PremiumDescription: string;
   };
+  offerAddons: {
+    subtitle: string;
+    mags: string;
+    tires: string;
+  };
+  carFeature: Dictionary<{
+    color: Dictionary<{
+      black: string;
+      blue: string;
+      brown: string;
+      gold: string;
+      green: string;
+      grey: string;
+      orange: string;
+      pink: string;
+      purple: string;
+      red: string;
+      silver: string;
+      tan: string;
+      teal: string;
+      white: string;
+      yellow: string;
+      other: string;
+    }>;
+    fuelType: Dictionary<{
+      diesel: string;
+      electric: string;
+      gasoline: string;
+      hybrid: string;
+      other: string;
+    }>;
+    doorNumber: Dictionary<{
+      2: string;
+      3: string;
+      4: string;
+      5: string;
+      other: string;
+    }>;
+    seatNumber: Dictionary<{
+      2: string;
+      3: string;
+      4: string;
+      5: string;
+      6: string;
+      7: string;
+      other: string;
+    }>;
+    drivetrain: Dictionary<{
+      '4x4': string;
+      awd: string;
+      fwd: string;
+      rwd: string;
+      other: string;
+    }>;
+    transmission: Dictionary<{
+      manual: string;
+      automatic: string;
+      other: string;
+    }>;
+    true: string;
+    false: string;
+  }>;
 }

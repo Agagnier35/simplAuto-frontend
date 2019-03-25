@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  height: calc(100vh - 72px);
   width: 100vw;
-  background: lightgray;
   padding: 2rem;
+  opacity: 0.8;
+  background-position: top;
+  background-size: cover;
+  height: 430px;
   position: absolute;
   left: 0;
   top: 72px;
