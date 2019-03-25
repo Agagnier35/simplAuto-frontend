@@ -23,3 +23,9 @@ export const ACCEPT_OFFER_MUTATION = gql`
     }
   }
 `;
+
+export const ACCEPT_OFFER_EMAIL_MUTATION = gql`
+  mutation ACCEPT_OFFER_EMAIL_MUTATION($id: ID!) {
+    sendNotificationEmail(id: $id)
+  }
+`;
