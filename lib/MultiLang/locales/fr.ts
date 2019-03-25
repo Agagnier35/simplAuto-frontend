@@ -390,6 +390,12 @@ const translations: Translations = {
     true: 'Oui',
     false: 'Non',
   },
+  stats: {
+    app: 'Statistiques pour Simplauto',
+    market: 'Statistiques pour le marché',
+    avgPrice: 'Prix moyen',
+    avgTime: 'Nombre de jours moyen avant la vente',
+  },
 };
 
 module.exports = translations;

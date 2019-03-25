@@ -33,8 +33,8 @@ export const AD_DETAIL_QUERY = gql`
           name
         }
       }
-      isUrgent
-      isFirst
+      urgentExpiry
+      topExpiry
       status
       offerCount
       offers(pageNumber: $pageNumber, pageSize: $pageSize) {
@@ -67,6 +67,17 @@ export const AD_DETAIL_QUERY = gql`
         }
         price
       }
+    }
+  }
+`;
+
+export const AD_STATS_QUERY = gql`
+  query AD_STATS_QUERY($id: ID!) {
+    statsForAds(id: $id) {
+      averagePriceAPI
+      averageTimeOnMarketAPI
+      averagePriceApp
+      averageTimeOnMarketApp
     }
   }
 `;
