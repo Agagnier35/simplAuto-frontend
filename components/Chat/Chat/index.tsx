@@ -90,7 +90,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
           status,
           id: offer.conversation && offer.conversation.id,
         },
-      }
+      },
     });
   }
 
@@ -207,7 +207,6 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
           {translations.Chat.hideChat}
         </Button>
       )}
-
     </Chat.Card>
   );
 };

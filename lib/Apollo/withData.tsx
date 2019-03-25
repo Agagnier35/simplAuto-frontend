@@ -56,30 +56,30 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
 
   const wsLink = process.browser
     ? new WebSocketLink({
-      uri:
-        process.env.NODE_ENV === 'development' ? wsEndpoint : wsProdEndpoint,
-      options: {
-        reconnect: true,
-        connectionParams: {
-          ...headers,
-          credentials: 'include',
+        uri:
+          process.env.NODE_ENV === 'development' ? wsEndpoint : wsProdEndpoint,
+        options: {
+          reconnect: true,
+          connectionParams: {
+            ...headers,
+            credentials: 'include',
+          },
         },
-      },
-    })
+      })
     : null;
 
   const link = wsLink
     ? split(
-      // split based on operation type
-      // query + mutation over HTTP
-      // subscriptions over websocket transport
-      ({ query }) => {
-        const { kind, operation } = getMainDefinition(query);
-        return kind === 'OperationDefinition' && operation === 'subscription';
-      },
-      wsLink,
-      httpLink,
-    )
+        // split based on operation type
+        // query + mutation over HTTP
+        // subscriptions over websocket transport
+        ({ query }) => {
+          const { kind, operation } = getMainDefinition(query);
+          return kind === 'OperationDefinition' && operation === 'subscription';
+        },
+        wsLink,
+        httpLink,
+      )
     : httpLink;
 
   return new ApolloClient({
