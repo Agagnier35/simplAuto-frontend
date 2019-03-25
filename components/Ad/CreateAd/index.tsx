@@ -13,10 +13,8 @@ import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation, {
   MINCARYEAR,
+  MAXMILEAGEALLOWED,
 } from '../../../lib/FormValidator/CreateAdFormValidation';
-// import CreateAdFormValidation, {
-//   MINCARYEAR,
-// } from '../../General/FormValidator/CreateAdFormValidation';
 
 const CREATE_AD_MUTATION = gql`
   mutation CREATE_AD_MUTATION($data: AdCreateInput!) {
@@ -290,6 +288,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               )}
                             </Form.Control.Feedback>{' '}
                           </label>
+
                           <label>
                             <span>
                               {cars.mileage} {general.min}
@@ -299,7 +298,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
                               min={0}
-                              max={300000}
+                              max={MAXMILEAGEALLOWED}
                               onBlur={() =>
                                 this.fieldTouched('mileageLowerBound')
                               }
@@ -321,6 +320,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               )}
                             </Form.Control.Feedback>{' '}
                           </label>
+
                           <label>
                             <span>
                               {cars.mileage} {general.max}
@@ -330,7 +330,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
                               min={0}
-                              max={300000}
+                              max={MAXMILEAGEALLOWED}
                               onBlur={() =>
                                 this.fieldTouched('mileageHigherBound')
                               }
@@ -354,6 +354,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               )}
                             </Form.Control.Feedback>{' '}
                           </label>
+
                           <label>
                             <span>
                               {cars.price} {general.min}
