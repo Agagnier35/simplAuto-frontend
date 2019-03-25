@@ -53,8 +53,8 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const likeQuery = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID },
+  const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
+    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
   });
   const mayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
     variables: {
