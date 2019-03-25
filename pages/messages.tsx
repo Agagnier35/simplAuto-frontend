@@ -1,5 +1,6 @@
 import React from 'react';
 import Translations from '../lib/MultiLang/locales/types';
+import PrivateComponent from '../lib/Auth/PrivateComponent';
 
 // export interface CarPageProps {
 //   translations: Translations;
@@ -8,7 +9,7 @@ import Translations from '../lib/MultiLang/locales/types';
 //   };
 // }
 
-class Messages {
+class Messages extends PrivateComponent {
   render() {
     return <div>Messages</div>;
   }
