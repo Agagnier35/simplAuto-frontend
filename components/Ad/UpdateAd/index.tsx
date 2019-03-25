@@ -10,7 +10,6 @@ import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
-import { ALL_ADS_QUERY } from '../Ads/Queries';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 
 const UPDATE_AD_MUTATION = gql`
@@ -85,13 +84,15 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
         features: [...features, value],
       });
     }
+
+    console.log(this.state);
   };
 
   fillState = (data: any) => {
     if (this.isFirstRender) {
       this.setState({
         id: data.ad.id,
-        features: data.ad.features,
+        // features: data.ad.features,
         manufacturerID: data.ad.manufacturer.id,
         modelID: data.ad.model.id,
         categoryID: data.ad.category.id,
@@ -106,17 +107,18 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     }
   };
 
-  handleChange = (key: string, value: any, accessor?: string) => {
+  handleChange = (key: string, value: any) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
     } else {
       // Not a feature
-      if (accessor) {
-        this.setState((prevState: any) => ({
-          [key]: { ...prevState[key], [accessor]: value.value },
-        }));
+      // TODO Might need to handle feature deletion
+      this.setState({ [key]: value.value });
+      if (key === 'manufacturerID') {
+        this.setState({ modelID: '' });
       }
     }
+    console.log(this.state);
   };
 
   getModelsForManufacturer = (data: any) => {
@@ -134,6 +136,28 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     }
 
     return field.toString();
+  };
+
+  getDefaultManufacturer = (manufacturers: any) => {
+    const manufacturer = manufacturers.find(
+      (manufactur: any) => manufactur.id === this.state.manufacturerID,
+    );
+    return manufacturer;
+  };
+
+  getDefaultModel = (manufacturers: any) => {
+    const model = this.getDefaultManufacturer(manufacturers).models.find(
+      (mdl: any) => mdl.id === this.state.modelID,
+    );
+
+    return model;
+  };
+
+  getDefaultCategory = (carCategories: any) => {
+    const carCategory = carCategories.find(
+      (carCtg: any) => carCtg.id === this.state.categoryID,
+    );
+    return carCategory;
   };
 
   render() {
@@ -194,7 +218,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  value={data.manufacturers}
+                                  value={this.getDefaultManufacturer(
+                                    data.manufacturers,
+                                  )}
                                   label={`${cars.manufacturer} :`}
                                 />
                                 <Select
@@ -206,6 +232,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
+                                  value={this.getDefaultModel(
+                                    data.manufacturers,
+                                  )}
                                   label={`${cars.model} :`}
                                 />
                                 <Select
@@ -216,6 +245,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
+                                  default={this.getDefaultCategory(
+                                    data.carCategories,
+                                  )}
                                   label={`${cars.category} :`}
                                 />
 
@@ -394,6 +426,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   variant="primary"
                                   className="formSubmit"
                                   type="submit"
+                                  onClick={() => console.log(this.state)}
                                 >
                                   {ad.createAdAction}
                                 </Button>
