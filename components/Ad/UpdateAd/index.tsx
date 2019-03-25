@@ -195,6 +195,12 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     return defaultFeature;
   };
 
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
+  };
+
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
