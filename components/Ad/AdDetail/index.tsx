@@ -18,6 +18,7 @@ import CarSummary from '../../Car/CarSummary';
 import { Tab, TabBadge } from '../Ads/styles';
 import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
+import { paging5pages } from '../../General/Preferences';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -33,7 +34,6 @@ export const AD_DELETE_MUTATION = gql`
 `;
 
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
-  const OFFER_NB_BY_PAGE = 5;
   const [pageIndexLike, setPageIndexLike] = useState(0);
   const [pageIndexMayLike, setPageIndexMayLike] = useState(0);
 
@@ -42,8 +42,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
     variables: {
       id: adID,
-      pageNumber: pageIndexLike,
-      pageSize: OFFER_NB_BY_PAGE,
     },
   });
 
@@ -53,14 +51,14 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
+  const likeQuery = useQuery(AD_DETAIL_QUERY, {
+    variables: { id: adID, pageNumber: pageIndexLike, pageSize: paging5pages },
   });
   const mayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
     variables: {
       id: adID,
       pageNumber: pageIndexMayLike,
-      pageSize: OFFER_NB_BY_PAGE,
+      pageSize: paging5pages,
     },
   });
   const errors = likeQuery.error || mayLikeQuery.error;
@@ -77,7 +75,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onClose={() => setModalShow(false)}
           onConfirm={() => handleDeleteAd(deleteAd)}
         />
-        {console.log(likeQuery.data)}
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary
             adsQuery={AD_DETAIL_QUERY}
@@ -102,7 +99,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
                 pageIndex={pageIndexLike}
                 setPageIndex={setPageIndexLike}
                 maxItems={likeQuery.data.ad.offerCount}
-                itemsByPage={OFFER_NB_BY_PAGE}
+                itemsByPage={paging5pages}
               />
             </CarSummaries>
           </div>
@@ -110,13 +107,13 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             <p>{translations.offers.noMatch}:</p>
           </div>
           <hr />
-          <p>{translations.offers.youMayLike}:</p>
           <div
             hidden={
               mayLikeQuery.loading ||
               mayLikeQuery.data.suggestions.total_length === 0
             }
           >
+            <p>{translations.offers.youMayLike}:</p>
             <CarSummaries>
               {mayLikeQuery.data.suggestions &&
                 mayLikeQuery.data.suggestions.map((suggestion: any) => (
@@ -129,8 +126,11 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               <Paging
                 pageIndex={pageIndexMayLike}
                 setPageIndex={setPageIndexMayLike}
-                maxItems={1000}
-                itemsByPage={OFFER_NB_BY_PAGE}
+                maxItems={
+                  mayLikeQuery.data.suggestions &&
+                  mayLikeQuery.data.suggestions[0].totalLength
+                }
+                itemsByPage={paging5pages}
               />
             </CarSummaries>
           </div>

@@ -93,7 +93,6 @@ const Car = ({ translations, query }: CarPageProps) => {
           {carQuery.data.car.year}
         </Breadcrumb.Item>
       </Breadcrumb>
-
       <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
         <CarSummary car={carQuery.data.car} />
       </Card>
@@ -102,7 +101,11 @@ const Car = ({ translations, query }: CarPageProps) => {
         className={isOfferMode ? '' : 'active'}
       >
         {translations.Ads.title}
-        <TabBadge>{adsQuery.data.adSuggestion.length}</TabBadge>
+        <TabBadge>
+          {adsQuery.data.adSuggestion[0]
+            ? adsQuery.data.adSuggestion[0].totalLength
+            : 0}
+        </TabBadge>
       </Tab>
       <Tab
         onClick={() => setOfferMode(true)}
@@ -113,7 +116,7 @@ const Car = ({ translations, query }: CarPageProps) => {
       </Tab>
       {!isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
-          <AdSummaries>
+          <AdSummaries hidden={!adsQuery.data.adSuggestion[0]}>
             {adsQuery.data.adSuggestion.map((suggestion: any) => (
               <div key={suggestion.ad.id}>
                 <AdSummary
@@ -135,7 +138,11 @@ const Car = ({ translations, query }: CarPageProps) => {
             <Paging
               pageIndex={pageIndexAds}
               setPageIndex={setPageIndexAds}
-              maxItems={adsQuery.data.adSuggestion.length}
+              maxItems={
+                adsQuery.data.adSuggestion[0]
+                  ? adsQuery.data.adSuggestion[0].totalLength
+                  : 0
+              }
               itemsByPage={OFFERS_NB_BY_PAGE}
             />
           </AdSummaries>
@@ -147,9 +154,9 @@ const Car = ({ translations, query }: CarPageProps) => {
             {carQuery.data.car.offers.map((offer: Offer) => (
               <div key={offer.ad.id}>
                 <AdSummary
-                  key={adOffer.ad.id}
-                  ad={adOffer.ad}
-                  offer={adOffer.offer}
+                  key={offer.ad.id}
+                  ad={offer.ad}
+                  offer={offer}
                   right={
                     <>
                       <Button

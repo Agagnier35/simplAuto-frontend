@@ -76,7 +76,7 @@ export const AD_OFFER_SUGGESTION_QUERY = gql`
     suggestions(id: $id, pageNumber: $pageNumber, pageSize: $pageSize) {
       position
       score
-      total_length
+      totalLength
       offer {
         id
         car {

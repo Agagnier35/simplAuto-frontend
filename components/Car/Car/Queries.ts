@@ -59,8 +59,8 @@ export const CAR_BY_ID = gql`
               name
             }
           }
-          isUrgent
-          isFirst
+          urgentExpiry
+          topExpiry
           status
         }
         price
@@ -78,7 +78,7 @@ export const MATCHING_ADS_QUERY = gql`
   query MATCHING_ADS_QUERY($id: ID!, $pageNumberAds: Int, $pageSizeAds: Int) {
     adSuggestion(id: $id, pageNumber: $pageNumberAds, pageSize: $pageSizeAds) {
       score
-      total_length
+      totalLength
       ad {
         id
         priceLowerBound
@@ -107,13 +107,10 @@ export const MATCHING_ADS_QUERY = gql`
             name
           }
         }
-        isUrgent
-        isFirst
+        urgentExpiry
+        topExpiry
         status
       }
-      urgentExpiry
-      topExpiry
-      status
     }
   }
 `;
