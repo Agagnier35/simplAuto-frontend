@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'Location cannot be empty.',
+          matchingError:
+            'Invalid Location, please select an element in the list',
         },
         birthDateError: {
           invalidYearError: 'The year is invalid.',
@@ -280,6 +282,8 @@ const translations: Translations = {
     chat: 'Contact seller',
     reject: 'Reject offer',
     receivedOffers: 'Received offers',
+    youMayLike: 'You may also like',
+    noMatch: 'There is no 100% match offres',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -386,6 +390,12 @@ const translations: Translations = {
     },
     true: 'Yes',
     false: 'No',
+  },
+  stats: {
+    app: 'Stats for Simplauto',
+    market: 'Stats for market',
+    avgPrice: 'Average price',
+    avgTime: 'Average days on market',
   },
 };
 

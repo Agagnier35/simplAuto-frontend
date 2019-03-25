@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const CAR_BY_ID = gql`
-  query CAR_BY_ID($id: ID!) {
+  query CAR_BY_ID($id: ID!, $pageNumberOffer: Int, $pageSizeOffer: Int) {
     car(id: $id) {
       id
       manufacturer {
@@ -28,10 +28,40 @@ export const CAR_BY_ID = gql`
           name
         }
       }
-      offers {
+      offerCount
+      offers(pageNumber: $pageNumberOffer, pageSize: $pageSizeOffer) {
         id
         ad {
           id
+          priceLowerBound
+          priceHigherBound
+          manufacturer {
+            id
+            name
+          }
+          model {
+            id
+            name
+          }
+          category {
+            id
+            name
+          }
+          mileageLowerBound
+          mileageHigherBound
+          yearLowerBound
+          yearHigherBound
+          features {
+            id
+            name
+            category {
+              id
+              name
+            }
+          }
+          urgentExpiry
+          topExpiry
+          status
         }
         price
         addons {
@@ -45,38 +75,42 @@ export const CAR_BY_ID = gql`
 `;
 
 export const MATCHING_ADS_QUERY = gql`
-  {
-    ads {
-      id
-      priceLowerBound
-      priceHigherBound
-      manufacturer {
+  query MATCHING_ADS_QUERY($id: ID!, $pageNumberAds: Int, $pageSizeAds: Int) {
+    adSuggestion(id: $id, pageNumber: $pageNumberAds, pageSize: $pageSizeAds) {
+      score
+      totalLength
+      ad {
         id
-        name
-      }
-      model {
-        id
-        name
-      }
-      category {
-        id
-        name
-      }
-      mileageLowerBound
-      mileageHigherBound
-      yearLowerBound
-      yearHigherBound
-      features {
-        id
-        name
+        priceLowerBound
+        priceHigherBound
+        manufacturer {
+          id
+          name
+        }
+        model {
+          id
+          name
+        }
         category {
           id
           name
         }
+        mileageLowerBound
+        mileageHigherBound
+        yearLowerBound
+        yearHigherBound
+        features {
+          id
+          name
+          category {
+            id
+            name
+          }
+        }
+        urgentExpiry
+        topExpiry
+        status
       }
-      isUrgent
-      isFirst
-      status
     }
   }
 `;

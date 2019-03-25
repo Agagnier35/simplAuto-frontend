@@ -71,3 +71,14 @@ export const OFFER_BY_ID = gql`
     }
   }
 `;
+
+export const OFFER_STATS_QUERY = gql`
+  query OFFER_STATS_QUERY($id: ID!) {
+    statsForOffer(id: $id) {
+      averagePriceAPI
+      averageTimeOnMarketAPI
+      averagePriceApp
+      averageTimeOnMarketApp
+    }
+  }
+`;

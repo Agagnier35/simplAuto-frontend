@@ -33,8 +33,8 @@ export const AD_DETAIL_QUERY = gql`
           name
         }
       }
-      isUrgent
-      isFirst
+      urgentExpiry
+      topExpiry
       status
       offerCount
       offers(pageNumber: $pageNumber, pageSize: $pageSize) {
@@ -67,6 +67,57 @@ export const AD_DETAIL_QUERY = gql`
         }
         price
       }
+    }
+  }
+`;
+
+export const AD_OFFER_SUGGESTION_QUERY = gql`
+  query AD_OFFER_SUGGESTION_QUERY($id: ID!, $pageNumber: Int, $pageSize: Int) {
+    suggestions(id: $id, pageNumber: $pageNumber, pageSize: $pageSize) {
+      position
+      score
+      totalLength
+      offer {
+        id
+        car {
+          id
+          manufacturer {
+            id
+            name
+          }
+          model {
+            id
+            name
+          }
+          category {
+            id
+            name
+          }
+          year
+          mileage
+          photos
+          features {
+            id
+            name
+            category {
+              id
+              name
+            }
+          }
+        }
+        price
+      }
+    }
+  }
+`;
+
+export const AD_STATS_QUERY = gql`
+  query AD_STATS_QUERY($id: ID!) {
+    statsForAds(id: $id) {
+      averagePriceAPI
+      averageTimeOnMarketAPI
+      averagePriceApp
+      averageTimeOnMarketApp
     }
   }
 `;

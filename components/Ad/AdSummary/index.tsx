@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Ad, Offer } from '../../../generated/graphql';
@@ -15,6 +15,7 @@ import AdFeatures from './AdFeatures';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import { More, AdPortlet } from './styles';
 import AdOffers from './AdOffers';
+import Link from 'next/link';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -67,7 +68,7 @@ const AdSummary = ({
     return title;
   }
 
-  async function handleDeleteAd(deleteAd: any) {
+  async function handleDeleteAd() {
     await deleteAd();
     setModalShow(false);
     Router.push('/myAds');
@@ -85,12 +86,18 @@ const AdSummary = ({
 
   return (
     <>
+      <Breadcrumb>
+        <Link href={{ pathname: '/myAds' }} passHref>
+          <Breadcrumb.Item>{translations.general.buy}</Breadcrumb.Item>
+        </Link>
+        <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
+      </Breadcrumb>
       <GeneralModal
         modalSubject={MainAppObject.ad}
         actionType={ModalAction.delete}
         show={modalShow}
         onClose={() => setModalShow(false)}
-        onConfirm={() => handleDeleteAd(deleteAd)}
+        onConfirm={() => handleDeleteAd()}
       />
       <AdPortlet
         title={getTitle()}

@@ -33,28 +33,30 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-interface ProfileState {
-  firstName: string;
-  lastName: string;
-  companyName: string;
+export interface ProfileState {
+  firstName: string | undefined;
+  lastName: string | undefined;
+  companyName: string | undefined;
   email: string;
   location: Location;
   radius: number;
-  birthDate: SchemaDate;
-  gender: string;
-  newPassword: string;
+  birthDate: SchemaDate | undefined;
+  gender: Gender | undefined;
   confirmation: string;
-  notificationEmailOffer: boolean | null;
-  notificationEmailMessage: boolean | null;
-  notificationInAppOffer: boolean | null;
-  notificationInAppMessage: boolean | null;
-  language: string;
+  password: string;
+  confirmPassword: string;
+  notificationEmailOffer: boolean | undefined;
+  notificationEmailMessage: boolean | undefined;
+  notificationInAppOffer: boolean | undefined;
+  notificationInAppMessage: boolean | undefined;
+  clientType: ClientType;
+  language: UserLanguage;
   touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
+    password: boolean;
     email: boolean;
     location: boolean;
-    newPassword: boolean;
     confirmation: boolean;
     birthDate: boolean;
   }>;
@@ -80,52 +82,32 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     },
     radius: 0,
     birthDate: { day: 0, month: 0, year: 0 },
-    gender: '',
-    newPassword: '',
+    gender: Gender.Male,
+    clientType: ClientType.Individual,
+    password: '',
+    confirmPassword: '',
     confirmation: CLASSNAME_INIT_CONFIRMATION,
-    notificationEmailOffer: null,
-    notificationEmailMessage: null,
-    notificationInAppOffer: null,
-    notificationInAppMessage: null,
-    language: '',
+    notificationEmailOffer: false,
+    notificationEmailMessage: false,
+    notificationInAppOffer: false,
+    notificationInAppMessage: false,
+    language: UserLanguage.French,
     isFirstRender: true,
     touched: {
       firstName: false,
       lastName: false,
       email: false,
       location: false,
-      newPassword: false,
+      password: false,
       confirmation: false,
       birthDate: false,
     },
   };
 
-  datePickerInput = (
-    birthDate: SchemaDate,
-    profileFormValidation: ProfileFormValidation,
-  ) => {
+  getDefaultDate = (birthDate: SchemaDate) => {
     const curr = new Date();
     curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
-    const date = curr.toISOString().substr(0, 10);
-    return (
-      <>
-        <Form.Control
-          type="date"
-          name="birthDate"
-          className="inputNeedSpace"
-          isInvalid={
-            this.state.touched.birthDate &&
-            !profileFormValidation.isBirthDateValid(date)
-          }
-          onBlur={() => this.fieldTouched('birthDate')}
-          defaultValue={date}
-          onChange={this.handleChangeDate}
-        />
-        <Form.Control.Feedback type="invalid">
-          {profileFormValidation.birthDateError()}
-        </Form.Control.Feedback>
-      </>
-    );
+    return curr.toISOString().substr(0, 10);
   };
 
   handleChangeDate = (e: FormEvent<any>) => {
@@ -134,9 +116,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     const year = parseInt(e.currentTarget.value.substr(0, 4), 10);
     const curr = new Date();
     curr.setFullYear(day, month, year);
-    this.setState({
-      birthDate: { day, month, year },
-    } as Dictionary<ProfileState>);
+    this.setState({ birthDate: { day, month, year } });
   };
 
   handleChange = (e: FormEvent<any>) => {
@@ -144,19 +124,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   };
 
   handleChangeToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (
-      this.state[e.currentTarget.name] ||
-      this.state[e.currentTarget.name] === null
-    ) {
-      this.setState({ [e.currentTarget.name]: false });
-    } else {
-      this.setState({ [e.currentTarget.name]: true });
-    }
+    this.setState({ [e.currentTarget.name]: e.currentTarget.checked });
   };
 
-  getToggleValue = (name: string, data: any) => {
-    return this.state[name] === null ? data.me[name] : this.state[name];
-  };
   handleLanguage(data: any) {
     let locale = 'fr';
     if (data.updateUser.language === 'ENGLISH') {
@@ -176,7 +146,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     }
   };
 
-  handleChangeGeoLoc = (suggest: Suggest) => {
+  handleChangeGeoLoc = (suggest: Suggest | undefined) => {
     this.setState(
       suggest
         ? {
@@ -200,93 +170,37 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     if (e.currentTarget.name === 'password') {
       this.handleChange(e);
       this.setState({ confirmation: 'wrongPW' });
-    } else {
+    } else if (e.currentTarget.name === 'confirmPassword') {
+      this.handleChange(e);
       if (e.currentTarget.value !== this.state.password) {
-        this.setState({ [e.currentTarget.name]: 'wrongPW' });
+        this.setState({ confirmation: 'wrongPW' });
       } else {
         this.setState({
-          [e.currentTarget.name]: CLASSNAME_INIT_CONFIRMATION,
+          confirmation: CLASSNAME_INIT_CONFIRMATION,
         });
       }
     }
   };
 
-  validatePasswordState = (item: string) => {
-    return item === 'confirmation' || (item === 'password' && this.state[item]);
-  };
-
   validatePassword = () => {
-    return (
-      this.state.confirmation === CLASSNAME_INIT_CONFIRMATION &&
-      this.state.password
-    );
-  };
-
-  validateBirthDate = (item: string) => {
-    return (
-      item === 'birthDate' &&
-      this.state.birthDate.day !== 0 &&
-      this.state.birthDate.month !== 0 &&
-      this.state.birthDate.year !== 0
-    );
-  };
-
-  validateNotifications = (item: string) => {
-    return (
-      item === 'notificationEmailOffer' ||
-      item === 'notificationEmailMessage' ||
-      item === 'notificationInAppOffer' ||
-      item === 'notificationInAppMessage'
-    );
-  };
-
-  validateLocation = (item: string) => {
-    return (
-      item === 'location' &&
-      this.state.location.name !== '' &&
-      this.state.location.longitude !== 0 &&
-      this.state.location.latitude !== 0
-    );
+    return this.state.confirmation === CLASSNAME_INIT_CONFIRMATION;
   };
 
   fillObjectToUpdate = (me: User) => {
-    const tempMe: Dictionary<User> = me;
-    const data: Dictionary<UserUpdateInput> = { id: me.id };
-
-    Object.keys(this.state).map(item => {
-      if (this.validatePasswordState(item)) {
-        if (this.validatePassword()) {
-          data.password = this.state.password;
-        }
-      } else if (this.validateBirthDate(item)) {
-        const day = this.state[item].day;
-        const month = this.state[item].month;
-        const year = this.state[item].year;
-        data.birthDate = {
-          day,
-          month,
-          year,
-        };
-      } else if (this.validateLocation(item)) {
-        const name = this.state[item].name;
-        const longitude = this.state[item].longitude;
-        const latitude = this.state[item].latitude;
-        data.location = {
-          name,
-          longitude,
-          latitude,
-        };
-      } else if (
-        item !== 'birthDate' &&
-        item !== 'location' &&
-        this.state[item]
-      ) {
-        data[item] = this.state[item];
-      } else if (this.validateNotifications(item) && this.state[item] != null) {
-        data[item] = this.state[item];
-      }
-    });
-    console.log(data);
+    const {
+      password,
+      // we dont want in rest
+      touched,
+      isFirstRender,
+      confirmation,
+      confirmPassword,
+      // the rest
+      ...rest
+    } = this.state;
+    const data: Dictionary<UserUpdateInput> = { ...rest, id: me ? me.id : '' };
+    if (this.validatePassword()) {
+      data.password = password;
+    }
     return { data };
   };
 
@@ -296,42 +210,16 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   ) => {
     e.preventDefault();
     await update();
-    this.setState({
-      id: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      location: {
-        name: '',
-        longitude: 0,
-        latitude: 0,
-      },
-      radius: 0,
-      birthDate: { day: 0, month: 0, year: 0 },
-      gender: '',
-      password: '',
-      confirmation: CLASSNAME_INIT_CONFIRMATION,
-      notificationEmailOffer: null,
-      notificationEmailMessage: null,
-      notificationInAppOffer: null,
-      notificationInAppMessage: null,
-      language: '',
-    } as any);
+    this.setState({ confirmPassword: '', password: '' });
   };
 
   fillState = (data: any) => {
     // Cette condition empêche de rentrer dans une boucle infinie
     if (this.state.isFirstRender) {
+      const { __typename, ...rest } = data.me;
       this.setState({
-        id: data.me.id,
-        email: data.me.email,
-        firstName: data.me.firstName,
-        lastName: data.me.lastName,
-        location: data.me.location,
-        birthDate: data.me.birthDate,
-        gender: data.me.gender,
         isFirstRender: false,
+        ...rest,
       });
     }
   };
@@ -389,7 +277,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     className="inputNeedSpace"
                                     placeholder={profile.firstName}
                                     aria-describedby="inputGroupPrepend"
-                                    required
                                     type="text"
                                     name="firstName"
                                     onChange={this.handleChange}
@@ -418,7 +305,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     className="inputNeedSpace"
                                     placeholder={profile.lastName}
                                     aria-describedby="inputGroupPrepend"
-                                    required
                                     type="text"
                                     name="lastName"
                                     onChange={this.handleChange}
@@ -497,10 +383,11 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 onSuggestSelect={(suggest: Suggest) =>
                                   this.handleChangeGeoLoc(suggest)
                                 }
+                                onChange={() =>
+                                  this.handleChangeGeoLoc(undefined)
+                                }
                                 placeholder={profile.address}
                               />
-                              {/* Custom code for error in the location.*/}
-                              {/*Bug si on efface la location, ça plante.*/}
                               <div
                                 style={redText}
                                 hidden={
@@ -512,7 +399,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   )
                                 }
                               >
-                                {profileFormValidation.locationError()}
+                                <p>{profileFormValidation.locationError()}</p>
                               </div>
                               <p>{general.radius}: </p>
                               <Form.Control
@@ -528,10 +415,25 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               hidden={data.me.clientType === ClientType.Company}
                             >
                               <p>{profile.birth}: </p>
-                              {this.datePickerInput(
-                                data.me.birthDate,
-                                profileFormValidation,
-                              )}
+                              <Form.Control
+                                type="date"
+                                name="birthDate"
+                                className="inputNeedSpace"
+                                isInvalid={
+                                  this.state.touched.birthDate &&
+                                  !profileFormValidation.isBirthDateValid(
+                                    this.state.birthDate,
+                                  )
+                                }
+                                onBlur={() => this.fieldTouched('birthDate')}
+                                defaultValue={this.getDefaultDate(
+                                  data.me.birthDate,
+                                )}
+                                onChange={this.handleChangeDate}
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                {profileFormValidation.birthDateError()}
+                              </Form.Control.Feedback>
                             </div>
                             <div
                               hidden={data.me.clientType === ClientType.Company}
@@ -544,24 +446,25 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     profile.female,
                                     profile.other,
                                   ];
-                                  return [
-                                    <Form.Control
-                                      type="radio"
-                                      name="gender"
-                                      className="radioSelector"
-                                      key={gender}
-                                      value={gender}
-                                      checked={
-                                        this.state.gender === gender ||
-                                        (data.me.gender === gender &&
-                                          this.state.gender === '')
-                                      }
-                                      onChange={this.handleChange}
-                                    />,
-                                    <p className="radioNeedSpace" key={i}>
-                                      {temp[i]}{' '}
-                                    </p>,
-                                  ];
+                                  return (
+                                    <div key={gender}>
+                                      <Form.Control
+                                        type="radio"
+                                        name="gender"
+                                        className="radioSelector"
+                                        key={gender}
+                                        value={gender}
+                                        checked={
+                                          this.state.gender === gender ||
+                                          data.me.gender === gender
+                                        }
+                                        onChange={this.handleChange}
+                                      />
+                                      <p className="radioNeedSpace" key={i}>
+                                        {temp[i]}{' '}
+                                      </p>
+                                    </div>
+                                  );
                                 },
                               )}
                             </div>
@@ -573,23 +476,24 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     general.langages.french,
                                     general.langages.english,
                                   ];
-                                  return [
-                                    <p className="radioNeedSpace" key={i}>
-                                      {temp[i]}{' '}
-                                    </p>,
-                                    <Form.Control
-                                      name={'language'}
-                                      value={language}
-                                      type="radio"
-                                      className="radioSelector"
-                                      onChange={this.handleChange}
-                                      checked={
-                                        this.state.language === language ||
-                                        (data.me.language === language &&
-                                          this.state.language === '')
-                                      }
-                                    />,
-                                  ];
+                                  return (
+                                    <div key={language}>
+                                      <p className="radioNeedSpace" key={i}>
+                                        {temp[i]}{' '}
+                                      </p>
+                                      <Form.Control
+                                        name={'language'}
+                                        value={language}
+                                        type="radio"
+                                        className="radioSelector"
+                                        onChange={this.handleChange}
+                                        checked={
+                                          this.state.language === language ||
+                                          data.me.language === language
+                                        }
+                                      />
+                                    </div>
+                                  );
                                 },
                               )}
                             </div>
@@ -600,27 +504,13 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               <br />
                               <p>{profile.notificationMessage}: </p>
                               <Toggle
-                                checked={this.getToggleValue(
-                                  'notificationInAppMessage',
-                                  data,
-                                )}
-                                defaultValue={this.getToggleValue(
-                                  'notificationInAppMessage',
-                                  data,
-                                )}
+                                checked={this.state.notificationInAppMessage}
                                 name="notificationInAppMessage"
                                 onChange={this.handleChangeToggle}
                               />
                               <p>{profile.notificationOffer}: </p>
                               <Toggle
-                                checked={this.getToggleValue(
-                                  'notificationInAppOffer',
-                                  data,
-                                )}
-                                defaultValue={this.getToggleValue(
-                                  'notificationInAppOffer',
-                                  data,
-                                )}
+                                checked={this.state.notificationInAppOffer}
                                 name="notificationInAppOffer"
                                 onChange={this.handleChangeToggle}
                               />
@@ -629,27 +519,13 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               <br />
                               <p>{profile.notificationMessage}: </p>
                               <Toggle
-                                checked={this.getToggleValue(
-                                  'notificationEmailMessage',
-                                  data,
-                                )}
-                                defaultValue={this.getToggleValue(
-                                  'notificationEmailMessage',
-                                  data,
-                                )}
+                                checked={this.state.notificationEmailMessage}
                                 name="notificationEmailMessage"
                                 onChange={this.handleChangeToggle}
                               />
                               <p>{profile.notificationOffer}: </p>
                               <Toggle
-                                checked={this.getToggleValue(
-                                  'notificationEmailOffer',
-                                  data,
-                                )}
-                                defaultValue={this.getToggleValue(
-                                  'notificationEmailOffer',
-                                  data,
-                                )}
+                                checked={this.state.notificationEmailOffer}
                                 name="notificationEmailOffer"
                                 onChange={this.handleChangeToggle}
                               />
@@ -675,9 +551,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     placeholder={profile.changePassword}
                                     value={this.state.password}
                                     onChange={this.handleConfirmationPassword}
-                                    onBlur={() =>
-                                      this.fieldTouched('newPassword')
-                                    }
+                                    onBlur={() => this.fieldTouched('password')}
                                   />
                                 </InputGroup>
                               </Form.Group>
@@ -696,7 +570,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                     className={this.state.confirmation}
                                     aria-describedby="inputGroupPrepend"
                                     type="password"
-                                    name="confirmation"
+                                    name="confirmPassword"
                                     placeholder={
                                       profile.confirmationChangePassword
                                     }

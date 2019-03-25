@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'La localisation ne peut être vide.',
+          matchingError:
+            'La localisation est invalide, choissisez un élément dans la liste',
         },
         birthDateError: {
           invalidYearError: "L'année saisie est invalide.",
@@ -295,6 +297,8 @@ const translations: Translations = {
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
     receivedOffers: 'Offres reçues',
+    youMayLike: 'Vous aimerez peut-être',
+    noMatch: 'Aucune offre ne correspond à 100% de vos critères',
   },
   Chat: {
     title: 'Messagerie',
@@ -389,6 +393,12 @@ const translations: Translations = {
     },
     true: 'Oui',
     false: 'Non',
+  },
+  stats: {
+    app: 'Statistiques pour Simplauto',
+    market: 'Statistiques pour le marché',
+    avgPrice: 'Prix moyen',
+    avgTime: 'Nombre de jours moyen avant la vente',
   },
 };
 
