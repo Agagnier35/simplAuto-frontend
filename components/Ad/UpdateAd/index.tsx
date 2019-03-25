@@ -20,11 +20,22 @@ const UPDATE_AD_MUTATION = gql`
   }
 `;
 
+interface UpdateAdState extends AdUpdateInput {
+  touched: Dictionnary<{
+    yearLowerBound: boolean;
+    yearHigherBound: boolean;
+    mileageLowerBound: boolean;
+    mileageHigherBound: boolean;
+    priceLowerBound: boolean;
+    priceHigherBound: boolean;
+  }>;
+}
+
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
 
 class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
-  state: AdUpdateInput = {
+  state: UpdateAdState = {
     id: '',
     features: null,
     manufacturerID: null,
@@ -36,6 +47,14 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     mileageHigherBound: null,
     priceLowerBound: null,
     priceHigherBound: null,
+    touched: {
+      yearLowerBound: false,
+      yearHigherBound: false,
+      mileageLowerBound: false,
+      mileageHigherBound: false,
+      priceLowerBound: false,
+      priceHigherBound: false,
+    },
   };
 
   isFirstRender: Boolean = true;
@@ -234,7 +253,10 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  defaultValue={this.getDefaultManufacturer(
+                                  placeholder={this.getDefaultManufacturer(
+                                    data.manufacturers,
+                                  )}
+                                  value={this.getDefaultManufacturer(
                                     data.manufacturers,
                                   )}
                                   label={`${cars.manufacturer} :`}
