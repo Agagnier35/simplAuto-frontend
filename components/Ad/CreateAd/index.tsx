@@ -18,8 +18,8 @@ import CreateAdFormValidation, {
 //   MINCARYEAR,
 // } from '../../General/FormValidator/CreateAdFormValidation';
 
-const CREATE_AD_MUTATION = gql`
-  mutation CREATE_AD_MUTATION($data: AdCreateInput!) {
+const CREATE_ADD_MUTATION = gql`
+  mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
     createAd(data: $data) {
       id
     }
@@ -157,7 +157,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
           );
           return (
             <Mutation
-              mutation={CREATE_AD_MUTATION}
+              mutation={CREATE_ADD_MUTATION}
               variables={{ data: this.state }}
             >
               {(createAd, mutation) => {
