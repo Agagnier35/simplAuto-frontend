@@ -35,6 +35,8 @@ export const PAGE_ADS_QUERY = gql`
             name
           }
         }
+        urgentExpiry
+        topExpiry
         status
         offers {
           id

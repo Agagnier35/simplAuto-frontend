@@ -111,6 +111,9 @@ export const MATCHING_ADS_QUERY = gql`
         isFirst
         status
       }
+      urgentExpiry
+      topExpiry
+      status
     }
   }
 `;

@@ -33,8 +33,8 @@ export const ALL_ADS_QUERY = gql`
           name
         }
       }
-      isUrgent
-      isFirst
+      urgentExpiry
+      topExpiry
       status
       offers {
         id

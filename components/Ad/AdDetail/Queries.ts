@@ -33,6 +33,8 @@ export const AD_DETAIL_QUERY = gql`
           name
         }
       }
+      urgentExpiry
+      topExpiry
       status
       offerCount
       offers(pageNumber: $pageNumber, pageSize: $pageSize) {
