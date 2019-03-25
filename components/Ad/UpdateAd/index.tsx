@@ -11,7 +11,10 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
-import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
+import CreateAdFormValidation, {
+  MINCARYEAR,
+  MAXMILEAGEALLOWED,
+} from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -272,7 +275,12 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   value={this.getDefaultManufacturer(
                                     data.manufacturers,
                                   )}
-                                  label={`${cars.manufacturer} :`}
+                                  label={
+                                    <span>
+                                      {cars.manufacturer}
+                                      <span style={redAsterixStyle}>*</span>
+                                    </span>
+                                  }
                                 />
                                 <Select
                                   options={this.getModelsForManufacturer(data)}
@@ -286,7 +294,12 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   value={this.getDefaultModel(
                                     data.manufacturers,
                                   )}
-                                  label={`${cars.model} :`}
+                                  label={
+                                    <span>
+                                      {cars.model}
+                                      <span style={redAsterixStyle}>*</span>
+                                    </span>
+                                  }
                                 />
                                 <Select
                                   options={data.carCategories}
@@ -299,17 +312,36 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   default={this.getDefaultCategory(
                                     data.carCategories,
                                   )}
-                                  label={`${cars.category} :`}
+                                  label={
+                                    <span>
+                                      {cars.category}
+                                      <span style={redAsterixStyle}>*</span>
+                                    </span>
+                                  }
                                 />
 
                                 <label>
-                                  {cars.year} {general.min}
+                                  <span>
+                                    {cars.year} {general.min}
+                                    <span style={redAsterixStyle}>*</span>
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.year} ${general.min}`}
                                     defaultValue={this.fieldToString(
                                       this.state.yearLowerBound,
                                     )}
+                                    min={MINCARYEAR}
+                                    max={new Date().getFullYear()}
+                                    onBlur={() =>
+                                      this.fieldTouched('yearLowerBound')
+                                    }
+                                    isInvalid={
+                                      touched.yearLowerBound &&
+                                      !createAdFormValidation.isYearLowerBoundValid(
+                                        this.state.yearLowerBound,
+                                      )
+                                    }
                                     onChange={(e: any) =>
                                       this.handleChange('yearLowerBound', {
                                         value: parseInt(
@@ -319,15 +351,36 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       })
                                     }
                                   />
+                                  <Form.Control.Feedback type="invalid">
+                                    {createAdFormValidation.yearLowerBoundError(
+                                      this.state.yearLowerBound,
+                                    )}
+                                  </Form.Control.Feedback>{' '}
                                 </label>
+
                                 <label>
-                                  {cars.year} {general.max}
+                                  <span>
+                                    {cars.year} {general.max}
+                                    <span style={redAsterixStyle}>*</span>
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.year} ${general.max}`}
                                     defaultValue={this.fieldToString(
                                       this.state.yearHigherBound,
                                     )}
+                                    min={MINCARYEAR}
+                                    max={new Date().getFullYear()}
+                                    onBlur={() =>
+                                      this.fieldTouched('yearHigherBound')
+                                    }
+                                    isInvalid={
+                                      touched.yearHigherBound &&
+                                      !createAdFormValidation.isYearHigherBoundValid(
+                                        this.state.yearLowerBound,
+                                        this.state.yearHigherBound,
+                                      )
+                                    }
                                     onChange={(e: any) =>
                                       this.handleChange('yearHigherBound', {
                                         value: parseInt(
@@ -337,9 +390,19 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       })
                                     }
                                   />
+                                  <Form.Control.Feedback type="invalid">
+                                    {createAdFormValidation.yearHigherBoundError(
+                                      this.state.yearLowerBound,
+                                      this.state.yearHigherBound,
+                                    )}
+                                  </Form.Control.Feedback>{' '}
                                 </label>
+
                                 <label>
-                                  {cars.mileage} {general.min}
+                                  <span>
+                                    {cars.mileage} {general.min}
+                                    <span style={redAsterixStyle}>*</span>
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.mileage} ${
@@ -348,6 +411,17 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     defaultValue={this.fieldToString(
                                       this.state.mileageLowerBound,
                                     )}
+                                    min={0}
+                                    max={MAXMILEAGEALLOWED}
+                                    onBlur={() =>
+                                      this.fieldTouched('mileageLowerBound')
+                                    }
+                                    isInvalid={
+                                      touched.mileageLowerBound &&
+                                      !createAdFormValidation.isMileageLowerBoundValid(
+                                        this.state.mileageLowerBound,
+                                      )
+                                    }
                                     onChange={(e: any) =>
                                       this.handleChange('mileageLowerBound', {
                                         value: parseInt(
@@ -357,9 +431,18 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       })
                                     }
                                   />
+                                  <Form.Control.Feedback type="invalid">
+                                    {createAdFormValidation.mileageLowerBoundError(
+                                      this.state.mileageLowerBound,
+                                    )}
+                                  </Form.Control.Feedback>{' '}
                                 </label>
+
                                 <label>
-                                  {cars.mileage} {general.max}
+                                  <span>
+                                    {cars.mileage} {general.max}
+                                    <span style={redAsterixStyle}>*</span>
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.mileage} ${
@@ -368,6 +451,18 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     defaultValue={this.fieldToString(
                                       this.state.mileageHigherBound,
                                     )}
+                                    min={0}
+                                    max={MAXMILEAGEALLOWED}
+                                    onBlur={() =>
+                                      this.fieldTouched('mileageHigherBound')
+                                    }
+                                    isInvalid={
+                                      touched.mileageHigherBound &&
+                                      !createAdFormValidation.isMileageHigherBoundValid(
+                                        this.state.mileageLowerBound,
+                                        this.state.mileageHigherBound,
+                                      )
+                                    }
                                     onChange={(e: any) =>
                                       this.handleChange('mileageHigherBound', {
                                         value: parseInt(
@@ -377,15 +472,35 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       })
                                     }
                                   />
+                                  <Form.Control.Feedback type="invalid">
+                                    {createAdFormValidation.mileageHigherBoundError(
+                                      this.state.mileageLowerBound,
+                                      this.state.mileageHigherBound,
+                                    )}
+                                  </Form.Control.Feedback>{' '}
                                 </label>
+
                                 <label>
-                                  {cars.price} {general.min}
+                                  <span>
+                                    {cars.price} {general.min}
+                                    <span style={redAsterixStyle}>*</span>
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.price} ${general.min}`}
                                     defaultValue={this.fieldToString(
                                       this.state.priceLowerBound,
                                     )}
+                                    min={0}
+                                    onBlur={() =>
+                                      this.fieldTouched('priceLowerBound')
+                                    }
+                                    isInvalid={
+                                      touched.priceLowerBound &&
+                                      !createAdFormValidation.isPriceLowerBoundValid(
+                                        this.state.priceLowerBound,
+                                      )
+                                    }
                                     onChange={(e: any) =>
                                       this.handleChange('priceLowerBound', {
                                         value: parseInt(
@@ -395,15 +510,35 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       })
                                     }
                                   />
+                                  <Form.Control.Feedback type="invalid">
+                                    {createAdFormValidation.priceLowerBoundError(
+                                      this.state.priceLowerBound,
+                                    )}
+                                  </Form.Control.Feedback>{' '}
                                 </label>
+
                                 <label>
-                                  {cars.price} {general.max}
+                                  <span>
+                                    {cars.price} {general.max}
+                                    <span style={redAsterixStyle}>*</span>
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     placeholder={`${cars.price} ${general.max}`}
                                     defaultValue={this.fieldToString(
                                       this.state.priceHigherBound,
                                     )}
+                                    min={0}
+                                    onBlur={() =>
+                                      this.fieldTouched('priceHigherBound')
+                                    }
+                                    isInvalid={
+                                      touched.priceHigherBound &&
+                                      !createAdFormValidation.isPriceHigherBoundValid(
+                                        this.state.priceLowerBound,
+                                        this.state.priceHigherBound,
+                                      )
+                                    }
                                     onChange={(e: any) =>
                                       this.handleChange('priceHigherBound', {
                                         value: parseInt(
@@ -413,6 +548,12 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       })
                                     }
                                   />
+                                  <Form.Control.Feedback type="invalid">
+                                    {createAdFormValidation.priceHigherrBoundError(
+                                      this.state.priceLowerBound,
+                                      this.state.priceHigherBound,
+                                    )}
+                                  </Form.Control.Feedback>{' '}
                                 </label>
                               </div>
                             </Card.Body>
