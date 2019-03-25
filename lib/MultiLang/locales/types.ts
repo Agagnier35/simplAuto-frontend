@@ -351,4 +351,10 @@ export default interface Translations {
     true: string;
     false: string;
   }>;
+  stats: {
+    app: string;
+    market: string;
+    avgPrice: string;
+    avgTime: string;
+  };
 }

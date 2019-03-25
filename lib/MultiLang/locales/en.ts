@@ -387,6 +387,12 @@ const translations: Translations = {
     true: 'Yes',
     false: 'No',
   },
+  stats: {
+    app: 'Stats for Simplauto',
+    market: 'Stats for market',
+    avgPrice: 'Average price',
+    avgTime: 'Average days on market',
+  },
 };
 
 module.exports = translations;

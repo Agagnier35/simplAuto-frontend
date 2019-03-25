@@ -18,6 +18,7 @@ const AdStats = ({ adID, translations }: AdStatsProps) => {
   });
 
   const stats: Statistics = data.statsForAds;
+  const { stats: statsT } = translations;
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
@@ -25,14 +26,22 @@ const AdStats = ({ adID, translations }: AdStatsProps) => {
   return (
     <div>
       <div>
-        <p>Stats for market:</p>
-        <p>Average price: {stats.averagePriceAPI}$</p>
-        <p>Average time: {stats.averageTimeOnMarketAPI} days</p>
+        <p>{statsT.market}:</p>
+        <p>
+          {statsT.avgPrice}: {stats.averagePriceAPI}$
+        </p>
+        <p>
+          {statsT.avgTime}: {stats.averageTimeOnMarketAPI}
+        </p>
       </div>
       <div>
-        <p>Stats for Simplauto:</p>
-        <p>Average price: {stats.averagePriceApp}$</p>
-        <p>Average time: {stats.averageTimeOnMarketApp} days</p>
+        <p>{statsT.app}:</p>
+        <p>
+          {statsT.avgPrice}: {stats.averagePriceApp}$
+        </p>
+        <p>
+          {statsT.avgTime}: {stats.averageTimeOnMarketApp}
+        </p>
       </div>
     </div>
   );
