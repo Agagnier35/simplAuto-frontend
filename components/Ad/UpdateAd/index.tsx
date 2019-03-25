@@ -11,6 +11,7 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
+import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -19,6 +20,10 @@ const UPDATE_AD_MUTATION = gql`
     }
   }
 `;
+
+const redAsterixStyle = {
+  color: 'red',
+};
 
 interface UpdateAdState extends AdUpdateInput {
   touched: Dictionnary<{
@@ -208,6 +213,8 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
+    const touched = { ...this.state.touched };
+    const createAdFormValidation = new CreateAdFormValidation(general); // Réutilisation du même que pour créer car le contrôle se fait exactement de la même faço
     return (
       <Query
         query={AD_DETAIL_QUERY}
