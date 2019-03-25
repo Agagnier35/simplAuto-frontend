@@ -385,6 +385,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               )}
                             </Form.Control.Feedback>{' '}
                           </label>
+
                           <label>
                             <span>
                               {cars.price} {general.max}
