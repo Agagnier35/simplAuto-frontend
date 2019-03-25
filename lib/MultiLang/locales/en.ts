@@ -268,6 +268,8 @@ const translations: Translations = {
   ad: {
     createAdTitle: 'Please fill the information about your ad',
     createAdAction: 'Publish your ad',
+    buyTopAd: 'Make priority',
+    buyUrgentAd: 'Make urgent',
   },
   offers: {
     createOffer: 'Make an offer',
@@ -324,6 +326,10 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Monthly membership',
+    TopAdName: 'Priority Ad',
+    TopAdDescription: 'On top for one week!',
+    UrgentAdName: 'Urgent Ad',
+    UrgentAdDescription: 'Stand out for one week!',
   },
   offerAddons: {
     subtitle: 'The seller offers also',

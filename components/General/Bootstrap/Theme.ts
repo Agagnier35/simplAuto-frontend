@@ -199,4 +199,5 @@ export const globalStyles = `
     justify-content: center;
     margin: 1rem 0;
   }
+
 `;

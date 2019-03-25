@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, Breadcrumb } from 'react-bootstrap';
+import { Card, Breadcrumb, Button } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import { Offer } from '../../../generated/graphql';
+import { Offer, Ad } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -20,6 +20,8 @@ import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
 import Link from 'next/link';
 import { paging5pages } from '../../General/Preferences';
+import MyAdOptions from '../MyAdOptions';
+import { LOGGED_IN_QUERY } from '../../General/Header';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -43,18 +45,23 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
   });
 
+  const meQuery = useQuery(LOGGED_IN_QUERY);
+
+  const adQuery = useQuery(AD_DETAIL_QUERY, {
+    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
+  });
+
   async function handleDeleteAd() {
     await deleteAd();
     setModalShow(false);
     Router.push('/myAds');
   }
 
-  const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
-  });
+  if (adQuery.loading || meQuery.loading) return <Loading />;
+  if (adQuery.error) return <ErrorMessage error={adQuery.error} />;
 
-  if (loading) return <Loading />;
-  if (error) return <ErrorMessage error={error} />;
+  const ad = adQuery.data.ad as Ad;
+  const isMyAd = ad.creator && ad.creator.id === meQuery.data.me.id;
 
   return (
     <>
@@ -74,24 +81,29 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onConfirm={() => handleDeleteAd()}
         />
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
+          <AdSummary
+            adsQuery={AD_DETAIL_QUERY}
+            key={ad.id}
+            ad={ad}
+            right={isMyAd && <MyAdOptions ad={ad} />}
+          />
         </Card>
-        {data.ad.offerCount > 0 && (
+        {ad.offerCount > 0 && (
           <>
             <Tab className="active">
               {translations.offers.receivedOffers}
-              {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
+              {ad.offers && <TabBadge>{ad.offers.length}</TabBadge>}
             </Tab>
             <Card style={{ overflow: 'hidden' }}>
               <CarSummaries>
-                {data.ad.offers &&
-                  data.ad.offers.map((offer: Offer) => (
+                {ad.offers &&
+                  ad.offers.map((offer: Offer) => (
                     <CarSummary key={offer.id} car={offer.car} offer={offer} />
                   ))}
                 <Paging
                   pageIndex={pageIndex}
                   setPageIndex={setPageIndex}
-                  maxItems={data.ad.offerCount}
+                  maxItems={ad.offerCount}
                   itemsByPage={paging5pages}
                 />
               </CarSummaries>
