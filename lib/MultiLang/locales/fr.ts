@@ -333,6 +333,9 @@ const translations: Translations = {
     TopAdDescription: 'Au dessus pendant une semaine!',
     UrgentAdName: 'Annonce urgente',
     UrgentAdDescription: `Se distinguer pour une semaine!`,
+    CarSpotName: 'Emplacement supplémentaire',
+    CarSpotDescription: 'Emplacement supplémentaire pour un véhicule',
+    CarSpotButton: 'Acheter un emplacement supplémentaire',
   },
   offerAddons: {
     subtitle: 'Le vendeur offre aussi',

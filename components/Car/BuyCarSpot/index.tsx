@@ -7,6 +7,7 @@ import { stripeKey } from '../../../config';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { PRICES_QUERY } from '../../Premium/Premium/Queries';
 import { Prices } from '../../../generated/graphql';
+import { Button } from 'react-bootstrap';
 
 export interface BuyCarSpotProps extends MultiProps {}
 
@@ -23,15 +24,17 @@ const BuyCarSpot = ({ translations }: BuyCarSpotProps) => {
     <div>
       <StripeCheckout
         amount={prices.carSpot}
-        name={translations.Stripe.PremiumName}
-        description={translations.Stripe.PremiumDescription}
+        name={translations.Stripe.CarSpotName}
+        description={translations.Stripe.CarSpotDescription}
         currency="CAD"
         email={loggedQuery.data.me.email}
         stripeKey={stripeKey}
         token={(res: any) =>
           handleBuyCarSpot({ variables: { stripeToken: res.id, amount: 1 } })
         }
-      />
+      >
+        <Button>{translations.Stripe.CarSpotButton}</Button>
+      </StripeCheckout>
     </div>
   );
 };

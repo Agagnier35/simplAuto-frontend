@@ -294,6 +294,9 @@ export default interface Translations {
     TopAdDescription: string;
     UrgentAdName: string;
     UrgentAdDescription: string;
+    CarSpotName: string;
+    CarSpotDescription: string;
+    CarSpotButton: string;
   };
   offerAddons: {
     subtitle: string;

@@ -5,6 +5,8 @@ export const PAGE_CARS_QUERY = gql`
     me {
       id
       carCount
+      permissions
+      carLimit
       cars(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
         manufacturer {
