@@ -9,6 +9,7 @@ export interface SelectProps extends MultiProps {
   accessor: string; // The key of the item to display in the list items
   label: string; // The value of the hovering label
   disabled: boolean; // Blocks input if true
+  defaultValue?: any; // Default value
   translations: Translations;
   selected?: any; // Initial selected object
 }
@@ -58,6 +59,7 @@ class Select extends React.Component<SelectProps, SelectState> {
       translations: { general },
     } = this.props;
     const { selectedValue } = this.state;
+    console.log(this.props.defaultValue);
 
     return (
       <label>
@@ -68,7 +70,11 @@ class Select extends React.Component<SelectProps, SelectState> {
             variant="secondary"
             id="dropdown-basic"
           >
-            {selectedValue !== '' ? selectedValue : general.defaultDropdown}
+            {selectedValue !== ''
+              ? selectedValue
+              : this.props.defaultValue
+              ? this.props.defaultValue.name
+              : general.defaultDropdown}
           </BootStrapDropdown.Toggle>
           <BootStrapDropdown.Menu>
             {options.map((option, index) => (
