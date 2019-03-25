@@ -72,7 +72,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
         this.setState({
           features: [
             ...features.slice(0, featureIndex),
-            value,
+            value.value,
             ...features.slice(featureIndex + 1),
           ],
         });
@@ -81,18 +81,16 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     // Add it
     else if (!isDefaultValue) {
       this.setState({
-        features: [...features, value],
+        features: [...features, value.value],
       });
     }
-
-    console.log(this.state);
   };
 
   fillState = (data: any) => {
     if (this.isFirstRender) {
       this.setState({
         id: data.ad.id,
-        // features: data.ad.features,
+        features: data.ad.features,
         manufacturerID: data.ad.manufacturer.id,
         modelID: data.ad.model.id,
         categoryID: data.ad.category.id,
@@ -118,7 +116,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
         this.setState({ modelID: '' });
       }
     }
-    console.log(this.state);
+    console.log(this.state.features);
   };
 
   getModelsForManufacturer = (data: any) => {
@@ -140,7 +138,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
 
   getDefaultManufacturer = (manufacturers: any) => {
     const manufacturer = manufacturers.find(
-      (manufactur: any) => manufactur.id === this.state.manufacturerID,
+      (mnf: any) => mnf.id === this.state.manufacturerID,
     );
     return manufacturer;
   };
@@ -154,10 +152,25 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
   };
 
   getDefaultCategory = (carCategories: any) => {
+    console.log(this.state.features);
     const carCategory = carCategories.find(
       (carCtg: any) => carCtg.id === this.state.categoryID,
     );
     return carCategory;
+  };
+
+  getDefaultFeature = (features: any) => {
+    let defaultFeature = undefined;
+    features.map((ft1: any) => {
+      if (this.state.features) {
+        this.state.features.map((ft2: any) => {
+          ft2 === ft1 ? (defaultFeature = ft1) : null;
+        });
+      } else {
+        defaultFeature = undefined;
+      }
+    });
+    return defaultFeature;
   };
 
   render() {
@@ -218,7 +231,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  value={this.getDefaultManufacturer(
+                                  defaultValue={this.getDefaultManufacturer(
                                     data.manufacturers,
                                   )}
                                   label={`${cars.manufacturer} :`}
@@ -384,6 +397,12 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                         category: feature.name,
                                       })
                                     }
+                                    // ------------------------------
+                                    // DEFAULT FEATURES
+                                    // ------------------------------
+                                    defaultValue={this.getDefaultFeature(
+                                      feature.features,
+                                    )}
                                     label={`${
                                       carFeatureCategory[feature.name]
                                     } :`}
@@ -405,6 +424,10 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     key={feature.id}
                                     type="checkbox"
                                     label={carFeatureCategory[feature.name]}
+                                    // ------------------------------
+                                    // DEFAULT FEATURES
+                                    // ------------------------------
+                                    // isChecked
                                     onClick={() =>
                                       this.handleChange('features', {
                                         value: feature.features[0].id,
