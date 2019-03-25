@@ -1,4 +1,10 @@
 import BasicFormValidation from '../BasicFormValidation';
+import { Location, ClientType } from '../../../generated/graphql';
+import {
+  MINIMUMBIRTHDATEYEAR as MINIMUM_BIRTH_DATE_YEAR,
+  MINIMUMAGEFORUSINGAPP as MINIMUM_AGE_FOR_USING_APP,
+} from '../ProfileFormValidation';
+import { SignupState } from '../../../components/Auth/Signup';
 class SignupFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -23,12 +29,13 @@ class SignupFormValidation extends BasicFormValidation {
     return this.isEmailFormatValid(email);
   };
 
-  isBirthDateValid = (birthDate: string) => {
+  isBirthDateValid = (birthDate: SchemaDate | undefined) => {
     // Seule validation nécessaire est l'année
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
-      parseInt(birthDate.substring(0, 4), 10) > 1900 &&
-      parseInt(birthDate.substring(0, 4), 10) <= new Date().getFullYear() - 16
+      birthDate &&
+      birthDate.year > MINIMUM_BIRTH_DATE_YEAR &&
+      birthDate.year <= new Date().getFullYear() - MINIMUM_AGE_FOR_USING_APP
     );
   };
 
@@ -43,8 +50,12 @@ class SignupFormValidation extends BasicFormValidation {
     );
   };
 
-  isLocationValid = (location: string) => {
-    return this.isFieldNotEmpty(location);
+  isLocationValid = (location: Location) => {
+    return (
+      location.name !== '' &&
+      location.longitude !== 0 &&
+      location.latitude !== 0
+    );
   };
 
   firstNameError = (firstName: string) => {
@@ -100,14 +111,14 @@ class SignupFormValidation extends BasicFormValidation {
       .emptyError;
   };
 
-  isSignupFormStateValid = (state: any) => {
+  isSignupFormStateValid = (state: SignupState) => {
     return (
-      this.isFirstNameValid(state.firstName) &&
-      this.isLastNameValid(state.lastMame) &&
+      (state.clientType === ClientType.Individual
+        ? this.isFirstNameValid(state.firstName) &&
+          this.isLastNameValid(state.lastName) &&
+          this.isBirthDateValid(state.birthDate)
+        : true) && // do company validation
       this.isEmailValid(state.email) &&
-      this.isBirthDateValid(
-        `${state.birthDate.year.toString()} - ${state.birthDate.month.toString()} - ${state.birthDate.day.toString()}`,
-      ) &&
       this.isPasswordValid(state.password) &&
       this.isConfirmPasswordValid(state.confirmPassword, state.password) &&
       this.isLocationValid(state.location)

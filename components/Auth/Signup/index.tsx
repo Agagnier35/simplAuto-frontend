@@ -1,7 +1,7 @@
 import React, { Component, FormEvent } from 'react';
 import { multiUpdater, MultiProps } from '../../../lib/MultiLang';
 import { Mutation } from 'react-apollo';
-import StyledSignup from './styles';
+import { SignupCard, SignupForm } from './styles';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import Select from '../../General/Select';
 import gql from 'graphql-tag';
@@ -11,7 +11,6 @@ import { MdLockOutline } from 'react-icons/md';
 import BrandHeader from './BrandHeader';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import Router from 'next/router';
-import OtherStyle from './otherstyle';
 import SignupFormValidation from '../../../lib/FormValidator/SignupFormValidation';
 import {
   Gender,
@@ -31,7 +30,7 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-interface SignupState {
+export interface SignupState {
   firstName: string;
   lastName: string;
   companyName: string;
@@ -43,7 +42,7 @@ interface SignupState {
   gender: Gender;
   birthDate: BirthDate;
   clientType: ClientType;
-  language: string;
+  language: UserLanguage;
   touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
@@ -83,7 +82,7 @@ class Signup extends Component<MultiProps, SignupState> {
       year: 1900,
     },
     clientType: ClientType.Individual,
-    language: '',
+    language: UserLanguage.French,
     touched: {
       firstName: false,
       lastName: false,
@@ -97,11 +96,9 @@ class Signup extends Component<MultiProps, SignupState> {
 
   isBirthDateValid = () => {
     return (
-      new Date(
-        this.state.birthDate.year,
-        this.state.birthDate.month,
-        this.state.birthDate.day,
-      ).toString() !== 'Invalid Date'
+      this.state.birthDate.year !== 0 &&
+      this.state.birthDate.month !== 0 &&
+      this.state.birthDate.day !== 0
     );
   };
 
@@ -129,18 +126,8 @@ class Signup extends Component<MultiProps, SignupState> {
           password: '',
           confirmPassword: '',
           clientType: ClientType.Individual,
-          language: '',
+          language: UserLanguage.French,
         });
-    this.setState({
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      clientType: ClientType.Individual,
-      language: '',
-    });
     let localeValue = 'fr';
     if (this.state.language === UserLanguage.English) {
       localeValue = 'en';
@@ -152,6 +139,7 @@ class Signup extends Component<MultiProps, SignupState> {
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
+
   handleChangeRadius = (e: FormEvent<any>) => {
     const re = /^[0-9\b]+$/;
     if (e.currentTarget.value === '') {
@@ -163,7 +151,7 @@ class Signup extends Component<MultiProps, SignupState> {
     }
   };
 
-  handleGeoLocChange = (suggest: Suggest) => {
+  handleGeoLocChange = (suggest: Suggest | undefined) => {
     this.setState(
       suggest
         ? {
@@ -183,94 +171,52 @@ class Signup extends Component<MultiProps, SignupState> {
     );
   };
 
-  datePickerInput = (signupformValidation: SignupFormValidation) => {
-    const curr = new Date();
-    const { birthDate } = this.state;
-    curr.setFullYear(birthDate.year, birthDate.month - 1, birthDate.day);
-    const date = curr.toISOString().substr(0, 10);
-    return (
-      <>
-        <Form.Control
-          type="date"
-          name="birthDate"
-          className="inputNeedSpace"
-          isInvalid={
-            this.state.touched.birthDate &&
-            !signupformValidation.isBirthDateValid(date)
-          }
-          onBlur={() => this.fieldTouched('birthDate')}
-          defaultValue={date}
-          onChange={this.handleChangeDate}
-        />
-        <Form.Control.Feedback type="invalid">
-          {signupformValidation.birthDateError()}
-        </Form.Control.Feedback>
-      </>
-    );
-  };
-
   handleChangeDate = (e: FormEvent<any>) => {
     const day = parseInt(e.currentTarget.value.substr(8, 2), 10);
     const month = parseInt(e.currentTarget.value.substr(5, 2), 10);
     const year = parseInt(e.currentTarget.value.substr(0, 4), 10);
     const curr = new Date();
     curr.setFullYear(day, month, year);
-    this.setState({
-      birthDate: { day, month, year },
-    } as SignupState);
-  };
-
-  isNotUsefullCompanyInfo = (item: string) => {
-    return (
-      this.state.clientType === ClientType.Company &&
-      (item === 'gender' || item === 'birthDate')
-    );
+    this.setState({ birthDate: { day, month, year } });
   };
 
   getSignupPayload = () => {
-    const myData: Dictionary<UserSignupInput> = {
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      location: {
-        name: '',
-        longitude: 0,
-        latitude: 0,
-      },
-      radius: 0,
-      gender: Gender.Other,
-      birthDate: {
-        day: 1,
-        month: 1,
-        year: 1900,
-      },
-      clientType: ClientType.Individual,
-    };
-    Object.keys(this.state).map(item => {
-      if (item !== 'confirmPassword' && this.state[item] !== '') {
-        myData[item] = this.state[item];
-      } else if (this.state[item] === '') {
-        delete myData[item];
-      }
-      if (this.isNotUsefullCompanyInfo(item)) {
-        delete myData[item];
-      }
-    });
-    delete myData['confirmPassword'];
+    const {
+      clientType,
+      // Individual
+      firstName,
+      lastName,
+      birthDate,
+      gender,
+      // Company
+      companyName,
+      // We dont want in rest
+      confirmPassword,
+      touched,
+      // rest
+      ...rest
+    } = this.state;
+
+    const myData: UserSignupInput = { ...rest, clientType };
+    if (clientType === ClientType.Individual) {
+      myData.firstName = firstName;
+      myData.lastName = lastName;
+      myData.birthDate = birthDate;
+      myData.gender = gender;
+    } else if (clientType === ClientType.Company) {
+      myData.companyName = companyName;
+    }
 
     return { data: myData };
   };
 
-  handleChangeSelect = (value: any) => {
-    this.setState({ firstName: '', lastName: '', companyName: '' });
-    if (value === ClientType.Company) {
-      this.setState({ clientType: ClientType.Company });
-    } else {
-      this.setState({ clientType: ClientType.Individual });
-    }
+  handleChangeSelect = (value: ClientType) => {
+    this.setState({
+      firstName: '',
+      lastName: '',
+      companyName: '',
+      clientType: value,
+    });
   };
 
   fieldTouched = (key: string) => {
@@ -292,13 +238,13 @@ class Signup extends Component<MultiProps, SignupState> {
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
       >
         {(handleMutation, { loading, error }) => (
-          <StyledSignup>
+          <SignupCard>
             <Card>
               <BrandHeader />
               <Card.Body>
-                <Form
-                  method="post"
-                  onSubmit={(e: any) => this.handleSignup(e, handleMutation)}
+                <SignupForm
+                  method="put"
+                  onSubmit={e => this.handleSignup(e, handleMutation)}
                 >
                   <fieldset disabled={loading} aria-busy={loading}>
                     <Select
@@ -328,7 +274,6 @@ class Signup extends Component<MultiProps, SignupState> {
                           <Form.Control
                             placeholder={general.firstName}
                             aria-describedby="inputGroupPrepend"
-                            required
                             type="text"
                             name="firstName"
                             value={this.state.firstName}
@@ -375,7 +320,6 @@ class Signup extends Component<MultiProps, SignupState> {
                         <Form.Control
                           placeholder={general.companyName}
                           aria-describedby="inputGroupPrepend"
-                          required
                           type="text"
                           name="companyName"
                           value={this.state.companyName}
@@ -407,7 +351,6 @@ class Signup extends Component<MultiProps, SignupState> {
                         <Form.Control
                           placeholder={general.email}
                           aria-describedby="inputGroupPrepend"
-                          required
                           type="email"
                           name="email"
                           value={this.state.email}
@@ -434,7 +377,6 @@ class Signup extends Component<MultiProps, SignupState> {
                         </InputGroup.Prepend>
                         <Form.Control
                           aria-describedby="inputGroupPrepend"
-                          required
                           type="password"
                           name="password"
                           placeholder={general.password}
@@ -464,7 +406,6 @@ class Signup extends Component<MultiProps, SignupState> {
                         </InputGroup.Prepend>
                         <Form.Control
                           aria-describedby="inputGroupPrepend"
-                          required
                           type="password"
                           name="confirmPassword"
                           placeholder={general.confirmPassword}
@@ -546,27 +487,26 @@ class Signup extends Component<MultiProps, SignupState> {
 
                     <Form.Group>
                       <Form.Label>{profile.location}</Form.Label>
-                      <OtherStyle>
-                        <Geosuggest
-                          onBlur={() => this.fieldTouched('location')}
-                          onSuggestSelect={(suggest: Suggest) =>
-                            this.handleGeoLocChange(suggest)
-                          }
-                        />
-                        <div
-                          style={redText}
-                          hidden={
-                            !(
-                              touched.location &&
-                              !signupformValidation.isLocationValid(
-                                this.state.location,
-                              )
+                      <Geosuggest
+                        onBlur={() => this.fieldTouched('location')}
+                        onChange={() => this.handleGeoLocChange(undefined)}
+                        onSuggestSelect={(suggest: Suggest) =>
+                          this.handleGeoLocChange(suggest)
+                        }
+                      />
+                      <div
+                        style={redText}
+                        hidden={
+                          !(
+                            touched.location &&
+                            !signupformValidation.isLocationValid(
+                              this.state.location,
                             )
-                          }
-                        >
-                          {signupformValidation.locationError()}
-                        </div>
-                      </OtherStyle>
+                          )
+                        }
+                      >
+                        {signupformValidation.locationError()}
+                      </div>
                     </Form.Group>
 
                     <Form.Group>
@@ -591,7 +531,22 @@ class Signup extends Component<MultiProps, SignupState> {
                     >
                       <Form.Label>{profile.birth}</Form.Label>
                       <InputGroup>
-                        {this.datePickerInput(signupformValidation)}
+                        <Form.Control
+                          type="date"
+                          name="birthDate"
+                          className="inputNeedSpace"
+                          isInvalid={
+                            this.state.touched.birthDate &&
+                            !signupformValidation.isBirthDateValid(
+                              this.state.birthDate,
+                            )
+                          }
+                          onBlur={() => this.fieldTouched('birthDate')}
+                          onChange={this.handleChangeDate}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {signupformValidation.birthDateError()}
+                        </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
 
@@ -606,11 +561,11 @@ class Signup extends Component<MultiProps, SignupState> {
                       {signup.title}
                     </Button>
                   </fieldset>
-                </Form>
+                </SignupForm>
               </Card.Body>
             </Card>
             <ErrorMessage error={error} />
-          </StyledSignup>
+          </SignupCard>
         )}
       </Mutation>
     );

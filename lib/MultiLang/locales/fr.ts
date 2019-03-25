@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'La localisation ne peut être vide.',
+          matchingError:
+            'La localisation est invalide, choissisez un élément dans la liste',
         },
         birthDateError: {
           invalidYearError: "L'année saisie est invalide.",

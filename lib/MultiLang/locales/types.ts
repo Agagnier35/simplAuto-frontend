@@ -119,6 +119,7 @@ export default interface Translations {
         };
         locationError: {
           emptyError: String;
+          matchingError: String;
         };
         birthDateError: {
           invalidYearError: String;

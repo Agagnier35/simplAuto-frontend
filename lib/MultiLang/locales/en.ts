@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'Location cannot be empty.',
+          matchingError:
+            'Invalid Location, please select an element in the list',
         },
         birthDateError: {
           invalidYearError: 'The year is invalid.',
