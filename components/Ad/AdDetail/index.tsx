@@ -50,7 +50,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   }
 
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: OFFER_NB_BY_PAGE },
+    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
   });
 
   if (loading) return <Loading />;
