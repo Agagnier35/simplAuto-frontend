@@ -29,6 +29,7 @@ import {
 } from 'react-icons/fa';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 import { LOGGED_IN_QUERY } from '../../General/Header';
+import OfferStats from './OfferStats';
 import ConfirmationModal from '../../Confirmation/ConfirmationModal';
 import OfferAddons from '../OfferAddons';
 import OfferCreator from '../OfferCreator';
@@ -208,6 +209,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
             onClose={() => setshowModal(false)}
             onConfirm={handleConfirmation}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} lg={4}>
+          <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+            <OfferStats offerID={query.id} />
+          </Card>
         </Col>
       </Row>
     </div>

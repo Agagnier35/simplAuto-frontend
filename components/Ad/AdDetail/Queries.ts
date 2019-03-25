@@ -70,3 +70,14 @@ export const AD_DETAIL_QUERY = gql`
     }
   }
 `;
+
+export const AD_STATS_QUERY = gql`
+  query AD_STATS_QUERY($id: ID!) {
+    statsForAds(id: $id) {
+      averagePriceAPI
+      averageTimeOnMarketAPI
+      averagePriceApp
+      averageTimeOnMarketApp
+    }
+  }
+`;

@@ -20,6 +20,7 @@ import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
 import Link from 'next/link';
 import { paging5pages } from '../../General/Preferences';
+import AdStats from './AdStats';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -75,6 +76,9 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
         />
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
+        </Card>
+        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+          <AdStats adID={adID} />
         </Card>
         {data.ad.offerCount > 0 && (
           <>
