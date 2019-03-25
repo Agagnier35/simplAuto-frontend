@@ -296,9 +296,10 @@ export default interface Translations {
     Features: string;
     CarLimitUser: string;
     CarLimitPremium: string;
-    Statistics: string;
-    StatisticsUser: string;
-    StatisticsPremium: string;
+    BasicStatistics: string;
+    PremiumStatistics: string;
+    AdCreation: string;
+    CarCreation: string;
   };
   offerAddons: {
     subtitle: string;

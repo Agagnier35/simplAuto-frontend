@@ -391,17 +391,16 @@ const translations: Translations = {
     false: 'Non',
   },
   Premium: {
-    Introduction: 'Les advantages de souscrire à un abonnement Premium',
+    Introduction: 'Les avantages de souscrire à un abonnement Premium',
     Join: 'Abonnez vous !',
+    AdCreation: 'Ajout de recherches de voitures',
+    CarCreation: 'Ajout de voitures à vendre',
     CarLimit: 'Limite de voitures',
     Features: 'Fonctionnalité',
-    CarLimitUser:
-      "2 voitures gratuite avec une possibilité d'en obtenir jusqu'à 5",
-    CarLimitPremium: 'Nombre de voitures illimitées',
-    Statistics: 'Accès aux statistiques',
-    StatisticsUser: 'Accès aux statistiques de base',
-    StatisticsPremium:
-      'Accès à toutes les statistiques pour vous guider au maximum dans vos ventes',
+    CarLimitUser: '2 à 5',
+    CarLimitPremium: 'Illimité !',
+    BasicStatistics: 'Statistiques de base',
+    PremiumStatistics: 'Éventail complet de statistiques',
   },
 };
 

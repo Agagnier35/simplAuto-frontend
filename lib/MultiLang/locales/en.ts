@@ -328,14 +328,14 @@ const translations: Translations = {
   Premium: {
     Introduction: 'The advantages of a premium subscription',
     Join: 'Join now !',
-    CarLimit: 'Car Limit',
+    CarCreation: 'Add cars to your car park',
+    AdCreation: 'Post ads for cars you are looking for',
+    CarLimit: 'Car park Limit',
     Features: 'Feature',
-    CarLimitUser: '2 free car slots and possibility to buy up to 5 car slots',
-    CarLimitPremium: 'UNLIMITED amount of car slots',
-    Statistics: 'Statistics access',
-    StatisticsUser: 'Access only to a few basic statistics',
-    StatisticsPremium:
-      'Acess to the whole range of available statistics to help you the most in selling your cars',
+    CarLimitUser: '2-5',
+    CarLimitPremium: 'Unlimited',
+    BasicStatistics: 'Basic statistics',
+    PremiumStatistics: 'Whole range of statistics',
   },
   offerAddons: {
     subtitle: 'The seller offers also',
