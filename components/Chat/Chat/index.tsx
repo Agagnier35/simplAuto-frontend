@@ -87,13 +87,13 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     chatStatus: ConversationStatus,
   ) {
     e.preventDefault();
+    console.log(chatStatus);
     let status = ConversationStatus.Opened;
     if (status === chatStatus) {
       status = ConversationStatus.Deleted;
     }
     setCurrentStatus(status);
     await handleUpdateConversation();
-    console.log('hello?');
   }
 
   async function getURLsFromCloud(file: any) {
