@@ -1,7 +1,9 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { MAXMILEAGEALLOWED, MINCARYEAR } from '../CreateAdFormValidation';
 
-class CarAddFormValidation extends BasicFormValidation {
+export const MAX_MILEAGE_ALLOWED: number = 1000000;
+export const MIN_CAR_YEAR = 1980;
+
+export class CarAddFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
     super();
@@ -15,7 +17,7 @@ class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(year.toString()) &&
       this.isNumberAnInteger(year) &&
-      year > MINCARYEAR &&
+      year > MIN_CAR_YEAR &&
       year < new Date().getFullYear()
     );
   };
@@ -28,7 +30,7 @@ class CarAddFormValidation extends BasicFormValidation {
       this.isFieldNotEmpty(mileage.toString()) &&
       this.isNumberAnInteger(mileage) &&
       mileage > 0 &&
-      mileage < MAXMILEAGEALLOWED
+      mileage < MAX_MILEAGE_ALLOWED
     );
   };
 
@@ -40,16 +42,20 @@ class CarAddFormValidation extends BasicFormValidation {
     if (!year) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .emptyError;
-    } else if (!this.isFieldNotEmpty(year.toString())) {
+    }
+    if (!this.isFieldNotEmpty(year.toString())) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .emptyError;
-    } else if (!this.isNumberAnInteger(year)) {
+    }
+    if (!this.isNumberAnInteger(year)) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .numberNotIntegerError;
-    } else if (year < 1900) {
+    }
+    if (year < 1900) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooLowError;
-    } else if (year > new Date().getFullYear() + 1) {
+    }
+    if (year > new Date().getFullYear() + 1) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooHighError;
     }
@@ -59,16 +65,20 @@ class CarAddFormValidation extends BasicFormValidation {
     if (!mileage) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .emptyError;
-    } else if (!this.isFieldNotEmpty(mileage.toString())) {
+    }
+    if (!this.isFieldNotEmpty(mileage.toString())) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .emptyError;
-    } else if (!this.isNumberAnInteger(mileage)) {
+    }
+    if (!this.isNumberAnInteger(mileage)) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .numberNotIntegerError;
-    } else if (mileage < 0) {
+    }
+    if (mileage < 0) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageLesserThanZeroError;
-    } else if (mileage > MAXMILEAGEALLOWED) {
+    }
+    if (mileage > MAX_MILEAGE_ALLOWED) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageTooHighError;
     }
@@ -90,5 +100,3 @@ class CarAddFormValidation extends BasicFormValidation {
     );
   };
 }
-
-export default CarAddFormValidation;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Offer } from '../../../generated/graphql';
@@ -19,6 +19,8 @@ import { Tab, TabBadge } from '../Ads/styles';
 import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
 import { paging5pages } from '../../General/Preferences';
+import AdStats from './AdStats';
+import Link from 'next/link';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -68,6 +70,12 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   return (
     <>
       <div>
+        <Breadcrumb>
+          <Link href={{ pathname: '/myAds' }} passHref>
+            <Breadcrumb.Item>{translations.general.buy}</Breadcrumb.Item>
+          </Link>
+          <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
+        </Breadcrumb>
         <GeneralModal
           modalSubject={MainAppObject.ad}
           actionType={ModalAction.delete}
@@ -135,6 +143,31 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             </CarSummaries>
           </div>
         </Card>
+        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+          <AdStats adID={adID} />
+        </Card>
+        {data.ad.offerCount > 0 && (
+          <>
+            <Tab className="active">
+              {translations.offers.receivedOffers}
+              {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
+            </Tab>
+            <Card style={{ overflow: 'hidden' }}>
+              <CarSummaries>
+                {data.ad.offers &&
+                  data.ad.offers.map((offer: Offer) => (
+                    <CarSummary key={offer.id} car={offer.car} offer={offer} />
+                  ))}
+                <Paging
+                  pageIndex={pageIndex}
+                  setPageIndex={setPageIndex}
+                  maxItems={data.ad.offerCount}
+                  itemsByPage={paging5pages}
+                />
+              </CarSummaries>
+            </Card>
+          </>
+        )}
       </div>
     </>
   );

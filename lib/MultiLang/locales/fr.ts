@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'La localisation ne peut être vide.',
+          matchingError:
+            'La localisation est invalide, choissisez un élément dans la liste',
         },
         birthDateError: {
           invalidYearError: "L'année saisie est invalide.",
@@ -391,6 +393,12 @@ const translations: Translations = {
     },
     true: 'Oui',
     false: 'Non',
+  },
+  stats: {
+    app: 'Statistiques pour Simplauto',
+    market: 'Statistiques pour le marché',
+    avgPrice: 'Prix moyen',
+    avgTime: 'Nombre de jours moyen avant la vente',
   },
 };
 

@@ -119,6 +119,7 @@ export default interface Translations {
         };
         locationError: {
           emptyError: String;
+          matchingError: String;
         };
         birthDateError: {
           invalidYearError: String;
@@ -353,4 +354,10 @@ export default interface Translations {
     true: string;
     false: string;
   }>;
+  stats: {
+    app: string;
+    market: string;
+    avgPrice: string;
+    avgTime: string;
+  };
 }
