@@ -25,7 +25,6 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
-  const [currentStatus, setCurrentStatus] = useState('');
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
     variables: {
@@ -37,14 +36,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     },
   });
 
-  const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION, {
-    variables: {
-      data: {
-        id: offer.conversation && offer.conversation.id,
-        status: currentStatus,
-      },
-    },
-  });
+  const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);
 
   let upload: Maybe<HTMLInputElement>;
 
@@ -87,13 +79,19 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     chatStatus: ConversationStatus,
   ) {
     e.preventDefault();
-    console.log(chatStatus);
     let status = ConversationStatus.Opened;
     if (status === chatStatus) {
       status = ConversationStatus.Deleted;
     }
-    setCurrentStatus(status);
-    await handleUpdateConversation();
+
+    await handleUpdateConversation({
+      variables: {
+        data: {
+          status,
+          id: offer.conversation && offer.conversation.id,
+        },
+      }
+    });
   }
 
   async function getURLsFromCloud(file: any) {
@@ -146,9 +144,9 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
 
   return (
     <Chat.Card>
-      <h2>{translations.Chat.title}</h2>
       {offer.conversation && offer.conversation.status !== 'DELETED' && (
         <>
+          <h2>{translations.Chat.title}</h2>
           <Chat.Container className="chat">
             {offer.conversation.messages.map((message: Message) => (
               <Chat.Message sender={message.sender}>
@@ -194,21 +192,22 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
               </InputGroup.Append>
             </InputGroup>
           </Form>
-          {offer.conversation && (
-            <Button
-              variant="warning"
-              onClick={(e: any) => {
-                if (offer.conversation && offer.conversation.status) {
-                  toggleConversationStatus(e, offer.conversation.status);
-                }
-              }}
-            >
-              <HideIcon />
-              {translations.Chat.hideChat}
-            </Button>
-          )}
         </>
       )}
+      {offer.conversation && (
+        <Button
+          variant="warning"
+          onClick={(e: any) => {
+            if (offer.conversation && offer.conversation.status) {
+              toggleConversationStatus(e, offer.conversation.status);
+            }
+          }}
+        >
+          <HideIcon />
+          {translations.Chat.hideChat}
+        </Button>
+      )}
+
     </Chat.Card>
   );
 };

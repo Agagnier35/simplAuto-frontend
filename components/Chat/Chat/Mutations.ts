@@ -13,7 +13,7 @@ export const SEND_MESSAGE_MUTATION = gql`
 `;
 
 export const UPDATE_CONVERSATION_MUTATION = gql`
-  mutation UPDATE_CONVERSATION_MUTATION($data: ConversationUpdateInput) {
+  mutation UPDATE_CONVERSATION_MUTATION($data: ConversationUpdateInput!) {
     updateConversation(data: $data) {
       id
       status
