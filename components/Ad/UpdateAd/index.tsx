@@ -162,12 +162,17 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     features.map((ft1: any) => {
       if (this.state.features) {
         this.state.features.map((ft2: any) => {
-          ft2 === ft1 ? (defaultFeature = ft1) : null;
+          ft2.id === ft1.id ? (defaultFeature = ft1) : null;
         });
       } else {
         defaultFeature = undefined;
       }
     });
+
+    if (defaultFeature) {
+      console.log(this.state.features);
+      console.log(defaultFeature);
+    }
     return defaultFeature;
   };
 
@@ -447,7 +452,6 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   variant="primary"
                                   className="formSubmit"
                                   type="submit"
-                                  onClick={() => console.log(this.state)}
                                 >
                                   {ad.createAdAction}
                                 </Button>
