@@ -256,6 +256,8 @@ const translations: Translations = {
   ad: {
     createAdTitle: 'Veuillez remplir les informations conçernant votre annonce',
     createAdAction: 'Publier votre annonce',
+    buyTopAd: 'Rendre prioritaire',
+    buyUrgentAd: 'Rendre urgente',
   },
   Ads: {
     lowerPrice: 'prix minimum',
@@ -331,6 +333,13 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Abonnement mensuel',
+    TopAdName: 'Annonce prioritaire',
+    TopAdDescription: 'Au dessus pendant une semaine!',
+    UrgentAdName: 'Annonce urgente',
+    UrgentAdDescription: `Se distinguer pour une semaine!`,
+    CarSpotName: 'Emplacement supplémentaire',
+    CarSpotDescription: 'Emplacement supplémentaire pour un véhicule',
+    CarSpotButton: 'Acheter un emplacement supplémentaire',
   },
   offerAddons: {
     subtitle: 'Le vendeur offre aussi',

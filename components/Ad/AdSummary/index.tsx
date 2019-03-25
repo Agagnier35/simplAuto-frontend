@@ -15,6 +15,7 @@ import AdFeatures from './AdFeatures';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import { More, AdPortlet } from './styles';
 import AdOffers from './AdOffers';
+import moment from 'moment';
 import Link from 'next/link';
 
 export interface AdSummaryProps {
@@ -74,6 +75,16 @@ const AdSummary = ({
     Router.push('/myAds');
   }
 
+  function isUrgent(ad: Ad) {
+    if (!ad.urgentExpiry) {
+      return false;
+    }
+    const a = moment(Date.now());
+    const b = new Date(ad.urgentExpiry);
+
+    return a.diff(b, 'days') < 7;
+  }
+
   const pages = [<GeneralAdInfos ad={ad} right={right} offer={offer} />];
 
   if (ad.features && ad.features.length > 0) {
@@ -86,12 +97,6 @@ const AdSummary = ({
 
   return (
     <>
-      <Breadcrumb>
-        <Link href={{ pathname: '/myAds' }} passHref>
-          <Breadcrumb.Item>{translations.general.buy}</Breadcrumb.Item>
-        </Link>
-        <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
-      </Breadcrumb>
       <GeneralModal
         modalSubject={MainAppObject.ad}
         actionType={ModalAction.delete}
@@ -100,6 +105,7 @@ const AdSummary = ({
         onConfirm={() => handleDeleteAd()}
       />
       <AdPortlet
+        isUrgent={isUrgent(ad)}
         title={getTitle()}
         href={
           offer

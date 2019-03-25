@@ -220,6 +220,8 @@ export default interface Translations {
   ad: {
     createAdTitle: string;
     createAdAction: string;
+    buyUrgentAd: string;
+    buyTopAd: string;
   };
   Ads: {
     lowerPrice: string;
@@ -291,6 +293,13 @@ export default interface Translations {
   Stripe: {
     PremiumName: string;
     PremiumDescription: string;
+    TopAdName: string;
+    TopAdDescription: string;
+    UrgentAdName: string;
+    UrgentAdDescription: string;
+    CarSpotName: string;
+    CarSpotDescription: string;
+    CarSpotButton: string;
   };
   offerAddons: {
     subtitle: string;
