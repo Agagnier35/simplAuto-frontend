@@ -196,16 +196,24 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     });
 
     if (defaultFeature) {
-      // console.log(this.state.features);
-      // console.log(defaultFeature);
+      console.log(defaultFeature);
     }
     return defaultFeature;
+  };
+
+  isFeatureChecked = () => {
+    return false;
   };
 
   fieldTouched = (key: string) => {
     const touched = { ...this.state.touched };
     touched[key] = true;
     this.setState({ touched });
+  };
+
+  getPayload = () => {
+    const { touched, ...rest } = this.state;
+    return rest;
   };
 
   render() {
@@ -240,7 +248,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                 return (
                   <Mutation
                     mutation={UPDATE_AD_MUTATION}
-                    variables={{ data: this.state }}
+                    variables={{ data: this.getPayload() }}
                   >
                     {(createAd, mutation) => {
                       if (mutation.data && mutation.data.createAd) {
@@ -603,6 +611,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     // DEFAULT FEATURES
                                     // ------------------------------
                                     // isChecked
+                                    defaultChecked={this.isFeatureChecked()}
                                     onClick={() =>
                                       this.handleChange('features', {
                                         value: feature.features[0].id,
