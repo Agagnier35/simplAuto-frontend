@@ -12,6 +12,7 @@ import OfferModal from '../../Offer/OfferModal';
 import CarSummary from '../CarSummary';
 import { AdSummaries, Tab, TabBadge } from '../../Ad/Ads/styles';
 import { OfferPrice } from '../../Ad/AdSummary/styles';
+import Paging from '../../General/Paging';
 import Link from 'next/link';
 
 export interface CarPageProps {
@@ -22,6 +23,10 @@ export interface CarPageProps {
 }
 
 const Car = ({ translations, query }: CarPageProps) => {
+  const OFFERS_NB_BY_PAGE = 10;
+  const [pageIndexOffer, setPageIndexOffer] = useState(0);
+  const [pageIndexAds, setPageIndexAds] = useState(0);
+
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedAd, setSelectedAd] = useState({});
   const [selectedOffer, setSelectedOffer] = useState({});
@@ -29,11 +34,21 @@ const Car = ({ translations, query }: CarPageProps) => {
   const [isOfferMode, setOfferMode] = useState(false);
 
   const carQuery = useQuery(CAR_BY_ID, {
-    variables: { id: query.id },
+    variables: {
+      id: query.id,
+      pageNumberOffer: pageIndexOffer,
+      pageSizeOffer: OFFERS_NB_BY_PAGE,
+    },
   });
-  const adsQuery = useQuery(MATCHING_ADS_QUERY);
+  const adsQuery = useQuery(MATCHING_ADS_QUERY, {
+    variables: {
+      id: query.id,
+      pageNumberAds: pageIndexAds,
+      pageSizeAds: OFFERS_NB_BY_PAGE,
+    },
+  });
   const errors = carQuery.error || adsQuery.error;
-  if (carQuery.loading) return <Loading />;
+  if (carQuery.loading || adsQuery.loading) return <Loading />;
   if (errors) return <ErrorMessage error={errors} />;
 
   function handleToggleCreateOffer(ad: Ad) {
@@ -67,23 +82,6 @@ const Car = ({ translations, query }: CarPageProps) => {
     return false;
   }
 
-  const ads: Ad[] = [];
-  const adsOffers: { ad: Ad; offer: Offer }[] = [];
-
-  (function splitAds() {
-    const allAds = adsQuery.data && (adsQuery.data.ads as Ad[]);
-    if (allAds) {
-      allAds.forEach((ad: Ad) => {
-        const offer = findMyOffer(ad);
-        if (offer) {
-          adsOffers.push({ offer, ad });
-        } else {
-          ads.push(ad);
-        }
-      });
-    }
-  })(); // iife
-
   return (
     <>
       <Breadcrumb>
@@ -95,7 +93,6 @@ const Car = ({ translations, query }: CarPageProps) => {
           {carQuery.data.car.year}
         </Breadcrumb.Item>
       </Breadcrumb>
-
       <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
         <CarSummary car={carQuery.data.car} />
       </Card>
@@ -104,27 +101,31 @@ const Car = ({ translations, query }: CarPageProps) => {
         className={isOfferMode ? '' : 'active'}
       >
         {translations.Ads.title}
-        {ads && <TabBadge>{ads.length}</TabBadge>}
+        <TabBadge>
+          {adsQuery.data.adSuggestion[0]
+            ? adsQuery.data.adSuggestion[0].totalLength
+            : 0}
+        </TabBadge>
       </Tab>
       <Tab
         onClick={() => setOfferMode(true)}
         className={isOfferMode ? 'active' : ''}
       >
         {translations.general.offers}
-        {adsOffers && <TabBadge>{adsOffers.length}</TabBadge>}
+        <TabBadge>{carQuery.data.car.offers.length}</TabBadge>
       </Tab>
       {!isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
-          <AdSummaries>
-            {ads.map((ad: Ad) => (
-              <div key={ad.id}>
+          <AdSummaries hidden={!adsQuery.data.adSuggestion[0]}>
+            {adsQuery.data.adSuggestion.map((suggestion: any) => (
+              <div key={suggestion.ad.id}>
                 <AdSummary
-                  key={ad.id}
-                  ad={ad}
+                  key={suggestion.ad.id}
+                  ad={suggestion.ad}
                   right={
                     <Button
                       onClick={() => {
-                        handleToggleCreateOffer(ad);
+                        handleToggleCreateOffer(suggestion.ad);
                       }}
                       variant="primary"
                     >
@@ -134,36 +135,52 @@ const Car = ({ translations, query }: CarPageProps) => {
                 />
               </div>
             ))}
+            <Paging
+              pageIndex={pageIndexAds}
+              setPageIndex={setPageIndexAds}
+              maxItems={
+                adsQuery.data.adSuggestion[0]
+                  ? adsQuery.data.adSuggestion[0].totalLength
+                  : 0
+              }
+              itemsByPage={OFFERS_NB_BY_PAGE}
+            />
           </AdSummaries>
         </Card>
       )}
       {isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries>
-            {adsOffers.map((adOffer: { ad: Ad; offer: Offer }) => (
-              <div key={adOffer.ad.id}>
+            {carQuery.data.car.offers.map((offer: Offer) => (
+              <div key={offer.ad.id}>
                 <AdSummary
-                  key={adOffer.ad.id}
-                  ad={adOffer.ad}
-                  offer={adOffer.offer}
+                  key={offer.ad.id}
+                  ad={offer.ad}
+                  offer={offer}
                   right={
                     <>
                       <Button
                         onClick={() => {
-                          handleToggleEditOffer(adOffer.ad);
+                          handleToggleEditOffer(offer.ad);
                         }}
                         variant="primary"
                       >
                         {translations.offers.modifyOffer}
                       </Button>
                       <OfferPrice style={{ marginTop: '1rem' }}>
-                        {adOffer.offer.price} $
+                        {offer.price} $
                       </OfferPrice>
                     </>
                   }
                 />
               </div>
             ))}
+            <Paging
+              pageIndex={pageIndexOffer}
+              setPageIndex={setPageIndexOffer}
+              maxItems={carQuery.data.car.offerCount}
+              itemsByPage={OFFERS_NB_BY_PAGE}
+            />
           </AdSummaries>
         </Card>
       )}

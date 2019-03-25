@@ -247,6 +247,8 @@ export default interface Translations {
     chat: string;
     reject: string;
     receivedOffers: string;
+    youMayLike: string;
+    noMatch: string;
   };
   GeneralModalContent: {
     title: string;

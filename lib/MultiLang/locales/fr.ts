@@ -297,6 +297,8 @@ const translations: Translations = {
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
     receivedOffers: 'Offres reçues',
+    youMayLike: 'Vous aimerez peut-être',
+    noMatch: 'Aucune offre ne correspond à 100% de vos critères',
   },
   Chat: {
     title: 'Messagerie',

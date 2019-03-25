@@ -282,6 +282,8 @@ const translations: Translations = {
     chat: 'Contact seller',
     reject: 'Reject offer',
     receivedOffers: 'Received offers',
+    youMayLike: 'You may also like',
+    noMatch: 'There is no 100% match offres',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
