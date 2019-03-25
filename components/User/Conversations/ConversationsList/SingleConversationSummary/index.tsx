@@ -6,7 +6,13 @@ class SingleConversationSummary extends Component {
   state = {};
 
   render = () => {
-    return <div>Single Conversation</div>;
+    const { conversation }: any = this.props;
+    return (
+      <div>
+        <div>Buyer</div>
+        <div>Seller</div>
+      </div>
+    );
   };
 }
 
