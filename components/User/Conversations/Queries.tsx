@@ -4,7 +4,16 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
   query {
     me {
       id
-      conversations
+      conversations {
+        messages {
+          id
+          sender {
+            id
+          }
+          text
+          image
+        }
+      }
     }
   }
 `;
