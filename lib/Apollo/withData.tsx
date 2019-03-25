@@ -87,10 +87,10 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
-          console.log('TODO: Handle graphQLErrors');
+          console.log(graphQLErrors);
         }
         if (networkError) {
-          console.log('TODO: Handle networkError');
+          console.log(networkError);
         }
       }),
       requestLink,

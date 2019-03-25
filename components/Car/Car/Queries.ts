@@ -74,8 +74,8 @@ export const MATCHING_ADS_QUERY = gql`
           name
         }
       }
-      isUrgent
-      isFirst
+      urgentExpiry
+      topExpiry
       status
     }
   }
