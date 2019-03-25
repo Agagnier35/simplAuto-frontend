@@ -199,7 +199,16 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
     return defaultFeature;
   };
 
-  isFeatureChecked = () => {
+  isFeatureChecked = (fetchedCheckboxFeatures: any) => {
+    fetchedCheckboxFeatures.map((feature: any) => {
+      if (this.state.features) {
+        this.state.features.map((ft2: any) => {
+          if (feature.id === ft2) {
+            return true;
+          }
+        });
+      }
+    });
     return false;
   };
 
@@ -609,7 +618,9 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     // DEFAULT FEATURES
                                     // ------------------------------
                                     // isChecked
-                                    defaultChecked={this.isFeatureChecked()}
+                                    defaultChecked={this.isFeatureChecked(
+                                      fetchedCheckboxFeatures,
+                                    )}
                                     onClick={() =>
                                       this.handleChange('features', {
                                         value: feature.features[0].id,
