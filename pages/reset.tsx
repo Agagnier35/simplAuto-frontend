@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ResetPassword from '../components/Auth/resetPw';
 import Translations from '../lib/MultiLang/locales/types';
 import PublicComponent from '../lib/Auth/PublicComponent';
