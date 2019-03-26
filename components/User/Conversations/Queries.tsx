@@ -21,6 +21,13 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
           price
           car {
             photos
+            manufacturer {
+              name
+            }
+            model {
+              name
+            }
+            year
           }
         }
         messages {
