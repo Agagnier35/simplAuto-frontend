@@ -4,7 +4,7 @@ import Link from 'next/link';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import AdSummary from '../AdSummary';
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Breadcrumb } from 'react-bootstrap';
 import { Ad } from '../../../generated/graphql';
 import { PAGE_ADS_QUERY } from './Queries';
 import { AdSummaries } from '../Ads/styles';
@@ -26,6 +26,12 @@ const MyAds = ({ translations }: MultiProps) => {
 
   return (
     <>
+      <Breadcrumb>
+        <Link href={{ pathname: '/myAds' }} passHref>
+          <Breadcrumb.Item>{translations.general.buy}</Breadcrumb.Item>
+        </Link>
+        <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
+      </Breadcrumb>
       <h2>{translations.general.myAds}</h2>
       <Link href="/createAd" prefetch>
         <Button style={{ marginBottom: '1rem' }}>

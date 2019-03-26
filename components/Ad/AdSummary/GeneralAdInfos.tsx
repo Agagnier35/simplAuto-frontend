@@ -82,7 +82,7 @@ const GeneralAdInfos = ({
         <ColorCol md={2}>
           <Row>{getCarIcon()}</Row>
         </ColorCol>
-        <Col md={8}>
+        <Col md={7}>
           <Row>
             <Col md={12}>
               <Row>
@@ -112,7 +112,7 @@ const GeneralAdInfos = ({
             </Col>
           </Row>
         </Col>
-        <Col md={2}>
+        <Col md={3}>
           <ButtonRow>{right}</ButtonRow>
         </Col>
       </Row>

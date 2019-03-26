@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Ad, Offer } from '../../../generated/graphql';
@@ -15,6 +15,8 @@ import AdFeatures from './AdFeatures';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import { More, AdPortlet } from './styles';
 import AdOffers from './AdOffers';
+import moment from 'moment';
+import Link from 'next/link';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -67,10 +69,20 @@ const AdSummary = ({
     return title;
   }
 
-  async function handleDeleteAd(deleteAd: any) {
+  async function handleDeleteAd() {
     await deleteAd();
     setModalShow(false);
     Router.push('/myAds');
+  }
+
+  function isUrgent(ad: Ad) {
+    if (!ad.urgentExpiry) {
+      return false;
+    }
+    const a = moment(Date.now());
+    const b = new Date(ad.urgentExpiry);
+
+    return a.diff(b, 'days') < 7;
   }
 
   const pages = [<GeneralAdInfos ad={ad} right={right} offer={offer} />];
@@ -90,9 +102,10 @@ const AdSummary = ({
         actionType={ModalAction.delete}
         show={modalShow}
         onClose={() => setModalShow(false)}
-        onConfirm={() => handleDeleteAd(deleteAd)}
+        onConfirm={() => handleDeleteAd()}
       />
       <AdPortlet
+        isUrgent={isUrgent(ad)}
         title={getTitle()}
         href={
           offer
