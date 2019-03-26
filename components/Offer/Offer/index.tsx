@@ -85,8 +85,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   }
 
   async function handleConfirmation() {
-    //all confirmation logic is going here
-    //should send emails here to buyer and seller
+    // all confirmation logic is going here
+    // should send emails here to buyer and seller
     handleAcceptOffer();
     setshowModal(false);
   }
