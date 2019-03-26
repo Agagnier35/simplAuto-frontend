@@ -14,7 +14,7 @@ import {
   ACCEPT_OFFER_MUTATION,
   ACCEPT_OFFER_EMAIL_MUTATION,
 } from './Mutations';
-import { Offer } from '../../../generated/graphql';
+import { Offer, OfferStatus } from '../../../generated/graphql';
 import {
   Price,
   PriceMileageWrapper,
@@ -192,11 +192,18 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                       {translations.offers.chat}
                     </Button>
                   )}
-                  <Button variant="warning">
+                  <Button
+                    variant="warning"
+                    hidden={offer && offer.status !== OfferStatus.Published}
+                  >
                     <RejectIcon />
                     {translations.offers.reject}
                   </Button>
-                  <Button variant="primary" onClick={() => setshowModal(true)}>
+                  <Button
+                    variant="primary"
+                    onClick={() => setshowModal(true)}
+                    hidden={offer && offer.status !== OfferStatus.Published}
+                  >
                     <AcceptIcon />
                     {translations.general.accept}
                   </Button>

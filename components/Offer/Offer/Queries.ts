@@ -6,6 +6,7 @@ export const OFFER_BY_ID = gql`
       createdAt
       id
       price
+      status
       ad {
         id
         creator {
