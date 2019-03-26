@@ -201,9 +201,9 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                         {translations.general.print}
                       </Button>
                     </OfferButtons>
-                    {offer.conversation && <Chat offer={offer} />}
                   </>
                 )}
+                {offer.conversation && <Chat offer={offer} />}
               </>
             )}
             <OfferAddons offer={offer} />

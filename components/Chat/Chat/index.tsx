@@ -166,7 +166,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
           <Chat.Container className="chat">
             {offer.conversation.messages.map(
               (message: Message, index: number) => (
-                <>
+                <React.Fragment key={message.id}>
                   {getDaySpacer(offer.conversation, index)}
                   <Chat.Message isSelfOrSeller={isSelfOrSeller(message)}>
                     {isSelfOrSeller(message) && (
@@ -186,7 +186,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                       </Chat.Time>
                     )}
                   </Chat.Message>
-                </>
+                </React.Fragment>
               ),
             )}
           </Chat.Container>
