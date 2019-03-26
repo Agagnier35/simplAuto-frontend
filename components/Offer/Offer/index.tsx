@@ -182,30 +182,37 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                     )
                   }
                 />
-                <OfferButtons>
-                  {!offer.conversation && (
-                    <Button
-                      onClick={() => handleCreateConversation()}
-                      variant="primary"
-                    >
-                      <MessageIcon />
-                      {translations.offers.chat}
-                    </Button>
-                  )}
-                  <Button variant="warning">
-                    <RejectIcon />
-                    {translations.offers.reject}
-                  </Button>
-                  <Button variant="primary" onClick={() => setshowModal(true)}>
-                    <AcceptIcon />
-                    {translations.general.accept}
-                  </Button>
-                  <Button variant="primary" onClick={handlePrint}>
-                    <PrintIcon />
-                    {translations.general.print}
-                  </Button>
-                </OfferButtons>
-                {offer.conversation && <Chat offer={offer} />}
+                {(isMyOffer || isMyAd) && (
+                  <>
+                    <OfferButtons>
+                      {!offer.conversation && (
+                        <Button
+                          onClick={() => handleCreateConversation()}
+                          variant="primary"
+                        >
+                          <MessageIcon />
+                          {translations.offers.chat}
+                        </Button>
+                      )}
+                      <Button variant="warning">
+                        <RejectIcon />
+                        {translations.offers.reject}
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => setshowModal(true)}
+                      >
+                        <AcceptIcon />
+                        {translations.general.accept}
+                      </Button>
+                      <Button variant="primary" onClick={handlePrint}>
+                        <PrintIcon />
+                        {translations.general.print}
+                      </Button>
+                    </OfferButtons>
+                    {offer.conversation && <Chat offer={offer} />}
+                  </>
+                )}
               </>
             )}
             <OfferAddons offer={offer} />

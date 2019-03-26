@@ -9,10 +9,13 @@ export const Container = styled.section`
   padding: 1rem;
 `;
 
-export const Message = styled('div')<{ sender: User }>`
+export const Message = styled('div')<{
+  isSelfOrSeller: boolean | null | undefined;
+}>`
   color: black;
   display: flex;
-  justify-content: ${props => (props.sender ? 'flex-end' : 'flex-start')};
+  justify-content: ${props =>
+    props.isSelfOrSeller ? 'flex-end' : 'flex-start'};
   margin-bottom: 0.2rem;
 
   p {
@@ -21,10 +24,41 @@ export const Message = styled('div')<{ sender: User }>`
     line-height: 1.4;
     margin: 0;
     border-radius: ${props =>
-      props.sender ? '30px 15px 30px 30px' : '15px 30px 30px 30px'};
-    color: ${props => (props.sender ? 'white' : 'black')};
+      props.isSelfOrSeller ? '30px 15px 30px 30px' : '15px 30px 30px 30px'};
+    color: ${props => (props.isSelfOrSeller ? 'white' : 'black')};
     background: ${props =>
-      props.sender ? props.theme.colors.third : props.theme.colors.secondary};
+      props.isSelfOrSeller
+        ? props.theme.colors.third
+        : props.theme.colors.secondary};
+  }
+`;
+
+export const Time = styled.span`
+  color: #cac7c7;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+
+  * + & {
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
+`;
+
+export const DaySpacer = styled.div`
+  display: flex;
+  align-items: center;
+
+  hr {
+    flex-grow: 1;
+  }
+
+  span {
+    color: ${props => props.theme.colors.primary};
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
   }
 `;
 
