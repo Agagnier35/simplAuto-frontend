@@ -37,6 +37,9 @@ import OfferCreator from '../OfferCreator';
 import moment from 'moment';
 import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
+import Router from 'next/router';
+import { PAGE_ADS_QUERY } from '../../Ad/MyAds/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -79,7 +82,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     variables: {
       id: offer && offer.id,
     },
-    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+    refetchQueries: [
+      { query: LOGGED_IN_QUERY },
+      {
+        query: PAGE_ADS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
 
   useEffect(() => {
@@ -96,6 +105,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     handleAcceptOffer();
     handleAcceptOfferEmail();
     setshowModal(false);
+    Router.push('/myAds');
   }
 
   if (loading || !meQuery.data.me) return <Loading />;

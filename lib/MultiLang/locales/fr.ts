@@ -301,6 +301,7 @@ const translations: Translations = {
     receivedOffers: 'Offres reçues',
     youMayLike: 'Vous aimerez peut-être',
     noMatch: 'Aucune offre ne correspond à 100% de vos critères',
+    noAdsInYourArea: "Il n'y a aucune annonce disponnible",
   },
   Chat: {
     title: 'Messagerie',

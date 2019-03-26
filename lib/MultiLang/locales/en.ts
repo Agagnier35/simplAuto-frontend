@@ -286,6 +286,7 @@ const translations: Translations = {
     receivedOffers: 'Received offers',
     youMayLike: 'You may also like',
     noMatch: 'There is no 100% match offres',
+    noAdsInYourArea: 'There are no ads in your area',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
