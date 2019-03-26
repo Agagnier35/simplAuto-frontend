@@ -3,23 +3,33 @@ import React, { Component } from 'react';
 import { multiUpdater } from '../../../../../lib/MultiLang';
 import Link from 'next/link';
 import { Col, Row, Image } from 'react-bootstrap';
-import AdSummary from '../../../../Ad/AdSummary';
-import { ButtonRow } from '../../../../Ad/AdSummary/styles';
 
 const style = {
   'background-color': 'white',
 };
 
 // Il faut pouvoir déterminer qui est la personne qui a send le message.
+export interface SingleConversationSummaryProps {
+  conversation: any;
+  onClickCallBack: any;
+}
 
 class SingleConversationSummary extends Component {
   state = {};
 
+  constructor(props: any) {
+    super(props);
+  }
+
+  onClickCallback = (offer: any) => {
+    console.log(offer);
+    this.props.onClickCallback(offer);
+  };
   render = () => {
     const { conversation }: any = this.props;
     console.log(conversation);
     return (
-      <Col xs md={10}>
+      <Col onClick={() => this.onClickCallback(conversation.offer)} xs md={10}>
         <Row>
           <Col md={2}>
             <Image

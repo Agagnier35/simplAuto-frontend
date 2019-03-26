@@ -18,6 +18,23 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
         }
         offer {
           id
+          conversation {
+            id
+            buyer {
+              id
+            }
+            seller {
+              id
+            }
+            messages {
+              id
+              sender {
+                id
+              }
+              text
+              image
+            }
+          }
           price
           car {
             photos

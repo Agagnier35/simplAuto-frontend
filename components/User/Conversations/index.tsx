@@ -5,9 +5,18 @@ import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from './ConversationsList';
+import Conversation from './Conversation';
+import { Row, Col } from 'react-bootstrap';
 
 class Conversations extends Component {
-  state = {};
+  state = {
+    currentOffer: null,
+  };
+  onClickCallback = (offer: any) => {
+    console.log('IN THE CONVERSATIONS.');
+    console.log(offer);
+    this.state.currentOffer = offer;
+  };
 
   render = () => {
     return (
@@ -15,8 +24,21 @@ class Conversations extends Component {
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
-          console.log(data);
-          return <ConversationsList conversations={data.me.conversations} />;
+          return (
+            <Row>
+              <Col>
+                <ConversationsList
+                  onClickCallback={this.onClickCallback}
+                  conversations={data.me.conversations}
+                />
+              </Col>
+              <Col>
+                {this.state.currentOffer ? (
+                  <Conversation offer={this.state.currentOffer} />
+                ) : null}
+              </Col>
+            </Row>
+          );
         }}
       </Query>
     );
