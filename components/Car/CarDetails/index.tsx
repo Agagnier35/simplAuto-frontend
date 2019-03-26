@@ -18,6 +18,7 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import { useMutation } from 'react-apollo-hooks';
 import FeatureIcon from '../../General/FeatureIcon';
+import OfferImageModal from '../../Offer/OfferImageModal';
 
 export interface CarDetailsProps {
   translations: Translations;
@@ -68,7 +69,7 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         onClose={() => setShowModal(false)}
         onConfirm={() => handleDeleteCar(deleteCar)}
       />
-
+      <OfferImageModal car={car} />
       <Images>
         <BigImage src={car.photos[0]} />
         <SmallImages>
