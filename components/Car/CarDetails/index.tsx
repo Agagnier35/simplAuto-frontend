@@ -35,6 +35,7 @@ export const DELETE_CAR_MUTATION = gql`
 const CarDetails = ({ translations, car }: CarDetailsProps) => {
   const { carFeatureCategory, carFeature, general } = translations;
   const [showModal, setShowModal] = useState(false);
+  const [imageModalOpened, setImageModalOpened] = useState(false);
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
   });
@@ -60,6 +61,10 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
     return feature.name;
   }
 
+  const imageProps = {
+    onClick: () => setImageModalOpened(true),
+  };
+
   return (
     <>
       <GeneralModal
@@ -69,20 +74,24 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         onClose={() => setShowModal(false)}
         onConfirm={() => handleDeleteCar(deleteCar)}
       />
-      <OfferImageModal car={car} />
+      <OfferImageModal
+        car={car}
+        opened={imageModalOpened}
+        close={setImageModalOpened}
+      />
       <Images>
-        <BigImage src={car.photos[0]} />
+        <BigImage src={car.photos[0]} {...imageProps} />
         <SmallImages>
-          {car.photos[1] && <SmallImage src={car.photos[1]} />}
-          {car.photos[2] && <SmallImage src={car.photos[2]} />}
+          {car.photos[1] && <SmallImage src={car.photos[1]} {...imageProps} />}
+          {car.photos[2] && <SmallImage src={car.photos[2]} {...imageProps} />}
           {car.photos.length > 4 &&
             (car.photos[3] ? (
-              <MoreImages>
+              <MoreImages {...imageProps}>
                 <img src={car.photos[3]} />
                 <MoreAmount>+ {car.photos.length - 4}</MoreAmount>
               </MoreImages>
             ) : (
-              <SmallImage src={car.photos[3]} />
+              <SmallImage src={car.photos[3]} {...imageProps} />
             ))}
         </SmallImages>
       </Images>
