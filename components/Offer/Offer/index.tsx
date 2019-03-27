@@ -13,6 +13,7 @@ import {
   DELETE_NOTIFICATION_MUTATION,
   ACCEPT_OFFER_MUTATION,
   ACCEPT_OFFER_EMAIL_MUTATION,
+  REFUSE_OFFER_MUTATION,
 } from './Mutations';
 import { Offer, OfferStatus } from '../../../generated/graphql';
 import {
@@ -72,6 +73,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   });
 
   const handleAcceptOffer = useMutation(ACCEPT_OFFER_MUTATION, {
+    variables: {
+      id: offer && offer.id,
+    },
+    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+  });
+
+  const handleRefuseOffer = useMutation(REFUSE_OFFER_MUTATION, {
     variables: {
       id: offer && offer.id,
     },
@@ -204,6 +212,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                   )}
                   <Button
                     variant="warning"
+                    onClick={() => handleRefuseOffer()}
                     hidden={offer && offer.status !== OfferStatus.Published}
                   >
                     <RejectIcon />
