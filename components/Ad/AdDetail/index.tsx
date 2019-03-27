@@ -23,7 +23,7 @@ import Link from 'next/link';
 import { paging5pages } from '../../General/Preferences';
 import MyAdOptions from '../MyAdOptions';
 import { LOGGED_IN_QUERY } from '../../General/Header';
-import YouMayLike from '../../Offer/YouMayLikeOffers/youMayLike';
+import YouMayLike from '../../Offer/YouMayLikeOffers';
 
 export interface AdDetailProps {
   translations: Translations;
