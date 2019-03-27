@@ -76,7 +76,13 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     variables: {
       id: offer && offer.id,
     },
-    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+    refetchQueries: [
+      { query: LOGGED_IN_QUERY },
+      {
+        query: PAGE_ADS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
 
   const handleRefuseOffer = useMutation(REFUSE_OFFER_MUTATION, {
@@ -90,13 +96,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     variables: {
       id: offer && offer.id,
     },
-    refetchQueries: [
-      { query: LOGGED_IN_QUERY },
-      {
-        query: PAGE_ADS_QUERY,
-        variables: { pageNumber: 0, pageSize: paging5pages },
-      },
-    ],
+    refetchQueries: [{ query: LOGGED_IN_QUERY }],
   });
 
   useEffect(() => {
