@@ -11,7 +11,6 @@ import CarSummary from '../../Car/CarSummary';
 interface OfferModalProps {
   translations: Translations;
   data: any;
-  loading: boolean;
   error: boolean;
   pageIndexMayLike: number;
   setPageIndexMayLike: React.Dispatch<React.SetStateAction<number>>;
@@ -20,21 +19,14 @@ interface OfferModalProps {
 const YouMayLike = ({
   translations,
   data,
-  loading,
   error,
   pageIndexMayLike,
   setPageIndexMayLike,
 }: OfferModalProps) => {
-  if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
   return (
-    <div
-      hidden={
-        loading ||
-        (data.suggestions[0] && data.suggestions[0].totalLength === 0)
-      }
-    >
+    <div hidden={data.suggestions[0] && data.suggestions[0].totalLength === 0}>
       <hr />
       <p>{translations.offers.youMayLike}:</p>
       <CarSummaries>
