@@ -368,5 +368,10 @@ export default interface Translations {
     market: string;
     avgPrice: string;
     avgTime: string;
+    marketAverage: string;
+    appAverage: string;
+    offerPrice: string;
+    days: string;
+    daysOnMarket: string;
   };
 }

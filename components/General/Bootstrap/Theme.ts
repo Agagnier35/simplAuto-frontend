@@ -1,4 +1,19 @@
-export const theme = {
+export interface StyledComponentTheme {
+  maxWidth: string;
+  colors: {
+    primary: string;
+    primaryLighter: string;
+    primaryDarker: string;
+    secondary: string;
+    secondaryDarker: string;
+    secondaryHighlight: string;
+    secondaryHighlightDarker: string;
+    third: string;
+    dark: string;
+  };
+}
+
+export const theme: StyledComponentTheme = {
   maxWidth: '1200px',
   colors: {
     primary: '#1cac81',
@@ -8,7 +23,7 @@ export const theme = {
     secondaryDarker: '#aeb2b7',
     secondaryHighlight: '#fd397a',
     secondaryHighlightDarker: '#fd1361',
-    third: '#5867dd',
+    third: '#007bff',
     dark: '#353540',
   },
 };
