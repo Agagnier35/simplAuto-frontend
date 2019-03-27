@@ -100,24 +100,26 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         {general.delete}
       </Button> */}
 
-      <div className="card-wrapper">
-        <Card style={{ marginBottom: '1rem' }}>
-          <Card.Body>
-            <Card.Title>{general.features}</Card.Title>
+      {car.features && car.features.length > 0 && (
+        <div className="card-wrapper">
+          <Card style={{ marginBottom: '1rem' }}>
+            <Card.Body>
+              <Card.Title>{general.features}</Card.Title>
 
-            <OfferFeatures>
-              {car.features.map((feature: CarFeature) => (
-                <OfferFeatureItem
-                  key={feature.category.name}
-                  icon={<FeatureIcon feature={feature} />}
-                  label={carFeatureCategory[feature.category.name]}
-                  value={getFeatureValue(feature)}
-                />
-              ))}
-            </OfferFeatures>
-          </Card.Body>
-        </Card>
-      </div>
+              <OfferFeatures>
+                {car.features.map((feature: CarFeature) => (
+                  <OfferFeatureItem
+                    key={feature.category.name}
+                    icon={<FeatureIcon feature={feature} />}
+                    label={carFeatureCategory[feature.category.name]}
+                    value={getFeatureValue(feature)}
+                  />
+                ))}
+              </OfferFeatures>
+            </Card.Body>
+          </Card>
+        </div>
+      )}
     </>
   );
 };

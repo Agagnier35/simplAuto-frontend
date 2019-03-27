@@ -156,12 +156,14 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       <Row>
         <Col md={12} lg={8}>
           <CarDetails car={offer.car} />
-          <Card style={{ marginBottom: '1rem' }}>
-            <Card.Body>
-              <h5>Description</h5>
-              {offer.car.description}
-            </Card.Body>
-          </Card>
+          {offer.car.description && (
+            <Card style={{ marginBottom: '1rem' }}>
+              <Card.Body>
+                <h5>Description</h5>
+                {offer.car.description}
+              </Card.Body>
+            </Card>
+          )}
         </Col>
         <Col md={12} lg={4}>
           <div className="noPrint">
