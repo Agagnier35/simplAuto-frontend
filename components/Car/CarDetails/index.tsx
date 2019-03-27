@@ -80,7 +80,11 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         close={setImageModalOpened}
       />
       <Images>
-        <BigImage src={car.photos[0]} {...imageProps} />
+        <BigImage
+          src={car.photos[0]}
+          {...imageProps}
+          imageCount={car.photos.length}
+        />
         <SmallImages>
           {car.photos[1] && <SmallImage src={car.photos[1]} {...imageProps} />}
           {car.photos[2] && <SmallImage src={car.photos[2]} {...imageProps} />}

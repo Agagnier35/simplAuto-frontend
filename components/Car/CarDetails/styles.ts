@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import AdSummaryItem from '../../Ad/AdSummary/AdSummaryItem';
 
-export const BigImage = styled.img`
-  width: 75%;
+export const BigImage = styled.img<{ imageCount: number }>`
+  width: ${props => (props.imageCount > 1 ? '75%' : '100%')};
   height: 450px;
   border-radius: 0.25rem;
   object-fit: contain;
