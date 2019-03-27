@@ -114,7 +114,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               data.ad.offers.map((offer: Offer) => (
                 <CarSummary key={offer.id} car={offer.car} offer={offer} />
               ))}
-            <div hidden={data.ad.offers}>
+            <div hidden={!data.ad.offers}>
               <Paging
                 pageIndex={pageIndexLike}
                 setPageIndex={setPageIndexLike}
@@ -123,7 +123,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
               />
             </div>
           </CarSummaries>
-          <div hidden={data.ad.offerCount === 0}>
+          <div hidden={data.ad.offerCount !== 0}>
             <p>{translations.offers.noMatch}</p>
           </div>
           <div hidden={data.ad.offers.length === paging5pages}>

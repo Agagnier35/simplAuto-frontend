@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const ALL_ADS_QUERY = gql`
   {
-    ads {
+    homePageAds {
       id
       creator {
         id
