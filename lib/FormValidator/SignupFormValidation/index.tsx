@@ -9,17 +9,8 @@ class SignupFormValidation extends BasicFormValidation {
     this.general = general;
   }
 
-  isFirstNameValid = (firstName: string) => {
-    return (
-      this.isFieldNotEmpty(firstName) &&
-      this.doesFieldNotContainNumber(firstName)
-    );
-  };
-
-  isLastNameValid = (lastName: string) => {
-    return (
-      this.isFieldNotEmpty(lastName) && this.doesFieldNotContainNumber(lastName)
-    );
+  isNameValid = (name: string) => {
+    return this.isFieldNotEmpty(name);
   };
 
   isEmailValid = (email: string) => {
@@ -111,10 +102,13 @@ class SignupFormValidation extends BasicFormValidation {
   isSignupFormStateValid = (state: SignupState) => {
     return (
       (state.clientType === ClientType.Individual
-        ? this.isFirstNameValid(state.firstName) &&
-          this.isLastNameValid(state.lastName) &&
+        ? this.isNameValid(state.firstName) &&
+          this.isNameValid(state.lastName) &&
           this.isBirthDateValid(state.birthDate)
-        : true) && // do company validation
+        : true) &&
+      (state.clientType === ClientType.Company
+        ? this.isNameValid(state.companyName)
+        : true) &&
       this.isEmailValid(state.email) &&
       this.isPasswordValid(state.password) &&
       this.isConfirmPasswordValid(state.confirmPassword, state.password) &&
