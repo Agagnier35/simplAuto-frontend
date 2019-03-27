@@ -102,7 +102,7 @@ const Car = ({ translations, query }: CarPageProps) => {
       >
         {translations.Ads.title}
         <TabBadge>
-          {!adsQuery.loading && adsQuery.data.adSuggestion[0]
+          {!adsQuery.loading && adsQuery.data.adSuggestion
             ? adsQuery.data.adSuggestion[0].totalLength
             : 0}
         </TabBadge>
@@ -116,9 +116,7 @@ const Car = ({ translations, query }: CarPageProps) => {
       </Tab>
       {!isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
-          <AdSummaries
-            hidden={adsQuery.loading || !adsQuery.data.adSuggestion[0]}
-          >
+          <AdSummaries hidden={adsQuery.loading || !adsQuery.data.adSuggestion}>
             {adsQuery.data.adSuggestion ? (
               adsQuery.data.adSuggestion.map((suggestion: any) => (
                 <div key={suggestion.ad.id}>
@@ -159,7 +157,7 @@ const Car = ({ translations, query }: CarPageProps) => {
       )}
       {isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
-          <AdSummaries>
+          <AdSummaries hidden={carQuery.data.car.offerCount === 0}>
             {carQuery.data.car.offers.map((offer: Offer) => (
               <div key={offer.ad.id}>
                 <AdSummary

@@ -109,22 +109,20 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
-          <div hidden={data.ad.offerCount === 0}>
-            <CarSummaries>
-              {data.ad.offers &&
-                data.ad.offers.map((offer: Offer) => (
-                  <CarSummary key={offer.id} car={offer.car} offer={offer} />
-                ))}
-              <div hidden={data.ad.offers}>
-                <Paging
-                  pageIndex={pageIndexLike}
-                  setPageIndex={setPageIndexLike}
-                  maxItems={data.ad.offerCount}
-                  itemsByPage={paging5pages}
-                />
-              </div>
-            </CarSummaries>
-          </div>
+          <CarSummaries hidden={data.ad.offerCount === 0}>
+            {data.ad.offers &&
+              data.ad.offers.map((offer: Offer) => (
+                <CarSummary key={offer.id} car={offer.car} offer={offer} />
+              ))}
+            <div hidden={data.ad.offers}>
+              <Paging
+                pageIndex={pageIndexLike}
+                setPageIndex={setPageIndexLike}
+                maxItems={data.ad.offerCount}
+                itemsByPage={paging5pages}
+              />
+            </div>
+          </CarSummaries>
           <div hidden={data.ad.offerCount === 0}>
             <p>{translations.offers.noMatch}</p>
           </div>
