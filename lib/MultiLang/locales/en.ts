@@ -34,7 +34,7 @@ const translations: Translations = {
     lastName: 'Last name',
     companyName: 'Company name',
     location: 'Your position',
-    sex: 'Sex',
+    sex: 'Gender',
     save: 'Save',
     search: 'Search',
     birth: 'Birth date',

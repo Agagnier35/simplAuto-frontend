@@ -443,14 +443,14 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Male}
                           />
-                          {Gender.Male}
+                          {profile.male}
                         </label>
                         <label htmlFor="gender">
                           <input
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={Gender.Female}
+                            value={profile.female}
                           />
                           {Gender.Female}
                         </label>
@@ -459,7 +459,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={Gender.Other}
+                            value={profile.other}
                           />
                           {Gender.Other}
                         </label>

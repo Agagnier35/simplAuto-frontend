@@ -71,7 +71,7 @@ const translations: Translations = {
     firstName: 'Prénom',
     lastName: 'Nom de famille',
     companyName: 'Nom de la compagnie',
-    gender: 'genre',
+    gender: 'Sexe',
     birthDate: {
       day: 'Jour',
       month: 'Mois',

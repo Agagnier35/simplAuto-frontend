@@ -1,10 +1,7 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { Location, ClientType } from '../../../generated/graphql';
-import {
-  MINIMUMBIRTHDATEYEAR as MINIMUM_BIRTH_DATE_YEAR,
-  MINIMUMAGEFORUSINGAPP as MINIMUM_AGE_FOR_USING_APP,
-} from '../ProfileFormValidation';
+import { Location, ClientType, Date } from '../../../generated/graphql';
 import { SignupState } from '../../../components/Auth/Signup';
+import { minBirthYear, minAge } from '../../../components/General/Preferences';
 class SignupFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -29,13 +26,13 @@ class SignupFormValidation extends BasicFormValidation {
     return this.isEmailFormatValid(email);
   };
 
-  isBirthDateValid = (birthDate: SchemaDate | undefined) => {
+  isBirthDateValid = (birthDate: Date | undefined) => {
     // Seule validation nécessaire est l'année
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
       birthDate &&
-      birthDate.year > MINIMUM_BIRTH_DATE_YEAR &&
-      birthDate.year <= new Date().getFullYear() - MINIMUM_AGE_FOR_USING_APP
+      birthDate.year > minBirthYear &&
+      birthDate.year <= new Date().getFullYear() - minAge
     );
   };
 

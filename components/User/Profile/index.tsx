@@ -349,6 +349,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
+                                  disabled={true}
                                   className="inputNeedSpace"
                                   placeholder={general.email}
                                   aria-describedby="inputGroupPrepend"
