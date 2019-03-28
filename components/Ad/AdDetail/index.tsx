@@ -128,7 +128,11 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <div hidden={data.ad.offerCount === 0}>
             <p>{translations.offers.noMatch}</p>
           </div>
-          <div hidden={youMayLikeQuery.loading || data.ad.offers.length === paging5pages}>
+          <div
+            hidden={
+              youMayLikeQuery.loading || data.ad.offers.length === paging5pages
+            }
+          >
             <YouMayLike
               translations={translations}
               data={youMayLikeQuery.data}
