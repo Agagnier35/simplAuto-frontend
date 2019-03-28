@@ -77,7 +77,6 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       id: offer && offer.id,
     },
     refetchQueries: [
-      { query: LOGGED_IN_QUERY },
       {
         query: PAGE_ADS_QUERY,
         variables: { pageNumber: 0, pageSize: paging5pages },
