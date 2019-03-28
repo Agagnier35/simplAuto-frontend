@@ -41,7 +41,12 @@ class Conversations extends Component<{}, ConversationsState> {
               <Col>
                 {currentOffer && (
                   <Chat
-                    offer={currentOffer}
+                    offer={
+                      data.me.conversations.find(
+                        (conversation: any) =>
+                          conversation.offer.id === currentOffer.id,
+                      ).offer
+                    }
                     offerQuery={{ query: GET_USER_CONVERSATIONS_QUERY }}
                   />
                 )}
