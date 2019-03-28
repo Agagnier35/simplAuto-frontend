@@ -41,13 +41,20 @@ import Link from 'next/link';
 export interface OfferPageProps {
   translations: Translations;
   query: any;
+  data: { offer: Offer };
+  loading: boolean;
+  error: any;
+  subscribeToNewComments: () => void;
 }
 
-const MyOffer = ({ translations, query }: OfferPageProps) => {
-  const { data, error, loading } = useQuery(OFFER_BY_ID, {
-    variables: { id: query.id },
-  });
-
+const MyOffer = ({
+  translations,
+  query,
+  data,
+  loading,
+  error,
+  subscribeToNewComments,
+}: OfferPageProps) => {
   const meQuery = useQuery(LOGGED_IN_QUERY);
 
   const offer = data.offer as Offer;
@@ -87,6 +94,12 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       handleDeleteNotification();
     }
   }, [offer]);
+
+  useEffect(() => {
+    if (!loading) {
+      subscribeToNewComments();
+    }
+  }, [loading]);
 
   function handlePrint() {
     window.print();

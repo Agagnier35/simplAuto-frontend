@@ -35,36 +35,35 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
   });
   let upload: Maybe<HTMLInputElement>;
 
-  useSubscription(MESSAGE_SUBSCRIPTION, {
-    variables: {
-      conversationID: offer.conversation && offer.conversation.id,
-    },
-    onSubscriptionData: ({ client, subscriptionData }) => {
-      const message = subscriptionData.data.messageSubscription;
-      const data = client.cache.readQuery(offerQuery) as any; // sketch
+  // useSubscription(MESSAGE_SUBSCRIPTION, {
+  //   variables: {
+  //     conversationID: offer.conversation && offer.conversation.id,
+  //   },
+  //   onSubscriptionData: ({ client, subscriptionData }) => {
+  //     const message = subscriptionData.data.messageSubscription;
+  //     const data = client.cache.readQuery(offerQuery) as any; // sketch
 
-      if (data) {
-        console.log(offerQuery);
-        if (offerQuery.variables) {
-          // We're in an offer
-          data.offer.conversation.messages.push(message);
-        } else {
-          // Theres no variables -> inside conversations
-          data.me.conversations = data.me.conversations.map(
-            (conversation: Conversation) => {
-              if (conversation.offer.id === offer.id) {
-                conversation.messages.push(message);
-              }
-              return conversation;
-            },
-          );
-        }
-      }
+  //     if (data) {
+  //       if (offerQuery.variables) {
+  //         // We're in an offer
+  //         data.offer.conversation.messages.push(message);
+  //       } else {
+  //         // Theres no variables -> inside conversations
+  //         data.me.conversations = data.me.conversations.map(
+  //           (conversation: Conversation) => {
+  //             if (conversation.offer.id === offer.id) {
+  //               conversation.messages.push(message);
+  //             }
+  //             return conversation;
+  //           },
+  //         );
+  //       }
+  //     }
 
-      client.cache.writeQuery({ ...offerQuery, data });
-      forceRefresh(refreshCount + 1);
-    },
-  });
+  //     client.cache.writeQuery({ ...offerQuery, data });
+  //     forceRefresh(refreshCount + 1);
+  //   },
+  // });
 
   function handleChange(e: FormEvent<any>) {
     setCurrentMessage(e.currentTarget.value);
@@ -104,14 +103,23 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
   }
 
   function handleUpdateMessageCache(cache: any, payload: any) {
-    const offerQuery = {
-      query: OFFER_BY_ID,
-      variables: { id: offer.id },
-    };
     const data = cache.readQuery(offerQuery);
     const message = payload.data.sendMessage;
 
-    data.offer.conversation.messages.push(message);
+    if (offerQuery.variables) {
+      // We're in an offer
+      data.offer.conversation.messages.push(message);
+    } else {
+      // Theres no variables -> inside conversations
+      data.me.conversations = data.me.conversations.map(
+        (conversation: Conversation) => {
+          if (conversation.offer.id === offer.id) {
+            conversation.messages.push(message);
+          }
+          return conversation;
+        },
+      );
+    }
 
     cache.writeQuery({ ...offerQuery, data });
   }
