@@ -61,7 +61,7 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
       <NotificationIcon />
       <Popup isOpen={isOpen}>
         {notifications.map((notification: NotificationObject) => (
-          <Link href={getHref(notification)}>
+          <Link href={getHref(notification)} key={notification.id}>
             <a>
               <Notification>
                 <Icon>{getIcon(notification)}</Icon>

@@ -1,5 +1,4 @@
 import React, { useState, ReactNode } from 'react';
-import { Dropdown, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Ad, Offer } from '../../../generated/graphql';
@@ -12,11 +11,9 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import GeneralAdInfos from './GeneralAdInfos';
 import AdFeatures from './AdFeatures';
-import { IoIosMore as MoreIcon } from 'react-icons/io';
-import { More, AdPortlet } from './styles';
+import { AdPortlet } from './styles';
 import AdOffers from './AdOffers';
 import moment from 'moment';
-import Link from 'next/link';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -41,17 +38,13 @@ const AdSummary = ({
   right,
   offer,
 }: AdSummaryProps) => {
-  const { carCategory, general } = translations;
+  const { carCategory } = translations;
 
   const [modalShow, setModalShow] = useState(false);
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
     variables: { id: ad.id },
     refetchQueries: [{ query: adsQuery, variables: { id: ad.id } }],
   });
-
-  function hasPermission() {
-    return ad.creator && ad.creator.id != null;
-  }
 
   function getTitle() {
     let title = '';
@@ -114,23 +107,6 @@ const AdSummary = ({
         }
         interval={3000}
         pages={pages}
-        left={
-          hasPermission() && (
-            <Dropdown>
-              <More size="sm" variant="light" id="dropdown-basic">
-                <MoreIcon />
-              </More>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setModalShow(true)}>
-                  {general.options.delete}
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => console.log(modalShow)}>
-                  {general.options.modify}
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          )
-        }
       />
     </>
   );
