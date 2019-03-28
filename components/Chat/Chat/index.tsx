@@ -1,5 +1,10 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import { Offer, Message, Maybe } from '../../../generated/graphql';
+import {
+  Offer,
+  Message,
+  Maybe,
+  Conversation,
+} from '../../../generated/graphql';
 import * as Chat from './styles';
 import { InputGroup, Form } from 'react-bootstrap';
 import { FaImage } from 'react-icons/fa';
@@ -11,9 +16,10 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
+  offerQuery: any;
 }
 
-const ChatSection = ({ offer, translations }: ChatSectionProps) => {
+const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
@@ -34,15 +40,25 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       conversationID: offer.conversation && offer.conversation.id,
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
-      const offerQuery = {
-        query: OFFER_BY_ID,
-        variables: { id: offer.id },
-      };
       const message = subscriptionData.data.messageSubscription;
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
-        data.offer.conversation.messages.push(message);
+        console.log(offerQuery);
+        if (offerQuery.variables) {
+          // We're in an offer
+          data.offer.conversation.messages.push(message);
+        } else {
+          // Theres no variables -> inside conversations
+          data.me.conversations = data.me.conversations.map(
+            (conversation: Conversation) => {
+              if (conversation.offer.id === offer.id) {
+                conversation.messages.push(message);
+              }
+              return conversation;
+            },
+          );
+        }
       }
 
       client.cache.writeQuery({ ...offerQuery, data });

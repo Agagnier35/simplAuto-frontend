@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const GET_USER_CONVERSATIONS_QUERY = gql`
-  query {
+  query GET_USER_CONVERSATIONS_QUERY {
     me {
       id
       conversations {

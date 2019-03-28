@@ -7,18 +7,24 @@ import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from './ConversationsList';
 import Conversation from './Conversation';
 import { Row, Col } from 'react-bootstrap';
+import { Offer } from '../../../generated/graphql';
+import Chat from '../../Chat/Chat';
 
-class Conversations extends Component {
+interface ConversationsState {
+  currentOffer: Offer | null;
+}
+
+class Conversations extends Component<{}, ConversationsState> {
   state = {
     currentOffer: null,
   };
-  onClickCallback = (offer: any) => {
-    console.log('IN THE CONVERSATIONS.');
-    console.log(offer);
-    this.state.currentOffer = offer;
+
+  handleSelectConversation = (offer: Offer) => {
+    this.setState({ currentOffer: offer });
   };
 
-  render = () => {
+  render() {
+    const { currentOffer } = this.state;
     return (
       <Query query={GET_USER_CONVERSATIONS_QUERY}>
         {({ data, loading, error }) => {
@@ -28,21 +34,24 @@ class Conversations extends Component {
             <Row>
               <Col>
                 <ConversationsList
-                  onClickCallback={this.onClickCallback}
+                  onClickCallback={this.handleSelectConversation}
                   conversations={data.me.conversations}
                 />
               </Col>
               <Col>
-                {this.state.currentOffer ? (
-                  <Conversation offer={this.state.currentOffer} />
-                ) : null}
+                {currentOffer && (
+                  <Chat
+                    offer={currentOffer}
+                    offerQuery={{ query: GET_USER_CONVERSATIONS_QUERY }}
+                  />
+                )}
               </Col>
             </Row>
           );
         }}
       </Query>
     );
-  };
+  }
 }
 
 export default multiUpdater(Conversations);

@@ -205,7 +205,15 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                     {translations.general.print}
                   </Button>
                 </OfferButtons>
-                {offer.conversation && <Chat offer={offer} />}
+                {offer.conversation && (
+                  <Chat
+                    offer={offer}
+                    offerQuery={{
+                      query: OFFER_BY_ID,
+                      variables: { id: offer.id },
+                    }}
+                  />
+                )}
               </>
             )}
             <OfferAddons offer={offer} />
