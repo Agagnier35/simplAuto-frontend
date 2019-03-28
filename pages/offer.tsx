@@ -39,16 +39,24 @@ class OfferPage extends PrivateComponent {
                       params.data.offer.conversation.id,
                   },
                   updateQuery: (prev, { subscriptionData }) => {
+                    console.log('ca marche dans offer');
                     if (!subscriptionData.data) return prev;
-                    console.log(subscriptionData.data);
 
-                    // return Object.assign({}, prev, {
-                    //   entry: {
-                    //     comments: [newFeedItem, ...prev.entry.comments],
-                    //   },
-                    // });
-                    return { ...prev };
-                    console.log(prev);
+                    const message = subscriptionData.data.messageSubscription;
+
+                    return {
+                      ...prev,
+                      offer: {
+                        ...prev.offer,
+                        conversation: {
+                          ...prev.offer.conversation,
+                          messages: [
+                            ...prev.offer.conversation.messages,
+                            message,
+                          ],
+                        },
+                      },
+                    };
                   },
                 })
               }

@@ -7,7 +7,6 @@ class ConversationsList extends Component {
   state = {};
 
   render = () => {
-    console.log(this.props);
     const { conversations }: any = this.props;
     return conversations.map((conversation: any) => {
       return (

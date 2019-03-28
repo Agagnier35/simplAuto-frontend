@@ -22,12 +22,10 @@ class SingleConversationSummary extends Component {
   }
 
   onClickCallback = (offer: any) => {
-    console.log(offer);
     this.props.onClickCallback(offer);
   };
   render = () => {
     const { conversation }: any = this.props;
-    console.log(conversation);
     return (
       <Col onClick={() => this.onClickCallback(conversation.offer)} xs md={10}>
         <Row>

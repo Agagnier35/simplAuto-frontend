@@ -26,6 +26,9 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
             seller {
               id
             }
+            offer {
+              id
+            }
             messages {
               id
               sender {

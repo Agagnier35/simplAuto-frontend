@@ -10,8 +10,6 @@ import { InputGroup, Form } from 'react-bootstrap';
 import { FaImage } from 'react-icons/fa';
 import { useMutation, useSubscription } from 'react-apollo-hooks';
 import { SEND_MESSAGE_MUTATION } from './Mutations';
-import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
-import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 
 interface ChatSectionProps extends MultiProps {
@@ -21,7 +19,6 @@ interface ChatSectionProps extends MultiProps {
 
 const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
-  const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
@@ -142,7 +139,7 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
         <>
           <Chat.Container className="chat">
             {offer.conversation.messages.map((message: Message) => (
-              <Chat.Message sender={message.sender}>
+              <Chat.Message sender={message.sender} key={message.id}>
                 {message.image && message.image !== '' && (
                   <img className="chatImage" src={message.image} />
                 )}

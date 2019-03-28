@@ -8,6 +8,8 @@ export const MESSAGE_SUBSCRIPTION = gql`
       image
       sender {
         id
+        firstName
+        lastName
       }
     }
   }
