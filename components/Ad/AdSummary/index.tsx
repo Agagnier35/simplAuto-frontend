@@ -84,7 +84,7 @@ const AdSummary = ({
     pages.push(<AdFeatures ad={ad} />);
   }
 
-  if (ad.offers && ad.offers.length > 0) {
+  if (ad.offerCount > 0) {
     pages.push(<AdOffers ad={ad} />);
   }
 

@@ -237,6 +237,7 @@ export default interface Translations {
     addAds: string;
     title: string;
     noAds: string;
+    noMatchingAds: string;
   };
   offers: {
     createOffer: string;
