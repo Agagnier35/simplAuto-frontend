@@ -1,9 +1,8 @@
 import React from 'react';
-import { Ad, CarFeature, Offer } from '../../../generated/graphql';
+import { Ad, Offer } from '../../../generated/graphql';
 import { multi, MultiProps } from '../../../lib/MultiLang';
-import { Col, Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import {
-  AdFeatureItem,
   AdOfferItem,
   FirstPlace,
   Badge,
@@ -19,8 +18,6 @@ export interface AdOffersProps extends MultiProps {
 }
 
 const AdOffers = ({ ad, translations }: AdOffersProps) => {
-  const { carFeature, carFeatureCategory } = translations;
-
   function getRankBadge(rank: number) {
     switch (rank) {
       case 1:

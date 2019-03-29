@@ -36,6 +36,7 @@ export const ALL_ADS_QUERY = gql`
       urgentExpiry
       topExpiry
       status
+      offerCount
       offers {
         id
         price
