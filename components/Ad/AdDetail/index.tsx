@@ -73,7 +73,10 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
-  const isMyAd = data.ad.creator && data.ad.creator.id === meQuery.data.me.id;
+  const isMyAd =
+    data.ad.creator &&
+    meQuery.data.me &&
+    data.ad.creator.id === meQuery.data.me.id;
 
   return (
     <>

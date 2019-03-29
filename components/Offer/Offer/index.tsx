@@ -200,37 +200,39 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                     )
                   }
                 />
-                <OfferButtons>
-                  {!offer.conversation && (
+                {isMyAd && (
+                  <OfferButtons>
+                    {!offer.conversation && (
+                      <Button
+                        onClick={() => handleCreateConversation()}
+                        variant="primary"
+                      >
+                        <MessageIcon />
+                        {translations.offers.chat}
+                      </Button>
+                    )}
                     <Button
-                      onClick={() => handleCreateConversation()}
-                      variant="primary"
+                      variant="warning"
+                      onClick={() => handleRefuseOffer()}
+                      hidden={offer && offer.status !== OfferStatus.Published}
                     >
-                      <MessageIcon />
-                      {translations.offers.chat}
+                      <RejectIcon />
+                      {translations.offers.reject}
                     </Button>
-                  )}
-                  <Button
-                    variant="warning"
-                    onClick={() => handleRefuseOffer()}
-                    hidden={offer && offer.status !== OfferStatus.Published}
-                  >
-                    <RejectIcon />
-                    {translations.offers.reject}
-                  </Button>
-                  <Button
-                    variant="primary"
-                    onClick={() => setshowModal(true)}
-                    hidden={offer && offer.status !== OfferStatus.Published}
-                  >
-                    <AcceptIcon />
-                    {translations.general.accept}
-                  </Button>
-                  <Button variant="primary" onClick={handlePrint}>
-                    <PrintIcon />
-                    {translations.general.print}
-                  </Button>
-                </OfferButtons>
+                    <Button
+                      variant="primary"
+                      onClick={() => setshowModal(true)}
+                      hidden={offer && offer.status !== OfferStatus.Published}
+                    >
+                      <AcceptIcon />
+                      {translations.general.accept}
+                    </Button>
+                    <Button variant="primary" onClick={handlePrint}>
+                      <PrintIcon />
+                      {translations.general.print}
+                    </Button>
+                  </OfferButtons>
+                )}
                 {offer.conversation && <Chat offer={offer} />}
               </>
             )}

@@ -68,7 +68,6 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
               <OfferPrice>{offer.price} $</OfferPrice>
             </AdOfferItem>
           ))}
-      {console.log(ad.offers.length < 3 && !loading && data.suggestions)}
       {ad.offers.length < 3 &&
         !loading &&
         data.suggestions &&
