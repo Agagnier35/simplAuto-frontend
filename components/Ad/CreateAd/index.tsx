@@ -27,7 +27,7 @@ const redAsterixStyle = {
 const MIN_CAR_YEAR = 1980;
 
 class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
-  state: AdCreateInput = {
+  state: Dictionary<AdCreateInput> = {
     features: null,
     manufacturerID: null,
     modelID: null,
@@ -38,6 +38,14 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
     mileageHigherBound: null,
     priceLowerBound: null,
     priceHigherBound: null,
+    touched: {
+      yearLowerBound: false,
+      yearHigherBound: false,
+      mileageLowerBound: false,
+      mileageHigherBound: false,
+      priceLowerBound: false,
+      priceHigherBound: false,
+    },
   };
 
   handleCreateAd = async (e: any, createAd: any) => {
@@ -104,6 +112,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
         .models;
     }
     return [];
+  };
+
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
   };
 
   render() {
@@ -201,6 +215,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               placeholder={`${cars.year} ${general.min}`}
                               min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
+                              onBlur={() => this.fieldTouched('yearLowerBound')}
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -219,6 +234,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               placeholder={`${cars.year} ${general.max}`}
                               min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
+                              onBlur={() =>
+                                this.fieldTouched('yearHigherBound')
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -234,6 +252,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
+                              onBlur={() =>
+                                this.fieldTouched('mileageLowerBound')
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -249,6 +270,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
+                              onBlur={() =>
+                                this.fieldTouched('mileageHigherBound')
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -264,6 +288,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
+                              onBlur={() =>
+                                this.fieldTouched('priceLowerBound')
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -279,6 +306,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}
+                              onBlur={() =>
+                                this.fieldTouched('priceHigherBound')
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
