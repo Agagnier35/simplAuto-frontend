@@ -10,11 +10,13 @@ export interface SelectProps extends MultiProps {
   label: string; // The value of the hovering label
   disabled: boolean; // Blocks input if true
   translations: Translations;
+  reset?: boolean;
   selected?: any; // Initial selected object
 }
 
 interface SelectState {
   selectedValue: string;
+  resetValue: boolean;
 }
 
 class Select extends React.Component<SelectProps, SelectState> {
@@ -22,12 +24,26 @@ class Select extends React.Component<SelectProps, SelectState> {
     super(props);
 
     if (this.props.selected) {
+      if (this.props.reset) {
+        this.state = {
+          selectedValue: this.props.selected[this.props.accessor],
+          resetValue: this.props.reset,
+        };
+      } else {
+        this.state = {
+          selectedValue: this.props.selected[this.props.accessor],
+          resetValue: false,
+        };
+      }
+    } else if (this.props.reset) {
       this.state = {
-        selectedValue: this.props.selected[this.props.accessor],
+        selectedValue: '',
+        resetValue: true,
       };
     } else {
       this.state = {
         selectedValue: '',
+        resetValue: false,
       };
     }
   }
@@ -36,17 +52,22 @@ class Select extends React.Component<SelectProps, SelectState> {
     if (
       prevProps &&
       prevProps.selected &&
-      prevProps.selected !== this.props.selected
+      prevProps.selected !== this.props.selected &&
+      this.state.resetValue
     ) {
       this.setState({ selectedValue: '' });
     }
   }
 
-  handleSelect = (option: any) => {
+  handleSelect = (option: any, reset?: boolean) => {
     const { accessor, handleChange } = this.props;
-    this.setState({ selectedValue: option[accessor] }, () => {
-      handleChange(option);
-    });
+    console.log(reset);
+    if (option['id'] !== '0') {
+      this.setState({ selectedValue: option[accessor] }, () => {});
+    } else {
+      this.setState({ selectedValue: '' });
+    }
+    handleChange(option);
   };
 
   public render() {
@@ -57,7 +78,7 @@ class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       translations: { general },
     } = this.props;
-    const { selectedValue } = this.state;
+    const { selectedValue, resetValue } = this.state;
 
     return (
       <label>
@@ -74,7 +95,7 @@ class Select extends React.Component<SelectProps, SelectState> {
             {options.map((option, index) => (
               <BootStrapDropdown.Item
                 key={index}
-                onClick={() => this.handleSelect(option)}
+                onClick={() => this.handleSelect(option, resetValue)}
               >
                 {option[accessor]}
               </BootStrapDropdown.Item>

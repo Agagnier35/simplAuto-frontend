@@ -10,7 +10,6 @@ import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
-import { Dictionary } from '../../../lib/Types/Dictionary';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -26,19 +25,38 @@ const redAsterixStyle = {
 
 const MIN_CAR_YEAR = 1980;
 
-class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
-  state: AdCreateInput = {
-    features: null,
-    manufacturerID: null,
-    modelID: null,
-    categoryID: null,
-    yearLowerBound: null,
-    yearHigherBound: null,
-    mileageLowerBound: null,
-    mileageHigherBound: null,
-    priceLowerBound: null,
-    priceHigherBound: null,
-  };
+interface CreateAdState {
+  features: any[] | null;
+  [key: string]: any;
+  manufacturerID: string | null | undefined;
+  modelID: string | null | undefined;
+  categoryID: string | null | undefined;
+  yearLowerBound: number | null;
+  yearHigherBound: number | null;
+  mileageLowerBound: number | null;
+  mileageHigherBound: number | null;
+  priceLowerBound: number | null;
+  priceHigherBound: number | null;
+  tempManufacturer: string | null | undefined;
+}
+
+class CreateAd extends Component<MultiProps, CreateAdState> {
+  constructor(props: any, context: any) {
+    super(props, context);
+    this.state = {
+      features: [],
+      manufacturerID: null,
+      modelID: null,
+      categoryID: null,
+      yearLowerBound: 0,
+      yearHigherBound: 0,
+      mileageLowerBound: 0,
+      mileageHigherBound: 0,
+      priceLowerBound: 0,
+      priceHigherBound: 0,
+      tempManufacturer: null,
+    };
+  }
 
   handleCreateAd = async (e: any, createAd: any) => {
     e.preventDefault();
@@ -56,7 +74,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
     const isDefaultValue = value.value === translations.general.none;
 
     if (featureExists) {
-      if (isDefaultValue || value.isCheckbox) {
+      if (isDefaultValue || value.isCheckbox || value.value === '0') {
         // Remove it
         this.setState({
           features: [
@@ -70,16 +88,16 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
         this.setState({
           features: [
             ...features.slice(0, featureIndex),
-            value.value,
+            value,
             ...features.slice(featureIndex + 1),
           ],
         });
       }
     }
     // Add it
-    else if (!isDefaultValue) {
+    else if (!isDefaultValue && value.value !== '0') {
       this.setState({
-        features: [...features, value.value],
+        features: [...features, value],
       });
     }
   };
@@ -87,30 +105,63 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
   handleChange = (key: string, value: any) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
+    } else if (value.value === '0') {
+      this.setState({ [key]: null });
     } else {
       // Not a feature
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
-      if (key === 'manufacturerID') {
-        this.setState({ modelID: '' });
-      }
+    }
+    if (key === 'manufacturerID') {
+      this.handleChange('modelID', {
+        value: '0',
+      });
     }
   };
 
   getModelsForManufacturer = (data: any) => {
     const { manufacturerID } = this.state;
-    if (manufacturerID) {
-      return data.manufacturers.find((item: any) => item.id === manufacturerID)
-        .models;
+    if (manufacturerID && manufacturerID !== '0') {
+      const models = data.manufacturers.find(
+        (item: any) => item.id === manufacturerID,
+      ).models;
+      return models;
     }
     return [];
+  };
+
+  getCreateAdPayload = () => {
+    let features = [];
+    if (this.state.features) {
+      features = this.state.features.map(feature => feature.value);
+    }
+
+    const data: AdCreateInput = {
+      features,
+      manufacturerID: this.state.manufacturerID,
+      modelID: this.state.modelID,
+      categoryID: this.state.categoryID,
+      yearLowerBound: this.state.yearLowerBound,
+      yearHigherBound: this.state.yearHigherBound,
+      mileageLowerBound: this.state.mileageLowerBound,
+      mileageHigherBound: this.state.mileageHigherBound,
+      priceLowerBound: this.state.priceLowerBound,
+      priceHigherBound: this.state.priceHigherBound,
+    };
+    return { data };
   };
 
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
     } = this.props;
-    const { manufacturerID } = this.state;
+    const { manufacturerID, categoryID } = this.state;
+    const unselect = [
+      {
+        id: '0',
+        name: this.props.translations.general.defaultUnselect,
+      },
+    ];
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     return (
@@ -127,7 +178,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
           return (
             <Mutation
               mutation={CREATE_ADD_MUTATION}
-              variables={{ data: this.state }}
+              variables={this.getCreateAdPayload()}
             >
               {(createAd, mutation) => {
                 if (mutation.data && mutation.data.createAd) {
@@ -146,8 +197,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                         </Card.Title>
                         <div className="label-wrapper">
                           <Select
-                            options={data.manufacturers}
+                            options={unselect.concat(data.manufacturers)}
                             accessor="name"
+                            selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('manufacturerID', {
                                 value: item.id,
@@ -161,11 +213,14 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             }
                           />
                           <Select
-                            options={this.getModelsForManufacturer(data)}
+                            options={unselect.concat(
+                              this.getModelsForManufacturer(data),
+                            )}
                             disabled={!manufacturerID}
+                            reset={true}
                             accessor="name"
                             selected={manufacturerID}
-                            handleChange={(item: any) =>
+                            handleChange={(item: any, reset: true) =>
                               this.handleChange('modelID', { value: item.id })
                             }
                             label={
@@ -176,8 +231,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             }
                           />
                           <Select
-                            options={data.carCategories}
+                            options={unselect.concat(data.carCategories)}
                             accessor="name"
+                            selected={categoryID}
                             handleChange={(item: any) =>
                               this.handleChange('categoryID', {
                                 value: item.id,
@@ -299,8 +355,9 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                           {fetchedDropdownFeatures.map((feature: any) => (
                             <Select
                               key={feature.id}
-                              options={feature.features}
+                              options={unselect.concat(feature.features)}
                               accessor="name"
+                              selected={this.state.features[feature]}
                               handleChange={(item: any) =>
                                 this.handleChange('features', {
                                   value: item.id,
