@@ -11,6 +11,7 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
+import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -127,6 +128,8 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
+    const touched = { ...this.state.touched };
+    const createAdFormValidation = new CreateAdFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -216,6 +219,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
                               onBlur={() => this.fieldTouched('yearLowerBound')}
+                              isInvalid={
+                                touched.yearLowerBound &&
+                                !createAdFormValidation.isYearLowerBoundValid(
+                                  this.state.firstName,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -237,6 +246,13 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               onBlur={() =>
                                 this.fieldTouched('yearHigherBound')
                               }
+                              isInvalid={
+                                touched.yearHigherBound &&
+                                !createAdFormValidation.isYearHigherBoundValid(
+                                  this.state.yearLowerBound,
+                                  this.state.yearHigherBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -254,6 +270,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               placeholder={`${cars.mileage} ${general.min}`}
                               onBlur={() =>
                                 this.fieldTouched('mileageLowerBound')
+                              }
+                              isInvalid={
+                                touched.mileageLowerBound &&
+                                !createAdFormValidation.isMileageLowerBoundValid(
+                                  this.state.mileageLowerBound,
+                                )
                               }
                               onChange={(e: any) =>
                                 this.handleChange('mileageLowerBound', {
@@ -273,6 +295,13 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               onBlur={() =>
                                 this.fieldTouched('mileageHigherBound')
                               }
+                              isInvalid={
+                                touched.mileageHigherBound &&
+                                !createAdFormValidation.isMileageHigherBoundValid(
+                                  this.state.mileageLowerBound,
+                                  this.state.mileageHigherBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('mileageHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -291,6 +320,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               onBlur={() =>
                                 this.fieldTouched('priceLowerBound')
                               }
+                              isInvalid={
+                                touched.priceLowerBound &&
+                                !createAdFormValidation.isPriceLowerBoundValid(
+                                  this.state.priceLowerBound,
+                                )
+                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
@@ -308,6 +343,13 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               placeholder={`${cars.price} ${general.max}`}
                               onBlur={() =>
                                 this.fieldTouched('priceHigherBound')
+                              }
+                              isInvalid={
+                                touched.priceHigherBound &&
+                                !createAdFormValidation.isPriceHigherBoundValid(
+                                  this.state.priceLowerBound,
+                                  this.state.priceHigherBound,
+                                )
                               }
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
