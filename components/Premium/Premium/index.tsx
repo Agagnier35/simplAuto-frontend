@@ -22,17 +22,19 @@ const Premium = ({ translations }: PremiumProps) => {
   return (
     <div>
       <p>{premium}</p>
-      <StripeCheckout
-        amount={prices.premiumAccount}
-        name={translations.Stripe.PremiumName}
-        description={translations.Stripe.PremiumDescription}
-        currency="CAD"
-        email={loggedQuery.data.me.email}
-        stripeKey={stripeKey}
-        token={(res: any) =>
-          handleGoPremium({ variables: { stripeToken: res.id } })
-        }
-      />
+      {loggedQuery.data.me && (
+        <StripeCheckout
+          amount={prices.premiumAccount}
+          name={translations.Stripe.PremiumName}
+          description={translations.Stripe.PremiumDescription}
+          currency="CAD"
+          email={loggedQuery.data.me.email}
+          stripeKey={stripeKey}
+          token={(res: any) =>
+            handleGoPremium({ variables: { stripeToken: res.id } })
+          }
+        />
+      )}
     </div>
   );
 };

@@ -22,19 +22,21 @@ const BuyCarSpot = ({ translations }: BuyCarSpotProps) => {
 
   return (
     <div>
-      <StripeCheckout
-        amount={prices.carSpot}
-        name={translations.Stripe.CarSpotName}
-        description={translations.Stripe.CarSpotDescription}
-        currency="CAD"
-        email={loggedQuery.data.me.email}
-        stripeKey={stripeKey}
-        token={(res: any) =>
-          handleBuyCarSpot({ variables: { stripeToken: res.id, amount: 1 } })
-        }
-      >
-        <Button>{translations.Stripe.CarSpotButton}</Button>
-      </StripeCheckout>
+      {loggedQuery.data.me && (
+        <StripeCheckout
+          amount={prices.carSpot}
+          name={translations.Stripe.CarSpotName}
+          description={translations.Stripe.CarSpotDescription}
+          currency="CAD"
+          email={loggedQuery.data.me.email}
+          stripeKey={stripeKey}
+          token={(res: any) =>
+            handleBuyCarSpot({ variables: { stripeToken: res.id, amount: 1 } })
+          }
+        >
+          <Button>{translations.Stripe.CarSpotButton}</Button>
+        </StripeCheckout>
+      )}
     </div>
   );
 };

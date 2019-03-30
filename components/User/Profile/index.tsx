@@ -245,7 +245,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
           onCompleted={data => this.fillState(data)}
         >
           {({ data, loading, error }) => {
-            if (loading) return <Loading />;
+            if (loading || !data.me) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return (
               <Mutation

@@ -74,6 +74,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
 
   const isMyAd =
     likeQuery.data.ad.creator &&
+    meQuery.data.me &&
     likeQuery.data.ad.creator.id === meQuery.data.me.id;
 
   return (

@@ -24,38 +24,42 @@ const Cars = ({ translations }: MultiProps) => {
   if (error) return <ErrorMessage error={error} />;
 
   return (
-    <div>
-      <h2>{translations.cars.title}</h2>
-      {data.me.carCount < data.me.carLimit && (
-        <Link href="/addcar" prefetch>
-          <a>
-            <Button style={{ marginBottom: '1rem' }}>
-              {translations.cars.addCar}
-            </Button>
-          </a>
-        </Link>
+    <>
+      {data.me && (
+        <div>
+          <h2>{translations.cars.title}</h2>
+          {data.me.carCount < data.me.carLimit && (
+            <Link href="/addcar" prefetch>
+              <a>
+                <Button style={{ marginBottom: '1rem' }}>
+                  {translations.cars.addCar}
+                </Button>
+              </a>
+            </Link>
+          )}
+          {data.me.carLimit < 5 && <BuyCarSpot />}
+          <div>
+            {data.me.carCount}/{data.me.carLimit}
+          </div>
+          {data.me.carCount > 0 ? (
+            <>
+              <CarList cars={data.me.cars} />
+              <Paging
+                pageIndex={pageIndex}
+                setPageIndex={setPageIndex}
+                maxItems={data.me.carCount}
+                itemsByPage={paging5pages}
+              />
+            </>
+          ) : (
+            <Empty>
+              <h3>{translations.cars.noCars}</h3>
+              <VehiclesSVG />
+            </Empty>
+          )}
+        </div>
       )}
-      {data.me.carLimit < 5 && <BuyCarSpot />}
-      <div>
-        {data.me.carCount}/{data.me.carLimit}
-      </div>
-      {data.me.carCount > 0 ? (
-        <>
-          <CarList cars={data.me.cars} />
-          <Paging
-            pageIndex={pageIndex}
-            setPageIndex={setPageIndex}
-            maxItems={data.me.carCount}
-            itemsByPage={paging5pages}
-          />
-        </>
-      ) : (
-        <Empty>
-          <h3>{translations.cars.noCars}</h3>
-          <VehiclesSVG />
-        </Empty>
-      )}
-    </div>
+    </>
   );
 };
 

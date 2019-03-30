@@ -13,8 +13,10 @@ import {
   OfferAddonInput,
 } from '../../../generated/graphql';
 import { CREATE_OFFER_MUTATION, UPDATE_OFFER_MUTATION } from './Mutations';
-import { CAR_BY_ID } from '../../Car/Car/Queries';
+import { CAR_BY_ID, MATCHING_ADS_QUERY } from '../../Car/Car/Queries';
 import { OFFER_ADDONS_QUERY } from './Queries';
+import { paging10pages } from '../../General/Preferences';
+import Router from 'next/router';
 
 interface OfferModalProps {
   translations: Translations;
@@ -47,7 +49,24 @@ const OfferModal = ({
 
   const handleCreateOffer = useMutation(CREATE_OFFER_MUTATION, {
     variables: getCreateOfferPayload(),
-    refetchQueries: [{ query: CAR_BY_ID, variables: { id: car.id } }],
+    refetchQueries: [
+      {
+        query: CAR_BY_ID,
+        variables: {
+          id: car.id,
+          pageNumberOffer: 0,
+          pageSizeOffer: paging10pages,
+        },
+      },
+      {
+        query: MATCHING_ADS_QUERY,
+        variables: {
+          id: car.id,
+          pageNumberOffer: 0,
+          pageSizeOffer: paging10pages,
+        },
+      },
+    ],
   });
 
   const handleUpdateOffer = useMutation(UPDATE_OFFER_MUTATION, {
@@ -89,6 +108,7 @@ const OfferModal = ({
     } else {
       await handleCreateOffer();
       toggleModal();
+      window.location.reload();
     }
   }
 
