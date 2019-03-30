@@ -231,6 +231,11 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.yearLowerBoundError(
+                                this.state.yearLowerBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -259,6 +264,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.yearHigherBoundError(
+                                this.state.yearLowerBound,
+                                this.state.yearHigherBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
@@ -283,6 +294,11 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.mileageLowerBoundError(
+                                this.state.mileageLowerBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
@@ -308,6 +324,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.mileageHigherBoundError(
+                                this.state.mileageLowerBound,
+                                this.state.mileageHigherBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
@@ -332,6 +354,11 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.priceLowerBoundError(
+                                this.state.priceLowerBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                           <label>
                             <span>
@@ -357,6 +384,12 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 })
                               }
                             />
+                            <Form.Control.Feedback type="invalid">
+                              {createAdFormValidation.priceHigherrBoundError(
+                                this.state.priceLowerBound,
+                                this.state.priceHigherBound,
+                              )}
+                            </Form.Control.Feedback>{' '}
                           </label>
                         </div>
                       </Card.Body>
@@ -419,6 +452,11 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
+                            disabled={
+                              !createAdFormValidation.isCreateAdFormStateValid(
+                                this.state,
+                              )
+                            }
                           >
                             {ad.createAdAction}
                           </Button>
