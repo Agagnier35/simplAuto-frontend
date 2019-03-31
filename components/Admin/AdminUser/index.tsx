@@ -8,7 +8,7 @@ export interface AdminUserPageProps {
 }
 
 const AdminUser = ({ translations, isUserMode }: AdminUserPageProps) => {
-  return <>{isUserMode && null}</>;
+  return <>{isUserMode && <p>lolUser</p>}</>;
 };
 
 export default multi(AdminUser);

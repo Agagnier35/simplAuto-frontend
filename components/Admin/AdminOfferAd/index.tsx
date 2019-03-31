@@ -11,7 +11,7 @@ const AdminOfferAd = ({
   translations,
   isOfferAdMode,
 }: AdminOfferAdPageProps) => {
-  return <>{isOfferAdMode && null}</>;
+  return <>{isOfferAdMode && <p>lolOfferAd</p>}</>;
 };
 
 export default multi(AdminOfferAd);

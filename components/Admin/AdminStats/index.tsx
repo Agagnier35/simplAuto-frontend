@@ -8,7 +8,7 @@ export interface AdminStatsPageProps {
 }
 
 const AdminStats = ({ translations, isStatsMode }: AdminStatsPageProps) => {
-  return <>{isStatsMode && null}</>;
+  return <>{isStatsMode && <p>lolStats</p>}</>;
 };
 
 export default multi(AdminStats);

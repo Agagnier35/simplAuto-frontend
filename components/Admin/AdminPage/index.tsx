@@ -40,8 +40,8 @@ const AdminPage = ({ translations }: AdminPageProps) => {
         {translations.admin.tabOfferAd}
       </Tab>
       <AdminUser isUserMode={pageMode === TabState.USER} />
-      <AdminStats isStatsMode={pageMode === TabState.USER} />
-      <AdminOfferAd isOfferAdMode={pageMode === TabState.USER} />
+      <AdminStats isStatsMode={pageMode === TabState.STATS} />
+      <AdminOfferAd isOfferAdMode={pageMode === TabState.OFFER_AD} />
     </>
   );
 };
