@@ -121,6 +121,11 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
     this.setState({ touched });
   };
 
+  getCreateAdPayload = () => {
+    const { touched, ...data } = this.state;
+    return data;
+  };
+
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
@@ -144,7 +149,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
           return (
             <Mutation
               mutation={CREATE_ADD_MUTATION}
-              variables={{ data: this.state }}
+              variables={{ data: this.getCreateAdPayload() }}
             >
               {(createAd, mutation) => {
                 if (mutation.data && mutation.data.createAd) {
