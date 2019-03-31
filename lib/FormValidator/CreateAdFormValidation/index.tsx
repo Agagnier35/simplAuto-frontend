@@ -12,7 +12,6 @@ class CreateAdFormValidation extends BasicFormValidation {
 
   isYearLowerBoundValid = (yearLowerBound: number | null | undefined) => {
     if (!yearLowerBound) {
-      // Si le champs est vide, c'est correct
       return true;
     }
     return (
@@ -28,7 +27,6 @@ class CreateAdFormValidation extends BasicFormValidation {
     yearHigherBound: number | null | undefined,
   ) => {
     if (!yearHigherBound) {
-      // Si le champs est vide, c'est correct
       return true;
     }
     return (
@@ -36,7 +34,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       this.isNumberAnInteger(yearHigherBound) &&
       yearHigherBound >= MINCARYEAR &&
       yearHigherBound < new Date().getFullYear() &&
-      (this.isYearLowerBoundValid(yearLowerBound)
+      (this.isYearLowerBoundValid(yearLowerBound) && yearLowerBound
         ? yearLowerBound <= yearHigherBound
         : true)
     );
@@ -44,7 +42,6 @@ class CreateAdFormValidation extends BasicFormValidation {
 
   isMileageLowerBoundValid = (mileageLowerBound: number | null | undefined) => {
     if (!mileageLowerBound) {
-      // Si le champs est vide, c'est correct
       return true;
     }
     return (
@@ -60,7 +57,6 @@ class CreateAdFormValidation extends BasicFormValidation {
     mileageHigherBound: number | null | undefined,
   ) => {
     if (!mileageHigherBound) {
-      // Si le champs est vide, c'est correct
       return true;
     }
     return (
@@ -68,7 +64,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       this.isNumberAnInteger(mileageHigherBound) &&
       mileageHigherBound >= 0 &&
       mileageHigherBound <= 1000000 &&
-      (this.isMileageLowerBoundValid(mileageLowerBound)
+      (this.isMileageLowerBoundValid(mileageLowerBound) && mileageLowerBound
         ? mileageLowerBound <= mileageHigherBound
         : true)
     );
@@ -76,7 +72,6 @@ class CreateAdFormValidation extends BasicFormValidation {
 
   isPriceLowerBoundValid = (priceLowerBound: number | null | undefined) => {
     if (!priceLowerBound) {
-      // Si le champs est vide, c'est correct
       return true;
     }
     return (
@@ -91,13 +86,12 @@ class CreateAdFormValidation extends BasicFormValidation {
     priceHigherBound: number | null | undefined,
   ) => {
     if (!priceHigherBound) {
-      // Si le champs est vide, c'est correct
       return true;
     }
     return (
       this.isFieldNotEmpty(priceHigherBound.toString()) &&
       this.isNumberAnInteger(priceHigherBound) &&
-      (this.isPriceLowerBoundValid(priceLowerBound)
+      (this.isPriceLowerBoundValid(priceLowerBound) && priceLowerBound
         ? priceLowerBound < priceHigherBound
         : true)
     );
@@ -140,6 +134,7 @@ class CreateAdFormValidation extends BasicFormValidation {
         .yearHigherBound.yearHigherBoundTooHigh;
     } else if (
       this.isYearLowerBoundValid(yearLowerBound) &&
+      yearLowerBound &&
       !(yearLowerBound <= yearHigherBound)
     ) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
@@ -187,6 +182,7 @@ class CreateAdFormValidation extends BasicFormValidation {
         .mileageHigherBound.mileageHigherBoundTooHigh;
     } else if (
       this.isMileageLowerBoundValid(mileageLowerBound) &&
+      mileageLowerBound &&
       !(mileageLowerBound <= mileageHigherBound)
     ) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
@@ -225,6 +221,7 @@ class CreateAdFormValidation extends BasicFormValidation {
         .priceHigherBound.numberNotIntegerError;
     } else if (
       this.isPriceLowerBoundValid(priceLowerBound) &&
+      priceLowerBound &&
       !(priceLowerBound < priceHigherBound)
     ) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
