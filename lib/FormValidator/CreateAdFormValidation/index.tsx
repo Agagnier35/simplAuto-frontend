@@ -98,18 +98,18 @@ class CreateAdFormValidation extends BasicFormValidation {
   };
 
   yearLowerBoundError = (yearLowerBound: number | null | undefined) => {
-    if (!yearLowerBound || !this.isFieldNotEmpty(yearLowerBound.toString())) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearLowerBound.emptyError;
-    } else if (yearLowerBound < MINCARYEAR) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearLowerBound.yearLowerBoundTooLow;
-    } else if (yearLowerBound > new Date().getFullYear()) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearLowerBound.yearLowerBoundTooHigh;
-    } else if (!this.isNumberAnInteger(yearLowerBound)) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearLowerBound.numberNotIntegerError;
+    if (yearLowerBound) {
+      // Sera toujours le cass
+      if (yearLowerBound < MINCARYEAR) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearLowerBound.yearLowerBoundTooLow;
+      } else if (yearLowerBound > new Date().getFullYear()) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearLowerBound.yearLowerBoundTooHigh;
+      } else if (!this.isNumberAnInteger(yearLowerBound)) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearLowerBound.numberNotIntegerError;
+      }
     }
   };
 
@@ -117,47 +117,46 @@ class CreateAdFormValidation extends BasicFormValidation {
     yearLowerBound: number | null | undefined,
     yearHigherBound: number | null | undefined,
   ) => {
-    if (!yearHigherBound) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearHigherBound.emptyError;
-    } else if (!this.isFieldNotEmpty(yearHigherBound.toString())) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearHigherBound.emptyError;
-    } else if (!this.isNumberAnInteger(yearHigherBound)) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearHigherBound.numberNotIntegerError;
-    } else if (yearHigherBound < MINCARYEAR) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearHigherBound.yearHigherBoundTooLow;
-    } else if (yearHigherBound > new Date().getFullYear()) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearHigherBound.yearHigherBoundTooHigh;
-    } else if (
-      this.isYearLowerBoundValid(yearLowerBound) &&
-      yearLowerBound &&
-      !(yearLowerBound <= yearHigherBound)
-    ) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .yearHigherBound.yearLowerBoundHigherThanYearHigherBoundError;
+    if (yearHigherBound) {
+      // Sera toujours le cas
+      if (!this.isFieldNotEmpty(yearHigherBound.toString())) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearHigherBound.emptyError;
+      } else if (!this.isNumberAnInteger(yearHigherBound)) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearHigherBound.numberNotIntegerError;
+      } else if (yearHigherBound < MINCARYEAR) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearHigherBound.yearHigherBoundTooLow;
+      } else if (yearHigherBound > new Date().getFullYear()) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearHigherBound.yearHigherBoundTooHigh;
+      } else if (
+        this.isYearLowerBoundValid(yearLowerBound) &&
+        yearLowerBound &&
+        !(yearLowerBound <= yearHigherBound)
+      ) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .yearHigherBound.yearLowerBoundHigherThanYearHigherBoundError;
+      }
     }
   };
 
   mileageLowerBoundError = (mileageLowerBound: number | null | undefined) => {
-    if (!mileageLowerBound) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageLowerBound.emptyError;
-    } else if (!this.isFieldNotEmpty(mileageLowerBound.toString())) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageLowerBound.emptyError;
-    } else if (mileageLowerBound < 0) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageLowerBound.mileageLowerBoundTooLow;
-    } else if (mileageLowerBound > MAXMILEAGEALLOWED) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageLowerBound.mileageLowerBoundTooHigh;
-    } else if (!this.isNumberAnInteger(mileageLowerBound)) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageLowerBound.numberNotIntegerError;
+    if (mileageLowerBound) {
+      if (!this.isFieldNotEmpty(mileageLowerBound.toString())) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageLowerBound.emptyError;
+      } else if (mileageLowerBound < 0) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageLowerBound.mileageLowerBoundTooLow;
+      } else if (mileageLowerBound > MAXMILEAGEALLOWED) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageLowerBound.mileageLowerBoundTooHigh;
+      } else if (!this.isNumberAnInteger(mileageLowerBound)) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageLowerBound.numberNotIntegerError;
+      }
     }
   };
 
@@ -165,44 +164,43 @@ class CreateAdFormValidation extends BasicFormValidation {
     mileageLowerBound: number | null | undefined,
     mileageHigherBound: number | null | undefined,
   ) => {
-    if (!mileageHigherBound) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageHigherBound.emptyError;
-    } else if (!this.isFieldNotEmpty(mileageHigherBound.toString())) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageHigherBound.emptyError;
-    } else if (!this.isNumberAnInteger(mileageHigherBound)) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageHigherBound.numberNotIntegerError;
-    } else if (mileageHigherBound < 0) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageHigherBound.mileageHigherBoundTooLow;
-    } else if (mileageHigherBound > MAXMILEAGEALLOWED) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageHigherBound.mileageHigherBoundTooHigh;
-    } else if (
-      this.isMileageLowerBoundValid(mileageLowerBound) &&
-      mileageLowerBound &&
-      !(mileageLowerBound <= mileageHigherBound)
-    ) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .mileageHigherBound.mileageLowerBoundHigherThanMileageHigherBoundError;
+    if (mileageHigherBound) {
+      if (!this.isFieldNotEmpty(mileageHigherBound.toString())) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageHigherBound.emptyError;
+      } else if (!this.isNumberAnInteger(mileageHigherBound)) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageHigherBound.numberNotIntegerError;
+      } else if (mileageHigherBound < 0) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageHigherBound.mileageHigherBoundTooLow;
+      } else if (mileageHigherBound > MAXMILEAGEALLOWED) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageHigherBound.mileageHigherBoundTooHigh;
+      } else if (
+        this.isMileageLowerBoundValid(mileageLowerBound) &&
+        mileageLowerBound &&
+        !(mileageLowerBound <= mileageHigherBound)
+      ) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .mileageHigherBound
+          .mileageLowerBoundHigherThanMileageHigherBoundError;
+      }
     }
   };
 
   priceLowerBoundError = (priceLowerBound: number | null | undefined) => {
-    if (!priceLowerBound) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceLowerBound.emptyError;
-    } else if (!this.isFieldNotEmpty(priceLowerBound.toString())) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceLowerBound.emptyError;
-    } else if (priceLowerBound < 0) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceLowerBound.priceLowerBoundTooLowError;
-    } else if (!this.isNumberAnInteger(priceLowerBound)) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceLowerBound.numberNotIntegerError;
+    if (priceLowerBound) {
+      if (!this.isFieldNotEmpty(priceLowerBound.toString())) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .priceLowerBound.emptyError;
+      } else if (priceLowerBound < 0) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .priceLowerBound.priceLowerBoundTooLowError;
+      } else if (!this.isNumberAnInteger(priceLowerBound)) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .priceLowerBound.numberNotIntegerError;
+      }
     }
   };
 
@@ -210,30 +208,26 @@ class CreateAdFormValidation extends BasicFormValidation {
     priceLowerBound: number | null | undefined,
     priceHigherBound: number | null | undefined,
   ) => {
-    if (!priceHigherBound) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceHigherBound.emptyError;
-    } else if (!this.isFieldNotEmpty(priceHigherBound.toString())) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceHigherBound.emptyError;
-    } else if (!this.isNumberAnInteger(priceHigherBound)) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceHigherBound.numberNotIntegerError;
-    } else if (
-      this.isPriceLowerBoundValid(priceLowerBound) &&
-      priceLowerBound &&
-      !(priceLowerBound < priceHigherBound)
-    ) {
-      return this.general.formFieldsErrors.createAdFormFieldsErrors
-        .priceHigherBound.priceLowerBoundHigherThanPriceHigherBoundError;
+    if (priceHigherBound) {
+      if (!this.isFieldNotEmpty(priceHigherBound.toString())) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .priceHigherBound.emptyError;
+      } else if (!this.isNumberAnInteger(priceHigherBound)) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .priceHigherBound.numberNotIntegerError;
+      } else if (
+        this.isPriceLowerBoundValid(priceLowerBound) &&
+        priceLowerBound &&
+        !(priceLowerBound < priceHigherBound)
+      ) {
+        return this.general.formFieldsErrors.createAdFormFieldsErrors
+          .priceHigherBound.priceLowerBoundHigherThanPriceHigherBoundError;
+      }
     }
   };
 
   isCreateAdFormStateValid = (state: any) => {
     return (
-      state.manufacturerID != null &&
-      state.modelID != null &&
-      state.categoryID != null &&
       this.isYearLowerBoundValid(state.yearLowerBound) &&
       this.isYearHigherBoundValid(
         state.yearLowerBound,

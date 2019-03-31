@@ -222,7 +222,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                               isInvalid={
                                 touched.yearLowerBound &&
                                 !createAdFormValidation.isYearLowerBoundValid(
-                                  this.state.firstName,
+                                  this.state.yearLowerBound,
                                 )
                               }
                               onChange={(e: any) =>
