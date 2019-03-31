@@ -15,6 +15,7 @@ import AdFeatures from './AdFeatures';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import { More, AdPortlet } from './styles';
 import AdOffers from './AdOffers';
+import Link from 'next/link';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -111,15 +112,16 @@ const AdSummary = ({
                 <Dropdown.Item onClick={() => setModalShow(true)}>
                   {general.options.delete}
                 </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() =>
-                    Router.push({
+                <Dropdown.Item>
+                  <Link
+                    href={{
                       pathname: '/updateAd',
                       search: `?adId=${ad.id}`,
-                    })
-                  }
-                >
-                  {general.options.modify}
+                    }}
+                    passHref
+                  >
+                    {general.options.modify}
+                  </Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
