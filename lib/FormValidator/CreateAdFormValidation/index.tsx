@@ -10,91 +10,127 @@ class CreateAdFormValidation extends BasicFormValidation {
     this.general = general;
   }
 
-  isYearLowerBoundValid = (yearLowerBound: number | null | undefined) => {
-    if (!yearLowerBound) {
-      return false;
+  isYearLowerBoundValid = (
+    isYearLowerBoundTouched: boolean,
+    yearLowerBound: number | null | undefined,
+  ) => {
+    if (isYearLowerBoundTouched) {
+      if (!yearLowerBound) {
+        return false;
+      }
+      return (
+        yearLowerBound >= MINCARYEAR &&
+        yearLowerBound < new Date().getFullYear() &&
+        this.isFieldNotEmpty(yearLowerBound.toString()) &&
+        this.isNumberAnInteger(yearLowerBound)
+      );
     }
-    return (
-      yearLowerBound >= MINCARYEAR &&
-      yearLowerBound < new Date().getFullYear() &&
-      this.isFieldNotEmpty(yearLowerBound.toString()) &&
-      this.isNumberAnInteger(yearLowerBound)
-    );
+    return true;
   };
 
   isYearHigherBoundValid = (
+    isYearLowerBoundTouched: boolean,
+    isYearHigherBoundTouched: boolean,
     yearLowerBound: number | null | undefined,
     yearHigherBound: number | null | undefined,
   ) => {
-    if (!yearHigherBound) {
-      return false;
+    if (isYearHigherBoundTouched) {
+      if (!yearHigherBound) {
+        return false;
+      }
+      return (
+        this.isFieldNotEmpty(yearHigherBound.toString()) &&
+        this.isNumberAnInteger(yearHigherBound) &&
+        yearHigherBound >= MINCARYEAR &&
+        yearHigherBound < new Date().getFullYear() &&
+        (this.isYearLowerBoundValid(isYearLowerBoundTouched, yearLowerBound)
+          ? yearLowerBound <= yearHigherBound
+          : true)
+      );
     }
-    return (
-      this.isFieldNotEmpty(yearHigherBound.toString()) &&
-      this.isNumberAnInteger(yearHigherBound) &&
-      yearHigherBound >= MINCARYEAR &&
-      yearHigherBound < new Date().getFullYear() &&
-      (this.isYearLowerBoundValid(yearLowerBound)
-        ? yearLowerBound <= yearHigherBound
-        : true)
-    );
+    return false;
   };
 
-  isMileageLowerBoundValid = (mileageLowerBound: number | null | undefined) => {
-    if (!mileageLowerBound) {
-      return false;
+  isMileageLowerBoundValid = (
+    isMileageLowerBoundTouched: boolean,
+    mileageLowerBound: number | null | undefined,
+  ) => {
+    if (isMileageLowerBoundTouched) {
+      if (!mileageLowerBound) {
+        return false;
+      }
+      return (
+        mileageLowerBound >= 0 &&
+        mileageLowerBound <= MAXMILEAGEALLOWED &&
+        this.isFieldNotEmpty(mileageLowerBound.toString()) &&
+        this.isNumberAnInteger(mileageLowerBound)
+      );
     }
-    return (
-      mileageLowerBound >= 0 &&
-      mileageLowerBound <= MAXMILEAGEALLOWED &&
-      this.isFieldNotEmpty(mileageLowerBound.toString()) &&
-      this.isNumberAnInteger(mileageLowerBound)
-    );
+    return true;
   };
 
   isMileageHigherBoundValid = (
+    isMileageLowerBoundTouched: boolean,
+    isMileageHigherBoundTouched: boolean,
     mileageLowerBound: number | null | undefined,
     mileageHigherBound: number | null | undefined,
   ) => {
-    if (!mileageHigherBound) {
-      return false;
+    if (isMileageHigherBoundTouched) {
+      if (!mileageHigherBound) {
+        return false;
+      }
+      return (
+        this.isFieldNotEmpty(mileageHigherBound.toString()) &&
+        this.isNumberAnInteger(mileageHigherBound) &&
+        mileageHigherBound >= 0 &&
+        mileageHigherBound <= 1000000 &&
+        (this.isMileageLowerBoundValid(
+          isMileageLowerBoundTouched,
+          mileageLowerBound,
+        )
+          ? mileageLowerBound <= mileageHigherBound
+          : true)
+      );
     }
-    return (
-      this.isFieldNotEmpty(mileageHigherBound.toString()) &&
-      this.isNumberAnInteger(mileageHigherBound) &&
-      mileageHigherBound >= 0 &&
-      mileageHigherBound <= 1000000 &&
-      (this.isMileageLowerBoundValid(mileageLowerBound)
-        ? mileageLowerBound <= mileageHigherBound
-        : true)
-    );
+    return true;
   };
 
-  isPriceLowerBoundValid = (priceLowerBound: number | null | undefined) => {
-    if (!priceLowerBound) {
-      return false;
+  isPriceLowerBoundValid = (
+    isPriceLowerBoundTouched: boolean,
+    priceLowerBound: number | null | undefined,
+  ) => {
+    if (isPriceLowerBoundTouched) {
+      if (!priceLowerBound) {
+        return false;
+      }
+      return (
+        priceLowerBound >= 0 &&
+        this.isFieldNotEmpty(priceLowerBound.toString()) &&
+        this.isNumberAnInteger(priceLowerBound)
+      );
     }
-    return (
-      priceLowerBound >= 0 &&
-      this.isFieldNotEmpty(priceLowerBound.toString()) &&
-      this.isNumberAnInteger(priceLowerBound)
-    );
+    return true;
   };
 
   isPriceHigherBoundValid = (
+    isPriceLowerBoundTouched: boolean,
+    isPriceHigherBoundTouched: boolean,
     priceLowerBound: number | null | undefined,
     priceHigherBound: number | null | undefined,
   ) => {
-    if (!priceHigherBound) {
-      return false;
+    if (isPriceHigherBoundTouched) {
+      if (!priceHigherBound) {
+        return false;
+      }
+      return (
+        this.isFieldNotEmpty(priceHigherBound.toString()) &&
+        this.isNumberAnInteger(priceHigherBound) &&
+        (this.isPriceLowerBoundValid(isPriceLowerBoundTouched, priceLowerBound)
+          ? priceLowerBound < priceHigherBound
+          : true)
+      );
     }
-    return (
-      this.isFieldNotEmpty(priceHigherBound.toString()) &&
-      this.isNumberAnInteger(priceHigherBound) &&
-      (this.isPriceLowerBoundValid(priceLowerBound)
-        ? priceLowerBound < priceHigherBound
-        : true)
-    );
+    return true;
   };
 
   yearLowerBoundError = (yearLowerBound: number | null | undefined) => {
