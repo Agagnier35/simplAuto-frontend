@@ -406,6 +406,11 @@ const translations: Translations = {
     avgPrice: 'Average price',
     avgTime: 'Average days on market',
   },
+  admin: {
+    tabUser: 'Users',
+    tabStats: 'Statistics',
+    tabOfferAd: 'Offer / Ad',
+  },
 };
 
 module.exports = translations;

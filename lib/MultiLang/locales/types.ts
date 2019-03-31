@@ -369,4 +369,9 @@ export default interface Translations {
     avgPrice: string;
     avgTime: string;
   };
+  admin: {
+    tabUser: string;
+    tabStats: string;
+    tabOfferAd: string;
+  };
 }

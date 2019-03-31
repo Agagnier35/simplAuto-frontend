@@ -409,6 +409,11 @@ const translations: Translations = {
     avgPrice: 'Prix moyen',
     avgTime: 'Nombre de jours moyen avant la vente',
   },
+  admin: {
+    tabUser: 'Usagers',
+    tabStats: 'Statistiques',
+    tabOfferAd: 'Offre / Annonce',
+  },
 };
 
 module.exports = translations;

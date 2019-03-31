@@ -9,8 +9,8 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Notifications from '../Notifications';
-import CommonDataManager, { appName } from '../Preferences';
-import { ClientType } from '../../../generated/graphql';
+import { appName } from '../Preferences';
+import { ClientType, Permission } from '../../../generated/graphql';
 
 export const LOGGED_IN_QUERY = gql`
   query LOGGED_IN_QUERY {
@@ -21,6 +21,7 @@ export const LOGGED_IN_QUERY = gql`
       companyName
       clientType
       email
+      permissions
       notifications {
         id
         type
@@ -86,7 +87,14 @@ const Header: React.SFC<MultiProps> = ({
                         <Nav.Item as="a">Premium</Nav.Item>
                       </Link>
                       <Link href="/admin" passHref prefetch>
-                        <Nav.Item as="a">Admin</Nav.Item>
+                        <Nav.Item
+                          as="a"
+                          hidden={
+                            !data.me.permissions.includes(Permission.Admin)
+                          }
+                        >
+                          Admin
+                        </Nav.Item>
                       </Link>
                       <Link href="/profile" passHref>
                         <a className="firstName">
