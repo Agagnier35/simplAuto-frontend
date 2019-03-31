@@ -208,7 +208,6 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       description: this.state.description,
       photos: this.state.photos,
     };
-    console.log(data);
     return { data };
   };
 

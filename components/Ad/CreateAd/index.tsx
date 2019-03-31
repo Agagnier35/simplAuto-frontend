@@ -26,7 +26,7 @@ const redAsterixStyle = {
 const MIN_CAR_YEAR = 1980;
 
 interface CreateAdState {
-  features: any[] | null;
+  features: any[];
   [key: string]: any;
   manufacturerID: string | null | undefined;
   modelID: string | null | undefined;
@@ -48,12 +48,12 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
       manufacturerID: null,
       modelID: null,
       categoryID: null,
-      yearLowerBound: 0,
-      yearHigherBound: 0,
-      mileageLowerBound: 0,
-      mileageHigherBound: 0,
-      priceLowerBound: 0,
-      priceHigherBound: 0,
+      yearLowerBound: null,
+      yearHigherBound: null,
+      mileageLowerBound: null,
+      mileageHigherBound: null,
+      priceLowerBound: null,
+      priceHigherBound: null,
       tempManufacturer: null,
     };
   }
@@ -95,7 +95,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
       }
     }
     // Add it
-    else if (!isDefaultValue && value.value !== '0') {
+    else if (!isDefaultValue) {
       this.setState({
         features: [...features, value],
       });
@@ -131,23 +131,38 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
   };
 
   getCreateAdPayload = () => {
+    const {
+      manufacturerID,
+      modelID,
+      categoryID,
+      yearLowerBound,
+      yearHigherBound,
+      mileageLowerBound,
+      mileageHigherBound,
+      priceLowerBound,
+      priceHigherBound,
+    } = this.state;
     let features = [];
     if (this.state.features) {
       features = this.state.features.map(feature => feature.value);
     }
 
-    const data: AdCreateInput = {
-      features,
-      manufacturerID: this.state.manufacturerID,
-      modelID: this.state.modelID,
-      categoryID: this.state.categoryID,
-      yearLowerBound: this.state.yearLowerBound,
-      yearHigherBound: this.state.yearHigherBound,
-      mileageLowerBound: this.state.mileageLowerBound,
-      mileageHigherBound: this.state.mileageHigherBound,
-      priceLowerBound: this.state.priceLowerBound,
-      priceHigherBound: this.state.priceHigherBound,
-    };
+    const data: AdCreateInput = {};
+    if (features) data.features = features;
+    if (manufacturerID) data.manufacturerID = this.state.manufacturerID;
+    if (modelID) data.modelID = this.state.modelID;
+    if (categoryID) data.categoryID = this.state.categoryID;
+    if (yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
+    if (yearHigherBound) data.yearHigherBound = this.state.yearHigherBound;
+    if (mileageLowerBound) {
+      data.mileageLowerBound = this.state.mileageLowerBound;
+    }
+    if (mileageHigherBound) {
+      data.mileageHigherBound = this.state.mileageHigherBound;
+    }
+    if (priceLowerBound) data.priceLowerBound = this.state.priceLowerBound;
+    if (priceHigherBound) data.priceHigherBound = this.state.priceHigherBound;
+    console.log(data);
     return { data };
   };
 

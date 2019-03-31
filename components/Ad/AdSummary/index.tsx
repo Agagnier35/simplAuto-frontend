@@ -117,9 +117,6 @@ const AdSummary = ({
         left={
           hasPermission() && (
             <Dropdown>
-              <More size="sm" variant="light" id="dropdown-basic">
-                <MoreIcon />
-              </More>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => setModalShow(true)}>
                   {general.options.delete}

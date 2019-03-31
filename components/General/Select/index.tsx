@@ -59,9 +59,8 @@ class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
-  handleSelect = (option: any, reset?: boolean) => {
+  handleSelect = (option: any) => {
     const { accessor, handleChange } = this.props;
-    console.log(reset);
     if (option['id'] !== '0') {
       this.setState({ selectedValue: option[accessor] }, () => {});
     } else {
@@ -78,7 +77,7 @@ class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       translations: { general },
     } = this.props;
-    const { selectedValue, resetValue } = this.state;
+    const { selectedValue } = this.state;
 
     return (
       <label>
@@ -95,7 +94,7 @@ class Select extends React.Component<SelectProps, SelectState> {
             {options.map((option, index) => (
               <BootStrapDropdown.Item
                 key={index}
-                onClick={() => this.handleSelect(option, resetValue)}
+                onClick={() => this.handleSelect(option)}
               >
                 {option[accessor]}
               </BootStrapDropdown.Item>
