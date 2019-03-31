@@ -85,6 +85,9 @@ const Header: React.SFC<MultiProps> = ({
                       <Link href="/premium" passHref prefetch>
                         <Nav.Item as="a">Premium</Nav.Item>
                       </Link>
+                      <Link href="/admin" passHref prefetch>
+                        <Nav.Item as="a">Admin</Nav.Item>
+                      </Link>
                       <Link href="/profile" passHref>
                         <a className="firstName">
                           {data.me.clientType === ClientType.Individual
