@@ -38,7 +38,7 @@ interface UpdateAdState extends AdUpdateInput {
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
 
-class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
+class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
   state: UpdateAdState = {
     id: '',
     features: null,
@@ -658,4 +658,4 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
   }
 }
 
-export default multi(UpdateLogin);
+export default multi(UpdateAd);
