@@ -1,7 +1,7 @@
 import BasicFormValidation from '../BasicFormValidation';
 
-export const MAXMILEAGEALLOWED: number = 1000000;
-export const MINCARYEAR: number = 1900;
+export const MAX_MILEAGE_ALLOWED: number = 1000000;
+export const MIN_CAR_YEAR: number = 1900;
 
 class CreateAdFormValidation extends BasicFormValidation {
   general: any;
@@ -15,7 +15,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       return false;
     }
     return (
-      yearLowerBound >= MINCARYEAR &&
+      yearLowerBound >= MIN_CAR_YEAR &&
       yearLowerBound < new Date().getFullYear() &&
       this.isFieldNotEmpty(yearLowerBound.toString()) &&
       this.isNumberAnInteger(yearLowerBound)
@@ -32,7 +32,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(yearHigherBound.toString()) &&
       this.isNumberAnInteger(yearHigherBound) &&
-      yearHigherBound >= MINCARYEAR &&
+      yearHigherBound >= MIN_CAR_YEAR &&
       yearHigherBound < new Date().getFullYear() &&
       (this.isYearLowerBoundValid(yearLowerBound)
         ? yearLowerBound <= yearHigherBound
@@ -46,7 +46,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     }
     return (
       mileageLowerBound >= 0 &&
-      mileageLowerBound <= MAXMILEAGEALLOWED &&
+      mileageLowerBound <= MAX_MILEAGE_ALLOWED &&
       this.isFieldNotEmpty(mileageLowerBound.toString()) &&
       this.isNumberAnInteger(mileageLowerBound)
     );
@@ -101,7 +101,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     if (!yearLowerBound || !this.isFieldNotEmpty(yearLowerBound.toString())) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.emptyError;
-    } else if (yearLowerBound < MINCARYEAR) {
+    } else if (yearLowerBound < MIN_CAR_YEAR) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearLowerBound.yearLowerBoundTooLow;
     } else if (yearLowerBound > new Date().getFullYear()) {
@@ -126,7 +126,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (!this.isNumberAnInteger(yearHigherBound)) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearHigherBound.numberNotIntegerError;
-    } else if (yearHigherBound < MINCARYEAR) {
+    } else if (yearHigherBound < MIN_CAR_YEAR) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .yearHigherBound.yearHigherBoundTooLow;
     } else if (yearHigherBound > new Date().getFullYear()) {
@@ -151,7 +151,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (mileageLowerBound < 0) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.mileageLowerBoundTooLow;
-    } else if (mileageLowerBound > MAXMILEAGEALLOWED) {
+    } else if (mileageLowerBound > MAX_MILEAGE_ALLOWED) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageLowerBound.mileageLowerBoundTooHigh;
     } else if (!this.isNumberAnInteger(mileageLowerBound)) {
@@ -176,7 +176,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     } else if (mileageHigherBound < 0) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageHigherBound.mileageHigherBoundTooLow;
-    } else if (mileageHigherBound > MAXMILEAGEALLOWED) {
+    } else if (mileageHigherBound > MAX_MILEAGE_ALLOWED) {
       return this.general.formFieldsErrors.createAdFormFieldsErrors
         .mileageHigherBound.mileageHigherBoundTooHigh;
     } else if (

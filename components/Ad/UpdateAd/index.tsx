@@ -12,8 +12,8 @@ import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 import CreateAdFormValidation, {
-  MINCARYEAR,
-  MAXMILEAGEALLOWED,
+  MIN_CAR_YEAR,
+  MAX_MILEAGE_ALLOWED,
 } from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const UPDATE_AD_MUTATION = gql`
@@ -342,7 +342,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     defaultValue={this.fieldToString(
                                       this.state.yearLowerBound,
                                     )}
-                                    min={MINCARYEAR}
+                                    min={MIN_CAR_YEAR}
                                     max={new Date().getFullYear()}
                                     onBlur={() =>
                                       this.fieldTouched('yearLowerBound')
@@ -380,7 +380,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     defaultValue={this.fieldToString(
                                       this.state.yearHigherBound,
                                     )}
-                                    min={MINCARYEAR}
+                                    min={MIN_CAR_YEAR}
                                     max={new Date().getFullYear()}
                                     onBlur={() =>
                                       this.fieldTouched('yearHigherBound')
@@ -423,7 +423,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       this.state.mileageLowerBound,
                                     )}
                                     min={0}
-                                    max={MAXMILEAGEALLOWED}
+                                    max={MAX_MILEAGE_ALLOWED}
                                     onBlur={() =>
                                       this.fieldTouched('mileageLowerBound')
                                     }
@@ -463,7 +463,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       this.state.mileageHigherBound,
                                     )}
                                     min={0}
-                                    max={MAXMILEAGEALLOWED}
+                                    max={MAX_MILEAGE_ALLOWED}
                                     onBlur={() =>
                                       this.fieldTouched('mileageHigherBound')
                                     }

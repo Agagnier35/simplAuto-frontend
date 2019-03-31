@@ -12,8 +12,8 @@ import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation, {
-  MINCARYEAR,
-  MAXMILEAGEALLOWED,
+  MIN_CAR_YEAR,
+  MAX_MILEAGE_ALLOWED,
 } from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const CREATE_AD_MUTATION = gql`
@@ -233,7 +233,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.min}`}
-                              min={MINCARYEAR}
+                              min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
                               onBlur={() => this.fieldTouched('yearLowerBound')}
                               isInvalid={
@@ -263,7 +263,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.max}`}
-                              min={MINCARYEAR}
+                              min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
                               onBlur={() =>
                                 this.fieldTouched('yearHigherBound')
@@ -298,7 +298,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
                               min={0}
-                              max={MAXMILEAGEALLOWED}
+                              max={MAX_MILEAGE_ALLOWED}
                               onBlur={() =>
                                 this.fieldTouched('mileageLowerBound')
                               }
@@ -330,7 +330,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
                               min={0}
-                              max={MAXMILEAGEALLOWED}
+                              max={MAX_MILEAGE_ALLOWED}
                               onBlur={() =>
                                 this.fieldTouched('mileageHigherBound')
                               }
