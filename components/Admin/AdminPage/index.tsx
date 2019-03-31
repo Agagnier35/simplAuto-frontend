@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { Tab } from '../../Ad/Ads/styles';
+import AdminUser from '../AdminUser';
+import AdminStats from '../AdminStats';
+import AdminOfferAd from '../AdminOfferAd';
 
 export interface AdminPageProps {
   translations: Translations;
@@ -14,28 +17,31 @@ enum TabState {
 }
 
 const AdminPage = ({ translations }: AdminPageProps) => {
-  const [isOfferMode, setOfferMode] = useState(TabState.USER);
+  const [pageMode, setPageMode] = useState(TabState.USER);
 
   return (
     <>
       <Tab
-        onClick={() => setOfferMode(TabState.USER)}
-        className={isOfferMode === TabState.USER ? 'active' : ''}
+        onClick={() => setPageMode(TabState.USER)}
+        className={pageMode === TabState.USER ? 'active' : ''}
       >
         {translations.admin.tabUser}
       </Tab>
       <Tab
-        onClick={() => setOfferMode(TabState.STATS)}
-        className={isOfferMode === TabState.STATS ? 'active' : ''}
+        onClick={() => setPageMode(TabState.STATS)}
+        className={pageMode === TabState.STATS ? 'active' : ''}
       >
         {translations.admin.tabStats}
       </Tab>
       <Tab
-        onClick={() => setOfferMode(TabState.OFFER_AD)}
-        className={isOfferMode === TabState.OFFER_AD ? 'active' : ''}
+        onClick={() => setPageMode(TabState.OFFER_AD)}
+        className={pageMode === TabState.OFFER_AD ? 'active' : ''}
       >
         {translations.admin.tabOfferAd}
       </Tab>
+      <AdminUser isUserMode={pageMode === TabState.USER} />
+      <AdminStats isStatsMode={pageMode === TabState.USER} />
+      <AdminOfferAd isOfferAdMode={pageMode === TabState.USER} />
     </>
   );
 };
