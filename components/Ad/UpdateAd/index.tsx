@@ -24,10 +24,6 @@ const UPDATE_AD_MUTATION = gql`
   }
 `;
 
-const redAsterixStyle = {
-  color: 'red',
-};
-
 interface UpdateAdState extends AdUpdateInput {
   touched: Dictionnary<{
     yearLowerBound: boolean;
@@ -289,7 +285,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   label={
                                     <span>
                                       {cars.manufacturer}
-                                      <span style={redAsterixStyle}>*</span>
+                                      <span style={{ color: 'red' }}>*</span>
                                     </span>
                                   }
                                 />
@@ -308,7 +304,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   label={
                                     <span>
                                       {cars.model}
-                                      <span style={redAsterixStyle}>*</span>
+                                      <span style={{ color: 'red' }}>*</span>
                                     </span>
                                   }
                                 />
@@ -326,7 +322,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   label={
                                     <span>
                                       {cars.category}
-                                      <span style={redAsterixStyle}>*</span>
+                                      <span style={{ color: 'red' }}>*</span>
                                     </span>
                                   }
                                 />
@@ -334,7 +330,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.year} {general.min}
-                                    <span style={redAsterixStyle}>*</span>
+                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -372,7 +368,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.year} {general.max}
-                                    <span style={redAsterixStyle}>*</span>
+                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -412,7 +408,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.mileage} {general.min}
-                                    <span style={redAsterixStyle}>*</span>
+                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -452,7 +448,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.mileage} {general.max}
-                                    <span style={redAsterixStyle}>*</span>
+                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -494,7 +490,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.price} {general.min}
-                                    <span style={redAsterixStyle}>*</span>
+                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -531,7 +527,7 @@ class UpdateLogin extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.price} {general.max}
-                                    <span style={redAsterixStyle}>*</span>
+                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"

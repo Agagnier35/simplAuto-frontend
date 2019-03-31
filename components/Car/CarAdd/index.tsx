@@ -68,10 +68,6 @@ const CAR_ADD_MUTATION = gql`
   }
 `;
 
-const redAsterixStyle = {
-  color: 'red',
-};
-
 class CarAdd extends Component<MultiProps, CarAddState> {
   constructor(props: any, context: any) {
     super(props, context);
@@ -278,7 +274,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               label={
                                 <span>
                                   {cars.manufacturer}
-                                  <span style={redAsterixStyle}>*</span>
+                                  <span style={{ color: 'red' }}>*</span>
                                 </span>
                               }
                             />
@@ -293,7 +289,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               label={
                                 <span>
                                   {cars.model}
-                                  <span style={redAsterixStyle}>*</span>
+                                  <span style={{ color: 'red' }}>*</span>
                                 </span>
                               }
                             />
@@ -308,7 +304,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               label={
                                 <span>
                                   {cars.category}
-                                  <span style={redAsterixStyle}>*</span>
+                                  <span style={{ color: 'red' }}>*</span>
                                 </span>
                               }
                             />
@@ -317,7 +313,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             {
                               <span>
                                 {cars.year}
-                                <span style={redAsterixStyle}>*</span>
+                                <span style={{ color: 'red' }}>*</span>
                               </span>
                             }
                             <Form.Control
@@ -344,7 +340,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             {
                               <span>
                                 {cars.mileage}
-                                <span style={redAsterixStyle}>*</span>
+                                <span style={{ color: 'red' }}>*</span>
                               </span>
                             }
                             <Form.Control
@@ -433,7 +429,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <span className="card-number">4</span>
                             <span>
                               {general.images}{' '}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                           </Card.Title>
                           <Card.Subtitle>{carLabel.upload}</Card.Subtitle>

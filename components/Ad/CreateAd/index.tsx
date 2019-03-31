@@ -35,10 +35,6 @@ interface CreateAdState extends AdCreateInput {
   }>;
 }
 
-const redAsterixStyle = {
-  color: 'red',
-};
-
 class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
   state: CreateAdState = {
     features: null,
@@ -190,7 +186,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             label={
                               <span>
                                 {cars.manufacturer}
-                                <span style={redAsterixStyle}>*</span>
+                                <span style={{ color: 'red' }}>*</span>
                               </span>
                             }
                           />
@@ -205,7 +201,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             label={
                               <span>
                                 {cars.model}
-                                <span style={redAsterixStyle}>*</span>
+                                <span style={{ color: 'red' }}>*</span>
                               </span>
                             }
                           />
@@ -220,7 +216,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             label={
                               <span>
                                 {cars.category}
-                                <span style={redAsterixStyle}>*</span>
+                                <span style={{ color: 'red' }}>*</span>
                               </span>
                             }
                           />
@@ -228,7 +224,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           <label>
                             <span>
                               {cars.year} {general.min}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -258,7 +254,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           <label>
                             <span>
                               {cars.year} {general.max}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -292,7 +288,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           <label>
                             <span>
                               {cars.mileage} {general.min}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -324,7 +320,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           <label>
                             <span>
                               {cars.mileage} {general.max}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -358,7 +354,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           <label>
                             <span>
                               {cars.price} {general.min}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -389,7 +385,7 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                           <label>
                             <span>
                               {cars.price} {general.max}
-                              <span style={redAsterixStyle}>*</span>
+                              <span style={{ color: 'red' }}>*</span>
                             </span>
                             <Form.Control
                               type="number"
