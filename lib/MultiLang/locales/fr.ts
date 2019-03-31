@@ -138,7 +138,6 @@ const translations: Translations = {
           yearLowerBoundTooLow: "L'année minimale trop basse",
           yearLowerBoundTooHigh:
             "L'année minimale ne peut être plus grande que l'année courante.",
-          emptyError: "L'année minimale ne peut être vide",
           numberNotIntegerError:
             "L'année minimale doit être un entier (chiffre sans virgule)",
         },
@@ -146,7 +145,6 @@ const translations: Translations = {
           yearHigherBoundTooLow: "L'année maximale trop basse",
           yearHigherBoundTooHigh:
             "L'année maximale ne peut être plus grande que l'année courante.",
-          emptyError: "L'année maximale ne peut être vide",
           numberNotIntegerError:
             "L'année maximale doit être un entier (chiffre sans virgule)",
           yearLowerBoundHigherThanYearHigherBoundError:
@@ -155,14 +153,12 @@ const translations: Translations = {
         mileageLowerBound: {
           mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
           mileageLowerBoundTooHigh: 'Kilométrage min trop grand',
-          emptyError: 'Kilométrage min ne peut être vide',
           numberNotIntegerError:
             'Kilométrage min doit être un entier (chiffre sans virgule)',
         },
         mileageHigherBound: {
           mileageHigherBoundTooLow: 'Kilométrage max doit être positif',
           mileageHigherBoundTooHigh: 'Kilométrage max trop grand',
-          emptyError: 'Kilométrage max ne peut être vide',
           numberNotIntegerError:
             'Kilométrage max doit être un entier (chiffre sans virgule)',
           mileageLowerBoundHigherThanMileageHigherBoundError:
@@ -170,12 +166,10 @@ const translations: Translations = {
         },
         priceLowerBound: {
           priceLowerBoundTooLowError: 'Prix min doit être positif',
-          emptyError: 'Prix min ne peut être vide',
           numberNotIntegerError:
             'Prix min doit être un entier (chiffre sans virgule)',
         },
         priceHigherBound: {
-          emptyError: 'Prix max ne peut être vide',
           numberNotIntegerError:
             'Prix max doit être un entier (chiffre sans virgule)',
           priceLowerBoundHigherThanPriceHigherBoundError:

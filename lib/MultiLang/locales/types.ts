@@ -130,36 +130,30 @@ export default interface Translations {
         yearLowerBound: {
           yearLowerBoundTooLow: String;
           yearLowerBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         yearHigherBound: {
           yearHigherBoundTooLow: String;
           yearHigherBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
           yearLowerBoundHigherThanYearHigherBoundError: String;
         };
         mileageLowerBound: {
           mileageLowerBoundTooLow: String;
           mileageLowerBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         mileageHigherBound: {
           mileageHigherBoundTooLow: String;
           mileageHigherBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
           mileageLowerBoundHigherThanMileageHigherBoundError: String;
         };
         priceLowerBound: {
           priceLowerBoundTooLowError: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         priceHigherBound: {
-          emptyError: String;
           numberNotIntegerError: String;
           priceLowerBoundHigherThanPriceHigherBoundError: String;
         };
