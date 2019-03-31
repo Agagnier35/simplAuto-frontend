@@ -1,5 +1,4 @@
 import React from 'react';
-import { multi } from '../lib/MultiLang';
 import UpdateAd from '../components/Ad/UpdateAd';
 import Translations from '../lib/MultiLang/locales/types';
 
@@ -14,4 +13,4 @@ const UpdateAdPage = ({ query }: AdProps) => {
   return <UpdateAd adId={query.adId} />;
 };
 
-export default multi(UpdateAdPage);
+export default UpdateAdPage;
