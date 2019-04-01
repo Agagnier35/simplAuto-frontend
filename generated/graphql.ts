@@ -232,9 +232,11 @@ export type Mutation = {
   deleteNotification?: Maybe<Notification>;
   goPremium: User;
   acceptOffer?: Maybe<Offer>;
+  sendNotificationEmail?: Maybe<Scalars['String']>;
   buyCarSpot: User;
   buyUrgentAd: Ad;
   buyTopAd: Ad;
+  banUser?: Maybe<User>;
 };
 
 export type MutationSignupArgs = {
@@ -319,6 +321,10 @@ export type MutationAcceptOfferArgs = {
   id: Scalars['ID'];
 };
 
+export type MutationSendNotificationEmailArgs = {
+  id: Scalars['ID'];
+};
+
 export type MutationBuyCarSpotArgs = {
   stripeToken: Scalars['String'];
   amount: Scalars['Int'];
@@ -331,6 +337,10 @@ export type MutationBuyUrgentAdArgs = {
 
 export type MutationBuyTopAdArgs = {
   stripeToken: Scalars['String'];
+  id: Scalars['ID'];
+};
+
+export type MutationBanUserArgs = {
   id: Scalars['ID'];
 };
 
@@ -430,6 +440,7 @@ export type Query = {
   statsForAds?: Maybe<Statistics>;
   statsForOffer?: Maybe<Statistics>;
   getPrices: Prices;
+  users?: Maybe<UsersPayload>;
 };
 
 export type QueryAdsArgs = {
@@ -471,6 +482,12 @@ export type QueryStatsForAdsArgs = {
 
 export type QueryStatsForOfferArgs = {
   id: Scalars['ID'];
+};
+
+export type QueryUsersArgs = {
+  where: UserWhereInput;
+  pageNumber?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
 };
 
 export type SendMessageInput = {
@@ -526,6 +543,7 @@ export type User = {
   notificationInAppMessage: Scalars['Boolean'];
   carLimit: Scalars['Int'];
   createdAt: Scalars['String'];
+  status: UserStatus;
 };
 
 export type UserAdsArgs = {
@@ -560,6 +578,16 @@ export type UserSignupInput = {
   language?: Maybe<UserLanguage>;
 };
 
+export type UsersPayload = {
+  users?: Maybe<Array<Maybe<User>>>;
+  count?: Maybe<Scalars['Int']>;
+};
+
+export enum UserStatus {
+  Normal = 'NORMAL',
+  Banned = 'BANNED',
+}
+
 export type UserUpdateInput = {
   id: Scalars['ID'];
   email?: Maybe<Scalars['String']>;
@@ -578,4 +606,43 @@ export type UserUpdateInput = {
   notificationEmailMessage?: Maybe<Scalars['Boolean']>;
   notificationInAppOffer?: Maybe<Scalars['Boolean']>;
   notificationInAppMessage?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<UserStatus>;
+};
+
+export type UserWhereInput = {
+  id?: Maybe<Scalars['ID']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  firstName_contains?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  lastName_contains?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  companyName_contains?: Maybe<Scalars['String']>;
+  location?: Maybe<LocationInput>;
+  radius?: Maybe<Scalars['Int']>;
+  radius_lt?: Maybe<Scalars['Int']>;
+  radius_lte?: Maybe<Scalars['Int']>;
+  radius_gt?: Maybe<Scalars['Int']>;
+  radius_gte?: Maybe<Scalars['Int']>;
+  gender?: Maybe<Gender>;
+  clientType?: Maybe<ClientType>;
+  language?: Maybe<UserLanguage>;
+  carLimit?: Maybe<Scalars['Int']>;
+  carLimit_lt?: Maybe<Scalars['Int']>;
+  carLimit_lte?: Maybe<Scalars['Int']>;
+  carLimit_gt?: Maybe<Scalars['Int']>;
+  carLimit_gte?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['String']>;
+  createdAt_lt?: Maybe<Scalars['String']>;
+  createdAt_lte?: Maybe<Scalars['String']>;
+  createdAt_gt?: Maybe<Scalars['String']>;
+  createdAt_gte?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  updatedAt_lt?: Maybe<Scalars['String']>;
+  updatedAt_lte?: Maybe<Scalars['String']>;
+  updatedAt_gt?: Maybe<Scalars['String']>;
+  updatedAt_gte?: Maybe<Scalars['String']>;
+  AND?: Maybe<Array<UserWhereInput>>;
+  OR?: Maybe<Array<UserWhereInput>>;
+  NOT?: Maybe<Array<UserWhereInput>>;
 };

@@ -172,6 +172,13 @@ export const globalStyles = `
     }
   }
 
+  .dropdown-item {
+    svg {
+      margin-right: 0.5rem;
+      color: ${theme.colors.primary};
+    }
+  }
+
   .card {
     border: none;
     box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
@@ -200,4 +207,9 @@ export const globalStyles = `
     margin: 1rem 0;
   }
 
+  .tablet-up {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
 `;
