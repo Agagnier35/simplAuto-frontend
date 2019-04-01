@@ -1,13 +1,21 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import { Offer, Message, Maybe } from '../../../generated/graphql';
+import {
+  Offer,
+  Message,
+  Maybe,
+  ConversationStatus,
+} from '../../../generated/graphql';
 import * as Chat from './styles';
-import { InputGroup, Form } from 'react-bootstrap';
-import { FaImage } from 'react-icons/fa';
+import { InputGroup, Form, Button } from 'react-bootstrap';
 import { useMutation, useSubscription } from 'react-apollo-hooks';
-import { SEND_MESSAGE_MUTATION } from './Mutations';
+import {
+  SEND_MESSAGE_MUTATION,
+  UPDATE_CONVERSATION_MUTATION,
+} from './Mutations';
 import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
 import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
+import { FaEyeSlash as HideIcon, FaImage } from 'react-icons/fa';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
@@ -27,6 +35,9 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       },
     },
   });
+
+  const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);
+
   let upload: Maybe<HTMLInputElement>;
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
@@ -61,6 +72,27 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       setCurrentMessage('');
       setCurrentImage('');
     }
+  }
+
+  async function toggleConversationStatus(
+    e: FormEvent<HTMLFormElement> | any,
+    chatStatus: ConversationStatus,
+  ) {
+    e.preventDefault();
+    let status = ConversationStatus.Opened;
+    if (status === chatStatus) {
+      status = ConversationStatus.Deleted;
+    }
+
+    await handleUpdateConversation({
+      variables: {
+        data: {
+          status,
+          id: offer.conversation && offer.conversation.id,
+        },
+        refetchQueries: { OFFER_BY_ID },
+      },
+    });
   }
 
   async function getURLsFromCloud(file: any) {
@@ -113,9 +145,9 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
 
   return (
     <Chat.Card>
-      <h2>{translations.Chat.title}</h2>
       {offer.conversation && (
         <>
+          <h2>{translations.Chat.title}</h2>
           <Chat.Container className="chat">
             {offer.conversation.messages.map((message: Message) => (
               <Chat.Message sender={message.sender}>
@@ -162,6 +194,19 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
             </InputGroup>
           </Form>
         </>
+      )}
+      {offer.conversation && (
+        <Button
+          variant="warning"
+          onClick={(e: any) => {
+            if (offer.conversation && offer.conversation.status) {
+              toggleConversationStatus(e, offer.conversation.status);
+            }
+          }}
+        >
+          <HideIcon />
+          {translations.Chat.hideChat}
+        </Button>
       )}
     </Chat.Card>
   );

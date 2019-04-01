@@ -67,6 +67,7 @@ export const OFFER_BY_ID = gql`
           text
           image
         }
+        status
       }
     }
   }
