@@ -66,16 +66,15 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
         <Button variant="warning">
           {translations.general.delete} <MdCancel />
         </Button>
-      </StripeCheckout>
-      <ButtonToolbar>
-        <Button variant="warning">
-          {translations.general.delete} <MdCancel />
-        </Button>
-        <Button variant="secondary">
-          {translations.GeneralModalContent.edit} <MdCancel />
-        </Button>
-      </ButtonToolbar>
-    </ButtonWrapper>
+        <ButtonToolbar>
+          <Button variant="warning">
+            {translations.general.delete} <MdCancel />
+          </Button>
+          <Button variant="secondary">
+            {translations.GeneralModalContent.edit} <MdCancel />
+          </Button>
+        </ButtonToolbar>
+      </ButtonWrapper>
     </>
   );
 };
