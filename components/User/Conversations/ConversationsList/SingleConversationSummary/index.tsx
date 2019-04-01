@@ -16,7 +16,6 @@ const isMyOffer = (offer: any, meQuery: any) => {
 };
 
 const SingleConversationSummary = (props: SingleConversationSummaryProps) => {
-  console.log(props);
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
   if (loggedQuery.loading) return null;
   return (

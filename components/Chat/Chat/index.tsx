@@ -53,7 +53,6 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
-        console.log(offerQuery);
         if (offerQuery.variables) {
           // We're in an offer
           data.offer.conversation.messages.push(message);
