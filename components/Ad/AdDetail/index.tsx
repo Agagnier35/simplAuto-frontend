@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, Breadcrumb, Button } from 'react-bootstrap';
+import { Card, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import { Offer, Ad } from '../../../generated/graphql';
+import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';

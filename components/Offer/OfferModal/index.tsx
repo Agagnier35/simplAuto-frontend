@@ -120,7 +120,6 @@ const OfferModal = ({
     } else {
       await handleCreateOffer();
       toggleModal();
-      window.location.reload();
     }
   }
 
