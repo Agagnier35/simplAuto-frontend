@@ -23,7 +23,7 @@ export const PriceMileageWrapper = styled.div`
 
 export const OfferButtons = styled(ButtonToolbar)`
   margin: -0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 
   button {
     width: fit-content;

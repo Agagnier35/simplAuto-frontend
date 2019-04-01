@@ -22,9 +22,9 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
 
   function getHref(notification: NotificationObject) {
     switch (notification.type) {
-      case NotificationType.OfferMessage:
+      case NotificationType.Offer_Message:
         return { pathname: '/offer', query: { id: notification.objectID } };
-      case NotificationType.NewOffer:
+      case NotificationType.New_Offer:
         // TODO change to link to single conversation
         return { pathname: '/offer', query: { id: notification.objectID } };
       default:
@@ -35,9 +35,9 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
   }
   function getIcon(notification: NotificationObject) {
     switch (notification.type) {
-      case NotificationType.OfferMessage:
+      case NotificationType.Offer_Message:
         return <MessageIcon />;
-      case NotificationType.NewOffer:
+      case NotificationType.New_Offer:
         return <OfferIcon />;
       default:
         return null;
@@ -46,9 +46,9 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
 
   function getMessage(notification: NotificationObject) {
     switch (notification.type) {
-      case NotificationType.OfferMessage:
+      case NotificationType.Offer_Message:
         return translations.Notifications.newOfferMessage(notification.count);
-      case NotificationType.NewOffer:
+      case NotificationType.New_Offer:
         return translations.Notifications.newOffer;
       default:
         return '';
@@ -61,7 +61,7 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
       <NotificationIcon />
       <Popup isOpen={isOpen}>
         {notifications.map((notification: NotificationObject) => (
-          <Link href={getHref(notification)}>
+          <Link href={getHref(notification)} key={notification.id}>
             <a>
               <Notification>
                 <Icon>{getIcon(notification)}</Icon>

@@ -173,12 +173,14 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       <Row>
         <Col md={12} lg={8}>
           <CarDetails car={offer.car} />
-          <Card style={{ marginBottom: '1rem' }}>
-            <Card.Body>
-              <h5>Description</h5>
-              {offer.car.description}
-            </Card.Body>
-          </Card>
+          {offer.car.description && (
+            <Card style={{ marginBottom: '1rem' }}>
+              <Card.Body>
+                <h5>Description</h5>
+                {offer.car.description}
+              </Card.Body>
+            </Card>
+          )}
         </Col>
         <Col md={12} lg={4}>
           <div className="noPrint">
@@ -199,37 +201,41 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                     )
                   }
                 />
-                <OfferButtons>
-                  {!offer.conversation && (
-                    <Button
-                      onClick={() => handleCreateConversation()}
-                      variant="primary"
-                    >
-                      <MessageIcon />
-                      {translations.offers.chat}
-                    </Button>
-                  )}
-                  <Button
-                    variant="warning"
-                    onClick={() => handleRefuseOffer()}
-                    hidden={offer && offer.status !== OfferStatus.Published}
-                  >
-                    <RejectIcon />
-                    {translations.offers.reject}
-                  </Button>
-                  <Button
-                    variant="primary"
-                    onClick={() => setshowModal(true)}
-                    hidden={offer && offer.status !== OfferStatus.Published}
-                  >
-                    <AcceptIcon />
-                    {translations.general.accept}
-                  </Button>
-                  <Button variant="primary" onClick={handlePrint}>
-                    <PrintIcon />
-                    {translations.general.print}
-                  </Button>
-                </OfferButtons>
+                {isMyAd && (
+                  <>
+                    <OfferButtons>
+                      {!offer.conversation && (
+                        <Button
+                          onClick={() => handleCreateConversation()}
+                          variant="primary"
+                        >
+                          <MessageIcon />
+                          {translations.offers.chat}
+                        </Button>
+                      )}
+                      <Button
+                        variant="warning"
+                        onClick={() => handleRefuseOffer()}
+                        hidden={offer && offer.status !== OfferStatus.Published}
+                      >
+                        <RejectIcon />
+                        {translations.offers.reject}
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => setshowModal(true)}
+                        hidden={offer && offer.status !== OfferStatus.Published}
+                      >
+                        <AcceptIcon />
+                        {translations.general.accept}
+                      </Button>
+                      <Button variant="primary" onClick={handlePrint}>
+                        <PrintIcon />
+                        {translations.general.print}
+                      </Button>
+                    </OfferButtons>
+                  </>
+                )}
                 {offer.conversation && <Chat offer={offer} />}
               </>
             )}

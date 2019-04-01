@@ -6,6 +6,7 @@ export const MESSAGE_SUBSCRIPTION = gql`
       id
       text
       image
+      updatedAt
       sender {
         id
       }

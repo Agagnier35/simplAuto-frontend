@@ -62,6 +62,7 @@ export const OFFER_BY_ID = gql`
         }
         messages {
           id
+          updatedAt
           sender {
             id
           }

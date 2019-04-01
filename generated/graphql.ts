@@ -153,8 +153,8 @@ export enum ClientType {
 
 export type Conversation = {
   id: Scalars['ID'];
-  buyer?: Maybe<User>;
-  seller?: Maybe<User>;
+  buyer: User;
+  seller: User;
   offer: Offer;
   messages: Array<Message>;
   messageCount: Scalars['Int'];
@@ -204,9 +204,10 @@ export type Manufacturer = {
 
 export type Message = {
   id: Scalars['ID'];
-  sender?: Maybe<User>;
+  sender: User;
   text: Scalars['String'];
   image?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['String'];
   conversation: Conversation;
 };
 
