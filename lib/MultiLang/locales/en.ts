@@ -338,6 +338,18 @@ const translations: Translations = {
     CarSpotDescription: 'Additionnal spot for a car',
     CarSpotButton: 'Buy an extra car spot',
   },
+  Premium: {
+    Introduction: 'The advantages of a premium subscription',
+    Join: 'Join now !',
+    CarCreation: 'Add cars to your car park',
+    AdCreation: 'Post ads for cars you are looking for',
+    CarLimit: 'Car park Limit',
+    Features: 'Feature',
+    CarLimitUser: '2-5',
+    CarLimitPremium: 'Unlimited',
+    BasicStatistics: 'Basic statistics',
+    PremiumStatistics: 'Whole range of statistics',
+  },
   offerAddons: {
     subtitle: 'The seller offers also',
     mags: 'Mags',

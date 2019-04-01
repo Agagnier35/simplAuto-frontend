@@ -409,6 +409,18 @@ const translations: Translations = {
     avgPrice: 'Prix moyen',
     avgTime: 'Nombre de jours moyen avant la vente',
   },
+  Premium: {
+    Introduction: 'Les avantages de souscrire à un abonnement Premium',
+    Join: 'Abonnez vous !',
+    AdCreation: 'Ajout de recherches de voitures',
+    CarCreation: 'Ajout de voitures à vendre',
+    CarLimit: 'Limite de voitures',
+    Features: 'Fonctionnalité',
+    CarLimitUser: '2 à 5',
+    CarLimitPremium: 'Illimité !',
+    BasicStatistics: 'Statistiques de base',
+    PremiumStatistics: 'Éventail complet de statistiques',
+  },
 };
 
 module.exports = translations;

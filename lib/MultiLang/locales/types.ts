@@ -301,6 +301,18 @@ export default interface Translations {
     CarSpotDescription: string;
     CarSpotButton: string;
   };
+  Premium: {
+    Introduction: string;
+    Join: string;
+    CarLimit: string;
+    Features: string;
+    CarLimitUser: string;
+    CarLimitPremium: string;
+    BasicStatistics: string;
+    PremiumStatistics: string;
+    AdCreation: string;
+    CarCreation: string;
+  };
   offerAddons: {
     subtitle: string;
     mags: string;
