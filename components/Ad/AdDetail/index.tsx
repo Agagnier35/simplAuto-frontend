@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, Breadcrumb, Button } from 'react-bootstrap';
+import { Card, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
-import { Offer, Ad } from '../../../generated/graphql';
+import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { paging5pages } from '../../General/Preferences';
 import MyAdOptions from '../MyAdOptions';
 import { LOGGED_IN_QUERY } from '../../General/Header';
+import YouMayLike from '../../Offer/YouMayLikeOffers/youMayLike';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -57,10 +58,11 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     Router.push('/myAds');
   }
 
-  const likeQuery = useQuery(AD_DETAIL_QUERY, {
+  const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID, pageNumber: pageIndexLike, pageSize: paging5pages },
   });
-  const mayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
+
+  const youMayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
     variables: {
       id: adID,
       pageNumber: pageIndexMayLike,
@@ -68,13 +70,10 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     },
   });
 
-  const errors = likeQuery.error || mayLikeQuery.error;
-  if (likeQuery.loading) return <Loading />;
-  if (errors) return <ErrorMessage error={errors} />;
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage error={error} />;
 
-  const isMyAd =
-    likeQuery.data.ad.creator &&
-    likeQuery.data.ad.creator.id === meQuery.data.me.id;
+  const isMyAd = data.ad.creator && data.ad.creator.id === meQuery.data.me.id;
 
   return (
     <>
@@ -95,9 +94,9 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary
             adsQuery={AD_DETAIL_QUERY}
-            key={likeQuery.data.ad.id}
-            ad={likeQuery.data.ad}
-            right={isMyAd && <MyAdOptions ad={likeQuery.data.ad} />}
+            key={data.ad.id}
+            ad={data.ad}
+            right={isMyAd && <MyAdOptions ad={data.ad} />}
           />
         </Card>
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
@@ -107,58 +106,40 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
         </Card>
         <Tab className="active">
           {translations.offers.receivedOffers}
-          {likeQuery.data.ad.offers && (
-            <TabBadge>{likeQuery.data.ad.offers.length}</TabBadge>
-          )}
+          <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
-          <div hidden={likeQuery.data.ad.offerCount > 0}>
+          <div hidden={data.ad.offerCount === 0}>
             <CarSummaries>
-              {likeQuery.data.ad.offers &&
-                likeQuery.data.ad.offers.map((offer: Offer) => (
+              {data.ad.offers &&
+                data.ad.offers.map((offer: Offer) => (
                   <CarSummary key={offer.id} car={offer.car} offer={offer} />
                 ))}
-              <Paging
-                pageIndex={pageIndexLike}
-                setPageIndex={setPageIndexLike}
-                maxItems={likeQuery.data.ad.offerCount}
-                itemsByPage={paging5pages}
-              />
+              <div hidden={data.ad.offers}>
+                <Paging
+                  pageIndex={pageIndexLike}
+                  setPageIndex={setPageIndexLike}
+                  maxItems={data.ad.offerCount}
+                  itemsByPage={paging5pages}
+                />
+              </div>
             </CarSummaries>
           </div>
-          <div hidden={likeQuery.data.ad.offerCount === 0}>
-            <p>{translations.offers.noMatch}:</p>
+          <div hidden={data.ad.offerCount === 0}>
+            <p>{translations.offers.noMatch}</p>
           </div>
-          <hr />
           <div
             hidden={
-              mayLikeQuery.loading ||
-              (mayLikeQuery.data.suggestions[0] &&
-                mayLikeQuery.data.suggestions[0].totalLength === 0)
+              youMayLikeQuery.loading || data.ad.offers.length === paging5pages
             }
           >
-            <p>{translations.offers.youMayLike}:</p>
-            <CarSummaries>
-              {mayLikeQuery.data.suggestions &&
-                mayLikeQuery.data.suggestions.map((suggestion: any) => (
-                  <CarSummary
-                    key={suggestion.offer.id}
-                    car={suggestion.offer.car}
-                    offer={suggestion.offer}
-                  />
-                ))}
-              <Paging
-                pageIndex={pageIndexMayLike}
-                setPageIndex={setPageIndexMayLike}
-                maxItems={
-                  mayLikeQuery.data.suggestions &&
-                  mayLikeQuery.data.suggestions[0]
-                    ? mayLikeQuery.data.suggestions[0].totalLength
-                    : 0
-                }
-                itemsByPage={paging5pages}
-              />
-            </CarSummaries>
+            <YouMayLike
+              translations={translations}
+              data={youMayLikeQuery.data}
+              error={youMayLikeQuery.error}
+              pageIndexMayLike={pageIndexMayLike}
+              setPageIndexMayLike={setPageIndexMayLike}
+            />
           </div>
         </Card>
       </div>

@@ -13,8 +13,9 @@ import {
   DELETE_NOTIFICATION_MUTATION,
   ACCEPT_OFFER_MUTATION,
   ACCEPT_OFFER_EMAIL_MUTATION,
+  REFUSE_OFFER_MUTATION,
 } from './Mutations';
-import { Offer } from '../../../generated/graphql';
+import { Offer, OfferStatus } from '../../../generated/graphql';
 import {
   Price,
   PriceMileageWrapper,
@@ -37,6 +38,9 @@ import OfferCreator from '../OfferCreator';
 import moment from 'moment';
 import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
+import Router from 'next/router';
+import { PAGE_ADS_QUERY } from '../../Ad/MyAds/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -72,6 +76,18 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     variables: {
       id: offer && offer.id,
     },
+    refetchQueries: [
+      {
+        query: PAGE_ADS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
+  });
+
+  const handleRefuseOffer = useMutation(REFUSE_OFFER_MUTATION, {
+    variables: {
+      id: offer && offer.id,
+    },
     refetchQueries: [{ query: LOGGED_IN_QUERY }],
   });
 
@@ -96,6 +112,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     handleAcceptOffer();
     handleAcceptOfferEmail();
     setshowModal(false);
+    Router.push('/myAds');
   }
 
   if (loading || !meQuery.data.me) return <Loading />;
@@ -192,11 +209,19 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                       {translations.offers.chat}
                     </Button>
                   )}
-                  <Button variant="warning">
+                  <Button
+                    variant="warning"
+                    onClick={() => handleRefuseOffer()}
+                    hidden={offer && offer.status !== OfferStatus.Published}
+                  >
                     <RejectIcon />
                     {translations.offers.reject}
                   </Button>
-                  <Button variant="primary" onClick={() => setshowModal(true)}>
+                  <Button
+                    variant="primary"
+                    onClick={() => setshowModal(true)}
+                    hidden={offer && offer.status !== OfferStatus.Published}
+                  >
                     <AcceptIcon />
                     {translations.general.accept}
                   </Button>

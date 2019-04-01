@@ -251,6 +251,7 @@ export default interface Translations {
     receivedOffers: string;
     youMayLike: string;
     noMatch: string;
+    noAdsInYourArea: string;
   };
   GeneralModalContent: {
     title: string;

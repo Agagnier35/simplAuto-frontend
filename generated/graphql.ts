@@ -232,6 +232,7 @@ export type Mutation = {
   deleteNotification?: Maybe<Notification>;
   goPremium: User;
   acceptOffer?: Maybe<Offer>;
+  sendNotificationEmail?: Maybe<Scalars['String']>;
   buyCarSpot: User;
   buyUrgentAd: Ad;
   buyTopAd: Ad;
@@ -316,6 +317,10 @@ export type MutationGoPremiumArgs = {
 };
 
 export type MutationAcceptOfferArgs = {
+  id: Scalars['ID'];
+};
+
+export type MutationSendNotificationEmailArgs = {
   id: Scalars['ID'];
 };
 
