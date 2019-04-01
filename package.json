@@ -22,6 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@amcharts/amcharts4": "^4.3.3",
     "@storybook/addon-jest": "^4.1.11",
     "@types/google-maps-react": "^2.0.1",
     "@types/next": "^8.0.1",

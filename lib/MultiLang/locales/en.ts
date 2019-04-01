@@ -419,6 +419,11 @@ const translations: Translations = {
     market: 'Stats for market',
     avgPrice: 'Average price',
     avgTime: 'Average days on market',
+    marketAverage: 'Market average',
+    appAverage: 'SimplAuto average',
+    offerPrice: `Offer's price`,
+    days: 'days',
+    daysOnMarket: 'Days on market',
   },
 };
 

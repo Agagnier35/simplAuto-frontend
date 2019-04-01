@@ -2,49 +2,38 @@ import React from 'react';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { useQuery } from 'react-apollo-hooks';
 import { OFFER_STATS_QUERY } from './Queries';
-import Loading from '../../General/Loading';
-import ErrorMessage from '../../General/ErrorMessage';
-import { multi } from '../../../lib/MultiLang';
-import { Statistics } from '../../../generated/graphql';
+import { Statistics, Offer } from '../../../generated/graphql';
+import OfferPriceChart from '../../Stats/OfferPriceChart';
+import { Row, Col } from 'react-bootstrap';
+import DaysOnMarketChart from '../../Stats/DaysOnMarketChart';
+import moment from 'moment';
 
 export interface OfferStatsProps {
-  offerID: string;
-  translations: Translations;
+  offer: Offer;
 }
 
-const OfferStats = ({ offerID, translations }: OfferStatsProps) => {
+const OfferStats = ({ offer }: OfferStatsProps) => {
   const { data, loading, error } = useQuery(OFFER_STATS_QUERY, {
-    variables: { id: offerID },
+    variables: { id: offer.id },
   });
 
   const stats: Statistics = data.statsForOffer;
-  const { stats: statsT } = translations;
 
-  if (loading) return <Loading />;
-  if (error) return <ErrorMessage error={error} />;
+  if (loading) return null;
+  if (error) return null;
+
+  const days = moment(offer.createdAt).diff(moment.now(), 'days');
 
   return (
-    <div>
-      <div>
-        <p>{statsT.market}:</p>
-        <p>
-          {statsT.avgPrice}: {stats.averagePriceAPI}$
-        </p>
-        <p>
-          {statsT.avgTime}: {stats.averageTimeOnMarketAPI}
-        </p>
-      </div>
-      <div>
-        <p>{statsT.app}:</p>
-        <p>
-          {statsT.avgPrice}: {stats.averagePriceApp}$
-        </p>
-        <p>
-          {statsT.avgTime}: {stats.averageTimeOnMarketApp}
-        </p>
-      </div>
-    </div>
+    <Row style={{ marginTop: '1rem' }}>
+      <Col md={12} lg={6}>
+        <OfferPriceChart stats={stats} price={offer.price} />
+      </Col>
+      <Col md={12} lg={6}>
+        <DaysOnMarketChart stats={stats} days={days} />
+      </Col>
+    </Row>
   );
 };
 
-export default multi(OfferStats);
+export default OfferStats;

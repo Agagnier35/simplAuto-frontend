@@ -249,13 +249,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
           />
         </Col>
       </Row>
-      <Row>
-        <Col md={12} lg={4}>
-          <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-            <OfferStats offerID={query.id} />
-          </Card>
-        </Col>
-      </Row>
+      <OfferStats offer={offer} />
     </div>
   );
 };

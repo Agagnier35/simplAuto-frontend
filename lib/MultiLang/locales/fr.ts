@@ -410,6 +410,11 @@ const translations: Translations = {
     market: 'Statistiques pour le marché',
     avgPrice: 'Prix moyen',
     avgTime: 'Nombre de jours moyen avant la vente',
+    marketAverage: 'Moyenne du marché',
+    appAverage: 'Moyenne de SimplAuto',
+    offerPrice: `Prix de l'offre`,
+    daysOnMarket: 'Jours sur le marché',
+    days: 'jours',
   },
   Premium: {
     Introduction: 'Les avantages de souscrire à un abonnement Premium',
