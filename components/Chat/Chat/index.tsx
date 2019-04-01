@@ -90,8 +90,10 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
           status,
           id: offer.conversation && offer.conversation.id,
         },
+        refetchQueries: { OFFER_BY_ID },
       },
     });
+    console.log(offer);
   }
 
   async function getURLsFromCloud(file: any) {
@@ -144,7 +146,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
 
   return (
     <Chat.Card>
-      {offer.conversation && offer.conversation.status !== 'DELETED' && (
+      {offer.conversation && (
         <>
           <h2>{translations.Chat.title}</h2>
           <Chat.Container className="chat">
