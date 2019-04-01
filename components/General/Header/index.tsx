@@ -92,7 +92,13 @@ const Header: React.SFC<MultiProps> = ({
                           <Nav.Item as="a">Premium</Nav.Item>
                         </Link>
                       )}
-                      <Link href="/profile" passHref>
+                      <Link
+                        href={{
+                          pathname: '/profile',
+                          query: { id: data.me.id },
+                        }}
+                        passHref
+                      >
                         <a className="firstName">
                           {data.me.clientType === ClientType.Individual
                             ? data.me.firstName.charAt(0)
