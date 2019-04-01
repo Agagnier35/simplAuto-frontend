@@ -93,7 +93,6 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
         refetchQueries: { OFFER_BY_ID },
       },
     });
-    console.log(offer);
   }
 
   async function getURLsFromCloud(file: any) {
