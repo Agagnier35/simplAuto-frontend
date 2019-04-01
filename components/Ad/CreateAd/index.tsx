@@ -26,7 +26,7 @@ const redAsterixStyle = {
 const MIN_CAR_YEAR = 1980;
 
 interface CreateAdState {
-  features: any[];
+  features: { value: string, category: string }[];
   [key: string]: any;
   manufacturerID: string | null | undefined;
   modelID: string | null | undefined;
@@ -37,7 +37,6 @@ interface CreateAdState {
   mileageHigherBound: number | null;
   priceLowerBound: number | null;
   priceHigherBound: number | null;
-  tempManufacturer: string | null | undefined;
 }
 
 class CreateAd extends Component<MultiProps, CreateAdState> {
@@ -54,7 +53,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
       mileageHigherBound: null,
       priceLowerBound: null,
       priceHigherBound: null,
-      tempManufacturer: null,
     };
   }
 
@@ -142,7 +140,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
       priceLowerBound,
       priceHigherBound,
     } = this.state;
-    let features = [];
+    let features: string[] = [];
     if (this.state.features) {
       features = this.state.features.map(feature => feature.value);
     }
@@ -162,6 +160,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     }
     if (priceLowerBound) data.priceLowerBound = this.state.priceLowerBound;
     if (priceHigherBound) data.priceHigherBound = this.state.priceHigherBound;
+    console.log(data);
     return { data };
   };
 
