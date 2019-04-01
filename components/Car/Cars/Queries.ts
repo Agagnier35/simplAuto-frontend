@@ -9,6 +9,7 @@ export const PAGE_CARS_QUERY = gql`
       carLimit
       cars(pageNumber: $pageNumber, pageSize: $pageSize) {
         id
+        mileage
         manufacturer {
           id
           name
