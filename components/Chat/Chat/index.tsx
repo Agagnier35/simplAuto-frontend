@@ -29,15 +29,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
   const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
 
-  const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
-    variables: {
-      data: {
-        conversationID: offer.conversation && offer.conversation.id,
-        text: currentMessage,
-        image: currentImage,
-      },
-    },
-  });
+  const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
   let upload: Maybe<HTMLInputElement>;
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
@@ -69,9 +61,19 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   async function sendMessage(e: FormEvent<HTMLFormElement> | any) {
     e.preventDefault();
     if (currentMessage.length > 0 || currentImage !== '') {
+      const messageToSend = currentMessage;
+      const imageToSend = currentImage;
       setCurrentMessage('');
       setCurrentImage('');
-      await handleSendMessage();
+      await handleSendMessage({
+        variables: {
+          data: {
+            conversationID: offer.conversation && offer.conversation.id,
+            text: messageToSend,
+            image: imageToSend,
+          },
+        },
+      });
     }
   }
 
