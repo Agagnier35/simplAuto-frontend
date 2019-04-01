@@ -119,7 +119,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   if (error) return <ErrorMessage error={error} />;
 
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
-  const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
+  const isMyAd = !isMyOffer;
 
   return (
     <div>

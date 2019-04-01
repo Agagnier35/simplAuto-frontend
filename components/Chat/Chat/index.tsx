@@ -34,7 +34,7 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
 
   const meQuery = useQuery(LOGGED_IN_QUERY);
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
-  const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
+  const isMyAd = !isMyOffer;
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
   const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);

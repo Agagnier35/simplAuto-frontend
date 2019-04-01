@@ -3,7 +3,6 @@ import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { paging5pages } from '../../General/Preferences';
 import Paging from '../../General/Paging';
-import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
