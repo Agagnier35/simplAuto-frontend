@@ -19,13 +19,13 @@ import {
   ClientType,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import { GET_USER_INFO_QUERY } from './Queries';
+import { USER_BY_ID } from './Queries';
 import ProfileFormValidation from '../../../lib/FormValidator/ProfileFormValidation';
 
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
 const UPDATE_USER_MUTATION = gql`
-  mutation UPDATEUSER_MUTATION($data: UserUpdateInput!) {
+  mutation UPDATE_USER_MUTATION($data: UserUpdateInput!) {
     updateUser(data: $data) {
       id
       language
@@ -69,7 +69,13 @@ const redText = {
   color: '#dc3545',
 };
 
-class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
+interface ProfileProps extends MultiProps {
+  query: {
+    id: string;
+  };
+}
+
+class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
   state: Dictionary<ProfileState> = {
     email: '',
     firstName: '',
@@ -197,10 +203,29 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
       isFirstRender,
       confirmation,
       confirmPassword,
+      __typename,
+      location,
+      birthDate,
       // the rest
       ...rest
     } = this.state;
-    const data: Dictionary<UserUpdateInput> = { ...rest, id: me ? me.id : '' };
+    const data: Dictionary<UserUpdateInput> = {
+      ...rest,
+      id: me ? me.id : '',
+      location: {
+        name: location.name,
+        longitude: location.longitude,
+        latitude: location.latitude,
+      },
+    };
+
+    if (me.clientType && birthDate) {
+      data.birthDate = {
+        day: birthDate.day,
+        month: birthDate.month,
+        year: birthDate.year,
+      };
+    }
     if (this.validatePassword()) {
       data.password = password;
     }
@@ -219,7 +244,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   fillState = (data: any) => {
     // Cette condition empêche de rentrer dans une boucle infinie
     if (this.state.isFirstRender) {
-      const { __typename, ...rest } = data.me;
+      const { __typename, ...rest } = data.user;
       this.setState({
         isFirstRender: false,
         ...rest,
@@ -236,6 +261,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   render() {
     const {
       translations: { profile, general },
+      query,
     } = this.props;
 
     const touched = { ...this.state.touched };
@@ -244,7 +270,8 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     return (
       <>
         <Query
-          query={GET_USER_INFO_QUERY}
+          query={USER_BY_ID}
+          variables={{ id: query.id }}
           onCompleted={data => this.fillState(data)}
         >
           {({ data, loading, error }) => {
@@ -253,8 +280,15 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
             return (
               <Mutation
                 mutation={UPDATE_USER_MUTATION}
-                variables={this.fillObjectToUpdate(data.me)}
-                refetchQueries={[{ query: GET_USER_INFO_QUERY }]}
+                variables={this.fillObjectToUpdate(data.user)}
+                refetchQueries={[
+                  {
+                    query: USER_BY_ID,
+                    variables: {
+                      id: query.id,
+                    },
+                  },
+                ]}
                 onCompleted={data => this.handleLanguage(data)}
               >
                 {(handleMutation, { loading, error }) => {
@@ -271,7 +305,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                           <div className="nameSection">
                             <h5>{profile.contactInfo}</h5>
                             <div
-                              hidden={data.me.clientType === ClientType.Company}
+                              hidden={
+                                data.user.clientType === ClientType.Company
+                              }
                             >
                               <Form.Group>
                                 <Form.Label>{profile.firstName}</Form.Label>
@@ -330,7 +366,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             </div>
                             <div
                               hidden={
-                                data.me.clientType === ClientType.Individual
+                                data.user.clientType === ClientType.Individual
                               }
                             >
                               <p>{profile.companyName}:</p>
@@ -338,7 +374,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 className="inputNeedSpace"
                                 type="text"
                                 name="companyName"
-                                defaultValue={data.me.companyName}
+                                defaultValue={data.user.companyName}
                                 placeholder={profile.companyName}
                                 onChange={this.handleChange}
                               />
@@ -382,7 +418,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                             <div>
                               <p>{profile.location}: </p>
                               <Geosuggest
-                                initialValue={data.me.location.name}
+                                initialValue={data.user.location.name}
                                 onBlur={() => this.fieldTouched('location')}
                                 onSuggestSelect={(suggest: Suggest) =>
                                   this.handleChangeGeoLoc(suggest)
@@ -411,12 +447,14 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 type="radius"
                                 name="radius"
                                 placeholder={general.radius}
-                                defaultValue={data.me.radius.toString()}
+                                defaultValue={data.user.radius.toString()}
                                 onChange={this.handleChangeRadius}
                               />
                             </div>
                             <div
-                              hidden={data.me.clientType === ClientType.Company}
+                              hidden={
+                                data.user.clientType === ClientType.Company
+                              }
                             >
                               <p>{profile.birth}: </p>
                               <Form.Control
@@ -431,7 +469,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                 }
                                 onBlur={() => this.fieldTouched('birthDate')}
                                 defaultValue={this.getDefaultDate(
-                                  data.me.birthDate,
+                                  data.user.birthDate,
                                 )}
                                 onChange={this.handleChangeDate}
                               />
@@ -440,7 +478,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                               </Form.Control.Feedback>
                             </div>
                             <div
-                              hidden={data.me.clientType === ClientType.Company}
+                              hidden={
+                                data.user.clientType === ClientType.Company
+                              }
                             >
                               <p>{profile.sex}: </p>
                               {Object.values(Gender).map(
@@ -460,7 +500,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                         value={gender}
                                         checked={
                                           this.state.gender === gender ||
-                                          data.me.gender === gender
+                                          data.user.gender === gender
                                         }
                                         onChange={this.handleChange}
                                       />
@@ -493,7 +533,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                         onChange={this.handleChange}
                                         checked={
                                           this.state.language === language ||
-                                          data.me.language === language
+                                          data.user.language === language
                                         }
                                       />
                                     </div>

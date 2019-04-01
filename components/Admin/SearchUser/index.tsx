@@ -90,7 +90,6 @@ const SearchUser = (props: SearchUserProps) => {
               <Form.Control
                 placeholder="Name or Company"
                 aria-describedby="inputGroupPrepend"
-                required
                 type="text"
                 name="search query"
                 value={searchQuery}
