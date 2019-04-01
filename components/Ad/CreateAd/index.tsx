@@ -160,7 +160,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     }
     if (priceLowerBound) data.priceLowerBound = this.state.priceLowerBound;
     if (priceHigherBound) data.priceHigherBound = this.state.priceHigherBound;
-    console.log(data);
     return { data };
   };
 
