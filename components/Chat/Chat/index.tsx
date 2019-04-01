@@ -8,7 +8,7 @@ import {
 } from '../../../generated/graphql';
 
 import * as Chat from './styles';
-import { InputGroup, Form } from 'react-bootstrap';
+import { InputGroup, Form, Button } from 'react-bootstrap';
 import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
