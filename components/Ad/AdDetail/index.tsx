@@ -115,7 +115,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <CarSummaries hidden={data.ad.offers && data.ad.offers.length === 0}>
             {data.ad.offers &&
               data.ad.offers
-                .reverse()
                 .map((offer: Offer) => (
                   <CarSummary key={offer.id} car={offer.car} offer={offer} />
                 ))}
