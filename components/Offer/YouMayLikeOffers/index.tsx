@@ -26,7 +26,13 @@ const YouMayLike = ({
   if (error) return <ErrorMessage error={error} />;
 
   return (
-    <div hidden={data.suggestions[0] && data.suggestions[0].totalLength === 0}>
+    <div
+      hidden={
+        data.suggestions &&
+        data.suggestions[0] &&
+        data.suggestions[0].totalLength === 0
+      }
+    >
       <hr />
       <p>{translations.offers.youMayLike}:</p>
       <CarSummaries>
