@@ -7,12 +7,16 @@ import { More } from '../../Ad/AdSummary/styles';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import moment from 'moment';
 import { FaUserSlash, FaUserEdit } from 'react-icons/fa';
+import { useMutation } from 'react-apollo-hooks';
+import { BAN_USER_MUTATION } from '../../Admin/SearchUser/Mutations';
 
 interface UserSummaryProps {
   user: User;
 }
 
 const UserSummary = ({ user }: UserSummaryProps) => {
+  const banUser = useMutation(BAN_USER_MUTATION);
+
   return (
     <Container>
       <Row>
@@ -48,7 +52,9 @@ const UserSummary = ({ user }: UserSummaryProps) => {
                 <FaUserEdit />
                 modify
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => console.log('modalShow')}>
+              <Dropdown.Item
+                onClick={() => banUser({ variables: { id: user.id } })}
+              >
                 <FaUserSlash />
                 ban
               </Dropdown.Item>

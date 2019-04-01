@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import Paging from '../../General/Paging';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import { USERS_QUERY } from './Queries';
 import { User, UserWhereInput } from '../../../generated/graphql';
 import UserSummary from '../../User/UserSummary';
@@ -18,8 +18,9 @@ import {
 } from './styles';
 import { MdPerson } from 'react-icons/md';
 import Loading from '../../General/Loading';
+import { BAN_USER_MUTATION } from './Mutations';
 
-const MAX_USER_PER_PAGE = 1;
+const MAX_USER_PER_PAGE = 5;
 
 export interface SearchUserProps {}
 
@@ -116,13 +117,15 @@ const SearchUser = (props: SearchUserProps) => {
         {users &&
           users.length > 0 &&
           users.map((user: User) => <UserSummary user={user} />)}
+        {count > MAX_USER_PER_PAGE && (
+          <Paging
+            pageIndex={pageIndexUser}
+            setPageIndex={setPageIndexUser}
+            maxItems={count}
+            itemsByPage={MAX_USER_PER_PAGE}
+          />
+        )}
       </UserSummaries>
-      <Paging
-        pageIndex={pageIndexUser}
-        setPageIndex={setPageIndexUser}
-        maxItems={count}
-        itemsByPage={MAX_USER_PER_PAGE}
-      />
     </Container>
   );
 };
