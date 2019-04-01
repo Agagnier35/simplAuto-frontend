@@ -183,7 +183,10 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   };
 
   validatePassword = () => {
-    return this.state.confirmation === CLASSNAME_INIT_CONFIRMATION;
+    return (
+      this.state.confirmation === CLASSNAME_INIT_CONFIRMATION &&
+      this.state.password === this.state.confirmPassword
+    );
   };
 
   fillObjectToUpdate = (me: User) => {
@@ -245,7 +248,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
           onCompleted={data => this.fillState(data)}
         >
           {({ data, loading, error }) => {
-            if (loading) return <Loading />;
+            if (loading || !data.me) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return (
               <Mutation
@@ -349,6 +352,7 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
                                   </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
+                                  disabled={true}
                                   className="inputNeedSpace"
                                   placeholder={general.email}
                                   aria-describedby="inputGroupPrepend"

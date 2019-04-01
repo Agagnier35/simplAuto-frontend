@@ -46,6 +46,7 @@ export interface SignupState {
   touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
+    companyName: boolean;
     email: boolean;
     password: boolean;
     confirmPassword: boolean;
@@ -86,6 +87,7 @@ class Signup extends Component<MultiProps, SignupState> {
     touched: {
       firstName: false,
       lastName: false,
+      companyName: false,
       email: false,
       password: false,
       confirmPassword: false,
@@ -281,13 +283,13 @@ class Signup extends Component<MultiProps, SignupState> {
                             onBlur={() => this.fieldTouched('firstName')}
                             isInvalid={
                               touched.firstName &&
-                              !signupformValidation.isFirstNameValid(
+                              !signupformValidation.isNameValid(
                                 this.state.firstName,
                               )
                             }
                           />
                           <Form.Control.Feedback type="invalid">
-                            {signupformValidation.firstNameError(
+                            {signupformValidation.isNameValid(
                               this.state.firstName,
                             )}
                           </Form.Control.Feedback>
@@ -304,6 +306,13 @@ class Signup extends Component<MultiProps, SignupState> {
                             name="lastName"
                             value={this.state.lastName}
                             onChange={this.handleChange}
+                            onBlur={() => this.fieldTouched('lastName')}
+                            isInvalid={
+                              touched.lastName &&
+                              !signupformValidation.isNameValid(
+                                this.state.lastName,
+                              )
+                            }
                           />
                           <Form.Control.Feedback type="invalid">
                             {general.lastName}
@@ -324,11 +333,11 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="companyName"
                           value={this.state.companyName}
                           onChange={this.handleChange}
-                          onBlur={() => this.fieldTouched('lastName')}
+                          onBlur={() => this.fieldTouched('companyName')}
                           isInvalid={
-                            touched.lastName &&
-                            !signupformValidation.isLastNameValid(
-                              this.state.lastName,
+                            touched.companyName &&
+                            !signupformValidation.isNameValid(
+                              this.state.companyName,
                             )
                           }
                         />
@@ -443,14 +452,14 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Male}
                           />
-                          {Gender.Male}
+                          {profile.male}
                         </label>
                         <label htmlFor="gender">
                           <input
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={Gender.Female}
+                            value={profile.female}
                           />
                           {Gender.Female}
                         </label>
@@ -459,7 +468,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={Gender.Other}
+                            value={profile.other}
                           />
                           {Gender.Other}
                         </label>

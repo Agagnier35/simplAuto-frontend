@@ -20,7 +20,6 @@ interface SelectState {
 class Select extends React.Component<SelectProps, SelectState> {
   constructor(props: SelectProps) {
     super(props);
-
     if (this.props.selected) {
       this.state = {
         selectedValue: this.props.selected[this.props.accessor],

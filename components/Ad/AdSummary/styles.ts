@@ -49,9 +49,19 @@ export const More = styled(Dropdown.Toggle)`
   font-size: 1.75rem;
   padding: 0;
   display: flex;
+  border-radius: 100px;
 
   &::after {
     display: none;
+  }
+
+  svg {
+    margin: 0;
+  }
+
+  &:hover {
+    background: ${props => props.theme.colors.primary};
+    color: white;
   }
 `;
 

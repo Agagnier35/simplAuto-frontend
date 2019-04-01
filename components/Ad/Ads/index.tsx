@@ -18,9 +18,10 @@ const Ads = () => {
   return (
     <Card>
       <AdSummaries>
-        {data.ads.map((ad: Ad) => (
-          <AdSummary adsQuery={ALL_ADS_QUERY} key={ad.id} ad={ad} />
-        ))}
+        {data.homePageAds &&
+          data.homePageAds.map((ad: Ad) => (
+            <AdSummary adsQuery={ALL_ADS_QUERY} key={ad.id} ad={ad} />
+          ))}
       </AdSummaries>
     </Card>
   );

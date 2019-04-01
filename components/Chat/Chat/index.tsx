@@ -2,7 +2,6 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import {
   Offer,
   Message,
-  Maybe,
   ConversationStatus,
   Conversation,
 } from '../../../generated/graphql';
@@ -38,7 +37,7 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
   const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);
-  let upload: Maybe<HTMLInputElement>;
+  let upload: HTMLInputElement | null;
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
@@ -80,19 +79,16 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
     setCurrentMessage(e.currentTarget.value);
   }
 
-  async function sendMessage(e: FormEvent<HTMLFormElement> | any) {
-    e.preventDefault();
+  async function sendMessage(text: string, image: string) {
     if (currentMessage.length > 0 || currentImage !== '') {
-      const messageToSend = currentMessage;
-      const imageToSend = currentImage;
       setCurrentMessage('');
       setCurrentImage('');
       await handleSendMessage({
         variables: {
           data: {
+            text,
+            image,
             conversationID: offer.conversation && offer.conversation.id,
-            text: messageToSend,
-            image: imageToSend,
           },
         },
       });
@@ -235,7 +231,7 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
               ),
             )}
           </Chat.Container>
-          <Form onSubmit={sendMessage}>
+          <Form onSubmit={() => sendMessage(currentMessage, currentImage)}>
             <InputGroup>
               <Form.Control
                 aria-describedby="inputGroupAppend"
@@ -264,7 +260,10 @@ const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
                 </InputGroup.Text>
               </InputGroup.Append>
               <InputGroup.Append>
-                <InputGroup.Text className="send-button" onClick={sendMessage}>
+                <InputGroup.Text
+                  className="send-button"
+                  onClick={() => sendMessage(currentMessage, currentImage)}
+                >
                   {translations.Chat.send}
                 </InputGroup.Text>
               </InputGroup.Append>

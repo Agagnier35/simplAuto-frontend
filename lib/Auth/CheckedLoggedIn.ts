@@ -1,16 +1,10 @@
-import gql from 'graphql-tag';
 import { ApolloClient } from 'apollo-client';
+import { IS_LOGGED_IN } from './Queries';
 
 export default (apolloClient: ApolloClient<any>) =>
   apolloClient
     .query({
-      query: gql`
-        query IS_LOGGED_IN {
-          me {
-            id
-          }
-        }
-      `,
+      query: IS_LOGGED_IN,
     })
     .then(({ data }) => {
       return { user: data };

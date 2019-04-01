@@ -11,6 +11,7 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
+import { minCarYear } from '../../General/Preferences';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const CREATE_ADD_MUTATION = gql`
@@ -20,12 +21,6 @@ const CREATE_ADD_MUTATION = gql`
     }
   }
 `;
-
-const redAsterixStyle = {
-  color: 'red',
-};
-
-const MIN_CAR_YEAR = 1980;
 
 class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
   state: Dictionary<AdCreateInput> = {
@@ -47,6 +42,16 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
       priceLowerBound: false,
       priceHigherBound: false,
     },
+  };
+
+  checkFormValidation = () => {
+    let isValid = false;
+    Object.keys(this.state).map(item => {
+      if (this.state[item] !== null) {
+        isValid = true;
+      }
+    });
+    return isValid;
   };
 
   handleCreateAd = async (e: any, createAd: any) => {
@@ -175,12 +180,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 value: item.id,
                               })
                             }
-                            label={
-                              <span>
-                                {cars.manufacturer}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            label={<span>{cars.manufacturer}</span>}
                           />
                           <Select
                             options={this.getModelsForManufacturer(data)}
@@ -190,12 +190,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
-                            label={
-                              <span>
-                                {cars.model}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            label={<span>{cars.model}</span>}
                           />
                           <Select
                             options={data.carCategories}
@@ -205,23 +200,17 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                                 value: item.id,
                               })
                             }
-                            label={
-                              <span>
-                                {cars.category}
-                                <span style={redAsterixStyle}>*</span>
-                              </span>
-                            }
+                            label={<span>{cars.category}</span>}
                           />
 
                           <label>
                             <span>
                               {cars.year} {general.min}
-                              <span style={redAsterixStyle}>*</span>
                             </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.min}`}
-                              min={MIN_CAR_YEAR}
+                              min={minCarYear}
                               max={new Date().getFullYear()}
                               onBlur={() => this.fieldTouched('yearLowerBound')}
                               isInvalid={
@@ -246,12 +235,11 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                           <label>
                             <span>
                               {cars.year} {general.max}
-                              <span style={redAsterixStyle}>*</span>
                             </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.max}`}
-                              min={MIN_CAR_YEAR}
+                              min={minCarYear}
                               max={new Date().getFullYear()}
                               onBlur={() =>
                                 this.fieldTouched('yearHigherBound')
@@ -279,7 +267,6 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                           <label>
                             <span>
                               {cars.mileage} {general.min}
-                              <span style={redAsterixStyle}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -308,7 +295,6 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                           <label>
                             <span>
                               {cars.mileage} {general.max}
-                              <span style={redAsterixStyle}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -339,7 +325,6 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                           <label>
                             <span>
                               {cars.price} {general.min}
-                              <span style={redAsterixStyle}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -368,7 +353,6 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                           <label>
                             <span>
                               {cars.price} {general.max}
-                              <span style={redAsterixStyle}>*</span>
                             </span>
                             <Form.Control
                               type="number"
@@ -454,6 +438,7 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
                             {general.submit}
                           </Card.Title>
                           <Button
+                            disabled={!this.checkFormValidation()}
                             variant="primary"
                             className="formSubmit"
                             type="submit"
