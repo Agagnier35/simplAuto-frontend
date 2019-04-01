@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Ad, CarFeature, Offer } from '../../../generated/graphql';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import {
   IoIosCar as CarIcon,
   IoIosTimer as KilometerIcon,
