@@ -296,11 +296,13 @@ const translations: Translations = {
     receivedOffers: 'Offres reçues',
     youMayLike: 'Vous aimerez peut-être',
     noMatch: 'Aucune offre ne correspond à 100% de vos critères',
+    noAdsInYourArea: "Il n'y a aucune annonce disponnible",
   },
   Chat: {
     title: 'Messagerie',
     send: 'Envoyer',
     sendPlaceholder: 'Envoyer un message',
+    hideChat: 'Masquer/démasquer la conversation',
   },
   Home: {
     BannerTitle: 'Trop facile',
@@ -403,6 +405,23 @@ const translations: Translations = {
     market: 'Statistiques pour le marché',
     avgPrice: 'Prix moyen',
     avgTime: 'Nombre de jours moyen avant la vente',
+    marketAverage: 'Moyenne du marché',
+    appAverage: 'Moyenne de SimplAuto',
+    offerPrice: `Prix de l'offre`,
+    daysOnMarket: 'Jours sur le marché',
+    days: 'jours',
+  },
+  Premium: {
+    Introduction: 'Les avantages de souscrire à un abonnement Premium',
+    Join: 'Abonnez vous !',
+    AdCreation: 'Ajout de recherches de voitures',
+    CarCreation: 'Ajout de voitures à vendre',
+    CarLimit: 'Limite de voitures',
+    Features: 'Fonctionnalité',
+    CarLimitUser: '2 à 5',
+    CarLimitPremium: 'Illimité !',
+    BasicStatistics: 'Statistiques de base',
+    PremiumStatistics: 'Éventail complet de statistiques',
   },
 };
 

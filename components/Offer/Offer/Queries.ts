@@ -6,6 +6,7 @@ export const OFFER_BY_ID = gql`
       createdAt
       id
       price
+      status
       ad {
         id
         creator {
@@ -61,12 +62,14 @@ export const OFFER_BY_ID = gql`
         }
         messages {
           id
+          updatedAt
           sender {
             id
           }
           text
           image
         }
+        status
       }
     }
   }

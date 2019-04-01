@@ -281,6 +281,7 @@ const translations: Translations = {
     receivedOffers: 'Received offers',
     youMayLike: 'You may also like',
     noMatch: 'There is no 100% match offres',
+    noAdsInYourArea: 'There are no ads in your area',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -316,6 +317,7 @@ const translations: Translations = {
     title: 'Chat',
     send: 'Send',
     sendPlaceholder: 'Send a message',
+    hideChat: 'Hide/unhide chat',
   },
   Notifications: {
     newOffer: 'You have a new offer !',
@@ -332,6 +334,18 @@ const translations: Translations = {
     CarSpotName: 'Extra car spot',
     CarSpotDescription: 'Additionnal spot for a car',
     CarSpotButton: 'Buy an extra car spot',
+  },
+  Premium: {
+    Introduction: 'The advantages of a premium subscription',
+    Join: 'Join now !',
+    CarCreation: 'Add cars to your car park',
+    AdCreation: 'Post ads for cars you are looking for',
+    CarLimit: 'Car park Limit',
+    Features: 'Feature',
+    CarLimitUser: '2-5',
+    CarLimitPremium: 'Unlimited',
+    BasicStatistics: 'Basic statistics',
+    PremiumStatistics: 'Whole range of statistics',
   },
   offerAddons: {
     subtitle: 'The seller offers also',
@@ -400,6 +414,11 @@ const translations: Translations = {
     market: 'Stats for market',
     avgPrice: 'Average price',
     avgTime: 'Average days on market',
+    marketAverage: 'Market average',
+    appAverage: 'SimplAuto average',
+    offerPrice: `Offer's price`,
+    days: 'days',
+    daysOnMarket: 'Days on market',
   },
 };
 

@@ -18,6 +18,7 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import { useMutation } from 'react-apollo-hooks';
 import FeatureIcon from '../../General/FeatureIcon';
+import OfferImageModal from '../../Offer/OfferImageModal';
 
 export interface CarDetailsProps {
   translations: Translations;
@@ -34,6 +35,7 @@ export const DELETE_CAR_MUTATION = gql`
 const CarDetails = ({ translations, car }: CarDetailsProps) => {
   const { carFeatureCategory, carFeature, general } = translations;
   const [showModal, setShowModal] = useState(false);
+  const [imageModalOpened, setImageModalOpened] = useState(false);
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
   });
@@ -59,6 +61,10 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
     return feature.name;
   }
 
+  const imageProps = {
+    onClick: () => setImageModalOpened(true),
+  };
+
   return (
     <>
       <GeneralModal
@@ -68,20 +74,28 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         onClose={() => setShowModal(false)}
         onConfirm={() => handleDeleteCar(deleteCar)}
       />
-
+      <OfferImageModal
+        car={car}
+        opened={imageModalOpened}
+        close={setImageModalOpened}
+      />
       <Images>
-        <BigImage src={car.photos[0]} />
+        <BigImage
+          src={car.photos[0]}
+          {...imageProps}
+          imageCount={car.photos.length}
+        />
         <SmallImages>
-          {car.photos[1] && <SmallImage src={car.photos[1]} />}
-          {car.photos[2] && <SmallImage src={car.photos[2]} />}
+          {car.photos[1] && <SmallImage src={car.photos[1]} {...imageProps} />}
+          {car.photos[2] && <SmallImage src={car.photos[2]} {...imageProps} />}
           {car.photos.length > 4 &&
             (car.photos[3] ? (
-              <MoreImages>
+              <MoreImages {...imageProps}>
                 <img src={car.photos[3]} />
                 <MoreAmount>+ {car.photos.length - 4}</MoreAmount>
               </MoreImages>
             ) : (
-              <SmallImage src={car.photos[3]} />
+              <SmallImage src={car.photos[3]} {...imageProps} />
             ))}
         </SmallImages>
       </Images>
@@ -90,24 +104,26 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         {general.delete}
       </Button> */}
 
-      <div className="card-wrapper">
-        <Card style={{ marginBottom: '1rem' }}>
-          <Card.Body>
-            <Card.Title>{general.features}</Card.Title>
+      {car.features && car.features.length > 0 && (
+        <div className="card-wrapper">
+          <Card style={{ marginBottom: '1rem' }}>
+            <Card.Body>
+              <Card.Title>{general.features}</Card.Title>
 
-            <OfferFeatures>
-              {car.features.map((feature: CarFeature) => (
-                <OfferFeatureItem
-                  key={feature.category.name}
-                  icon={<FeatureIcon feature={feature} />}
-                  label={carFeatureCategory[feature.category.name]}
-                  value={getFeatureValue(feature)}
-                />
-              ))}
-            </OfferFeatures>
-          </Card.Body>
-        </Card>
-      </div>
+              <OfferFeatures>
+                {car.features.map((feature: CarFeature) => (
+                  <OfferFeatureItem
+                    key={feature.category.name}
+                    icon={<FeatureIcon feature={feature} />}
+                    label={carFeatureCategory[feature.category.name]}
+                    value={getFeatureValue(feature)}
+                  />
+                ))}
+              </OfferFeatures>
+            </Card.Body>
+          </Card>
+        </div>
+      )}
     </>
   );
 };

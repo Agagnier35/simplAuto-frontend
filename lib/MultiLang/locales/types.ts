@@ -246,6 +246,7 @@ export default interface Translations {
     receivedOffers: string;
     youMayLike: string;
     noMatch: string;
+    noAdsInYourArea: string;
   };
   GeneralModalContent: {
     title: string;
@@ -280,6 +281,7 @@ export default interface Translations {
     title: string;
     send: string;
     sendPlaceholder: string;
+    hideChat: string;
   };
   Notifications: {
     newOffer: string;
@@ -295,6 +297,18 @@ export default interface Translations {
     CarSpotName: string;
     CarSpotDescription: string;
     CarSpotButton: string;
+  };
+  Premium: {
+    Introduction: string;
+    Join: string;
+    CarLimit: string;
+    Features: string;
+    CarLimitUser: string;
+    CarLimitPremium: string;
+    BasicStatistics: string;
+    PremiumStatistics: string;
+    AdCreation: string;
+    CarCreation: string;
   };
   offerAddons: {
     subtitle: string;
@@ -363,5 +377,10 @@ export default interface Translations {
     market: string;
     avgPrice: string;
     avgTime: string;
+    marketAverage: string;
+    appAverage: string;
+    offerPrice: string;
+    days: string;
+    daysOnMarket: string;
   };
 }
