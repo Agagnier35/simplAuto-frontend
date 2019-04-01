@@ -73,7 +73,10 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
-  const isMyAd = data.ad.creator && data.ad.creator.id === meQuery.data.me.id;
+  const isMyAd =
+    data.ad.creator &&
+    meQuery.data.me &&
+    data.ad.creator.id === meQuery.data.me.id;
 
   return (
     <>
@@ -109,21 +112,19 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
         </Tab>
         <Card style={{ overflow: 'hidden' }}>
-          <CarSummaries hidden={data.ad.offerCount === 0}>
+          <CarSummaries hidden={data.ad.offers && data.ad.offers.length === 0}>
             {data.ad.offers &&
               data.ad.offers.map((offer: Offer) => (
                 <CarSummary key={offer.id} car={offer.car} offer={offer} />
               ))}
-            <div hidden={data.ad.offers}>
-              <Paging
-                pageIndex={pageIndexLike}
-                setPageIndex={setPageIndexLike}
-                maxItems={data.ad.offerCount}
-                itemsByPage={paging5pages}
-              />
-            </div>
+            <Paging
+              pageIndex={pageIndexLike}
+              setPageIndex={setPageIndexLike}
+              maxItems={data.ad.offerCount}
+              itemsByPage={paging5pages}
+            />
           </CarSummaries>
-          <div hidden={data.ad.offerCount === 0}>
+          <div hidden={data.ad.offerCount !== 0}>
             <p>{translations.offers.noMatch}</p>
           </div>
           <div hidden={data.ad.offers.length === paging5pages}>

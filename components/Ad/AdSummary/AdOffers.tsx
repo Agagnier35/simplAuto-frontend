@@ -1,9 +1,8 @@
 import React from 'react';
-import { Ad, CarFeature, Offer } from '../../../generated/graphql';
+import { Ad, Offer } from '../../../generated/graphql';
 import { multi, MultiProps } from '../../../lib/MultiLang';
-import { Col, Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import {
-  AdFeatureItem,
   AdOfferItem,
   FirstPlace,
   Badge,
@@ -13,13 +12,22 @@ import {
 } from './styles';
 import AdSummaryItem from './AdSummaryItem';
 import { IoIosTimer as KilometerIcon } from 'react-icons/io';
+import { useQuery } from 'react-apollo-hooks';
+import { AD_OFFER_SUGGESTION_QUERY } from '../AdDetail/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface AdOffersProps extends MultiProps {
   ad: Ad;
 }
 
 const AdOffers = ({ ad, translations }: AdOffersProps) => {
-  const { carFeature, carFeatureCategory } = translations;
+  const { data, loading, error } = useQuery(AD_OFFER_SUGGESTION_QUERY, {
+    variables: {
+      id: ad.id,
+      pageNumber: 0,
+      pageSize: paging5pages,
+    },
+  });
 
   function getRankBadge(rank: number) {
     switch (rank) {
@@ -57,6 +65,32 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
             <OfferPrice>{offer.price} $</OfferPrice>
           </AdOfferItem>
         ))}
+      {ad.offers.length < 3 &&
+        !loading &&
+        data.suggestions &&
+        data.suggestions
+          .reverse()
+          .slice(0, 3)
+          .map((suggestion: any, index: number) => (
+            <AdOfferItem key={suggestion.offer.id}>
+              <div className="image-wrapper">
+                <img src={suggestion.offer.car.photos[0]} alt="" />
+                {getRankBadge(index + 1)}
+              </div>
+              <div className="info-wrapper">
+                <p>
+                  {suggestion.offer.car.manufacturer.name}{' '}
+                  {suggestion.offer.car.model.name} {suggestion.offer.car.year}
+                </p>
+                <AdSummaryItem
+                  icon={<KilometerIcon />}
+                  label={translations.cars.mileage}
+                  value={suggestion.offer.car.mileage}
+                />
+              </div>
+              <OfferPrice>{suggestion.offer.price} $</OfferPrice>
+            </AdOfferItem>
+          ))}
     </Col>
   );
 };

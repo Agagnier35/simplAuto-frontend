@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const ALL_ADS_QUERY = gql`
   {
-    ads {
+    homePageAds {
       id
       creator {
         id
@@ -36,6 +36,7 @@ export const ALL_ADS_QUERY = gql`
       urgentExpiry
       topExpiry
       status
+      offerCount
       offers {
         id
         price

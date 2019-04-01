@@ -273,6 +273,8 @@ const translations: Translations = {
     addAds: 'Ajouter un annonce',
     title: 'Annonces',
     noAds: `Vous n'avez pas d'annonce`,
+    noMatchingAds:
+      "Il n'y a pas de demande pour votre voiture dans votre secteur",
   },
   GeneralModalContent: {
     title: 'Boite de confirmation',
