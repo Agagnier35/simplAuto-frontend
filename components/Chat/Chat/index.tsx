@@ -9,7 +9,6 @@ import {
 
 import * as Chat from './styles';
 import { InputGroup, Form } from 'react-bootstrap';
-import { FaImage } from 'react-icons/fa';
 import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
