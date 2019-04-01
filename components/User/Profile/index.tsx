@@ -183,17 +183,9 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
   };
 
   validatePassword = () => {
-    return this.state.confirmation === CLASSNAME_INIT_CONFIRMATION;
-  };
-
-  isFrontEndUserVariables = (item: string) => {
     return (
-      item !== 'id' &&
-      item !== 'email' &&
-      item !== 'touched' &&
-      item !== 'isFirstRender' &&
-      item !== 'confirmation' &&
-      item !== 'confirmPassword'
+      this.state.confirmation === CLASSNAME_INIT_CONFIRMATION &&
+      this.state.password === this.state.confirmPassword
     );
   };
 
@@ -212,21 +204,6 @@ class Profile extends Component<MultiProps, Dictionary<ProfileState>> {
     if (this.validatePassword()) {
       data.password = password;
     }
-    const tempMe: Dictionary<User> = me;
-    Object.keys(data).map(item => {
-      if (item !== 'id') {
-        if (item === 'password' && data[item] === '') {
-          delete data[item];
-        } else if (item === 'password' && data[item] !== '') {
-          if (this.state[item] !== this.state['confirmPassword']) {
-            delete data[item];
-          }
-        } else if (data[item] === tempMe[item]) {
-          delete data[item];
-        }
-      }
-    });
-    console.log(data);
     return { data };
   };
 

@@ -153,8 +153,8 @@ export enum ClientType {
 
 export type Conversation = {
   id: Scalars['ID'];
-  buyer?: Maybe<User>;
-  seller?: Maybe<User>;
+  buyer: User;
+  seller: User;
   offer: Offer;
   messages: Array<Message>;
   messageCount: Scalars['Int'];
@@ -165,6 +165,11 @@ export enum ConversationStatus {
   Opened = 'OPENED',
   Deleted = 'DELETED',
 }
+
+export type ConversationUpdateInput = {
+  id: Scalars['ID'];
+  status?: Maybe<ConversationStatus>;
+};
 
 export type Date = {
   day: Scalars['Int'];
@@ -204,9 +209,10 @@ export type Manufacturer = {
 
 export type Message = {
   id: Scalars['ID'];
-  sender?: Maybe<User>;
+  sender: User;
   text: Scalars['String'];
   image?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['String'];
   conversation: Conversation;
 };
 
@@ -232,10 +238,12 @@ export type Mutation = {
   deleteNotification?: Maybe<Notification>;
   goPremium: User;
   acceptOffer?: Maybe<Offer>;
+  refuseOffer?: Maybe<Offer>;
   sendNotificationEmail?: Maybe<Scalars['String']>;
   buyCarSpot: User;
   buyUrgentAd: Ad;
   buyTopAd: Ad;
+  updateConversation: Conversation;
 };
 
 export type MutationSignupArgs = {
@@ -320,6 +328,10 @@ export type MutationAcceptOfferArgs = {
   id: Scalars['ID'];
 };
 
+export type MutationRefuseOfferArgs = {
+  id: Scalars['ID'];
+};
+
 export type MutationSendNotificationEmailArgs = {
   id: Scalars['ID'];
 };
@@ -337,6 +349,10 @@ export type MutationBuyUrgentAdArgs = {
 export type MutationBuyTopAdArgs = {
   stripeToken: Scalars['String'];
   id: Scalars['ID'];
+};
+
+export type MutationUpdateConversationArgs = {
+  data: ConversationUpdateInput;
 };
 
 export type Notification = {
@@ -395,6 +411,7 @@ export type OfferPosition = {
 
 export enum OfferStatus {
   Published = 'PUBLISHED',
+  Refused = 'REFUSED',
   Accepted = 'ACCEPTED',
   Deleted = 'DELETED',
 }
@@ -435,6 +452,7 @@ export type Query = {
   statsForAds?: Maybe<Statistics>;
   statsForOffer?: Maybe<Statistics>;
   getPrices: Prices;
+  homePageAds?: Maybe<Array<Maybe<Ad>>>;
 };
 
 export type QueryAdsArgs = {
