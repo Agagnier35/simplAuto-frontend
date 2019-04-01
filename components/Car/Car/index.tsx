@@ -102,7 +102,9 @@ const Car = ({ translations, query }: CarPageProps) => {
       >
         {translations.Ads.title}
         <TabBadge>
-          {!adsQuery.loading && adsQuery.data.adSuggestion[0]
+          {!adsQuery.loading &&
+          adsQuery.data.adSuggestion &&
+          adsQuery.data.adSuggestion[0]
             ? adsQuery.data.adSuggestion[0].totalLength
             : 0}
         </TabBadge>
@@ -117,10 +119,13 @@ const Car = ({ translations, query }: CarPageProps) => {
       {!isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries
-            hidden={adsQuery.loading || !adsQuery.data.adSuggestion[0]}
+            hidden={
+              adsQuery.loading ||
+              !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
+            }
           >
             {adsQuery.data.adSuggestion ? (
-              adsQuery.data.adSuggestion.map((suggestion: any) => (
+              adsQuery.data.adSuggestion.reverse().map((suggestion: any) => (
                 <div key={suggestion.ad.id}>
                   <AdSummary
                     key={suggestion.ad.id}
@@ -152,6 +157,14 @@ const Car = ({ translations, query }: CarPageProps) => {
               itemsByPage={paging10pages}
             />
           </AdSummaries>
+          <div
+            hidden={
+              adsQuery.loading ||
+              !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
+            }
+          >
+            {translations.Ads.noMatchingAds}
+          </div>
           <div hidden={!adsQuery.loading && adsQuery.data.adSuggestion}>
             <Loading />
           </div>
@@ -159,7 +172,7 @@ const Car = ({ translations, query }: CarPageProps) => {
       )}
       {isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
-          <AdSummaries>
+          <AdSummaries hidden={carQuery.data.car.offerCount === 0}>
             {carQuery.data.car.offers.map((offer: Offer) => (
               <div key={offer.ad.id}>
                 <AdSummary

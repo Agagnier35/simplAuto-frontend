@@ -38,6 +38,7 @@ export const PAGE_ADS_QUERY = gql`
         urgentExpiry
         topExpiry
         status
+        offerCount
         offers {
           id
           price

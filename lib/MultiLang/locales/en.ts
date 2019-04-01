@@ -34,7 +34,7 @@ const translations: Translations = {
     lastName: 'Last name',
     companyName: 'Company name',
     location: 'Your position',
-    sex: 'Sex',
+    sex: 'Gender',
     save: 'Save',
     search: 'Search',
     birth: 'Birth date',
@@ -266,6 +266,7 @@ const translations: Translations = {
     addAds: 'Create an Ad',
     title: 'Ads',
     noAds: 'No ads yet',
+    noMatchingAds: 'There are no ads correponding to your car in your area',
   },
   ad: {
     createAdTitle: 'Please fill the information about your ad',

@@ -1,10 +1,7 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { Location, ClientType } from '../../../generated/graphql';
-import {
-  MINIMUMBIRTHDATEYEAR as MINIMUM_BIRTH_DATE_YEAR,
-  MINIMUMAGEFORUSINGAPP as MINIMUM_AGE_FOR_USING_APP,
-} from '../ProfileFormValidation';
+import { Location, ClientType, Date } from '../../../generated/graphql';
 import { SignupState } from '../../../components/Auth/Signup';
+import { minBirthYear, minAge } from '../../../components/General/Preferences';
 class SignupFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
@@ -12,30 +9,21 @@ class SignupFormValidation extends BasicFormValidation {
     this.general = general;
   }
 
-  isFirstNameValid = (firstName: string) => {
-    return (
-      this.isFieldNotEmpty(firstName) &&
-      this.doesFieldNotContainNumber(firstName)
-    );
-  };
-
-  isLastNameValid = (lastName: string) => {
-    return (
-      this.isFieldNotEmpty(lastName) && this.doesFieldNotContainNumber(lastName)
-    );
+  isNameValid = (name: string) => {
+    return this.isFieldNotEmpty(name);
   };
 
   isEmailValid = (email: string) => {
     return this.isEmailFormatValid(email);
   };
 
-  isBirthDateValid = (birthDate: SchemaDate | undefined) => {
+  isBirthDateValid = (birthDate: Date | undefined) => {
     // Seule validation nécessaire est l'année
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
       birthDate &&
-      birthDate.year > MINIMUM_BIRTH_DATE_YEAR &&
-      birthDate.year <= new Date().getFullYear() - MINIMUM_AGE_FOR_USING_APP
+      birthDate.year > minBirthYear &&
+      birthDate.year <= new Date().getFullYear() - minAge
     );
   };
 
@@ -114,10 +102,13 @@ class SignupFormValidation extends BasicFormValidation {
   isSignupFormStateValid = (state: SignupState) => {
     return (
       (state.clientType === ClientType.Individual
-        ? this.isFirstNameValid(state.firstName) &&
-          this.isLastNameValid(state.lastName) &&
+        ? this.isNameValid(state.firstName) &&
+          this.isNameValid(state.lastName) &&
           this.isBirthDateValid(state.birthDate)
-        : true) && // do company validation
+        : true) &&
+      (state.clientType === ClientType.Company
+        ? this.isNameValid(state.companyName)
+        : true) &&
       this.isEmailValid(state.email) &&
       this.isPasswordValid(state.password) &&
       this.isConfirmPasswordValid(state.confirmPassword, state.password) &&

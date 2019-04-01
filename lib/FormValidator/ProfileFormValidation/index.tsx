@@ -5,9 +5,7 @@ import {
   ClientType,
 } from '../../../generated/graphql';
 import { ProfileState } from '../../../components/User/Profile';
-
-export const MINIMUMBIRTHDATEYEAR: number = 1900;
-export const MINIMUMAGEFORUSINGAPP: number = 16;
+import { minBirthYear, minAge } from '../../../components/General/Preferences';
 
 class ProfileFormValidation extends BasicFormValidation {
   general: any;
@@ -38,8 +36,8 @@ class ProfileFormValidation extends BasicFormValidation {
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
       birthDate &&
-      birthDate.year > MINIMUMBIRTHDATEYEAR &&
-      birthDate.year <= new Date().getFullYear() - MINIMUMAGEFORUSINGAPP
+      birthDate.year > minBirthYear &&
+      birthDate.year <= new Date().getFullYear() - minAge
     );
   };
 

@@ -1,7 +1,8 @@
 import BasicFormValidation from '../BasicFormValidation';
-
-export const MAX_MILEAGE_ALLOWED: number = 1000000;
-export const MIN_CAR_YEAR = 1980;
+import {
+  minCarYear,
+  maxMileage,
+} from '../../../components/General/Preferences';
 
 export class CarAddFormValidation extends BasicFormValidation {
   general: any;
@@ -17,7 +18,7 @@ export class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(year.toString()) &&
       this.isNumberAnInteger(year) &&
-      year > MIN_CAR_YEAR &&
+      year > minCarYear &&
       year < new Date().getFullYear()
     );
   };
@@ -30,7 +31,7 @@ export class CarAddFormValidation extends BasicFormValidation {
       this.isFieldNotEmpty(mileage.toString()) &&
       this.isNumberAnInteger(mileage) &&
       mileage > 0 &&
-      mileage < MAX_MILEAGE_ALLOWED
+      mileage < maxMileage
     );
   };
 
@@ -78,7 +79,7 @@ export class CarAddFormValidation extends BasicFormValidation {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageLesserThanZeroError;
     }
-    if (mileage > MAX_MILEAGE_ALLOWED) {
+    if (mileage > maxMileage) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageTooHighError;
     }
