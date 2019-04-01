@@ -25,7 +25,7 @@ import ProfileFormValidation from '../../../lib/FormValidator/ProfileFormValidat
 const CLASSNAME_INIT_CONFIRMATION: string = 'inputNeedSpace';
 
 const UPDATE_USER_MUTATION = gql`
-  mutation UPDATEUSER_MUTATION($data: UserUpdateInput!) {
+  mutation UPDATE_USER_MUTATION($data: UserUpdateInput!) {
     updateUser(data: $data) {
       id
       language
@@ -200,10 +200,29 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
       isFirstRender,
       confirmation,
       confirmPassword,
+      __typename,
+      location,
+      birthDate,
       // the rest
       ...rest
     } = this.state;
-    const data: Dictionary<UserUpdateInput> = { ...rest, id: me ? me.id : '' };
+    const data: Dictionary<UserUpdateInput> = {
+      ...rest,
+      id: me ? me.id : '',
+      location: {
+        name: location.name,
+        longitude: location.longitude,
+        latitude: location.latitude,
+      },
+    };
+
+    if (me.clientType && birthDate) {
+      data.birthDate = {
+        day: birthDate.day,
+        month: birthDate.month,
+        year: birthDate.year,
+      };
+    }
     if (this.validatePassword()) {
       data.password = password;
     }
@@ -259,7 +278,14 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
               <Mutation
                 mutation={UPDATE_USER_MUTATION}
                 variables={this.fillObjectToUpdate(data.user)}
-                refetchQueries={[{ query: USER_BY_ID }]}
+                refetchQueries={[
+                  {
+                    query: USER_BY_ID,
+                    variables: {
+                      id: query.id,
+                    },
+                  },
+                ]}
                 onCompleted={data => this.handleLanguage(data)}
               >
                 {(handleMutation, { loading, error }) => {
