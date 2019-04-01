@@ -9,7 +9,7 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Notifications from '../Notifications';
-import CommonDataManager, { appName } from '../Preferences';
+import { appName } from '../Preferences';
 import { ClientType } from '../../../generated/graphql';
 
 export const LOGGED_IN_QUERY = gql`

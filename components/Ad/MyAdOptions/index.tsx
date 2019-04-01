@@ -27,43 +27,47 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
   const prices: Prices = pricesQuery.data.getPrices;
 
   return (
-    <ButtonWrapper>
-      <StripeCheckout
-        amount={prices.topAd}
-        name={translations.Stripe.TopAdName}
-        description={translations.Stripe.TopAdDescription}
-        currency="CAD"
-        email={loggedQuery.data.me.email}
-        stripeKey={stripeKey}
-        token={(res: any) =>
-          handleBuyTopAd({ variables: { stripeToken: res.id, id: ad.id } })
-        }
-      >
-        <Button variant="primary">
-          {translations.ad.buyTopAd} <FaTrophy />
-        </Button>
-      </StripeCheckout>
+    <>
+      <ButtonWrapper>
+        <StripeCheckout
+          amount={prices.topAd}
+          name={translations.Stripe.TopAdName}
+          description={translations.Stripe.TopAdDescription}
+          currency="CAD"
+          email={loggedQuery.data.me.email}
+          stripeKey={stripeKey}
+          token={(res: any) =>
+            handleBuyTopAd({ variables: { stripeToken: res.id, id: ad.id } })
+          }
+        >
+          <Button variant="primary">
+            {translations.ad.buyTopAd} <FaTrophy />
+          </Button>
+        </StripeCheckout>
 
-      <StripeCheckout
-        amount={prices.urgentAd}
-        name={translations.Stripe.UrgentAdName}
-        description={translations.Stripe.UrgentAdDescription}
-        currency="CAD"
-        email={loggedQuery.data.me.email}
-        stripeKey={stripeKey}
-        token={(res: any) =>
-          handleBuyUrgentAd({ variables: { stripeToken: res.id, id: ad.id } })
-        }
-      >
-        <Button variant="secondary" style={{ margin: '0.5rem 0' }}>
-          {translations.ad.buyUrgentAd} <FaExclamationCircle />
-        </Button>
-      </StripeCheckout>
+        <StripeCheckout
+          amount={prices.urgentAd}
+          name={translations.Stripe.UrgentAdName}
+          description={translations.Stripe.UrgentAdDescription}
+          currency="CAD"
+          email={loggedQuery.data.me.email}
+          stripeKey={stripeKey}
+          token={(res: any) =>
+            handleBuyUrgentAd({
+              variables: { stripeToken: res.id, id: ad.id },
+            })
+          }
+        >
+          <Button variant="secondary" style={{ margin: '0.5rem 0' }}>
+            {translations.ad.buyUrgentAd} <FaExclamationCircle />
+          </Button>
+        </StripeCheckout>
 
-      <Button variant="warning">
-        {translations.general.delete} <MdCancel />
-      </Button>
-    </ButtonWrapper>
+        <Button variant="warning">
+          {translations.general.delete} <MdCancel />
+        </Button>
+      </ButtonWrapper>
+    </>
   );
 };
 

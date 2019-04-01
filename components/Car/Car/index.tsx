@@ -201,6 +201,8 @@ const Car = ({ translations, query }: CarPageProps) => {
           isEditMode={isEditMode}
           ad={selectedAd}
           car={carQuery.data.car}
+          pageIndexAd={pageIndexAds}
+          pageIndexOffer={pageIndexOffer}
           offer={selectedOffer}
         />
       )}
