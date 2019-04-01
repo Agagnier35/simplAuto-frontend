@@ -26,7 +26,8 @@ const redAsterixStyle = {
 const MIN_CAR_YEAR = 1980;
 
 interface CreateAdFeature {
-  value: string, category: string
+  value: string;
+  category: string;
 }
 
 interface CreateAdState {
@@ -182,7 +183,9 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
   };
 
   featureHasValue = (featureCategory: CarFeatureCategory) => {
-    const featureIndex = this.state.features.findIndex((feature: CreateAdFeature) => feature.category === featureCategory.name);
+    const featureIndex = this.state.features.findIndex(
+      (feature: CreateAdFeature) => feature.category === featureCategory.name,
+    );
 
     return featureIndex > -1;
   };
@@ -227,7 +230,10 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                         </Card.Title>
                         <div className="label-wrapper">
                           <Select
-                            options={this.getOptions(manufacturerID, data.manufacturers)}
+                            options={this.getOptions(
+                              manufacturerID,
+                              data.manufacturers,
+                            )}
                             accessor="name"
                             selected={manufacturerID}
                             handleChange={(item: any) =>
@@ -243,7 +249,10 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             }
                           />
                           <Select
-                            options={this.getOptions(modelID, this.getModelsForManufacturer(data))}
+                            options={this.getOptions(
+                              modelID,
+                              this.getModelsForManufacturer(data),
+                            )}
                             disabled={!manufacturerID}
                             reset={true}
                             accessor="name"
@@ -259,7 +268,10 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             }
                           />
                           <Select
-                            options={this.getOptions(categoryID, data.carCategories)}
+                            options={this.getOptions(
+                              categoryID,
+                              data.carCategories,
+                            )}
                             accessor="name"
                             selected={categoryID}
                             handleChange={(item: any) =>
@@ -380,20 +392,27 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                           {general.features}
                         </Card.Title>
                         <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map((featureCategory: CarFeatureCategory) => (
-                            <Select
-                              key={featureCategory.id}
-                              options={this.getOptions(this.featureHasValue(featureCategory), featureCategory.features)}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('features', {
-                                  value: item.id,
-                                  category: featureCategory.name,
-                                })
-                              }
-                              label={`${carFeatureCategory[featureCategory.name]} :`}
-                            />
-                          ))}
+                          {fetchedDropdownFeatures.map(
+                            (featureCategory: CarFeatureCategory) => (
+                              <Select
+                                key={featureCategory.id}
+                                options={this.getOptions(
+                                  this.featureHasValue(featureCategory),
+                                  featureCategory.features,
+                                )}
+                                accessor="name"
+                                handleChange={(item: any) =>
+                                  this.handleChange('features', {
+                                    value: item.id,
+                                    category: featureCategory.name,
+                                  })
+                                }
+                                label={`${
+                                  carFeatureCategory[featureCategory.name]
+                                } :`}
+                              />
+                            ),
+                          )}
                         </div>
                       </Card.Body>
                     </Card>
