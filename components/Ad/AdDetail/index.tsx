@@ -114,10 +114,9 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
         <Card style={{ overflow: 'hidden' }}>
           <CarSummaries hidden={data.ad.offers && data.ad.offers.length === 0}>
             {data.ad.offers &&
-              data.ad.offers
-                .map((offer: Offer) => (
-                  <CarSummary key={offer.id} car={offer.car} offer={offer} />
-                ))}
+              data.ad.offers.map((offer: Offer) => (
+                <CarSummary key={offer.id} car={offer.car} offer={offer} />
+              ))}
             <Paging
               pageIndex={pageIndexLike}
               setPageIndex={setPageIndexLike}
