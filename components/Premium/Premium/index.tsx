@@ -83,7 +83,7 @@ const Premium = ({ translations }: PremiumProps) => {
           </tr>
         </tbody>
       </Table>
-      {user.permissions.includes(Permission.Premium) && (
+      {!(user.permissions.includes(Permission.Premium)) && (
         <StripeCheckout
           amount={prices.premiumAccount}
           name={translations.Stripe.PremiumName}
