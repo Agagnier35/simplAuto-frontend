@@ -63,9 +63,6 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           </Button>
         </StripeCheckout>
 
-        <Button variant="warning">
-          {translations.general.delete} <MdCancel />
-        </Button>
         <ButtonToolbar>
           <Button variant="warning">
             {translations.general.delete} <MdCancel />

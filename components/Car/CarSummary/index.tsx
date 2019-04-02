@@ -18,7 +18,9 @@ const CarSummary = ({
   offer,
   ...otherProps
 }: CarSummaryProp) => {
-  const pages = [<GeneralCarInfos car={car} />];
+  const pages = offer
+    ? [<GeneralCarInfos car={car} price={offer.price} />]
+    : [<GeneralCarInfos car={car} />];
 
   if (car.features && car.features.length > 0) {
     pages.push(<CarFeatures car={car} />);
