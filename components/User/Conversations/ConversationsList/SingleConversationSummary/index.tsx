@@ -4,6 +4,7 @@ import { multiUpdater } from '../../../../../lib/MultiLang';
 import { Col, Row, Image } from 'react-bootstrap';
 import { useQuery } from 'react-apollo-hooks';
 import { LOGGED_IN_QUERY } from '../../../../General/Header';
+import Link from 'next/link';
 
 // Il faut pouvoir déterminer qui est la personne qui a send le message.
 export interface SingleConversationSummaryProps {
@@ -45,9 +46,16 @@ const SingleConversationSummary = (props: SingleConversationSummaryProps) => {
                   : props.conversation.seller.firstName}
               </Row>
               <Row>
-                {props.conversation.offer.car.manufacturer.name.toUpperCase()}{' '}
-                {props.conversation.offer.car.model.name.toUpperCase()}{' '}
-                {props.conversation.offer.car.year}
+                <Link
+                  href={{
+                    pathname: '/offer',
+                    query: { id: props.conversation.offer.id },
+                  }}
+                >
+                  {` ${props.conversation.offer.car.manufacturer.name.toUpperCase()} ${props.conversation.offer.car.model.name.toUpperCase()} ${
+                    props.conversation.offer.car.year
+                  }`}
+                </Link>
               </Row>
               <Row>
                 <div>{props.conversation.offer.price}$</div>
