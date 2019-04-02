@@ -9,7 +9,7 @@ import { Prices, Ad } from '../../../generated/graphql';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { ButtonWrapper } from './styles';
 import { BUY_TOP_AD_MUTATION, BUY_URGENT_AD_MUTATION } from './Mutations';
-import { FaTrophy, FaExclamationCircle } from 'react-icons/fa';
+import { FaTrophy, FaExclamationCircle, FaEdit } from 'react-icons/fa';
 import { MdCancel } from 'react-icons/md';
 
 export interface MyAdOptionsProps extends MultiProps {
@@ -68,7 +68,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
             {translations.general.delete} <MdCancel />
           </Button>
           <Button variant="secondary">
-            {translations.GeneralModalContent.edit} <MdCancel />
+            {translations.GeneralModalContent.edit} <FaEdit />
           </Button>
         </ButtonToolbar>
       </ButtonWrapper>
