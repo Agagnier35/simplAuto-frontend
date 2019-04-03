@@ -21,7 +21,7 @@ export interface AdOffersProps extends MultiProps {
 }
 
 const AdOffers = ({ ad, translations }: AdOffersProps) => {
-  const { data, loading, error } = useQuery(AD_OFFER_SUGGESTION_QUERY, {
+  const { data, loading } = useQuery(AD_OFFER_SUGGESTION_QUERY, {
     variables: {
       id: ad.id,
       pageNumber: 0,
