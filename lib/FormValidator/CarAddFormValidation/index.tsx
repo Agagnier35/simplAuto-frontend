@@ -1,9 +1,6 @@
 import BasicFormValidation from '../BasicFormValidation';
 import { MAX_MILEAGE_ALLOWED, MIN_CAR_YEAR } from '../CreateAdFormValidation';
 
-export const MAX_MILEAGE_ALLOWED: number = 1000000;
-export const MIN_CAR_YEAR = 1980;
-
 export class CarAddFormValidation extends BasicFormValidation {
   general: any;
   constructor(general: any) {
