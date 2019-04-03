@@ -4,7 +4,6 @@ import { multiUpdater } from '../../../../../lib/MultiLang';
 // import { Col, Row, Image } from 'react-bootstrap';
 import { useQuery } from 'react-apollo-hooks';
 import { LOGGED_IN_QUERY } from '../../../../General/Header';
-import Link from 'next/link';
 import { ConversationPortlet } from './style';
 import GeneralConversationDetails from './GeneralConversationDetails';
 
@@ -13,10 +12,6 @@ export interface SingleConversationSummaryProps {
   conversation: any;
   onClickCallback: any;
 }
-
-const isMyOffer = (offer: any, meQuery: any) => {
-  return offer.creator && meQuery.data.me.id === offer.creator.id;
-};
 
 const SingleConversationSummary = (props: SingleConversationSummaryProps) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);

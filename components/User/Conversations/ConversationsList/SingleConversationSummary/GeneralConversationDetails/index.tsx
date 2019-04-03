@@ -1,7 +1,7 @@
 // Ceci est le component qui recoit la liste des conversations et les display au format de linkedin.
 import React from 'react';
 import { multiUpdater } from '../../../../../../lib/MultiLang';
-import { Col, Row, Image } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { useQuery } from 'react-apollo-hooks';
 import { LOGGED_IN_QUERY } from '../../../../../General/Header';
 
