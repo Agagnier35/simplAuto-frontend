@@ -5,13 +5,8 @@ import { multi } from '../../../lib/MultiLang';
 import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery } from 'react-apollo-hooks';
 import { AD_DETAIL_QUERY, AD_OFFER_SUGGESTION_QUERY } from './Queries';
-import Router from 'next/router';
-import GeneralModal, {
-  MainAppObject,
-  ModalAction,
-} from '../../General/GeneralModal';
 import gql from 'graphql-tag';
 import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
@@ -42,21 +37,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   const [pageIndexLike, setPageIndexLike] = useState(0);
   const [pageIndexMayLike, setPageIndexMayLike] = useState(0);
 
-  const [modalShow, setModalShow] = useState(false);
-
-  const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: {
-      id: adID,
-    },
-  });
-
   const meQuery = useQuery(LOGGED_IN_QUERY);
-
-  async function handleDeleteAd() {
-    await deleteAd();
-    setModalShow(false);
-    Router.push('/myAds');
-  }
 
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
     variables: { id: adID, pageNumber: pageIndexLike, pageSize: paging5pages },
@@ -87,13 +68,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           </Link>
           <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
         </Breadcrumb>
-        <GeneralModal
-          modalSubject={MainAppObject.ad}
-          actionType={ModalAction.delete}
-          show={modalShow}
-          onClose={() => setModalShow(false)}
-          onConfirm={() => handleDeleteAd()}
-        />
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
           <AdSummary
             adsQuery={AD_DETAIL_QUERY}
