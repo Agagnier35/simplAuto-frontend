@@ -1,10 +1,12 @@
 // Ceci est le component qui recoit la liste des conversations et les display au format de linkedin.
 import React from 'react';
 import { multiUpdater } from '../../../../../lib/MultiLang';
-import { Col, Row, Image } from 'react-bootstrap';
+// import { Col, Row, Image } from 'react-bootstrap';
 import { useQuery } from 'react-apollo-hooks';
 import { LOGGED_IN_QUERY } from '../../../../General/Header';
 import Link from 'next/link';
+import { ConversationPortlet } from './style';
+import GeneralConversationDetails from './GeneralConversationDetails';
 
 // Il faut pouvoir déterminer qui est la personne qui a send le message.
 export interface SingleConversationSummaryProps {
@@ -19,61 +21,25 @@ const isMyOffer = (offer: any, meQuery: any) => {
 const SingleConversationSummary = (props: SingleConversationSummaryProps) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
   if (loggedQuery.loading) return null;
+
+  const pages = [<GeneralConversationDetails conversationDetails={props} />];
+
   return (
-    <Col
-      onClick={() => props.onClickCallback(props.conversation.offer)}
-      xs
-      md={10}
-    >
-      <Row>
-        <Col md={2}>
-          <Image
-            src={props.conversation.offer.car.photos[0]}
-            thumbnail
-            roundedCircle
-          />
-        </Col>
-        <Col md={8}>
-          <Row>
-            <Col md={8}>
-              <Row>
-                {isMyOffer(props.conversation.offer, loggedQuery)
-                  ? props.conversation.buyer.lastName
-                  : props.conversation.seller.lastName}
-                ,
-                {isMyOffer(props.conversation.offer, loggedQuery)
-                  ? props.conversation.buyer.firstName
-                  : props.conversation.seller.firstName}
-              </Row>
-              <Row>
-                <Link
-                  href={{
-                    pathname: '/offer',
-                    query: { id: props.conversation.offer.id },
-                  }}
-                >
-                  {` ${props.conversation.offer.car.manufacturer.name.toUpperCase()} ${props.conversation.offer.car.model.name.toUpperCase()} ${
-                    props.conversation.offer.car.year
-                  }`}
-                </Link>
-              </Row>
-              <Row>
-                <div>{props.conversation.offer.price}$</div>
-              </Row>
-              <Row>
-                {props.conversation.messages[
-                  props.conversation.messages.length - 1
-                ].text !== ''
-                  ? props.conversation.messages[
-                      props.conversation.messages.length - 1
-                    ].text
-                  : `Image sent.`}
-              </Row>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Col>
+    <div onClick={() => props.onClickCallback(props.conversation.offer)}>
+      <ConversationPortlet
+        {...props}
+        title={`${props.conversation.offer.car.manufacturer.name} ${
+          props.conversation.offer.car.model.name
+        } ${props.conversation.offer.car.year}`}
+        interval={3000}
+        href={{
+          pathname: '/offer',
+          query: { id: props.conversation.offer.id },
+        }}
+        pages={pages}
+        image={<img src={props.conversation.offer.car.photos[0]} />}
+      />
+    </div>
   );
 };
 
