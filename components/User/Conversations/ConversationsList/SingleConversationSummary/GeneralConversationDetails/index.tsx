@@ -29,13 +29,13 @@ const SingleConversationSummary = (props: any) => {
           <Row>
             <Col md={12}>
               <Row>
-                {isMyOffer(conversationDetails.conversation.offer, loggedQuery)
+                {/* {isMyOffer(conversationDetails.conversation.offer, loggedQuery)
                   ? `${conversationDetails.conversation.buyer.lastName}, ${
                       conversationDetails.conversation.buyer.firstName
                     }`
                   : `${conversationDetails.conversation.seller.lastName}, ${
                       conversationDetails.conversation.seller.firstName
-                    }`}
+                    }`} */}
               </Row>
               <Row>
                 <div>{conversationDetails.conversation.offer.price}$</div>
