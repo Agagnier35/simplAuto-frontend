@@ -14,11 +14,11 @@ const SingleConversationSummary = (props: any) => {
   if (loggedQuery.loading) return null;
   const conversationDetails = props.conversationDetails;
   return (
-    <Col xs md={10}>
+    <Col xs md={15}>
       <Row>
-        <Col md={8}>
+        <Col md={12}>
           <Row>
-            <Col md={8}>
+            <Col md={12}>
               <Row>
                 {isMyOffer(conversationDetails.conversation.offer, loggedQuery)
                   ? conversationDetails.conversation.buyer.lastName
@@ -27,11 +27,6 @@ const SingleConversationSummary = (props: any) => {
                 {isMyOffer(conversationDetails.conversation.offer, loggedQuery)
                   ? conversationDetails.conversation.buyer.firstName
                   : conversationDetails.conversation.seller.firstName}
-              </Row>
-              <Row>
-                {` ${conversationDetails.conversation.offer.car.manufacturer.name.toUpperCase()} ${conversationDetails.conversation.offer.car.model.name.toUpperCase()} ${
-                  conversationDetails.conversation.offer.car.year
-                }`}
               </Row>
               <Row>
                 <div>{conversationDetails.conversation.offer.price}$</div>
