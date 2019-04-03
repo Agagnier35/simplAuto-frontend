@@ -100,10 +100,6 @@ const CarDetails = ({ translations, car }: CarDetailsProps) => {
         </SmallImages>
       </Images>
 
-      {/* <Button variant="danger" onClick={() => setShowModal(true)}>
-        {general.delete}
-      </Button> */}
-
       {car.features && car.features.length > 0 && (
         <div className="card-wrapper">
           <Card style={{ marginBottom: '1rem' }}>
