@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoMdCar } from 'react-icons/io';
 import styled from 'styled-components';
+import { appName } from '../../General/Preferences';
 
 const Header = styled.div`
   background: ${props => props.theme.colors.primary};
@@ -24,7 +25,7 @@ const BrandHeader = () => {
   return (
     <Header>
       <IoMdCar />
-      Simplauto
+      {appName}
     </Header>
   );
 };

@@ -47,14 +47,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     mileageHigherBound: null,
     priceLowerBound: null,
     priceHigherBound: null,
-    touched: {
-      yearLowerBound: false,
-      yearHigherBound: false,
-      mileageLowerBound: false,
-      mileageHigherBound: false,
-      priceLowerBound: false,
-      priceHigherBound: false,
-    },
   };
 
   handleCreateAd = async (e: any, createAd: any) => {
@@ -141,8 +133,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
-    const touched = { ...this.state.touched };
-    const createAdFormValidation = new CreateAdFormValidation(general);
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
@@ -231,24 +221,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.min}`}
                               min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
-                              onBlur={() => this.fieldTouched('yearLowerBound')}
-                              isInvalid={
-                                touched.yearLowerBound &&
-                                !createAdFormValidation.isYearLowerBoundValid(
-                                  this.state.yearLowerBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.yearLowerBoundError(
-                                this.state.yearLowerBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -261,28 +239,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                               placeholder={`${cars.year} ${general.max}`}
                               min={MIN_CAR_YEAR}
                               max={new Date().getFullYear()}
-                              onBlur={() =>
-                                this.fieldTouched('yearHigherBound')
-                              }
-                              isInvalid={
-                                touched.yearHigherBound &&
-                                !createAdFormValidation.isYearHigherBoundValid(
-                                  this.state.yearLowerBound,
-                                  this.state.yearHigherBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('yearHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.yearHigherBoundError(
-                                this.state.yearLowerBound,
-                                this.state.yearHigherBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -310,11 +272,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.mileageLowerBoundError(
-                                this.state.mileageLowerBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -343,12 +300,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.mileageHigherBoundError(
-                                this.state.mileageLowerBound,
-                                this.state.mileageHigherBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -359,27 +310,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
-                              min={0}
-                              onBlur={() =>
-                                this.fieldTouched('priceLowerBound')
-                              }
-                              isInvalid={
-                                touched.priceLowerBound &&
-                                !createAdFormValidation.isPriceLowerBoundValid(
-                                  this.state.priceLowerBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceLowerBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.priceLowerBoundError(
-                                this.state.priceLowerBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
 
                           <label>
@@ -390,29 +326,12 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}
-                              min={0}
-                              onBlur={() =>
-                                this.fieldTouched('priceHigherBound')
-                              }
-                              isInvalid={
-                                touched.priceHigherBound &&
-                                !createAdFormValidation.isPriceHigherBoundValid(
-                                  this.state.priceLowerBound,
-                                  this.state.priceHigherBound,
-                                )
-                              }
                               onChange={(e: any) =>
                                 this.handleChange('priceHigherBound', {
                                   value: parseInt(e.currentTarget.value, 10),
                                 })
                               }
                             />
-                            <Form.Control.Feedback type="invalid">
-                              {createAdFormValidation.priceHigherrBoundError(
-                                this.state.priceLowerBound,
-                                this.state.priceHigherBound,
-                              )}
-                            </Form.Control.Feedback>{' '}
                           </label>
                         </div>
                       </Card.Body>
@@ -475,11 +394,6 @@ class CreateAd extends Component<MultiProps, Dictionary<CreateAdState>> {
                             variant="primary"
                             className="formSubmit"
                             type="submit"
-                            disabled={
-                              !createAdFormValidation.isCreateAdFormStateValid(
-                                this.state,
-                              )
-                            }
                           >
                             {ad.createAdAction}
                           </Button>

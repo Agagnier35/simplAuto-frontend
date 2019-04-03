@@ -6,7 +6,7 @@ import { Offer } from '../../../generated/graphql';
 import ErrorMessage from '../../General/ErrorMessage';
 import Loading from '../../General/Loading';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { AD_DETAIL_QUERY } from './Queries';
+import { AD_DETAIL_QUERY, AD_OFFER_SUGGESTION_QUERY } from './Queries';
 import Router from 'next/router';
 import GeneralModal, {
   MainAppObject,
@@ -18,9 +18,12 @@ import CarSummary from '../../Car/CarSummary';
 import { Tab, TabBadge } from '../Ads/styles';
 import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
+import AdStats from './AdStats';
 import Link from 'next/link';
 import { paging5pages } from '../../General/Preferences';
-import AdStats from './AdStats';
+import MyAdOptions from '../MyAdOptions';
+import { LOGGED_IN_QUERY } from '../../General/Header';
+import YouMayLike from '../../Offer/YouMayLikeOffers/youMayLike';
 
 export interface AdDetailProps {
   translations: Translations;
@@ -36,13 +39,18 @@ export const AD_DELETE_MUTATION = gql`
 `;
 
 const AdDetail = ({ translations, adID }: AdDetailProps) => {
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndexLike, setPageIndexLike] = useState(0);
+  const [pageIndexMayLike, setPageIndexMayLike] = useState(0);
 
   const [modalShow, setModalShow] = useState(false);
 
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
+    variables: {
+      id: adID,
+    },
   });
+
+  const meQuery = useQuery(LOGGED_IN_QUERY);
 
   async function handleDeleteAd() {
     await deleteAd();
@@ -51,11 +59,21 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
   }
 
   const { data, loading, error } = useQuery(AD_DETAIL_QUERY, {
-    variables: { id: adID, pageNumber: pageIndex, pageSize: paging5pages },
+    variables: { id: adID, pageNumber: pageIndexLike, pageSize: paging5pages },
+  });
+
+  const youMayLikeQuery = useQuery(AD_OFFER_SUGGESTION_QUERY, {
+    variables: {
+      id: adID,
+      pageNumber: pageIndexMayLike,
+      pageSize: paging5pages,
+    },
   });
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
+
+  const isMyAd = data.ad.creator && data.ad.creator.id === meQuery.data.me.id;
 
   return (
     <>
@@ -66,7 +84,6 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           </Link>
           <Breadcrumb.Item active>{translations.general.Ad}</Breadcrumb.Item>
         </Breadcrumb>
-
         <GeneralModal
           modalSubject={MainAppObject.ad}
           actionType={ModalAction.delete}
@@ -75,33 +92,56 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           onConfirm={() => handleDeleteAd()}
         />
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <AdSummary adsQuery={AD_DETAIL_QUERY} key={data.ad.id} ad={data.ad} />
+          <AdSummary
+            adsQuery={AD_DETAIL_QUERY}
+            key={data.ad.id}
+            ad={data.ad}
+            right={isMyAd && <MyAdOptions ad={data.ad} />}
+          />
         </Card>
         <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <AdStats adID={adID} />
+          <Card.Body>
+            <AdStats adID={adID} />
+          </Card.Body>
         </Card>
-        {data.ad.offerCount > 0 && (
-          <>
-            <Tab className="active">
-              {translations.offers.receivedOffers}
-              {data.ad.offers && <TabBadge>{data.ad.offers.length}</TabBadge>}
-            </Tab>
-            <Card style={{ overflow: 'hidden' }}>
-              <CarSummaries>
-                {data.ad.offers &&
-                  data.ad.offers.map((offer: Offer) => (
-                    <CarSummary key={offer.id} car={offer.car} offer={offer} />
-                  ))}
+        <Tab className="active">
+          {translations.offers.receivedOffers}
+          <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
+        </Tab>
+        <Card style={{ overflow: 'hidden' }}>
+          <div hidden={data.ad.offerCount === 0}>
+            <CarSummaries>
+              {data.ad.offers &&
+                data.ad.offers.map((offer: Offer) => (
+                  <CarSummary key={offer.id} car={offer.car} offer={offer} />
+                ))}
+              <div hidden={data.ad.offers}>
                 <Paging
-                  pageIndex={pageIndex}
-                  setPageIndex={setPageIndex}
+                  pageIndex={pageIndexLike}
+                  setPageIndex={setPageIndexLike}
                   maxItems={data.ad.offerCount}
                   itemsByPage={paging5pages}
                 />
-              </CarSummaries>
-            </Card>
-          </>
-        )}
+              </div>
+            </CarSummaries>
+          </div>
+          <div hidden={data.ad.offerCount === 0}>
+            <p>{translations.offers.noMatch}</p>
+          </div>
+          <div
+            hidden={
+              youMayLikeQuery.loading || data.ad.offers.length === paging5pages
+            }
+          >
+            <YouMayLike
+              translations={translations}
+              data={youMayLikeQuery.data}
+              error={youMayLikeQuery.error}
+              pageIndexMayLike={pageIndexMayLike}
+              setPageIndexMayLike={setPageIndexMayLike}
+            />
+          </div>
+        </Card>
       </div>
     </>
   );

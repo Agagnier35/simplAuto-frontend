@@ -1,13 +1,27 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import { Offer, Message, Maybe } from '../../../generated/graphql';
+import {
+  Offer,
+  Message,
+  Maybe,
+  ConversationStatus,
+  Conversation,
+} from '../../../generated/graphql';
+
 import * as Chat from './styles';
 import { InputGroup, Form } from 'react-bootstrap';
 import { FaImage } from 'react-icons/fa';
-import { useMutation, useSubscription } from 'react-apollo-hooks';
-import { SEND_MESSAGE_MUTATION } from './Mutations';
+import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
+import {
+  SEND_MESSAGE_MUTATION,
+  UPDATE_CONVERSATION_MUTATION,
+} from './Mutations';
+
 import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
 import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
+import { LOGGED_IN_QUERY } from '../../General/Header';
+import moment from 'moment';
+import { FaEyeSlash as HideIcon, FaImage } from 'react-icons/fa';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
@@ -18,15 +32,12 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
 
-  const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION, {
-    variables: {
-      data: {
-        conversationID: offer.conversation && offer.conversation.id,
-        text: currentMessage,
-        image: currentImage,
-      },
-    },
-  });
+  const meQuery = useQuery(LOGGED_IN_QUERY);
+  const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
+  const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
+
+  const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
+  const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);
   let upload: Maybe<HTMLInputElement>;
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
@@ -38,7 +49,8 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
         query: OFFER_BY_ID,
         variables: { id: offer.id },
       };
-      const message = subscriptionData.data.messageSubscription;
+      const message: Message = subscriptionData.data.messageSubscription;
+      message.sender;
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
@@ -57,10 +69,41 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   async function sendMessage(e: FormEvent<HTMLFormElement> | any) {
     e.preventDefault();
     if (currentMessage.length > 0 || currentImage !== '') {
-      await handleSendMessage();
+      const messageToSend = currentMessage;
+      const imageToSend = currentImage;
       setCurrentMessage('');
       setCurrentImage('');
+      await handleSendMessage({
+        variables: {
+          data: {
+            conversationID: offer.conversation && offer.conversation.id,
+            text: messageToSend,
+            image: imageToSend,
+          },
+        },
+      });
     }
+  }
+
+  async function toggleConversationStatus(
+    e: FormEvent<HTMLFormElement> | any,
+    chatStatus: ConversationStatus,
+  ) {
+    e.preventDefault();
+    let status = ConversationStatus.Opened;
+    if (status === chatStatus) {
+      status = ConversationStatus.Deleted;
+    }
+
+    await handleUpdateConversation({
+      variables: {
+        data: {
+          status,
+          id: offer.conversation && offer.conversation.id,
+        },
+        refetchQueries: { OFFER_BY_ID },
+      },
+    });
   }
 
   async function getURLsFromCloud(file: any) {
@@ -111,20 +154,72 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     scrollToBottom();
   }, [offer.conversation && offer.conversation.messages.length]);
 
+  function isSelfOrSeller(message: Message) {
+    const conversation = offer.conversation as Conversation;
+    const senderIsSelf = message.sender.id === meQuery.data.me.id;
+    const selfNotBuyerOrSeller = !isMyOffer && !isMyAd;
+    const senderIsSeller = message.sender.id === conversation.seller.id;
+
+    return senderIsSelf || (selfNotBuyerOrSeller && senderIsSeller);
+  }
+
+  function getDaySpacer(
+    conversation: Conversation | null | undefined,
+    index: number,
+  ) {
+    const convo = conversation as Conversation;
+    const messages = convo.messages;
+    const isFirstMessage = index === 0;
+
+    if (!isFirstMessage) {
+      const previousMessage = messages[index - 1];
+      const currentMessage = messages[index];
+      const isSameDay =
+        moment(currentMessage.updatedAt).format('L') ===
+        moment(previousMessage.updatedAt).format('L');
+      if (!isSameDay) {
+        return (
+          <Chat.DaySpacer>
+            <hr />
+            <span>{moment(currentMessage.updatedAt).format('L')}</span>
+            <hr />
+          </Chat.DaySpacer>
+        );
+      }
+    }
+  }
+
   return (
     <Chat.Card>
-      <h2>{translations.Chat.title}</h2>
       {offer.conversation && (
         <>
+          <h2>{translations.Chat.title}</h2>
           <Chat.Container className="chat">
-            {offer.conversation.messages.map((message: Message) => (
-              <Chat.Message sender={message.sender}>
-                {message.image && message.image !== '' && (
-                  <img className="chatImage" src={message.image} />
-                )}
-                {message.text && message.text !== '' && <p>{message.text}</p>}
-              </Chat.Message>
-            ))}
+            {offer.conversation.messages.map(
+              (message: Message, index: number) => (
+                <React.Fragment key={message.id}>
+                  {getDaySpacer(offer.conversation, index)}
+                  <Chat.Message isSelfOrSeller={isSelfOrSeller(message)}>
+                    {isSelfOrSeller(message) && (
+                      <Chat.Time>
+                        {moment(message.updatedAt).format('LT')}
+                      </Chat.Time>
+                    )}
+                    {message.image && message.image !== '' && (
+                      <img className="chatImage" src={message.image} />
+                    )}
+                    {message.text && message.text !== '' && (
+                      <p>{message.text}</p>
+                    )}
+                    {!isSelfOrSeller(message) && (
+                      <Chat.Time>
+                        {moment(message.updatedAt).format('LT')}
+                      </Chat.Time>
+                    )}
+                  </Chat.Message>
+                </React.Fragment>
+              ),
+            )}
           </Chat.Container>
           <Form onSubmit={sendMessage}>
             <InputGroup>
@@ -162,6 +257,19 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
             </InputGroup>
           </Form>
         </>
+      )}
+      {offer.conversation && (
+        <Button
+          variant="warning"
+          onClick={(e: any) => {
+            if (offer.conversation && offer.conversation.status) {
+              toggleConversationStatus(e, offer.conversation.status);
+            }
+          }}
+        >
+          <HideIcon />
+          {translations.Chat.hideChat}
+        </Button>
       )}
     </Chat.Card>
   );

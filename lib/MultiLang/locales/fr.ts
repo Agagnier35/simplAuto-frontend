@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'La localisation ne peut être vide.',
+          matchingError:
+            'La localisation est invalide, choissisez un élément dans la liste',
         },
         birthDateError: {
           invalidYearError: "L'année saisie est invalide.",
@@ -254,6 +256,8 @@ const translations: Translations = {
   ad: {
     createAdTitle: 'Veuillez remplir les informations conçernant votre annonce',
     createAdAction: 'Publier votre annonce',
+    buyTopAd: 'Rendre prioritaire',
+    buyUrgentAd: 'Rendre urgente',
   },
   Ads: {
     lowerPrice: 'prix minimum',
@@ -295,11 +299,15 @@ const translations: Translations = {
     chat: 'Contacter le vendeur',
     reject: "rejetter l'offre",
     receivedOffers: 'Offres reçues',
+    youMayLike: 'Vous aimerez peut-être',
+    noMatch: 'Aucune offre ne correspond à 100% de vos critères',
+    noAdsInYourArea: "Il n'y a aucune annonce disponnible",
   },
   Chat: {
     title: 'Messagerie',
     send: 'Envoyer',
     sendPlaceholder: 'Envoyer un message',
+    hideChat: 'Masquer/démasquer la conversation',
   },
   Home: {
     BannerTitle: 'Trop facile',
@@ -327,6 +335,13 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Abonnement mensuel',
+    TopAdName: 'Annonce prioritaire',
+    TopAdDescription: 'Au dessus pendant une semaine!',
+    UrgentAdName: 'Annonce urgente',
+    UrgentAdDescription: `Se distinguer pour une semaine!`,
+    CarSpotName: 'Emplacement supplémentaire',
+    CarSpotDescription: 'Emplacement supplémentaire pour un véhicule',
+    CarSpotButton: 'Acheter un emplacement supplémentaire',
   },
   offerAddons: {
     subtitle: 'Le vendeur offre aussi',
@@ -395,6 +410,23 @@ const translations: Translations = {
     market: 'Statistiques pour le marché',
     avgPrice: 'Prix moyen',
     avgTime: 'Nombre de jours moyen avant la vente',
+    marketAverage: 'Moyenne du marché',
+    appAverage: 'Moyenne de SimplAuto',
+    offerPrice: `Prix de l'offre`,
+    daysOnMarket: 'Jours sur le marché',
+    days: 'jours',
+  },
+  Premium: {
+    Introduction: 'Les avantages de souscrire à un abonnement Premium',
+    Join: 'Abonnez vous !',
+    AdCreation: 'Ajout de recherches de voitures',
+    CarCreation: 'Ajout de voitures à vendre',
+    CarLimit: 'Limite de voitures',
+    Features: 'Fonctionnalité',
+    CarLimitUser: '2 à 5',
+    CarLimitPremium: 'Illimité !',
+    BasicStatistics: 'Statistiques de base',
+    PremiumStatistics: 'Éventail complet de statistiques',
   },
 };
 

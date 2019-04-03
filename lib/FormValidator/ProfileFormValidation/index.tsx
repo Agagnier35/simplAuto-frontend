@@ -1,4 +1,10 @@
 import BasicFormValidation from '../BasicFormValidation';
+import {
+  Date as SchemaDate,
+  Location,
+  ClientType,
+} from '../../../generated/graphql';
+import { ProfileState } from '../../../components/User/Profile';
 
 export const MINIMUM_BIRTHDATE_YEAR: number = 1900;
 export const MINIMUM_AGE_FOR_USINGAPP: number = 16;
@@ -10,24 +16,24 @@ class ProfileFormValidation extends BasicFormValidation {
     this.general = general;
   }
 
-  isFirstNameValid = (firstName: string) => {
+  isFirstNameValid = (firstName: string | undefined) => {
     return (
       this.isFieldNotEmpty(firstName) &&
       this.doesFieldNotContainNumber(firstName)
     );
   };
 
-  isLastNameValid = (lastName: string) => {
+  isLastNameValid = (lastName: string | undefined) => {
     return (
       this.isFieldNotEmpty(lastName) && this.doesFieldNotContainNumber(lastName)
     );
   };
 
-  isEmailValid = (email: string) => {
+  isEmailValid = (email: string | undefined) => {
     return this.isEmailFormatValid(email);
   };
 
-  isBirthDateValid = (birthDate: string) => {
+  isBirthDateValid = (birthDate: SchemaDate | undefined) => {
     // Seule validation nécessaire est l'année
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
@@ -38,27 +44,30 @@ class ProfileFormValidation extends BasicFormValidation {
     );
   };
 
-  isWillingToChangePassword = (password: string) => {
-    return this.isFieldNotEmpty(password);
-  };
-
-  // Pas nécéssaire
-  isPasswordValid = (password: string) => {
-    return this.isFieldNotEmpty(password);
-  };
-
-  isConfirmPasswordValid = (confirmPassowrd: string, password: string) => {
+  isLocationValid = (location: Location) => {
     return (
-      this.isFieldNotEmpty(confirmPassowrd) &&
-      this.doPasswordsMatch(password, confirmPassowrd)
+      location.name !== '' &&
+      location.longitude !== 0 &&
+      location.latitude !== 0
     );
   };
 
-  isLocationValid = (location: string) => {
-    return this.isFieldNotEmpty(location);
+  isWillingToChangePassword = (password: string | undefined) => {
+    return this.isFieldNotEmpty(password);
   };
 
-  firstNameError = (firstName: string) => {
+  isPasswordValid = (password: string | undefined) => {
+    return this.isFieldNotEmpty(password);
+  };
+
+  isConfirmPasswordValid = (
+    confirmPassowrd: string | undefined,
+    password: string | undefined,
+  ) => {
+    return this.doPasswordsMatch(password, confirmPassowrd);
+  };
+
+  firstNameError = (firstName: string | undefined) => {
     if (!this.isFieldNotEmpty(firstName)) {
       return this.general.formFieldsErrors.signupFormFieldsErrors.firstNameError
         .emptyError;
@@ -69,7 +78,7 @@ class ProfileFormValidation extends BasicFormValidation {
     }
   };
 
-  lastNameError = (lastMame: string) => {
+  lastNameError = (lastMame: string | undefined) => {
     if (!this.isFieldNotEmpty(lastMame)) {
       return this.general.formFieldsErrors.signupFormFieldsErrors.lastNameError
         .emptyError;
@@ -95,7 +104,10 @@ class ProfileFormValidation extends BasicFormValidation {
       .emptyError;
   };
 
-  confirmPasswordError = (password: string, confirmPassowrd: string) => {
+  confirmPasswordError = (
+    password: string | undefined,
+    confirmPassowrd: string | undefined,
+  ) => {
     if (!this.isFieldNotEmpty(confirmPassowrd)) {
       return this.general.formFieldsErrors.signupFormFieldsErrors.passwordError
         .emptyError;
@@ -111,16 +123,17 @@ class ProfileFormValidation extends BasicFormValidation {
       .matchingError;
   };
 
-  isProfileFormStateValid = (state: any) => {
+  isProfileFormStateValid = (state: ProfileState) => {
     return (
-      this.isFirstNameValid(state.firstName) &&
-      this.isLastNameValid(state.lastName) &&
+      (state.clientType === ClientType.Individual
+        ? this.isFirstNameValid(state.firstName) &&
+          this.isLastNameValid(state.lastName) &&
+          this.isBirthDateValid(state.birthDate)
+        : true) && // do company validation
       this.isEmailFormatValid(state.email) &&
-      this.isBirthDateValid(
-        `${state.birthDate.year.toString()} - ${state.birthDate.month.toString()} - ${state.birthDate.day.toString()}`,
-      ) &&
+      this.isLocationValid(state.location) &&
       (this.isWillingToChangePassword(state.password)
-        ? this.isConfirmPasswordValid(state.password, state.confirmPassowrd)
+        ? this.isConfirmPasswordValid(state.password, state.confirmPassword)
         : true)
     );
   };

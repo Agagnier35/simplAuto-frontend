@@ -23,3 +23,17 @@ export const ACCEPT_OFFER_MUTATION = gql`
     }
   }
 `;
+
+export const REFUSE_OFFER_MUTATION = gql`
+  mutation REFUSE_OFFER_MUTATION($id: ID!) {
+    refuseOffer(id: $id) {
+      id
+    }
+  }
+`;
+
+export const ACCEPT_OFFER_EMAIL_MUTATION = gql`
+  mutation ACCEPT_OFFER_EMAIL_MUTATION($id: ID!) {
+    sendNotificationEmail(id: $id)
+  }
+`;

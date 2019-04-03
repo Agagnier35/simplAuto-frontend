@@ -1,13 +1,13 @@
 class BasicFormValidation {
-  isFieldNotEmpty = (field: string) => {
+  isFieldNotEmpty = (field: string | undefined) => {
     return field !== '';
   };
 
-  doesFieldNotContainNumber = (field: string) => {
-    return !/\d/.test(field);
+  doesFieldNotContainNumber = (field: string | undefined) => {
+    return field && !/\d/.test(field);
   };
 
-  isFieldNumber = (field: string) => {
+  isFieldNumber = (field: string | undefined) => {
     return !isNaN(Number(field));
   };
 
@@ -15,12 +15,15 @@ class BasicFormValidation {
     return Number.isInteger(number);
   };
 
-  isEmailFormatValid = (email: string) => {
+  isEmailFormatValid = (email: string | undefined) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+    return email && re.test(String(email).toLowerCase());
   };
 
-  doPasswordsMatch = (password: string, confirmPassword: string) => {
+  doPasswordsMatch = (
+    password: string | undefined,
+    confirmPassword: string | undefined,
+  ) => {
     return password === confirmPassword;
   };
 }

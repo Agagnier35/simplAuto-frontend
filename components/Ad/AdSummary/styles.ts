@@ -3,10 +3,13 @@ import { Col, Dropdown, Row } from 'react-bootstrap';
 import Portlet from '../../General/Portlet';
 import AdSummaryItem from './AdSummaryItem2';
 
-export const AdPortlet = styled(Portlet)`
+export const AdPortlet = styled(Portlet)<{ isUrgent: boolean }>`
   .portlet-title a {
     color: ${props => props.theme.colors.secondaryDarker};
   }
+
+  box-shadow: ${props =>
+    props.isUrgent ? 'inset 0 0 3px 2px #1aac81' : 'none'};
 `;
 
 export const ColorCol = styled(Col)`

@@ -125,6 +125,8 @@ const translations: Translations = {
         },
         locationError: {
           emptyError: 'Location cannot be empty.',
+          matchingError:
+            'Invalid Location, please select an element in the list',
         },
         birthDateError: {
           invalidYearError: 'The year is invalid.',
@@ -268,6 +270,8 @@ const translations: Translations = {
   ad: {
     createAdTitle: 'Please fill the information about your ad',
     createAdAction: 'Publish your ad',
+    buyTopAd: 'Make priority',
+    buyUrgentAd: 'Make urgent',
   },
   offers: {
     createOffer: 'Make an offer',
@@ -280,6 +284,9 @@ const translations: Translations = {
     chat: 'Contact seller',
     reject: 'Reject offer',
     receivedOffers: 'Received offers',
+    youMayLike: 'You may also like',
+    noMatch: 'There is no 100% match offres',
+    noAdsInYourArea: 'There are no ads in your area',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -315,6 +322,7 @@ const translations: Translations = {
     title: 'Chat',
     send: 'Send',
     sendPlaceholder: 'Send a message',
+    hideChat: 'Hide/unhide chat',
   },
   Notifications: {
     newOffer: 'You have a new offer !',
@@ -324,6 +332,25 @@ const translations: Translations = {
   Stripe: {
     PremiumName: 'SimplAuto Premium',
     PremiumDescription: 'Monthly membership',
+    TopAdName: 'Priority Ad',
+    TopAdDescription: 'On top for one week!',
+    UrgentAdName: 'Urgent Ad',
+    UrgentAdDescription: 'Stand out for one week!',
+    CarSpotName: 'Extra car spot',
+    CarSpotDescription: 'Additionnal spot for a car',
+    CarSpotButton: 'Buy an extra car spot',
+  },
+  Premium: {
+    Introduction: 'The advantages of a premium subscription',
+    Join: 'Join now !',
+    CarCreation: 'Add cars to your car park',
+    AdCreation: 'Post ads for cars you are looking for',
+    CarLimit: 'Car park Limit',
+    Features: 'Feature',
+    CarLimitUser: '2-5',
+    CarLimitPremium: 'Unlimited',
+    BasicStatistics: 'Basic statistics',
+    PremiumStatistics: 'Whole range of statistics',
   },
   offerAddons: {
     subtitle: 'The seller offers also',
@@ -392,6 +419,11 @@ const translations: Translations = {
     market: 'Stats for market',
     avgPrice: 'Average price',
     avgTime: 'Average days on market',
+    marketAverage: 'Market average',
+    appAverage: 'SimplAuto average',
+    offerPrice: `Offer's price`,
+    days: 'days',
+    daysOnMarket: 'Days on market',
   },
 };
 

@@ -12,8 +12,10 @@ import {
   CREATE_CONVERSATION_MUTATION,
   DELETE_NOTIFICATION_MUTATION,
   ACCEPT_OFFER_MUTATION,
+  ACCEPT_OFFER_EMAIL_MUTATION,
+  REFUSE_OFFER_MUTATION,
 } from './Mutations';
-import { Offer } from '../../../generated/graphql';
+import { Offer, OfferStatus } from '../../../generated/graphql';
 import {
   Price,
   PriceMileageWrapper,
@@ -36,6 +38,9 @@ import OfferCreator from '../OfferCreator';
 import moment from 'moment';
 import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
+import Router from 'next/router';
+import { PAGE_ADS_QUERY } from '../../Ad/MyAds/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -71,6 +76,25 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     variables: {
       id: offer && offer.id,
     },
+    refetchQueries: [
+      {
+        query: PAGE_ADS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
+  });
+
+  const handleRefuseOffer = useMutation(REFUSE_OFFER_MUTATION, {
+    variables: {
+      id: offer && offer.id,
+    },
+    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+  });
+
+  const handleAcceptOfferEmail = useMutation(ACCEPT_OFFER_EMAIL_MUTATION, {
+    variables: {
+      id: offer && offer.id,
+    },
     refetchQueries: [{ query: LOGGED_IN_QUERY }],
   });
 
@@ -85,10 +109,10 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   }
 
   async function handleConfirmation() {
-    //all confirmation logic is going here
-    //should send emails here to buyer and seller
     handleAcceptOffer();
+    handleAcceptOfferEmail();
     setshowModal(false);
+    Router.push('/myAds');
   }
 
   if (loading || !meQuery.data.me) return <Loading />;
@@ -149,12 +173,14 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
       <Row>
         <Col md={12} lg={8}>
           <CarDetails car={offer.car} />
-          <Card style={{ marginBottom: '1rem' }}>
-            <Card.Body>
-              <h5>Description</h5>
-              {offer.car.description}
-            </Card.Body>
-          </Card>
+          {offer.car.description && (
+            <Card style={{ marginBottom: '1rem' }}>
+              <Card.Body>
+                <h5>Description</h5>
+                {offer.car.description}
+              </Card.Body>
+            </Card>
+          )}
         </Col>
         <Col md={12} lg={4}>
           <div className="noPrint">
@@ -175,29 +201,41 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                     )
                   }
                 />
-                <OfferButtons>
-                  {!offer.conversation && (
-                    <Button
-                      onClick={() => handleCreateConversation()}
-                      variant="primary"
-                    >
-                      <MessageIcon />
-                      {translations.offers.chat}
-                    </Button>
-                  )}
-                  <Button variant="warning">
-                    <RejectIcon />
-                    {translations.offers.reject}
-                  </Button>
-                  <Button variant="primary" onClick={() => setshowModal(true)}>
-                    <AcceptIcon />
-                    {translations.general.accept}
-                  </Button>
-                  <Button variant="primary" onClick={handlePrint}>
-                    <PrintIcon />
-                    {translations.general.print}
-                  </Button>
-                </OfferButtons>
+                {isMyAd && (
+                  <>
+                    <OfferButtons>
+                      {!offer.conversation && (
+                        <Button
+                          onClick={() => handleCreateConversation()}
+                          variant="primary"
+                        >
+                          <MessageIcon />
+                          {translations.offers.chat}
+                        </Button>
+                      )}
+                      <Button
+                        variant="warning"
+                        onClick={() => handleRefuseOffer()}
+                        hidden={offer && offer.status !== OfferStatus.Published}
+                      >
+                        <RejectIcon />
+                        {translations.offers.reject}
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => setshowModal(true)}
+                        hidden={offer && offer.status !== OfferStatus.Published}
+                      >
+                        <AcceptIcon />
+                        {translations.general.accept}
+                      </Button>
+                      <Button variant="primary" onClick={handlePrint}>
+                        <PrintIcon />
+                        {translations.general.print}
+                      </Button>
+                    </OfferButtons>
+                  </>
+                )}
                 {offer.conversation && <Chat offer={offer} />}
               </>
             )}
@@ -211,13 +249,7 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
           />
         </Col>
       </Row>
-      <Row>
-        <Col md={12} lg={4}>
-          <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-            <OfferStats offerID={query.id} />
-          </Card>
-        </Col>
-      </Row>
+      <OfferStats offer={offer} />
     </div>
   );
 };

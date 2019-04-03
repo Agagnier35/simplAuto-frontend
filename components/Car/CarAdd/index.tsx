@@ -3,7 +3,7 @@ import StyledForm from './Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
-import { CarCreateInput, Maybe } from '../../../generated/graphql';
+import { CarCreateInput } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card, InputGroup } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -24,7 +24,7 @@ interface CarAddState {
   description: string;
   mileage: number;
   photos: any;
-  featuresIDs?: Maybe<string[]>;
+  featuresIDs?: string[] | undefined;
   touched: Dictionary<{
     manufacturerID: boolean;
     modelID: boolean;
@@ -80,7 +80,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       year: 0,
       mileage: 0,
       description: '',
-      featuresIDs: null,
+      featuresIDs: [],
       touched: {
         manufacturerID: false,
         modelID: false,
