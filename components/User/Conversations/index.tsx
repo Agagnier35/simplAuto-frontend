@@ -5,7 +5,6 @@ import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from './ConversationsList';
-import Conversation from './Conversation';
 import { Row, Col } from 'react-bootstrap';
 import { Offer } from '../../../generated/graphql';
 import Chat from '../../Chat/Chat';
