@@ -9,10 +9,19 @@ const isMyOffer = (offer: any, meQuery: any) => {
   return offer.creator && meQuery.data.me.id === offer.creator.id;
 };
 
+const isMyMessage = (message: any, meQuery: any) => {
+  return message.sender.id === meQuery.data.me.id;
+};
+
 const SingleConversationSummary = (props: any) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
   if (loggedQuery.loading) return null;
   const conversationDetails = props.conversationDetails;
+  console.log(
+    conversationDetails.conversation.messages[
+      conversationDetails.conversation.messages.length - 1
+    ],
+  );
   return (
     <Col xs md={15}>
       <Row>
@@ -21,17 +30,40 @@ const SingleConversationSummary = (props: any) => {
             <Col md={12}>
               <Row>
                 {isMyOffer(conversationDetails.conversation.offer, loggedQuery)
-                  ? conversationDetails.conversation.buyer.lastName
-                  : conversationDetails.conversation.seller.lastName}
-                ,
-                {isMyOffer(conversationDetails.conversation.offer, loggedQuery)
-                  ? conversationDetails.conversation.buyer.firstName
-                  : conversationDetails.conversation.seller.firstName}
+                  ? `${conversationDetails.conversation.buyer.lastName}, ${
+                      conversationDetails.conversation.buyer.firstName
+                    }`
+                  : `${conversationDetails.conversation.seller.lastName}, ${
+                      conversationDetails.conversation.seller.firstName
+                    }`}
               </Row>
               <Row>
                 <div>{conversationDetails.conversation.offer.price}$</div>
               </Row>
               <Row>
+                {isMyMessage(
+                  conversationDetails.conversation.messages[
+                    conversationDetails.conversation.messages.length - 1
+                  ],
+                  loggedQuery,
+                ) ? (
+                  <b>You : </b>
+                ) : (
+                  <b>
+                    {
+                      conversationDetails.conversation.messages[
+                        conversationDetails.conversation.messages.length - 1
+                      ].sender.lastName
+                    }
+                    ,{' '}
+                    {
+                      conversationDetails.conversation.messages[
+                        conversationDetails.conversation.messages.length - 1
+                      ].sender.firstName
+                    }{' '}
+                    :
+                  </b>
+                )}
                 {conversationDetails.conversation.messages[
                   conversationDetails.conversation.messages.length - 1
                 ].text !== ''
