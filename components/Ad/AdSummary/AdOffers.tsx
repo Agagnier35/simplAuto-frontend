@@ -68,29 +68,26 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
       {ad.offers.length < 3 &&
         !loading &&
         data.suggestions &&
-        data.suggestions
-          .reverse()
-          .slice(0, 3)
-          .map((suggestion: any, index: number) => (
-            <AdOfferItem key={suggestion.offer.id}>
-              <div className="image-wrapper">
-                <img src={suggestion.offer.car.photos[0]} alt="" />
-                {getRankBadge(index + 1)}
-              </div>
-              <div className="info-wrapper">
-                <p>
-                  {suggestion.offer.car.manufacturer.name}{' '}
-                  {suggestion.offer.car.model.name} {suggestion.offer.car.year}
-                </p>
-                <AdSummaryItem
-                  icon={<KilometerIcon />}
-                  label={translations.cars.mileage}
-                  value={suggestion.offer.car.mileage}
-                />
-              </div>
-              <OfferPrice>{suggestion.offer.price} $</OfferPrice>
-            </AdOfferItem>
-          ))}
+        data.suggestions.slice(0, 3).map((suggestion: any, index: number) => (
+          <AdOfferItem key={suggestion.offer.id}>
+            <div className="image-wrapper">
+              <img src={suggestion.offer.car.photos[0]} alt="" />
+              {getRankBadge(index + 1)}
+            </div>
+            <div className="info-wrapper">
+              <p>
+                {suggestion.offer.car.manufacturer.name}{' '}
+                {suggestion.offer.car.model.name} {suggestion.offer.car.year}
+              </p>
+              <AdSummaryItem
+                icon={<KilometerIcon />}
+                label={translations.cars.mileage}
+                value={suggestion.offer.car.mileage}
+              />
+            </div>
+            <OfferPrice>{suggestion.offer.price} $</OfferPrice>
+          </AdOfferItem>
+        ))}
     </Col>
   );
 };

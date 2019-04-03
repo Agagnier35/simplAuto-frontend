@@ -125,7 +125,7 @@ const Car = ({ translations, query }: CarPageProps) => {
             }
           >
             {adsQuery.data.adSuggestion ? (
-              adsQuery.data.adSuggestion.reverse().map((suggestion: any) => (
+              adsQuery.data.adSuggestion.map((suggestion: any) => (
                 <div key={suggestion.ad.id}>
                   <AdSummary
                     key={suggestion.ad.id}
