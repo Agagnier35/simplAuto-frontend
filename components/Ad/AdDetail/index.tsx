@@ -131,7 +131,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             {youMayLikeQuery.data &&
               youMayLikeQuery.data.suggestions &&
               youMayLikeQuery.data.suggestions[0] &&
-              youMayLikeQuery.data.suggestions[0].totalLength === 0 && (
+              youMayLikeQuery.data.suggestions[0].totalLength > 0 && (
                 <YouMayLike
                   translations={translations}
                   data={youMayLikeQuery.data}

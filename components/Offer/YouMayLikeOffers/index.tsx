@@ -30,7 +30,6 @@ const YouMayLike = ({
 
   return (
     <CarSummaries>
-      <hr />
       <p>{translations.offers.youMayLike}:</p>
       {data.suggestions.map((suggestion: any) => (
         <CarSummary
