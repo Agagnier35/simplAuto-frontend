@@ -6,7 +6,7 @@ import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from './ConversationsList';
 import { Row, Col } from 'react-bootstrap';
 import { Conversation } from '../../../generated/graphql';
-import Chat from '../../Chat/Chat';
+import ChatSection from '../ChatSection';
 
 interface ConversationsState {
   currentConvo: Conversation | null;
@@ -18,19 +18,7 @@ class Conversations extends Component<{}, ConversationsState> {
   };
 
   handleSelectConversation = (convo: Conversation) => {
-    if (!convo.offer.conversation) {
-      convo.offer.conversation = convo;
-    }
     this.setState({ currentConvo: convo });
-  };
-
-  getFirstConvo = (data: any) => {
-    if (!this.state.currentConvo) {
-      if (!data.me.conversations[0].offer.conversation) {
-        data.me.conversations[0].offer.conversation = data.me.conversations[0];
-      }
-      return data.me.conversations[0].offer;
-    }
   };
 
   render() {
@@ -51,11 +39,9 @@ class Conversations extends Component<{}, ConversationsState> {
               </Col>
               <Col>
                 {
-                  <Chat
-                    offer={
-                      currentConvo
-                        ? currentConvo.offer
-                        : this.getFirstConvo(data)
+                  <ChatSection
+                    convo={
+                      currentConvo ? currentConvo : data.me.conversations[0]
                     }
                   />
                 }

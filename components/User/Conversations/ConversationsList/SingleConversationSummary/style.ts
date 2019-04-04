@@ -4,6 +4,11 @@ export const ContainerConversation = styled.div`
   min-height: 50px;
   display: flex;
   flex-flow: row wrap;
+  border-bottom-style: solid;
+  border-right-style: solid;
+  border-color: black;
+  border-width: 0.05rem;
+  border-radius: 5px;
 `;
 
 export const Body = styled.div`
