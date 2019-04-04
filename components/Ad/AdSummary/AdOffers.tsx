@@ -15,13 +15,14 @@ import { IoIosTimer as KilometerIcon } from 'react-icons/io';
 import { useQuery } from 'react-apollo-hooks';
 import { AD_OFFER_SUGGESTION_QUERY } from '../AdDetail/Queries';
 import { paging5pages } from '../../General/Preferences';
+import ErrorMessage from '../../General/ErrorMessage';
 
 export interface AdOffersProps extends MultiProps {
   ad: Ad;
 }
 
 const AdOffers = ({ ad, translations }: AdOffersProps) => {
-  const { data, loading } = useQuery(AD_OFFER_SUGGESTION_QUERY, {
+  const { data, loading, error } = useQuery(AD_OFFER_SUGGESTION_QUERY, {
     variables: {
       id: ad.id,
       pageNumber: 0,
@@ -41,6 +42,8 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
         return <Badge>{rank}</Badge>;
     }
   }
+
+  if (error) return <ErrorMessage error={error} />;
 
   return (
     <Col md={12}>

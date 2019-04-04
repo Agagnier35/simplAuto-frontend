@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StyledForm from '../../Car/CarAdd/Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
-import { AdCreateInput, CarFeatureCategory } from '../../../generated/graphql';
+import { AdCreateInput } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -11,8 +11,8 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import { minCarYear } from '../../General/Preferences';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
+import { minCarYear } from '../../General/Preferences';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -43,60 +43,20 @@ class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
       priceHigherBound: false,
     },
   };
-const redAsterixStyle = {
-  color: 'red',
-};
-
-const MIN_CAR_YEAR = 1980;
-interface CreateAdFeature {
-  value: string;
-  category: string;
-}
-
-interface CreateAdState {
-  features: CreateAdFeature[];
-  [key: string]: any;
-  manufacturerID: string | null | undefined;
-  modelID: string | null | undefined;
-  categoryID: string | null | undefined;
-  yearLowerBound: number | null;
-  yearHigherBound: number | null;
-  mileageLowerBound: number | null;
-  mileageHigherBound: number | null;
-  priceLowerBound: number | null;
-  priceHigherBound: number | null;
-}
-
-class CreateAd extends Component<MultiProps, CreateAdState> {
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = {
-      features: [],
-      manufacturerID: null,
-      modelID: null,
-      categoryID: null,
-      yearLowerBound: null,
-      yearHigherBound: null,
-      mileageLowerBound: null,
-      mileageHigherBound: null,
-      priceLowerBound: null,
-      priceHigherBound: null,
-    };
-  }
-
-  checkFormValidation = () => {
-    let isValid = false;
-    Object.keys(this.state).map(item => {
-      if (this.state[item] !== null) {
-        isValid = true;
-      }
-    });
-    return isValid;
-  };
 
   handleCreateAd = async (e: any, createAd: any) => {
     e.preventDefault();
     await createAd();
+  };
+
+  checkFormValidation = () => {
+    let isValid = false;
+    Object.keys(this.state).map(item => {
+      if (item !== 'touched' && this.state[item] !== null) {
+        isValid = true;
+      }
+    });
+    return isValid;
   };
 
   handleFeaturesChange = (value: any) => {
@@ -110,7 +70,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     const isDefaultValue = value.value === translations.general.none;
 
     if (featureExists) {
-      if (isDefaultValue || value.isCheckbox || value.value === '0') {
+      if (isDefaultValue || value.isCheckbox) {
         // Remove it
         this.setState({
           features: [
@@ -124,7 +84,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
         this.setState({
           features: [
             ...features.slice(0, featureIndex),
-            value,
+            value.value,
             ...features.slice(featureIndex + 1),
           ],
         });
@@ -133,7 +93,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     // Add it
     else if (!isDefaultValue) {
       this.setState({
-        features: [...features, value],
+        features: [...features, value.value],
       });
     }
   };
@@ -141,36 +101,41 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
   handleChange = (key: string, value: any) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
-    } else if (value.value === '0') {
-      this.setState({ [key]: null });
     } else {
       // Not a feature
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
-    }
-    if (key === 'manufacturerID') {
-      this.handleChange('modelID', {
-        value: '0',
-      });
+      if (key === 'manufacturerID') {
+        this.setState({ modelID: '' });
+      }
     }
   };
 
   getModelsForManufacturer = (data: any) => {
     const { manufacturerID } = this.state;
-    if (manufacturerID && manufacturerID !== '0') {
-      const models = data.manufacturers.find(
-        (item: any) => item.id === manufacturerID,
-      ).models;
-      return models;
+    if (manufacturerID) {
+      return data.manufacturers.find((item: any) => item.id === manufacturerID)
+        .models;
     }
     return [];
+  };
+
+  fieldTouched = (key: string) => {
+    const touched = { ...this.state.touched };
+    touched[key] = true;
+    this.setState({ touched });
+  };
+
+  getCreateAdPayload = () => {
+    const { touched, ...data } = this.state;
+    return data;
   };
 
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
     } = this.props;
-    const { manufacturerID, categoryID, modelID, features } = this.state;
+    const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     const touched = { ...this.state.touched };
@@ -189,7 +154,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
           return (
             <Mutation
               mutation={CREATE_ADD_MUTATION}
-              variables={{ data: this.state }}
+              variables={{ data: this.getCreateAdPayload() }}
             >
               {(createAd, mutation) => {
                 if (mutation.data && mutation.data.createAd) {
@@ -208,52 +173,34 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                         </Card.Title>
                         <div className="label-wrapper">
                           <Select
-                            options={this.getOptions(
-                              manufacturerID,
-                              data.manufacturers,
-                            )}
+                            options={data.manufacturers}
                             accessor="name"
-                            selected={manufacturerID}
                             handleChange={(item: any) =>
                               this.handleChange('manufacturerID', {
                                 value: item.id,
                               })
                             }
-                            label={<span>{cars.manufacturer}</span>}
                           />
                           <Select
-                            options={this.getOptions(
-                              modelID,
-                              this.getModelsForManufacturer(data),
-                            )}
+                            options={this.getModelsForManufacturer(data)}
                             disabled={!manufacturerID}
-                            reset={true}
                             accessor="name"
                             selected={manufacturerID}
-                            handleChange={(item: any, reset: true) =>
+                            handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
-                            label={<span>{cars.model}</span>}
                           />
                           <Select
-                            options={this.getOptions(
-                              categoryID,
-                              data.carCategories,
-                            )}
+                            options={data.carCategories}
                             accessor="name"
-                            selected={categoryID}
                             handleChange={(item: any) =>
                               this.handleChange('categoryID', {
                                 value: item.id,
                               })
                             }
-                            label={<span>{cars.category}</span>}
                           />
 
                           <label>
-                            <span>
-                              {cars.year} {general.min}
-                            </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.min}`}
@@ -280,9 +227,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                           </label>
 
                           <label>
-                            <span>
-                              {cars.year} {general.max}
-                            </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.max}`}
@@ -312,9 +256,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.mileage} {general.min}
-                            </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
@@ -340,9 +281,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.mileage} {general.max}
-                            </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
@@ -370,9 +308,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.price} {general.min}
-                            </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
@@ -398,9 +333,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
-                            <span>
-                              {cars.price} {general.max}
-                            </span>
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}
@@ -437,27 +369,20 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                           {general.features}
                         </Card.Title>
                         <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map(
-                            (featureCategory: CarFeatureCategory) => (
-                              <Select
-                                key={featureCategory.id}
-                                options={this.getOptions(
-                                  this.featureHasValue(featureCategory),
-                                  featureCategory.features,
-                                )}
-                                accessor="name"
-                                handleChange={(item: any) =>
-                                  this.handleChange('features', {
-                                    value: item.id,
-                                    category: featureCategory.name,
-                                  })
-                                }
-                                label={`${
-                                  carFeatureCategory[featureCategory.name]
-                                } :`}
-                              />
-                            ),
-                          )}
+                          {fetchedDropdownFeatures.map((feature: any) => (
+                            <Select
+                              key={feature.id}
+                              options={feature.features}
+                              accessor="name"
+                              handleChange={(item: any) =>
+                                this.handleChange('features', {
+                                  value: item.id,
+                                  category: feature.name,
+                                })
+                              }
+                              label={`${carFeatureCategory[feature.name]} :`}
+                            />
+                          ))}
                         </div>
                       </Card.Body>
                     </Card>
@@ -492,14 +417,13 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             {general.submit}
                           </Card.Title>
                           <Button
-                            disabled={!this.checkFormValidation()}
                             variant="primary"
                             className="formSubmit"
                             type="submit"
                             disabled={
                               !createAdFormValidation.isCreateAdFormStateValid(
                                 this.state,
-                              )
+                              ) || !this.checkFormValidation()
                             }
                           >
                             {ad.createAdAction}

@@ -4,12 +4,14 @@ import Translations from '../../../lib/MultiLang/locales/types';
 import { paging5pages } from '../../General/Preferences';
 import Paging from '../../General/Paging';
 import ErrorMessage from '../../General/ErrorMessage';
+import Loading from '../../General/Loading';
 import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
 
 interface OfferModalProps {
   translations: Translations;
   data: any;
+  loading: boolean;
   error: boolean;
   pageIndexMayLike: number;
   setPageIndexMayLike: React.Dispatch<React.SetStateAction<number>>;
@@ -18,45 +20,36 @@ interface OfferModalProps {
 const YouMayLike = ({
   translations,
   data,
+  loading,
   error,
   pageIndexMayLike,
   setPageIndexMayLike,
 }: OfferModalProps) => {
   if (error) return <ErrorMessage error={error} />;
+  if (loading) return <Loading />;
 
   return (
-    <div
-      hidden={
-        data.suggestions &&
-        data.suggestions[0] &&
-        data.suggestions[0].totalLength === 0
-      }
-    >
+    <CarSummaries>
       <hr />
       <p>{translations.offers.youMayLike}:</p>
-      <CarSummaries>
-        {data.suggestions &&
-          data.suggestions
-            .reverse()
-            .map((suggestion: any) => (
-              <CarSummary
-                key={suggestion.offer.id}
-                car={suggestion.offer.car}
-                offer={suggestion.offer}
-              />
-            ))}
-        <Paging
-          pageIndex={pageIndexMayLike}
-          setPageIndex={setPageIndexMayLike}
-          maxItems={
-            data.suggestions && data.suggestions[0]
-              ? data.suggestions[0].totalLength
-              : 0
-          }
-          itemsByPage={paging5pages}
+      {data.suggestions.map((suggestion: any) => (
+        <CarSummary
+          key={suggestion.offer.id}
+          car={suggestion.offer.car}
+          offer={suggestion.offer}
         />
-      </CarSummaries>
-    </div>
+      ))}
+      <Paging
+        pageIndex={pageIndexMayLike}
+        setPageIndex={setPageIndexMayLike}
+        maxItems={
+          data.suggestions && data.suggestions[0]
+            ? data.suggestions[0].totalLength
+            : 0
+        }
+        itemsByPage={paging5pages}
+      />
+    </CarSummaries>
   );
 };
 

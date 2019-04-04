@@ -1,7 +1,8 @@
 import BasicFormValidation from '../BasicFormValidation';
-
-export const MAXMILEAGEALLOWED: number = 1000000;
-export const MINCARYEAR: number = 1900;
+import {
+  minCarYear,
+  maxMileage,
+} from '../../../components/General/Preferences';
 
 class CreateAdFormValidation extends BasicFormValidation {
   general: any;
@@ -15,8 +16,8 @@ class CreateAdFormValidation extends BasicFormValidation {
       return true;
     }
     return (
-      yearLowerBound >= MINCARYEAR &&
-      yearLowerBound < new Date().getFullYear() &&
+      yearLowerBound >= minCarYear &&
+      yearLowerBound <= new Date().getFullYear() &&
       this.isFieldNotEmpty(yearLowerBound.toString()) &&
       this.isNumberAnInteger(yearLowerBound)
     );
@@ -32,8 +33,8 @@ class CreateAdFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(yearHigherBound.toString()) &&
       this.isNumberAnInteger(yearHigherBound) &&
-      yearHigherBound >= MINCARYEAR &&
-      yearHigherBound < new Date().getFullYear() &&
+      yearHigherBound >= minCarYear &&
+      yearHigherBound <= new Date().getFullYear() &&
       (this.isYearLowerBoundValid(yearLowerBound) && yearLowerBound
         ? yearLowerBound <= yearHigherBound
         : true)
@@ -46,7 +47,7 @@ class CreateAdFormValidation extends BasicFormValidation {
     }
     return (
       mileageLowerBound >= 0 &&
-      mileageLowerBound <= MAXMILEAGEALLOWED &&
+      mileageLowerBound <= maxMileage &&
       this.isFieldNotEmpty(mileageLowerBound.toString()) &&
       this.isNumberAnInteger(mileageLowerBound)
     );
@@ -63,7 +64,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       this.isFieldNotEmpty(mileageHigherBound.toString()) &&
       this.isNumberAnInteger(mileageHigherBound) &&
       mileageHigherBound >= 0 &&
-      mileageHigherBound <= 1000000 &&
+      mileageHigherBound <= maxMileage &&
       (this.isMileageLowerBoundValid(mileageLowerBound) && mileageLowerBound
         ? mileageLowerBound <= mileageHigherBound
         : true)
@@ -100,7 +101,7 @@ class CreateAdFormValidation extends BasicFormValidation {
   yearLowerBoundError = (yearLowerBound: number | null | undefined) => {
     if (yearLowerBound) {
       // Sera toujours le cass
-      if (yearLowerBound < MINCARYEAR) {
+      if (yearLowerBound < minCarYear) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .yearLowerBound.yearLowerBoundTooLow;
       } else if (yearLowerBound > new Date().getFullYear()) {
@@ -125,7 +126,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       } else if (!this.isNumberAnInteger(yearHigherBound)) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .yearHigherBound.numberNotIntegerError;
-      } else if (yearHigherBound < MINCARYEAR) {
+      } else if (yearHigherBound < minCarYear) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .yearHigherBound.yearHigherBoundTooLow;
       } else if (yearHigherBound > new Date().getFullYear()) {
@@ -150,7 +151,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       } else if (mileageLowerBound < 0) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .mileageLowerBound.mileageLowerBoundTooLow;
-      } else if (mileageLowerBound > MAXMILEAGEALLOWED) {
+      } else if (mileageLowerBound > maxMileage) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .mileageLowerBound.mileageLowerBoundTooHigh;
       } else if (!this.isNumberAnInteger(mileageLowerBound)) {
@@ -174,7 +175,7 @@ class CreateAdFormValidation extends BasicFormValidation {
       } else if (mileageHigherBound < 0) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .mileageHigherBound.mileageHigherBoundTooLow;
-      } else if (mileageHigherBound > MAXMILEAGEALLOWED) {
+      } else if (mileageHigherBound > maxMileage) {
         return this.general.formFieldsErrors.createAdFormFieldsErrors
           .mileageHigherBound.mileageHigherBoundTooHigh;
       } else if (

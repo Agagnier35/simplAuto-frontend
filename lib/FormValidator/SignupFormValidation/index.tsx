@@ -22,7 +22,7 @@ class SignupFormValidation extends BasicFormValidation {
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
       birthDate &&
-      birthDate.year > minBirthYear &&
+      birthDate.year >= minBirthYear &&
       birthDate.year <= new Date().getFullYear() - minAge
     );
   };
