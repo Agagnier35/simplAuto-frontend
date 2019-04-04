@@ -61,6 +61,7 @@ const translations: Translations = {
     becomePremium: 'Devenir Premium',
     or: 'ou',
     defaultDropdown: 'Sélectionnez',
+    defaultUnselect: 'Déselectionner',
     other: 'Autre',
     none: 'Non-spécifié',
     features: 'Caractéristiques',

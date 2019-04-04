@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const GET_USER_INFO_QUERY = gql`
-  query {
-    me {
+export const USER_BY_ID = gql`
+  query USER_BY_ID($id: ID!) {
+    user(id: $id) {
       id
       firstName
       lastName

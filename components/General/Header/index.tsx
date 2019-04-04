@@ -94,6 +94,13 @@ const Header: React.SFC<MultiProps> = ({
                           <Nav.Item as="a">Premium</Nav.Item>
                         </Link>
                       )}
+                      <Link
+                        href={{
+                          pathname: '/profile',
+                          query: { id: data.me.id },
+                        }}
+                        passHref
+                      >
                       <Link href="/conversations" passHref prefetch>
                         <Nav.Item as="a">{general.myConversations}</Nav.Item>
                       </Link>

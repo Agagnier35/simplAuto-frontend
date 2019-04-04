@@ -55,6 +55,7 @@ export default interface Translations {
     becomePremium: string;
     or: string;
     defaultDropdown: string;
+    defaultUnselect: string;
     other: string;
     none: string;
     features: string;

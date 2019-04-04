@@ -61,6 +61,7 @@ const translations: Translations = {
     becomePremium: 'Go Premium',
     or: 'or',
     defaultDropdown: 'Please Select',
+    defaultUnselect: 'Unselect field',
     other: 'Other',
     none: 'Not specified',
     features: 'Features',
