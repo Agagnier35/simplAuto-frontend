@@ -1,34 +1,46 @@
 import React, { Component } from 'react';
-import { multiUpdater } from '../../../lib/MultiLang';
 import { Query } from 'react-apollo';
 import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from './ConversationsList';
 import { Row, Col } from 'react-bootstrap';
-import { Offer } from '../../../generated/graphql';
+import { Conversation } from '../../../generated/graphql';
 import Chat from '../../Chat/Chat';
 
 interface ConversationsState {
-  currentOffer: Offer | null;
+  currentConvo: Conversation | null;
 }
 
 class Conversations extends Component<{}, ConversationsState> {
   state = {
-    currentOffer: null,
+    currentConvo: null,
   };
 
-  handleSelectConversation = (offer: Offer) => {
-    this.setState({ currentOffer: offer });
+  handleSelectConversation = (convo: Conversation) => {
+    if (!convo.offer.conversation) {
+      convo.offer.conversation = convo;
+    }
+    this.setState({ currentConvo: convo });
+  };
+
+  getFirstConvo = (data: any) => {
+    if (!this.state.currentConvo) {
+      if (!data.me.conversations[0].offer.conversation) {
+        data.me.conversations[0].offer.conversation = data.me.conversations[0];
+      }
+      return data.me.conversations[0].offer;
+    }
   };
 
   render() {
-    const { currentOffer } = this.state;
+    const { currentConvo } = this.state;
     return (
       <Query query={GET_USER_CONVERSATIONS_QUERY}>
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
+          if (!data.me.conversations) return null;
           return (
             <Row>
               <Col>
@@ -38,17 +50,15 @@ class Conversations extends Component<{}, ConversationsState> {
                 />
               </Col>
               <Col>
-                {currentOffer && (
+                {
                   <Chat
                     offer={
-                      data.me.conversations.find(
-                        (conversation: any) =>
-                          conversation.offer.id === currentOffer.id,
-                      ).offer
+                      currentConvo
+                        ? currentConvo.offer
+                        : this.getFirstConvo(data)
                     }
-                    offerQuery={{ query: GET_USER_CONVERSATIONS_QUERY }}
                   />
-                )}
+                }
               </Col>
             </Row>
           );
@@ -58,4 +68,4 @@ class Conversations extends Component<{}, ConversationsState> {
   }
 }
 
-export default multiUpdater(Conversations);
+export default Conversations;

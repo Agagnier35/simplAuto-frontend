@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Card, Carousel } from 'react-bootstrap';
 
 export const Container = styled.div`
   min-height: 200px;

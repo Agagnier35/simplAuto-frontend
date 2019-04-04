@@ -4,6 +4,7 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
   query GET_USER_CONVERSATIONS_QUERY {
     me {
       id
+      conversationCount
       conversations {
         id
         buyer {
@@ -18,6 +19,13 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
         }
         offer {
           id
+          creator {
+            createdAt
+            id
+            firstName
+            lastName
+            clientType
+          }
           conversation {
             id
             buyer {

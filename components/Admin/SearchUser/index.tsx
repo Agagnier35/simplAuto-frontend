@@ -61,8 +61,6 @@ const SearchUser = (props: SearchUserProps) => {
       pageSize: MAX_USER_PER_PAGE,
     },
   });
-
-  console.log(data);
   // if (!data || !data.users) return null;
 
   let count;

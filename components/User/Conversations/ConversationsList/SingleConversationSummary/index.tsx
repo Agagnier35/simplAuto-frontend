@@ -1,13 +1,12 @@
-// Ceci est le component qui recoit la liste des conversations et les display au format de linkedin.
 import React from 'react';
 import { multiUpdater } from '../../../../../lib/MultiLang';
-// import { Col, Row, Image } from 'react-bootstrap';
 import { useQuery } from 'react-apollo-hooks';
 import { LOGGED_IN_QUERY } from '../../../../General/Header';
-import { ConversationPortlet } from './style';
-import GeneralConversationDetails from './GeneralConversationDetails';
+import { Col, Row } from 'react-bootstrap';
+import Loading from '../../../../General/Loading';
+import ErrorMessage from '../../../../General/ErrorMessage';
+import { ContainerConversation, Body, Header, Title } from './style';
 
-// Il faut pouvoir déterminer qui est la personne qui a send le message.
 export interface SingleConversationSummaryProps {
   conversation: any;
   onClickCallback: any;
@@ -15,26 +14,48 @@ export interface SingleConversationSummaryProps {
 
 const SingleConversationSummary = (props: SingleConversationSummaryProps) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
-  if (loggedQuery.loading) return null;
 
-  const pages = [<GeneralConversationDetails conversationDetails={props} />];
+  if (loggedQuery.loading) return <Loading />;
+  if (loggedQuery.error) return <ErrorMessage error={loggedQuery.error} />;
+
+  function handleSelectConvo() {
+    props.onClickCallback(props.conversation);
+  }
 
   return (
-    <div onClick={() => props.onClickCallback(props.conversation.offer)}>
-      <ConversationPortlet
-        {...props}
-        title={`${props.conversation.offer.car.manufacturer.name} ${
-          props.conversation.offer.car.model.name
-        } ${props.conversation.offer.car.year}`}
-        interval={3000}
-        href={{
-          pathname: '/offer',
-          query: { id: props.conversation.offer.id },
-        }}
-        pages={pages}
-        image={<img src={props.conversation.offer.car.photos[0]} />}
-      />
-    </div>
+    <ContainerConversation onClick={() => handleSelectConvo()}>
+      <Body>
+        <img src={props.conversation.offer.car.photos[0]} />
+        <Header>
+          <Title className="portlet-title">
+            <div>
+              {props.conversation.offer.car.manufacturer.name}{' '}
+              {props.conversation.offer.car.model.name}
+            </div>
+          </Title>
+          <Col xs md={15}>
+            <Row>
+              <Col md={12}>
+                <Row>
+                  <Col md={12}>
+                    <Row>
+                      <div>
+                        {'from: '}
+                        {props.conversation.seller.firstName}{' '}
+                        {props.conversation.seller.lastName}
+                      </div>
+                    </Row>
+                    <Row>
+                      <div>{props.conversation.offer.price}$</div>
+                    </Row>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Header>
+      </Body>
+    </ContainerConversation>
   );
 };
 

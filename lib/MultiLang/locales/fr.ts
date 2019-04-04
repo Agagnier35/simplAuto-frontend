@@ -300,6 +300,7 @@ const translations: Translations = {
     youMayLike: 'Vous aimerez peut-être',
     noMatch: 'Aucune offre ne correspond à 100% de vos critères',
     noAdsInYourArea: "Il n'y a aucune annonce disponnible",
+    noOffers: "Il n'y a pas d'offres sur cette annonce",
   },
   Chat: {
     title: 'Messagerie',

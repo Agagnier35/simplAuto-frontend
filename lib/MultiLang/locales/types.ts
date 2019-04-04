@@ -249,6 +249,7 @@ export default interface Translations {
     youMayLike: string;
     noMatch: string;
     noAdsInYourArea: string;
+    noOffers: string;
   };
   GeneralModalContent: {
     title: string;

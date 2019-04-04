@@ -23,10 +23,9 @@ import { FaEyeSlash as HideIcon, FaImage } from 'react-icons/fa';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
-  offerQuery: any;
 }
 
-const ChatSection = ({ offer, translations, offerQuery }: ChatSectionProps) => {
+const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
