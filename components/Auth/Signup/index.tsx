@@ -459,7 +459,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={profile.female}
+                            value={Gender.Female}
                           />
                           {Gender.Female}
                         </label>
@@ -468,7 +468,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={profile.other}
+                            value={Gender.Other}
                           />
                           {Gender.Other}
                         </label>
