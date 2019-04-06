@@ -191,6 +191,7 @@ export default interface Translations {
     carLimitReached: string;
   };
   cars: {
+    cars: string;
     addCar: string;
     details: string;
     title: string;

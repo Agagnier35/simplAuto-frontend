@@ -62,9 +62,6 @@ const SearchUser = (props: SearchUserProps) => {
     },
   });
 
-  console.log(data);
-  // if (!data || !data.users) return null;
-
   let count;
   let users;
   if (data.users) {

@@ -211,6 +211,7 @@ const translations: Translations = {
     carLimitReached: 'Vous avez atteint la limite 2 véhicules permis',
   },
   cars: {
+    cars: 'Automobiles',
     addCar: 'Ajouter un automobile',
     details: "Détails de l'automobile",
     title: 'Mes automobiles',
