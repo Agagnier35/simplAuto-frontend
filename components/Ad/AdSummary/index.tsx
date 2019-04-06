@@ -57,7 +57,7 @@ const AdSummary = ({
     } else if (ad.category) {
       title += carCategory[ad.category.name];
     } else {
-      title += 'Anything';
+      title += translations.general.anything;
     }
     return title;
   }
