@@ -37,8 +37,10 @@ export const USER_QUERY = gql`
 
       offers {
         id
-        car {
+        ad {
           id
+          priceLowerBound
+          priceHigherBound
           manufacturer {
             id
             name
@@ -51,15 +53,36 @@ export const USER_QUERY = gql`
             id
             name
           }
-          year
-          mileage
-          photos
+          mileageLowerBound
+          mileageHigherBound
+          yearLowerBound
+          yearHigherBound
           features {
             id
             name
             category {
               id
               name
+            }
+          }
+          urgentExpiry
+          topExpiry
+          status
+          offers {
+            id
+            car {
+              id
+              manufacturer {
+                id
+                name
+              }
+              model {
+                id
+                name
+              }
+              year
+              mileage
+              photos
             }
           }
         }

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { User, ClientType } from '../../../generated/graphql';
+import { User, ClientType, Offer, Ad } from '../../../generated/graphql';
 import UserSummary from '../UserSummary';
-import { Card, Breadcrumb } from 'react-bootstrap';
-import { Tab, TabBadge } from '../../Ad/Ads/styles';
+import { Card, Breadcrumb, Button } from 'react-bootstrap';
+import { Tab, TabBadge, AdSummaries } from '../../Ad/Ads/styles';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Link from 'next/link';
 import CarList from '../../Car/CarList';
+import AdSummary from '../../Ad/AdSummary';
+import { OfferPrice } from '../../Ad/AdSummary/styles';
 
 interface UserDetailProps extends MultiProps {
   user: User;
@@ -39,7 +41,7 @@ const UserDetail = ({ user, translations }: UserDetailProps) => {
             : user.companyName}
         </Breadcrumb.Item>
       </Breadcrumb>
-      <Card style={{ marginBottom: '1rem' }}>
+      <Card style={{ marginBottom: '2rem' }}>
         <Card.Body>
           <UserSummary user={user} />
         </Card.Body>
@@ -68,7 +70,46 @@ const UserDetail = ({ user, translations }: UserDetailProps) => {
         {translations.cars.cars}
         <TabBadge>{user.carCount}</TabBadge>
       </Tab>
-      <CarList cars={user.cars} hidden={tabIndex !== 2} />
+      <Card style={{ overflow: 'hidden' }}>
+        <AdSummaries hidden={tabIndex !== 0}>
+          {user.offers.map((offer: Offer) => (
+            <div key={offer.ad.id}>
+              <AdSummary
+                key={offer.ad.id}
+                ad={offer.ad}
+                offer={offer}
+                right={
+                  <>
+                    <OfferPrice style={{ marginTop: '1rem' }}>
+                      {offer.price} $
+                    </OfferPrice>
+                  </>
+                }
+              />
+            </div>
+          ))}
+          {/* <Paging
+            pageIndex={pageIndexOffer}
+            setPageIndex={setPageIndexOffer}
+            maxItems={carQuery.data.car.offerCount}
+            itemsByPage={paging10pages}
+          /> */}
+        </AdSummaries>
+        <AdSummaries hidden={tabIndex !== 1}>
+          {user.ads.map((ad: Ad) => (
+            <div key={ad.id}>
+              <AdSummary key={ad.id} ad={ad} right={<></>} />
+            </div>
+          ))}
+          {/* <Paging
+            pageIndex={pageIndexOffer}
+            setPageIndex={setPageIndexOffer}
+            maxItems={carQuery.data.car.offerCount}
+            itemsByPage={paging10pages}
+          /> */}
+        </AdSummaries>
+        <CarList cars={user.cars} hidden={tabIndex !== 2} />
+      </Card>
     </div>
   );
 };
