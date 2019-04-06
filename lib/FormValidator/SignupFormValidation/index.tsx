@@ -1,5 +1,13 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { Location, ClientType, Date } from '../../../generated/graphql';
+import {
+  Location,
+  ClientType,
+  Date as SchemaDate,
+} from '../../../generated/graphql';
+import {
+  MINIMUMBIRTHDATEYEAR as MINIMUM_BIRTH_DATE_YEAR,
+  MINIMUMAGEFORUSINGAPP as MINIMUM_AGE_FOR_USING_APP,
+} from '../ProfileFormValidation';
 import { SignupState } from '../../../components/Auth/Signup';
 import { minBirthYear, minAge } from '../../../components/General/Preferences';
 class SignupFormValidation extends BasicFormValidation {
