@@ -1,18 +1,35 @@
 import gql from 'graphql-tag';
 export const USER_QUERY = gql`
-  query USER_QUERY($id: ID!) {
-    user(id: $id) {
+  query USER_QUERY(
+    $id: ID!
+    $offerPageNumber: Int
+    $offerPageSize: Int
+    $adPageNumber: Int
+    $adPageSize: Int
+    $carPageNumber: Int
+    $carPageSize: Int
+  ) {
+    user(
+      id: $id
+      offerPageNumber: $offerPageNumber
+      offerPageSize: $offerPageSize
+      adPageNumber: $adPageNumber
+      adPageSize: $adPageSize
+      carPageNumber: $carPageNumber
+      carPageSize: $carPageSize
+    ) {
       id
       firstName
       email
       clientType
       lastName
+      companyName
       createdAt
       status
       carCount
       offerCount
       adCount
-      cars {
+      cars(pageNumber: $carPageNumber, pageSize: $carPageSize) {
         id
         mileage
         manufacturer {
@@ -30,12 +47,20 @@ export const USER_QUERY = gql`
         year
         description
         photos
+        features {
+          id
+          name
+          category {
+            id
+            name
+          }
+        }
         offers {
           id
         }
       }
 
-      offers {
+      offers(pageNumber: $offerPageNumber, pageSize: $offerPageSize) {
         id
         ad {
           id
@@ -89,7 +114,7 @@ export const USER_QUERY = gql`
         price
       }
 
-      ads {
+      ads(pageNumber: $adPageNumber, pageSize: $adPageSize) {
         id
         creator {
           id
