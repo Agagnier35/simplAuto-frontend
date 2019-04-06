@@ -54,8 +54,8 @@ Router.onRouteChangeError = () => {
 };
 
 const handleLogout = async (logout: () => void) => {
-  Router.push('/');
   await logout();
+  Router.push('/');
 };
 
 const Header: React.SFC<MultiProps> = ({

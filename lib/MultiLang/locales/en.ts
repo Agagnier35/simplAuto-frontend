@@ -210,6 +210,7 @@ const translations: Translations = {
     carLimitReached: 'You have reached the limit of cars you can create',
   },
   cars: {
+    cars: 'Cars',
     addCar: 'Add a car',
     details: 'Car details',
     title: 'My Cars',

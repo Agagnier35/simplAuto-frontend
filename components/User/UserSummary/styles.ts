@@ -24,6 +24,14 @@ export const Container = styled.div`
   }
 `;
 
+export const A = styled.a`
+  color: black;
+
+  &:hover {
+    color: black;
+  }
+`;
+
 export const Name = styled.p`
   margin: 0;
   line-height: 1.2;
