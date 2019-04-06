@@ -64,7 +64,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
 
   checkFormValidation = () => {
     let isValid = false;
-    console.log(this.state);
     Object.keys(this.state).map(item => {
       if (this.state[item] && this.state[item].length !== 0) {
         isValid = true;
