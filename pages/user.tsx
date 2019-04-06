@@ -4,6 +4,7 @@ import checkIsAdmin from '../lib/Auth/checkIsAdmin';
 import UserDetail from '../components/User/UserDetail';
 import { User } from '../generated/graphql';
 import { USER_QUERY } from '../components/User/UserDetail/Queries';
+import { paging5pages } from '../components/General/Preferences';
 
 interface UserPageProps {
   user: User;
@@ -20,10 +21,14 @@ class UserPage extends React.Component<UserPageProps> {
     try {
       const { data }: { data: { user: User } } = await ctx.apolloClient.query({
         query: USER_QUERY,
-        variables: { id: ctx.query.id },
+        variables: {
+          id: ctx.query.id,
+          offerPageSize: paging5pages,
+          offerPageNumber: 0,
+        },
       });
 
-      return { user: data.user };
+      return { userSSR: data.user };
     } catch (error) {
       // error occured
       redirect(ctx, '/admin');
@@ -32,8 +37,7 @@ class UserPage extends React.Component<UserPageProps> {
   }
 
   render() {
-    const { user } = this.props;
-    return <UserDetail user={user} />;
+    return <UserDetail {...this.props} />;
   }
 }
 
