@@ -285,6 +285,10 @@ const translations: Translations = {
     noMatch: 'There is no 100% match offres',
     noAdsInYourArea: 'There are no ads in your area',
     noOffers: 'There are no offers on this ad',
+    from: 'From',
+    to: 'To',
+    youHaveBeenOffered: 'You have been offered',
+    youHaveOffered: 'You have offered',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

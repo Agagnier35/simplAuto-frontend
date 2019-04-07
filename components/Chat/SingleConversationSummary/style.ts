@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ContainerConversation = styled.div`
-  min-height: 50px;
+  min-height: 110px;
   display: flex;
   flex-flow: row wrap;
   border-bottom-style: solid;
@@ -32,6 +32,7 @@ export const Body = styled.div`
 
 export const Header = styled.div`
   padding-left: 1.5rem;
+  max-width: 23rem;
 `;
 
 export const Title = styled.div`

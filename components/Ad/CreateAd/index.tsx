@@ -22,8 +22,29 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-class CreateAd extends Component<MultiProps, Dictionary<AdCreateInput>> {
-  state: Dictionary<AdCreateInput> = {
+export interface CreateAdState extends Dictionary<AdCreateInput> {
+  priceLowerBound: number | null;
+  priceHigherBound: number | null;
+  manufacturerID: string | null;
+  modelID: string | null;
+  categoryID: string | null;
+  mileageLowerBound: number | null;
+  mileageHigherBound: number | null;
+  yearLowerBound: number | null;
+  yearHigherBound: number | null;
+  features: string[] | null;
+  touched: Dictionary<{
+    yearLowerBound: boolean;
+    yearHigherBound: boolean;
+    mileageLowerBound: boolean;
+    mileageHigherBound: boolean;
+    priceLowerBound: boolean;
+    priceHigherBound: boolean;
+  }>;
+}
+
+class CreateAd extends Component<MultiProps, CreateAdState> {
+  state: CreateAdState = {
     features: null,
     manufacturerID: null,
     modelID: null,

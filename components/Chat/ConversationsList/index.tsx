@@ -1,5 +1,5 @@
 import React from 'react';
-import SingleConversationSummary from './SingleConversationSummary';
+import SingleConversationSummary from '../SingleConversationSummary';
 import { Card } from 'react-bootstrap';
 
 const ConversationsList = (props: any) => {

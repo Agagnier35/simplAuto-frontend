@@ -250,6 +250,10 @@ export default interface Translations {
     noMatch: string;
     noAdsInYourArea: string;
     noOffers: string;
+    from: string;
+    to: string;
+    youHaveBeenOffered: string;
+    youHaveOffered: string;
   };
   GeneralModalContent: {
     title: string;

@@ -1,8 +1,8 @@
 import BasicFormValidation from '../BasicFormValidation';
 import {
   Date as SchemaDate,
-  Location,
   ClientType,
+  LocationInput,
 } from '../../../generated/graphql';
 import { ProfileState } from '../../../components/User/Profile';
 import { minBirthYear, minAge } from '../../../components/General/Preferences';
@@ -41,7 +41,7 @@ class ProfileFormValidation extends BasicFormValidation {
     );
   };
 
-  isLocationValid = (location: Location) => {
+  isLocationValid = (location: LocationInput) => {
     return (
       location.name !== '' &&
       location.longitude !== 0 &&

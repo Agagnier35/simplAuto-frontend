@@ -5,7 +5,7 @@ import {
   Conversation,
 } from '../../../generated/graphql';
 
-import { InputGroup, Form, Button } from 'react-bootstrap';
+import { InputGroup, Form } from 'react-bootstrap';
 import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
@@ -17,7 +17,7 @@ import { MESSAGE_SUBSCRIPTION } from '../../Chat/Chat/Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import moment from 'moment';
-import { FaEyeSlash as HideIcon, FaImage } from 'react-icons/fa';
+import { FaImage } from 'react-icons/fa';
 import { DaySpacer, Card, Container, MessageStyle, Time } from './style';
 
 interface ChatSectionProps extends MultiProps {
@@ -144,6 +144,14 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
     }
   }
 
+  function getSellerName() {
+    return convo.seller.firstName + ' ' + convo.seller.lastName;
+  }
+
+  function getBuyerName() {
+    return convo.buyer.firstName + ' ' + convo.buyer.lastName;
+  }
+
   useEffect(() => {
     scrollToBottom();
   }, [convo && convo.messages.length]);
@@ -187,7 +195,7 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
     <Card>
       {convo && (
         <>
-          <h2>{translations.Chat.title}</h2>
+          <h2>{isMyOffer ? getBuyerName() : getSellerName()}</h2>
           <Container className="chat">
             {convo.messages.map((message: Message, index: number) => (
               <React.Fragment key={message.id}>

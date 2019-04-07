@@ -301,6 +301,10 @@ const translations: Translations = {
     noMatch: 'Aucune offre ne correspond à 100% de vos critères',
     noAdsInYourArea: "Il n'y a aucune annonce disponnible",
     noOffers: "Il n'y a pas d'offres sur cette annonce",
+    from: 'De',
+    to: 'À',
+    youHaveBeenOffered: 'Vous vous etes fait offert',
+    youHaveOffered: 'Vous avez offert',
   },
   Chat: {
     title: 'Messagerie',

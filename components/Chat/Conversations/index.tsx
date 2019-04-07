@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
-import ConversationsList from './ConversationsList';
+import ConversationsList from '../ConversationsList';
 import { Row, Col } from 'react-bootstrap';
 import { Conversation } from '../../../generated/graphql';
 import ChatSection from '../ChatSection';
