@@ -14,7 +14,7 @@ import AdSummaryItem from './AdSummaryItem';
 import { IoIosTimer as KilometerIcon } from 'react-icons/io';
 import { useQuery } from 'react-apollo-hooks';
 import { AD_OFFER_SUGGESTION_QUERY } from '../AdDetail/Queries';
-import { myTopThree } from '../../General/Preferences';
+import { myTopOffers } from '../../General/Preferences';
 
 export interface AdOffersProps extends MultiProps {
   ad: Ad;
@@ -25,7 +25,7 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
     variables: {
       id: ad.id,
       pageNumber: 0,
-      pageSize: myTopThree,
+      pageSize: myTopOffers,
     },
   });
 
@@ -45,7 +45,7 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
   return (
     <Col md={12}>
       {ad.offers &&
-        ad.offers.slice(0, myTopThree).map((offer: Offer, index: number) => (
+        ad.offers.slice(0, myTopOffers).map((offer: Offer, index: number) => (
           <AdOfferItem key={offer.id}>
             <div className="image-wrapper">
               <img src={offer.car.photos[0]} alt="" />
@@ -65,12 +65,12 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
             <OfferPrice>{offer.price} $</OfferPrice>
           </AdOfferItem>
         ))}
-      {ad.offers.length < myTopThree &&
+      {ad.offers.length < myTopOffers &&
         !loading &&
         !error &&
         data.suggestions &&
         data.suggestions
-          .slice(0, myTopThree - ad.offers.length)
+          .slice(0, myTopOffers - ad.offers.length)
           .map((suggestion: any, index: number) => (
             <AdOfferItem key={suggestion.offer.id}>
               <div className="image-wrapper">

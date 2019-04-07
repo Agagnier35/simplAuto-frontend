@@ -9,4 +9,4 @@ export const minCarYear = 1900;
 export const minBirthYear = 1900;
 export const maxMileage = 1000000;
 export const minAge = 14;
-export const myTopThree = 3;
+export const myTopOffers = 3;
