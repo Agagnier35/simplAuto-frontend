@@ -125,7 +125,7 @@ const Car = ({ translations, query }: CarPageProps) => {
             }
           >
             {adsQuery.data.adSuggestion ? (
-              adsQuery.data.adSuggestion.reverse().map((suggestion: any) => (
+              adsQuery.data.adSuggestion.map((suggestion: any) => (
                 <div key={suggestion.ad.id}>
                   <AdSummary
                     key={suggestion.ad.id}
@@ -157,10 +157,15 @@ const Car = ({ translations, query }: CarPageProps) => {
               itemsByPage={paging10pages}
             />
           </AdSummaries>
-          <div hidden={adsQuery.loading || adsQuery.data.adSuggestion}>
+          <div
+            hidden={
+              adsQuery.loading ||
+              !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
+            }
+          >
             {translations.Ads.noMatchingAds}
           </div>
-          <div hidden={!adsQuery.loading && adsQuery.data.adSuggestion}>
+          <div hidden={!adsQuery.loading}>
             <Loading />
           </div>
         </Card>
