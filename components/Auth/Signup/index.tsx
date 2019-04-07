@@ -75,7 +75,7 @@ class Signup extends Component<MultiProps, SignupState> {
       longitude: 0,
       latitude: 0,
     },
-    radius: 0,
+    radius: 100,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -461,7 +461,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Female}
                           />
-                          {Gender.Female}
+                          {profile.female}
                         </label>
                         <label htmlFor="gender">
                           <input
@@ -470,7 +470,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Other}
                           />
-                          {Gender.Other}
+                          {profile.other}
                         </label>
                       </div>
                       <Form.Group>
