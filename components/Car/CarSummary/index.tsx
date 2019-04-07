@@ -10,15 +10,17 @@ export interface CarSummaryProp {
   translations: Translations;
   car: Car;
   offer?: Offer;
+  refetchQuery?: any;
 }
 
 const CarSummary = ({
   translations,
   car,
   offer,
+  refetchQuery,
   ...otherProps
 }: CarSummaryProp) => {
-  const pages = [<GeneralCarInfos car={car} />];
+  const pages = [<GeneralCarInfos refetchQuery={refetchQuery} car={car} />];
 
   if (car.features && car.features.length > 0) {
     pages.push(<CarFeatures car={car} />);
