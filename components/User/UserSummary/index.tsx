@@ -9,6 +9,7 @@ import moment from 'moment';
 import { FaUserSlash, FaUserEdit } from 'react-icons/fa';
 import { useMutation } from 'react-apollo-hooks';
 import { BAN_USER_MUTATION } from '../../Admin/SearchUser/Mutations';
+import Link from 'next/link';
 
 interface UserSummaryProps {
   user: User;
@@ -48,10 +49,18 @@ const UserSummary = ({ user }: UserSummaryProps) => {
               <MoreIcon />
             </More>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => console.log('setModalShow(true)')}>
-                <FaUserEdit />
-                modify
-              </Dropdown.Item>
+              <Link
+                href={{
+                  pathname: '/profile',
+                  query: { id: user.id },
+                }}
+                passHref
+              >
+                <Dropdown.Item as="a">
+                  <FaUserEdit />
+                  modify
+                </Dropdown.Item>
+              </Link>
               <Dropdown.Item
                 onClick={() => banUser({ variables: { id: user.id } })}
               >

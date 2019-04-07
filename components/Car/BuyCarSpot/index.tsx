@@ -6,7 +6,7 @@ import { BUY_CAR_SPOT_MUTATION } from './Mutations';
 import { stripeKey } from '../../../config';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { PRICES_QUERY } from '../../Premium/Premium/Queries';
-import { Prices } from '../../../generated/graphql';
+import { Prices, User, Permission } from '../../../generated/graphql';
 import { Button } from 'react-bootstrap';
 
 export interface BuyCarSpotProps extends MultiProps {}
@@ -19,22 +19,25 @@ const BuyCarSpot = ({ translations }: BuyCarSpotProps) => {
   if (loggedQuery.loading || pricesQuery.loading) return null;
 
   const prices: Prices = pricesQuery.data.getPrices;
+  const user: User = loggedQuery.data.me;
 
   return (
     <div>
-      <StripeCheckout
-        amount={prices.carSpot}
-        name={translations.Stripe.CarSpotName}
-        description={translations.Stripe.CarSpotDescription}
-        currency="CAD"
-        email={loggedQuery.data.me.email}
-        stripeKey={stripeKey}
-        token={(res: any) =>
-          handleBuyCarSpot({ variables: { stripeToken: res.id, amount: 1 } })
-        }
-      >
-        <Button>{translations.Stripe.CarSpotButton}</Button>
-      </StripeCheckout>
+      {!user.permissions.includes(Permission.Premium) && (
+        <StripeCheckout
+          amount={prices.carSpot}
+          name={translations.Stripe.CarSpotName}
+          description={translations.Stripe.CarSpotDescription}
+          currency="CAD"
+          email={loggedQuery.data.me.email}
+          stripeKey={stripeKey}
+          token={(res: any) =>
+            handleBuyCarSpot({ variables: { stripeToken: res.id, amount: 1 } })
+          }
+        >
+          <Button>{translations.Stripe.CarSpotButton}</Button>
+        </StripeCheckout>
+      )}
     </div>
   );
 };
