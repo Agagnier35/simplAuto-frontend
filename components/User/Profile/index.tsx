@@ -261,14 +261,11 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
   };
 
   render() {
-    console.log(this.props);
     const {
       translations: { profile, general },
       user,
     } = this.props;
 
-    console.log('lol');
-    console.log(user);
     const touched = { ...this.state.touched };
     const profileFormValidation = new ProfileFormValidation(general);
     return (
@@ -279,7 +276,7 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
           onCompleted={data => this.fillState(data)}
         >
           {({ data, loading, error }) => {
-            if (loading || !data.me) return <Loading />;
+            if (loading || !data.user) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return (
               <Mutation
