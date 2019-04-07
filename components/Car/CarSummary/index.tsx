@@ -8,7 +8,10 @@ import CarFeatures from './CarFeatures';
 import { Button } from 'react-bootstrap';
 import { useMutation } from 'react-apollo-hooks';
 import { DELETE_CAR_MUTATION } from '../CarDetails';
-import GeneralModal, { MainAppObject, ModalAction } from '../../General/GeneralModal';
+import GeneralModal, {
+  MainAppObject,
+  ModalAction,
+} from '../../General/GeneralModal';
 import { MdCancel } from 'react-icons/md';
 
 export interface CarSummaryProp {
