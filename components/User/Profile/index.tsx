@@ -14,9 +14,9 @@ import {
   UserUpdateInput,
   Gender,
   Date as SchemaDate,
-  Location,
   UserLanguage,
   ClientType,
+  LocationInput,
 } from '../../../generated/graphql';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { USER_BY_ID } from './Queries';
@@ -38,7 +38,7 @@ export interface ProfileState {
   lastName: string | undefined;
   companyName: string | undefined;
   email: string;
-  location: Location;
+  location: LocationInput;
   radius: number;
   birthDate: SchemaDate | undefined;
   gender: Gender | undefined;
