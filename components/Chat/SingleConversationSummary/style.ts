@@ -13,8 +13,6 @@ export const ContainerConversation = styled.div`
 
 export const Body = styled.div`
   padding: 1.5rem;
-  display: -webkit-flex; /* Safari */
-  -webkit-flex-flow: row wrap; /* Safari 6.1+ */
   display: flex;
   flex-flow: row wrap;
 
@@ -33,6 +31,7 @@ export const Body = styled.div`
 export const Header = styled.div`
   padding-left: 1.5rem;
   max-width: 23rem;
+  min-width: 23rem;
 `;
 
 export const Title = styled.div`
