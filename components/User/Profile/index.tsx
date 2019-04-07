@@ -70,8 +70,10 @@ const redText = {
 };
 
 interface ProfileProps extends MultiProps {
-  query: {
-    id: string;
+  user: {
+    me: {
+      id: string;
+    };
   };
 }
 
@@ -259,19 +261,21 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
   };
 
   render() {
+    console.log(this.props);
     const {
       translations: { profile, general },
-      query,
+      user,
     } = this.props;
 
+    console.log('lol');
+    console.log(user);
     const touched = { ...this.state.touched };
-
     const profileFormValidation = new ProfileFormValidation(general);
     return (
       <>
         <Query
           query={USER_BY_ID}
-          variables={{ id: query.id }}
+          variables={{ id: user.me.id }}
           onCompleted={data => this.fillState(data)}
         >
           {({ data, loading, error }) => {
@@ -285,7 +289,7 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
                   {
                     query: USER_BY_ID,
                     variables: {
-                      id: query.id,
+                      id: user.me.id,
                     },
                   },
                 ]}
