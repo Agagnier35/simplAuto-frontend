@@ -203,15 +203,6 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                 />
                 {isMyAd && (
                   <OfferButtons>
-                    {!offer.conversation && (
-                      <Button
-                        onClick={() => handleCreateConversation()}
-                        variant="primary"
-                      >
-                        <MessageIcon />
-                        {translations.offers.chat}
-                      </Button>
-                    )}
                     <Button
                       variant="warning"
                       onClick={() => handleRefuseOffer()}

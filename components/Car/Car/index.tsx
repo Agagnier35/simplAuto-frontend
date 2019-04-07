@@ -162,8 +162,10 @@ const Car = ({ translations, query }: CarPageProps) => {
               adsQuery.loading ||
               !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
             }
-          />
-          <div hidden={!adsQuery.loading && adsQuery.data.adSuggestion}>
+          >
+            {translations.Ads.noMatchingAds}
+          </div>
+          <div hidden={!adsQuery.loading}>
             <Loading />
           </div>
         </Card>
