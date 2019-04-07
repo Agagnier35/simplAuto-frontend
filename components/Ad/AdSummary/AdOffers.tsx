@@ -68,7 +68,8 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
             <OfferPrice>{offer.price} $</OfferPrice>
           </AdOfferItem>
         ))}
-      {ad.offers.length < 3 &&
+      {ad.offers &&
+        ad.offers.length < 3 &&
         !loading &&
         data.suggestions &&
         data.suggestions
@@ -93,9 +94,13 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
               <OfferPrice>{suggestion.offer.price} $</OfferPrice>
             </AdOfferItem>
           ))}
-      {ad.offers.length === 0 && !loading && data.suggestions && (
-        <p>{translations.offers.noOffers}</p>
-      )}
+      <p
+        hidden={
+          loading || (ad.offers && ad.offers.length > 0) || !data.suggestions
+        }
+      >
+        {translations.offers.noOffers}
+      </p>
     </Col>
   );
 };
