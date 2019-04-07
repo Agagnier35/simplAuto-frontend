@@ -88,6 +88,7 @@ export default interface Translations {
     cancel: string;
     create: string;
     update: string;
+    anything: string;
     print: string;
     offered: string;
     memberSince: string;
