@@ -10,6 +10,8 @@ export default (apolloClient: ApolloClient<any>) =>
     .then(({ data }) => {
       return { user: data };
     })
-    .catch(() => {
+    .catch(e => {
+      console.log('REEEEEEEEE');
+      console.log(e);
       return { user: null };
     });
