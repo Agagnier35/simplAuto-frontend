@@ -27,7 +27,9 @@ const OfferAddons = ({ offer, translations }: OfferAddonsProps) => {
           <AdSummaryItem
             key={addon.id}
             icon={<AddonIcon addon={addon} />}
-            label={offerAddons[addon.name]}
+            label={
+              offerAddons[addon.name] ? offerAddons[addon.name] : addon.name
+            }
           />
         ))}
       </Card.Body>

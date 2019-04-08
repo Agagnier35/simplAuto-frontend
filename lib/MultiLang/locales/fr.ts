@@ -61,6 +61,7 @@ const translations: Translations = {
     becomePremium: 'Devenir Premium',
     or: 'ou',
     defaultDropdown: 'Sélectionnez',
+    defaultUnselect: 'Déselectionner',
     other: 'Autre',
     none: 'Non-spécifié',
     features: 'Caractéristiques',
@@ -71,7 +72,7 @@ const translations: Translations = {
     firstName: 'Prénom',
     lastName: 'Nom de famille',
     companyName: 'Nom de la compagnie',
-    gender: 'genre',
+    gender: 'Sexe',
     birthDate: {
       day: 'Jour',
       month: 'Mois',
@@ -83,6 +84,7 @@ const translations: Translations = {
     },
     resetPw: 'Réinitialiser le mot de passe',
     buy: 'Acheter',
+    myConversations: 'Mes conversations',
     sell: 'Vendre',
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
@@ -90,6 +92,7 @@ const translations: Translations = {
     Ad: 'Annonce',
     offers: 'Offres',
     cancel: 'Annuler',
+    anything: "N'importe quel",
     create: 'Créer',
     update: 'Modifier',
     delete: 'Supprimer',
@@ -137,7 +140,6 @@ const translations: Translations = {
           yearLowerBoundTooLow: "L'année minimale trop basse",
           yearLowerBoundTooHigh:
             "L'année minimale ne peut être plus grande que l'année courante.",
-          emptyError: "L'année minimale ne peut être vide",
           numberNotIntegerError:
             "L'année minimale doit être un entier (chiffre sans virgule)",
         },
@@ -145,7 +147,6 @@ const translations: Translations = {
           yearHigherBoundTooLow: "L'année maximale trop basse",
           yearHigherBoundTooHigh:
             "L'année maximale ne peut être plus grande que l'année courante.",
-          emptyError: "L'année maximale ne peut être vide",
           numberNotIntegerError:
             "L'année maximale doit être un entier (chiffre sans virgule)",
           yearLowerBoundHigherThanYearHigherBoundError:
@@ -154,14 +155,12 @@ const translations: Translations = {
         mileageLowerBound: {
           mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
           mileageLowerBoundTooHigh: 'Kilométrage min trop grand',
-          emptyError: 'Kilométrage min ne peut être vide',
           numberNotIntegerError:
             'Kilométrage min doit être un entier (chiffre sans virgule)',
         },
         mileageHigherBound: {
           mileageHigherBoundTooLow: 'Kilométrage max doit être positif',
           mileageHigherBoundTooHigh: 'Kilométrage max trop grand',
-          emptyError: 'Kilométrage max ne peut être vide',
           numberNotIntegerError:
             'Kilométrage max doit être un entier (chiffre sans virgule)',
           mileageLowerBoundHigherThanMileageHigherBoundError:
@@ -169,12 +168,10 @@ const translations: Translations = {
         },
         priceLowerBound: {
           priceLowerBoundTooLowError: 'Prix min doit être positif',
-          emptyError: 'Prix min ne peut être vide',
           numberNotIntegerError:
             'Prix min doit être un entier (chiffre sans virgule)',
         },
         priceHigherBound: {
-          emptyError: 'Prix max ne peut être vide',
           numberNotIntegerError:
             'Prix max doit être un entier (chiffre sans virgule)',
           priceLowerBoundHigherThanPriceHigherBoundError:
@@ -209,6 +206,7 @@ const translations: Translations = {
     carLimitReached: 'Vous avez atteint la limite 2 véhicules permis',
   },
   cars: {
+    cars: 'Automobiles',
     addCar: 'Ajouter un automobile',
     details: "Détails de l'automobile",
     title: 'Mes automobiles',
@@ -273,6 +271,8 @@ const translations: Translations = {
     addAds: 'Ajouter un annonce',
     title: 'Annonces',
     noAds: `Vous n'avez pas d'annonce`,
+    noMatchingAds:
+      "Il n'y a pas de demande pour votre voiture dans votre secteur",
   },
   GeneralModalContent: {
     title: 'Boite de confirmation',
@@ -302,6 +302,11 @@ const translations: Translations = {
     youMayLike: 'Vous aimerez peut-être',
     noMatch: 'Aucune offre ne correspond à 100% de vos critères',
     noAdsInYourArea: "Il n'y a aucune annonce disponnible",
+    noOffers: "Il n'y a pas d'offres sur cette annonce",
+    from: 'De',
+    to: 'À',
+    youHaveBeenOffered: 'Vous vous etes fait offert',
+    youHaveOffered: 'Vous avez offert',
   },
   Chat: {
     title: 'Messagerie',
@@ -427,6 +432,34 @@ const translations: Translations = {
     CarLimitPremium: 'Illimité !',
     BasicStatistics: 'Statistiques de base',
     PremiumStatistics: 'Éventail complet de statistiques',
+  },
+  conversation: {
+    noConversations: "Vous n'avez pas de conversations",
+  },
+  admin: {
+    users: 'Utilisateurs',
+    stats: 'Statistiques',
+    overall: 'Statistiques générales',
+    carResearch: 'Obtenir les statistiques pour un véhicule',
+    location: 'Location de la recherche',
+    radius: 'Rayon de recherche (KM)',
+    results: 'Resultats',
+    api: 'Sur le marché',
+    averagePrice: 'Prix moyen',
+    lowestPrice: 'Pris le plus bas',
+    highestPrice: 'Prix le plus haut',
+    averageDom: 'Nombre de jours moyen sur le marché',
+    lowestDom: 'Nombre de jours le plus bas sur le marché',
+    highestDom: 'Nombre de jours le plus haut sur le marché',
+    app: 'Sur cette app',
+    numberSold: 'Nombre vendus',
+    top10MakeModel: 'Top 10 des autos les plus vendus',
+    top10Fastest: 'Top 10 des autos vendues le plus rapidement',
+    bestSeller: 'meilleur vendeur sur la plateforme',
+    vehiculesCount: 'Total des véhicules',
+    adsCount: 'Total des annonces',
+    activeUsers: "Nombres d'usagers actifs",
+    inactiveUsers: "Nombres d'usagers inactifs",
   },
 };
 

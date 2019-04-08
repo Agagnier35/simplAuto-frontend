@@ -55,6 +55,7 @@ export default interface Translations {
     becomePremium: string;
     or: string;
     defaultDropdown: string;
+    defaultUnselect: string;
     other: string;
     none: string;
     features: string;
@@ -78,6 +79,7 @@ export default interface Translations {
     resetPw: string;
     buy: string;
     sell: string;
+    myConversations: string;
     myCars: string;
     myAds: string;
     disconnect: string;
@@ -87,6 +89,7 @@ export default interface Translations {
     cancel: string;
     create: string;
     update: string;
+    anything: string;
     print: string;
     offered: string;
     memberSince: string;
@@ -129,36 +132,30 @@ export default interface Translations {
         yearLowerBound: {
           yearLowerBoundTooLow: String;
           yearLowerBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         yearHigherBound: {
           yearHigherBoundTooLow: String;
           yearHigherBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
           yearLowerBoundHigherThanYearHigherBoundError: String;
         };
         mileageLowerBound: {
           mileageLowerBoundTooLow: String;
           mileageLowerBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         mileageHigherBound: {
           mileageHigherBoundTooLow: String;
           mileageHigherBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
           mileageLowerBoundHigherThanMileageHigherBoundError: String;
         };
         priceLowerBound: {
           priceLowerBoundTooLowError: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         priceHigherBound: {
-          emptyError: String;
           numberNotIntegerError: String;
           priceLowerBoundHigherThanPriceHigherBoundError: String;
         };
@@ -189,6 +186,7 @@ export default interface Translations {
     carLimitReached: string;
   };
   cars: {
+    cars: string;
     addCar: string;
     details: string;
     title: string;
@@ -237,6 +235,7 @@ export default interface Translations {
     addAds: string;
     title: string;
     noAds: string;
+    noMatchingAds: string;
   };
   offers: {
     createOffer: string;
@@ -252,6 +251,11 @@ export default interface Translations {
     youMayLike: string;
     noMatch: string;
     noAdsInYourArea: string;
+    noOffers: string;
+    from: string;
+    to: string;
+    youHaveBeenOffered: string;
+    youHaveOffered: string;
   };
   GeneralModalContent: {
     title: string;
@@ -387,5 +391,33 @@ export default interface Translations {
     offerPrice: string;
     days: string;
     daysOnMarket: string;
+  };
+  conversation: {
+    noConversations: string;
+  };
+  admin: {
+    users: string;
+    stats: string;
+    overall: string;
+    carResearch: string;
+    location: string;
+    radius: string;
+    results: string;
+    api: string;
+    averagePrice: string;
+    lowestPrice: string;
+    highestPrice: string;
+    averageDom: string;
+    lowestDom: string;
+    highestDom: string;
+    app: string;
+    numberSold: string;
+    top10MakeModel: string;
+    top10Fastest: string;
+    bestSeller: string;
+    vehiculesCount: string;
+    adsCount: string;
+    activeUsers: string;
+    inactiveUsers: string;
   };
 }

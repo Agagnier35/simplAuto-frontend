@@ -4,6 +4,7 @@ export const CREATE_CONVERSATION_MUTATION = gql`
   mutation CREATE_CONVERSATION_MUTATION($offerID: ID!) {
     createConversation(offerID: $offerID) {
       id
+      status
     }
   }
 `;
@@ -27,6 +28,14 @@ export const ACCEPT_OFFER_MUTATION = gql`
 export const REFUSE_OFFER_MUTATION = gql`
   mutation REFUSE_OFFER_MUTATION($id: ID!) {
     refuseOffer(id: $id) {
+      id
+    }
+  }
+`;
+
+export const DELETE_OFFER_MUTATION = gql`
+  mutation DELETE_OFFER_MUTATION($id: ID!) {
+    deleteOffer(id: $id) {
       id
     }
   }

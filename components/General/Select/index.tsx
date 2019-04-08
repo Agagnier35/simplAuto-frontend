@@ -11,24 +11,39 @@ export interface SelectProps extends MultiProps {
   disabled: boolean; // Blocks input if true
   defaultValue?: any; // Default value
   translations: Translations;
+  reset?: boolean;
   selected?: any; // Initial selected object
 }
 
 interface SelectState {
   selectedValue: string;
+  resetValue: boolean;
 }
 
 class Select extends React.Component<SelectProps, SelectState> {
   constructor(props: SelectProps) {
     super(props);
-
     if (this.props.selected) {
+      if (this.props.reset) {
+        this.state = {
+          selectedValue: this.props.selected[this.props.accessor],
+          resetValue: this.props.reset,
+        };
+      } else {
+        this.state = {
+          selectedValue: this.props.selected[this.props.accessor],
+          resetValue: false,
+        };
+      }
+    } else if (this.props.reset) {
       this.state = {
-        selectedValue: this.props.selected[this.props.accessor],
+        selectedValue: '',
+        resetValue: true,
       };
     } else {
       this.state = {
         selectedValue: '',
+        resetValue: false,
       };
     }
   }
@@ -37,7 +52,8 @@ class Select extends React.Component<SelectProps, SelectState> {
     if (
       prevProps &&
       prevProps.selected &&
-      prevProps.selected !== this.props.selected
+      prevProps.selected !== this.props.selected &&
+      this.state.resetValue
     ) {
       this.setState({ selectedValue: '' });
     }
@@ -45,9 +61,12 @@ class Select extends React.Component<SelectProps, SelectState> {
 
   handleSelect = (option: any) => {
     const { accessor, handleChange } = this.props;
-    this.setState({ selectedValue: option[accessor] }, () => {
-      handleChange(option);
-    });
+    if (option['id'] !== '0') {
+      this.setState({ selectedValue: option[accessor] }, () => {});
+    } else {
+      this.setState({ selectedValue: '' });
+    }
+    handleChange(option);
   };
 
   public render() {

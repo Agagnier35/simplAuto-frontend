@@ -46,6 +46,7 @@ export interface SignupState {
   touched: Dictionary<{
     firstName: boolean;
     lastName: boolean;
+    companyName: boolean;
     email: boolean;
     password: boolean;
     confirmPassword: boolean;
@@ -74,7 +75,7 @@ class Signup extends Component<MultiProps, SignupState> {
       longitude: 0,
       latitude: 0,
     },
-    radius: 0,
+    radius: 100,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -86,6 +87,7 @@ class Signup extends Component<MultiProps, SignupState> {
     touched: {
       firstName: false,
       lastName: false,
+      companyName: false,
       email: false,
       password: false,
       confirmPassword: false,
@@ -281,13 +283,13 @@ class Signup extends Component<MultiProps, SignupState> {
                             onBlur={() => this.fieldTouched('firstName')}
                             isInvalid={
                               touched.firstName &&
-                              !signupformValidation.isFirstNameValid(
+                              !signupformValidation.isNameValid(
                                 this.state.firstName,
                               )
                             }
                           />
                           <Form.Control.Feedback type="invalid">
-                            {signupformValidation.firstNameError(
+                            {signupformValidation.isNameValid(
                               this.state.firstName,
                             )}
                           </Form.Control.Feedback>
@@ -304,6 +306,13 @@ class Signup extends Component<MultiProps, SignupState> {
                             name="lastName"
                             value={this.state.lastName}
                             onChange={this.handleChange}
+                            onBlur={() => this.fieldTouched('lastName')}
+                            isInvalid={
+                              touched.lastName &&
+                              !signupformValidation.isNameValid(
+                                this.state.lastName,
+                              )
+                            }
                           />
                           <Form.Control.Feedback type="invalid">
                             {general.lastName}
@@ -324,11 +333,11 @@ class Signup extends Component<MultiProps, SignupState> {
                           name="companyName"
                           value={this.state.companyName}
                           onChange={this.handleChange}
-                          onBlur={() => this.fieldTouched('lastName')}
+                          onBlur={() => this.fieldTouched('companyName')}
                           isInvalid={
-                            touched.lastName &&
-                            !signupformValidation.isLastNameValid(
-                              this.state.lastName,
+                            touched.companyName &&
+                            !signupformValidation.isNameValid(
+                              this.state.companyName,
                             )
                           }
                         />
@@ -443,7 +452,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Male}
                           />
-                          {Gender.Male}
+                          {profile.male}
                         </label>
                         <label htmlFor="gender">
                           <input
@@ -452,7 +461,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Female}
                           />
-                          {Gender.Female}
+                          {profile.female}
                         </label>
                         <label htmlFor="gender">
                           <input
@@ -461,7 +470,7 @@ class Signup extends Component<MultiProps, SignupState> {
                             onChange={this.handleChange}
                             value={Gender.Other}
                           />
-                          {Gender.Other}
+                          {profile.other}
                         </label>
                       </div>
                       <Form.Group>

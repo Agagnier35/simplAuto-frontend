@@ -39,7 +39,7 @@ const MyAds = ({ translations }: MultiProps) => {
         </Button>
       </Link>
 
-      {data.me.adCount > 0 ? (
+      {data.me && data.me.adCount > 0 ? (
         <>
           <Card>
             <AdSummaries>

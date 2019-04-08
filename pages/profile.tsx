@@ -6,7 +6,7 @@ class ProfilePage extends PrivateComponent {
   render() {
     return (
       <div>
-        <Profile />
+        <Profile {...this.props} />
       </div>
     );
   }

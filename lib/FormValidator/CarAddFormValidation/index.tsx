@@ -1,5 +1,8 @@
 import BasicFormValidation from '../BasicFormValidation';
-import { MAX_MILEAGE_ALLOWED, MIN_CAR_YEAR } from '../CreateAdFormValidation';
+import {
+  minCarYear,
+  maxMileage,
+} from '../../../components/General/Preferences';
 
 export class CarAddFormValidation extends BasicFormValidation {
   general: any;
@@ -15,8 +18,8 @@ export class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(year.toString()) &&
       this.isNumberAnInteger(year) &&
-      year > MIN_CAR_YEAR &&
-      year < new Date().getFullYear()
+      year >= minCarYear &&
+      year <= new Date().getFullYear()
     );
   };
 
@@ -27,8 +30,8 @@ export class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(mileage.toString()) &&
       this.isNumberAnInteger(mileage) &&
-      mileage > 0 &&
-      mileage < MAX_MILEAGE_ALLOWED
+      mileage >= 0 &&
+      mileage <= maxMileage
     );
   };
 
@@ -49,11 +52,11 @@ export class CarAddFormValidation extends BasicFormValidation {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .numberNotIntegerError;
     }
-    if (year < 1900) {
+    if (year < minCarYear) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooLowError;
     }
-    if (year > new Date().getFullYear() + 1) {
+    if (year > new Date().getFullYear()) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooHighError;
     }
@@ -75,7 +78,8 @@ export class CarAddFormValidation extends BasicFormValidation {
     if (mileage < 0) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageLesserThanZeroError;
-    } else if (mileage > MAX_MILEAGE_ALLOWED) {
+    }
+    if (mileage > maxMileage) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.mileage
         .mileageTooHighError;
     }

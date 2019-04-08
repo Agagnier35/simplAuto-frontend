@@ -6,14 +6,16 @@ import { Car } from '../../../generated/graphql';
 
 export interface CarsProps {
   cars: Car[];
+  refetchQuery?: any;
+  [prop: string]: any; // Can pass any prop now without a TypeScript error
 }
 
-const CarList = ({ cars }: CarsProps) => {
+const CarList = ({ cars, refetchQuery, ...otherProps }: CarsProps) => {
   return (
-    <StyledCarList>
+    <StyledCarList {...otherProps}>
       <Card style={{ overflow: 'hidden' }}>
         {cars.map((car: any) => (
-          <CarSummary key={car.id} car={car} />
+          <CarSummary key={car.id} car={car} refetchQuery={refetchQuery} />
         ))}
       </Card>
     </StyledCarList>

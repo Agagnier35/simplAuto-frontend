@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Card, Carousel } from 'react-bootstrap';
 
 export const Container = styled.div`
   min-height: 200px;
@@ -71,4 +70,9 @@ export const Title = styled.div`
 
 export const Left = styled.div`
   margin-right: 1rem;
+`;
+
+export const Right = styled.div`
+  display: block;
+  margin-left: 80%;
 `;

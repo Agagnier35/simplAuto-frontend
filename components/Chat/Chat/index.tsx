@@ -2,13 +2,12 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import {
   Offer,
   Message,
-  Maybe,
   ConversationStatus,
   Conversation,
 } from '../../../generated/graphql';
 
 import * as Chat from './styles';
-import { InputGroup, Form } from 'react-bootstrap';
+import { InputGroup, Form, Button } from 'react-bootstrap';
 import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
@@ -33,11 +32,11 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
 
   const meQuery = useQuery(LOGGED_IN_QUERY);
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
-  const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
+  const isMyAd = !isMyOffer;
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
   const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);
-  let upload: Maybe<HTMLInputElement>;
+  let upload: HTMLInputElement | null;
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
@@ -53,7 +52,20 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
-        data.offer.conversation.messages.push(message);
+        if (offerQuery.variables) {
+          // We're in an offer
+          data.offer.conversation.messages.push(message);
+        } else {
+          // Theres no variables -> inside conversations
+          data.me.conversations = data.me.conversations.map(
+            (conversation: Conversation) => {
+              if (conversation.offer.id === offer.id) {
+                conversation.messages.push(message);
+              }
+              return conversation;
+            },
+          );
+        }
       }
 
       client.cache.writeQuery({ ...offerQuery, data });
@@ -65,19 +77,16 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     setCurrentMessage(e.currentTarget.value);
   }
 
-  async function sendMessage(e: FormEvent<HTMLFormElement> | any) {
-    e.preventDefault();
+  async function sendMessage(text: string, image: string) {
     if (currentMessage.length > 0 || currentImage !== '') {
-      const messageToSend = currentMessage;
-      const imageToSend = currentImage;
       setCurrentMessage('');
       setCurrentImage('');
       await handleSendMessage({
         variables: {
           data: {
+            text,
+            image,
             conversationID: offer.conversation && offer.conversation.id,
-            text: messageToSend,
-            image: imageToSend,
           },
         },
       });
@@ -187,76 +196,79 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       }
     }
   }
-
   return (
     <Chat.Card>
-      {offer.conversation && (
-        <>
-          <h2>{translations.Chat.title}</h2>
-          <Chat.Container className="chat">
-            {offer.conversation.messages.map(
-              (message: Message, index: number) => (
-                <React.Fragment key={message.id}>
-                  {getDaySpacer(offer.conversation, index)}
-                  <Chat.Message isSelfOrSeller={isSelfOrSeller(message)}>
-                    {isSelfOrSeller(message) && (
-                      <Chat.Time>
-                        {moment(message.updatedAt).format('LT')}
-                      </Chat.Time>
-                    )}
-                    {message.image && message.image !== '' && (
-                      <img className="chatImage" src={message.image} />
-                    )}
-                    {message.text && message.text !== '' && (
-                      <p>{message.text}</p>
-                    )}
-                    {!isSelfOrSeller(message) && (
-                      <Chat.Time>
-                        {moment(message.updatedAt).format('LT')}
-                      </Chat.Time>
-                    )}
-                  </Chat.Message>
-                </React.Fragment>
-              ),
-            )}
-          </Chat.Container>
-          <Form onSubmit={sendMessage}>
-            <InputGroup>
-              <Form.Control
-                aria-describedby="inputGroupAppend"
-                required
-                type="text"
-                value={currentMessage}
-                onChange={handleChange}
-                placeholder={translations.Chat.sendPlaceholder}
-              />
-              <img className="imagePreview" src={currentImage} />
-              <InputGroup.Append>
-                <InputGroup.Text className="image-button">
-                  <input
-                    id="upload"
-                    type="file"
-                    ref={ref => (upload = ref)}
-                    style={{ display: 'none' }}
-                    accept="image/*"
-                    onChange={handlePictureChange}
-                  />
-                  <FaImage
-                    onClick={() => {
-                      if (upload) upload.click();
-                    }}
-                  />
-                </InputGroup.Text>
-              </InputGroup.Append>
-              <InputGroup.Append>
-                <InputGroup.Text className="send-button" onClick={sendMessage}>
-                  {translations.Chat.send}
-                </InputGroup.Text>
-              </InputGroup.Append>
-            </InputGroup>
-          </Form>
-        </>
-      )}
+      {offer.conversation &&
+        offer.conversation.status !== ConversationStatus.Deleted && (
+          <>
+            <h2>{translations.Chat.title}</h2>
+            <Chat.Container className="chat">
+              {offer.conversation.messages.map(
+                (message: Message, index: number) => (
+                  <React.Fragment key={message.id}>
+                    {getDaySpacer(offer.conversation, index)}
+                    <Chat.MessageStyle isSelfOrSeller={isSelfOrSeller(message)}>
+                      {isSelfOrSeller(message) && (
+                        <Chat.Time>
+                          {moment(message.updatedAt).format('LT')}
+                        </Chat.Time>
+                      )}
+                      {message.image && message.image !== '' && (
+                        <img className="chatImage" src={message.image} />
+                      )}
+                      {message.text && message.text !== '' && (
+                        <p>{message.text}</p>
+                      )}
+                      {!isSelfOrSeller(message) && (
+                        <Chat.Time>
+                          {moment(message.updatedAt).format('LT')}
+                        </Chat.Time>
+                      )}
+                    </Chat.MessageStyle>
+                  </React.Fragment>
+                ),
+              )}
+            </Chat.Container>
+            <Form onSubmit={() => sendMessage(currentMessage, currentImage)}>
+              <InputGroup>
+                <Form.Control
+                  aria-describedby="inputGroupAppend"
+                  required
+                  type="text"
+                  value={currentMessage}
+                  onChange={handleChange}
+                  placeholder={translations.Chat.sendPlaceholder}
+                />
+                <img className="imagePreview" src={currentImage} />
+                <InputGroup.Append>
+                  <InputGroup.Text className="image-button">
+                    <input
+                      id="upload"
+                      type="file"
+                      ref={ref => (upload = ref)}
+                      style={{ display: 'none' }}
+                      accept="image/*"
+                      onChange={handlePictureChange}
+                    />
+                    <FaImage
+                      onClick={() => {
+                        if (upload) upload.click();
+                      }}
+                    />
+                  </InputGroup.Text>
+                </InputGroup.Append>
+                <InputGroup.Append>
+                  <InputGroup.Text
+                    className="send-button"
+                    onClick={() => sendMessage(currentMessage, currentImage)}
+                  >
+                    {translations.Chat.send}
+                  </InputGroup.Text>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form>
+          </>
+        )}
       {offer.conversation && (
         <Button
           variant="warning"

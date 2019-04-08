@@ -10,9 +10,9 @@ import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
-import CarAddFormValidation from '../../../lib/FormValidator/CarAddFormValidation';
-import { MIN_CAR_YEAR } from '../../../lib/FormValidator/CreateAdFormValidation';
+import { CarAddFormValidation } from '../../../lib/FormValidator/CarAddFormValidation';
 import { Dictionary } from '../../../lib/Types/Dictionary';
+import { minCarYear } from '../../General/Preferences';
 
 interface CarAddState {
   features: any[];
@@ -319,7 +319,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <Form.Control
                               type="number"
                               id="year"
-                              min={MIN_CAR_YEAR}
+                              min={minCarYear}
                               max={new Date().getFullYear()}
                               placeholder={cars.year}
                               onChange={this.handleInputChange}

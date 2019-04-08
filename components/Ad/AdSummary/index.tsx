@@ -1,10 +1,8 @@
 import React, { useState, ReactNode } from 'react';
-import { Dropdown, Breadcrumb } from 'react-bootstrap';
 import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Ad, Offer } from '../../../generated/graphql';
 import { useMutation } from 'react-apollo-hooks';
-import gql from 'graphql-tag';
 import Router from 'next/router';
 import GeneralModal, {
   MainAppObject,
@@ -12,11 +10,10 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import GeneralAdInfos from './GeneralAdInfos';
 import AdFeatures from './AdFeatures';
-import { IoIosMore as MoreIcon } from 'react-icons/io';
-import { More, AdPortlet } from './styles';
+import { AdPortlet } from './styles';
 import AdOffers from './AdOffers';
 import moment from 'moment';
-import Link from 'next/link';
+import { AD_DELETE_MUTATION } from '../AdDetail';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -26,14 +23,6 @@ export interface AdSummaryProps {
   offer?: Offer;
 }
 
-export const AD_DELETE_MUTATION = gql`
-  mutation AD_DELETE_MUTATION($id: ID!) {
-    deleteAd(id: $id) {
-      id
-    }
-  }
-`;
-
 const AdSummary = ({
   translations,
   ad,
@@ -41,17 +30,13 @@ const AdSummary = ({
   right,
   offer,
 }: AdSummaryProps) => {
-  const { carCategory, general } = translations;
+  const { carCategory } = translations;
 
   const [modalShow, setModalShow] = useState(false);
   const deleteAd = useMutation(AD_DELETE_MUTATION, {
     variables: { id: ad.id },
     refetchQueries: [{ query: adsQuery, variables: { id: ad.id } }],
   });
-
-  function hasPermission() {
-    return ad.creator && ad.creator.id != null;
-  }
 
   function getTitle() {
     let title = '';
@@ -64,7 +49,7 @@ const AdSummary = ({
     } else if (ad.category) {
       title += carCategory[ad.category.name];
     } else {
-      title += 'Anything';
+      title += translations.general.anything;
     }
     return title;
   }
@@ -90,10 +75,7 @@ const AdSummary = ({
   if (ad.features && ad.features.length > 0) {
     pages.push(<AdFeatures ad={ad} />);
   }
-
-  if (ad.offers && ad.offers.length > 0) {
-    pages.push(<AdOffers ad={ad} />);
-  }
+  pages.push(<AdOffers ad={ad} />);
 
   return (
     <>
