@@ -51,7 +51,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   );
 
   const httpLink = new HttpLink({
-    headers,
+    headers: { cookie: headers && headers.cookie },
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
   });
@@ -63,7 +63,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
         options: {
           reconnect: true,
           connectionParams: {
-            ...headers,
+            headers: { cookie: headers && headers.cookie },
             credentials: 'include',
           },
         },
