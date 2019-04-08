@@ -1,9 +1,15 @@
 import React from 'react';
 import redirect from '../lib/Auth/Redirect';
 import checkIsAdmin from '../lib/Auth/checkIsAdmin';
-import AdminPage from '../components/Admin/Admin';
+import Admin from '../components/Admin/Admin';
+import { withApollo } from 'react-apollo';
+import ApolloClient from 'apollo-client';
 
-class OfferPage extends React.Component {
+interface AdminPageProps {
+  client: ApolloClient<any>;
+}
+
+class AdminPage extends React.Component<AdminPageProps> {
   static async getInitialProps(ctx: any) {
     const isAdmin = await checkIsAdmin(ctx.apolloClient);
 
@@ -15,8 +21,8 @@ class OfferPage extends React.Component {
   }
 
   render() {
-    return <AdminPage />;
+    return <Admin client={this.props.client} />;
   }
 }
 
-export default OfferPage;
+export default withApollo(AdminPage);
