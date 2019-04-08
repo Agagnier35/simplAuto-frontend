@@ -10,6 +10,7 @@ import {
   Location,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
+import Router from 'next/router';
 
 const GOOGLE_LOGIN_MUTATION = gql`
   mutation GOOGLE_LOGIN_MUTATION($data: UserSignupInput!) {
@@ -55,19 +56,30 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   responseGoogle = (response: any, googleLogin: () => void) => {
-    if (response.first_name && response.last_name && response.email) {
+    // console.log(response);
+    // console.log(response.googleId);
+    // console.log(response.profileObj);
+    if (
+      response.googleId &&
+      response.profileObj.email &&
+      response.profileObj.familyName &&
+      response.profileObj.givenName
+    ) {
       this.setState({
-        firstName: response.first_name,
-        lastName: response.last_name,
-        email: response.email,
-        googleID: response.userID,
+        firstName: response.profileObj.email,
+        lastName: response.profileObj.familyName,
+        email: response.profileObj.givenName,
+        googleID: response.googleId,
       });
+      // console.log(this.state);
       googleLogin();
+      Router.push('/myAds');
     }
   };
 
-  responseGoogleFailed = () => {
+  responseGoogleFailed = (failure: any) => {
     // Afficher quelque chose pour signifier à l'utilisateur que l'opération a échoué
+    console.log(failure);
   };
 
   getSignupPayload = () => {
@@ -91,7 +103,8 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
             onSuccess={response =>
               this.responseGoogle(response, handleMutation)
             }
-            onFailure={this.responseGoogleFailed}
+            onFailure={(failure: any) => this.responseGoogleFailed(failure)}
+            cookiePolicy={'single_host_origin'}
           />
         )}
       </Mutation>
