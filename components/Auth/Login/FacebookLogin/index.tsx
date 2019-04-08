@@ -10,6 +10,7 @@ import {
   Location,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
+import Router from 'next/router';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation FACEBOOK_LOGIN_MUTATION($data: UserSignupInput!) {
@@ -63,6 +64,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         facebookID: response.userID,
       });
       facebookLogin();
+      Router.push('/myAds');
     }
   };
 
