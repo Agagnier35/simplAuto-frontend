@@ -32,6 +32,9 @@ export const USER_QUERY = gql`
       cars(pageNumber: $carPageNumber, pageSize: $carPageSize) {
         id
         mileage
+        owner {
+          id
+        }
         manufacturer {
           id
           name
