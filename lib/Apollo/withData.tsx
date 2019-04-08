@@ -16,11 +16,11 @@ import {
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
-  console.log('Headers:');
-  console.log(headers);
+  const { host, ...requestHeaders }: any = headers;
+
   const request = async (operation: any) => {
     await operation.setContext({
-      headers: { cookies: headers && headers.cookie },
+      headers: requestHeaders,
       fetchOptions: {
         credentials: 'include',
       },
@@ -51,7 +51,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   );
 
   const httpLink = new HttpLink({
-    headers: { cookies: headers && headers.cookie },
+    headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
   });
@@ -63,7 +63,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
         options: {
           reconnect: true,
           connectionParams: {
-            headers: { cookies: headers && headers.cookie },
+            ...headers,
             credentials: 'include',
           },
         },
