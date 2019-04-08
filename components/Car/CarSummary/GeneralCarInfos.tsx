@@ -59,6 +59,19 @@ const GeneralCarInfos = ({
           user: { ...data.user, cars, carCount: data.user.carCount - 1 },
         },
       });
+    } else if (false) {
+      const data = cache.readQuery(refetchQuery);
+
+      const id = payload.data.deleteCar.id;
+      const cars = data.user.cars.filter((car: Car) => car.id !== id);
+
+      cache.writeQuery({
+        ...refetchQuery,
+        data: {
+          ...data,
+          user: { ...data.user, cars, carCount: data.user.carCount - 1 },
+        },
+      });
     }
   }
 
@@ -66,6 +79,7 @@ const GeneralCarInfos = ({
 
   const permissions = data.me.permissions;
   const isAdmin = permissions.includes(Permission.Admin);
+  const isOwner = car.owner && data.me.id === car.owner.id;
 
   return (
     <>
@@ -102,7 +116,7 @@ const GeneralCarInfos = ({
           </Col>
           <Col md={2}>
             <ButtonRow>
-              {isAdmin && (
+              {(isAdmin || isOwner) && (
                 <Button onClick={() => setShowDeleteModal(true)}>
                   {translations.general.options.delete}
                 </Button>
