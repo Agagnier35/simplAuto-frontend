@@ -84,6 +84,7 @@ const translations: Translations = {
     },
     resetPw: 'Réinitialiser le mot de passe',
     buy: 'Acheter',
+    myConversations: 'Mes conversations',
     sell: 'Vendre',
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
@@ -139,7 +140,6 @@ const translations: Translations = {
           yearLowerBoundTooLow: "L'année minimale trop basse",
           yearLowerBoundTooHigh:
             "L'année minimale ne peut être plus grande que l'année courante.",
-          emptyError: "L'année minimale ne peut être vide",
           numberNotIntegerError:
             "L'année minimale doit être un entier (chiffre sans virgule)",
         },
@@ -147,7 +147,6 @@ const translations: Translations = {
           yearHigherBoundTooLow: "L'année maximale trop basse",
           yearHigherBoundTooHigh:
             "L'année maximale ne peut être plus grande que l'année courante.",
-          emptyError: "L'année maximale ne peut être vide",
           numberNotIntegerError:
             "L'année maximale doit être un entier (chiffre sans virgule)",
           yearLowerBoundHigherThanYearHigherBoundError:
@@ -156,14 +155,12 @@ const translations: Translations = {
         mileageLowerBound: {
           mileageLowerBoundTooLow: 'Kilométrage min doit être positif',
           mileageLowerBoundTooHigh: 'Kilométrage min trop grand',
-          emptyError: 'Kilométrage min ne peut être vide',
           numberNotIntegerError:
             'Kilométrage min doit être un entier (chiffre sans virgule)',
         },
         mileageHigherBound: {
           mileageHigherBoundTooLow: 'Kilométrage max doit être positif',
           mileageHigherBoundTooHigh: 'Kilométrage max trop grand',
-          emptyError: 'Kilométrage max ne peut être vide',
           numberNotIntegerError:
             'Kilométrage max doit être un entier (chiffre sans virgule)',
           mileageLowerBoundHigherThanMileageHigherBoundError:
@@ -171,12 +168,10 @@ const translations: Translations = {
         },
         priceLowerBound: {
           priceLowerBoundTooLowError: 'Prix min doit être positif',
-          emptyError: 'Prix min ne peut être vide',
           numberNotIntegerError:
             'Prix min doit être un entier (chiffre sans virgule)',
         },
         priceHigherBound: {
-          emptyError: 'Prix max ne peut être vide',
           numberNotIntegerError:
             'Prix max doit être un entier (chiffre sans virgule)',
           priceLowerBoundHigherThanPriceHigherBoundError:
@@ -307,6 +302,11 @@ const translations: Translations = {
     youMayLike: 'Vous aimerez peut-être',
     noMatch: 'Aucune offre ne correspond à 100% de vos critères',
     noAdsInYourArea: "Il n'y a aucune annonce disponnible",
+    noOffers: "Il n'y a pas d'offres sur cette annonce",
+    from: 'De',
+    to: 'À',
+    youHaveBeenOffered: 'Vous vous etes fait offert',
+    youHaveOffered: 'Vous avez offert',
   },
   Chat: {
     title: 'Messagerie',
@@ -432,6 +432,9 @@ const translations: Translations = {
     CarLimitPremium: 'Illimité !',
     BasicStatistics: 'Statistiques de base',
     PremiumStatistics: 'Éventail complet de statistiques',
+  },
+  conversation: {
+    noConversations: "Vous n'avez pas de conversations",
   },
   admin: {
     users: 'Utilisateurs',

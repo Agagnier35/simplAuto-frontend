@@ -18,8 +18,8 @@ export class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(year.toString()) &&
       this.isNumberAnInteger(year) &&
-      year > minCarYear &&
-      year < new Date().getFullYear()
+      year >= minCarYear &&
+      year <= new Date().getFullYear()
     );
   };
 
@@ -30,8 +30,8 @@ export class CarAddFormValidation extends BasicFormValidation {
     return (
       this.isFieldNotEmpty(mileage.toString()) &&
       this.isNumberAnInteger(mileage) &&
-      mileage > 0 &&
-      mileage < maxMileage
+      mileage >= 0 &&
+      mileage <= maxMileage
     );
   };
 
@@ -52,11 +52,11 @@ export class CarAddFormValidation extends BasicFormValidation {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .numberNotIntegerError;
     }
-    if (year < 1900) {
+    if (year < minCarYear) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooLowError;
     }
-    if (year > new Date().getFullYear() + 1) {
+    if (year > new Date().getFullYear()) {
       return this.general.formFieldsErrors.cadAddFormFieldsErrors.year
         .yearTooHighError;
     }

@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import { Card as BSCard } from 'react-bootstrap';
 
 export const Container = styled.section`
-  max-height: 300px;
-  height: 300px;
+  min-height: 100%;
   overflow: scroll;
   padding: 1rem;
 `;
@@ -62,8 +61,8 @@ export const DaySpacer = styled.div`
 `;
 
 export const Card = styled(BSCard)`
-  margin-top: 1rem;
-
+  min-width: 550px;
+  height: calc(100vh - 4rem - 242px);
   .form-control {
     border-right: none;
     border-left: none;

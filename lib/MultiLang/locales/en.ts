@@ -86,6 +86,7 @@ const translations: Translations = {
     resetPw: 'Reset password',
     buy: 'Buy',
     sell: 'Sell',
+    myConversations: 'My conversations',
     myAds: 'My ads',
     myCars: 'My cars',
     disconnect: 'Logout',
@@ -139,7 +140,6 @@ const translations: Translations = {
           yearLowerBoundTooLow: 'Year min too low',
           yearLowerBoundTooHigh:
             'Year min cannot be greater than the current year',
-          emptyError: 'Year min cannot be empty',
           numberNotIntegerError:
             'Year min must be an integer (no comma or dot in the number)',
         },
@@ -147,7 +147,6 @@ const translations: Translations = {
           yearHigherBoundTooLow: 'Year max too low',
           yearHigherBoundTooHigh:
             'Year max cannot be greater than the current year',
-          emptyError: 'Year max cannot be empty',
           numberNotIntegerError:
             'Year max must be an integer (no comma or dot in the number)',
           yearLowerBoundHigherThanYearHigherBoundError:
@@ -156,14 +155,12 @@ const translations: Translations = {
         mileageLowerBound: {
           mileageLowerBoundTooLow: 'Mileage min must be positive',
           mileageLowerBoundTooHigh: 'Mileage min too high',
-          emptyError: 'Mileage min cannot be empty',
           numberNotIntegerError:
             'Mileage min must be an integer (no comma or dot in the number)',
         },
         mileageHigherBound: {
           mileageHigherBoundTooLow: 'Mileage max must be positive',
           mileageHigherBoundTooHigh: 'Mileage max too high ',
-          emptyError: 'Mileage min cannot be empty',
           numberNotIntegerError:
             'Mileage min must be an integer (no comma or dot in the number)',
           mileageLowerBoundHigherThanMileageHigherBoundError:
@@ -171,12 +168,10 @@ const translations: Translations = {
         },
         priceLowerBound: {
           priceLowerBoundTooLowError: 'Price min must be positive',
-          emptyError: 'Price min cannot be empty',
           numberNotIntegerError:
             'Price min must be an integer (no comma or dot in the number)',
         },
         priceHigherBound: {
-          emptyError: 'Price max cannot be empty',
           numberNotIntegerError:
             'Price max must be an integer (no comma or dot in the number)',
           priceLowerBoundHigherThanPriceHigherBoundError:
@@ -291,6 +286,11 @@ const translations: Translations = {
     youMayLike: 'You may also like',
     noMatch: 'There is no 100% match offres',
     noAdsInYourArea: 'There are no ads in your area',
+    noOffers: 'There are no offers on this ad',
+    from: 'From',
+    to: 'To',
+    youHaveBeenOffered: 'You have been offered',
+    youHaveOffered: 'You have offered',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -428,6 +428,9 @@ const translations: Translations = {
     offerPrice: `Offer's price`,
     days: 'days',
     daysOnMarket: 'Days on market',
+  },
+  conversation: {
+    noConversations: 'You have no conversations',
   },
   admin: {
     users: 'Users',

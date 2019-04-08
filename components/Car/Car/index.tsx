@@ -160,7 +160,7 @@ const Car = ({ translations, query }: CarPageProps) => {
           <div
             hidden={
               adsQuery.loading ||
-              !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
+              (adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
             }
           >
             {translations.Ads.noMatchingAds}

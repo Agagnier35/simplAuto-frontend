@@ -79,6 +79,7 @@ export default interface Translations {
     resetPw: string;
     buy: string;
     sell: string;
+    myConversations: string;
     myCars: string;
     myAds: string;
     disconnect: string;
@@ -131,36 +132,30 @@ export default interface Translations {
         yearLowerBound: {
           yearLowerBoundTooLow: String;
           yearLowerBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         yearHigherBound: {
           yearHigherBoundTooLow: String;
           yearHigherBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
           yearLowerBoundHigherThanYearHigherBoundError: String;
         };
         mileageLowerBound: {
           mileageLowerBoundTooLow: String;
           mileageLowerBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         mileageHigherBound: {
           mileageHigherBoundTooLow: String;
           mileageHigherBoundTooHigh: String;
-          emptyError: String;
           numberNotIntegerError: String;
           mileageLowerBoundHigherThanMileageHigherBoundError: String;
         };
         priceLowerBound: {
           priceLowerBoundTooLowError: String;
-          emptyError: String;
           numberNotIntegerError: String;
         };
         priceHigherBound: {
-          emptyError: String;
           numberNotIntegerError: String;
           priceLowerBoundHigherThanPriceHigherBoundError: String;
         };
@@ -256,6 +251,11 @@ export default interface Translations {
     youMayLike: string;
     noMatch: string;
     noAdsInYourArea: string;
+    noOffers: string;
+    from: string;
+    to: string;
+    youHaveBeenOffered: string;
+    youHaveOffered: string;
   };
   GeneralModalContent: {
     title: string;
@@ -391,6 +391,9 @@ export default interface Translations {
     offerPrice: string;
     days: string;
     daysOnMarket: string;
+  };
+  conversation: {
+    noConversations: string;
   };
   admin: {
     users: string;
