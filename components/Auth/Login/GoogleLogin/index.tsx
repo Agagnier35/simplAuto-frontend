@@ -56,9 +56,6 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   responseGoogle = (response: any, googleLogin: () => void) => {
-    // console.log(response);
-    // console.log(response.googleId);
-    // console.log(response.profileObj);
     if (
       response.googleId &&
       response.profileObj.email &&
@@ -71,7 +68,6 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
         email: response.profileObj.givenName,
         googleID: response.googleId,
       });
-      // console.log(this.state);
       googleLogin();
       Router.push('/myAds');
     }
