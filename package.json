@@ -13,7 +13,6 @@
     "test:generate-output": "jest --json --outputFile=jest-test-results.json || true",
     "prebuild:storybook": "npm run test:generate-output",
     "storybook": "start-storybook -p 6006",
-    "heroku-postbuild": "next build",
     "build-storybook": "build-storybook",
     "init-codegen": "gql-gen init",
     "generate": "gql-gen --config codegen.yml",
