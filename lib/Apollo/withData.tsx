@@ -16,6 +16,8 @@ import {
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
+  console.log('Headers:');
+  console.log(headers);
   const request = async (operation: any) => {
     await operation.setContext({
       headers: { cookie: headers && headers.cookie },
