@@ -63,6 +63,7 @@ const translations: Translations = {
     defaultDropdown: 'Please Select',
     defaultUnselect: 'Unselect field',
     other: 'Other',
+    anything: 'Anything',
     none: 'Not specified',
     features: 'Features',
     submit: 'Submit',

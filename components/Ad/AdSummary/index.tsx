@@ -3,7 +3,6 @@ import Translations from '../../../lib/MultiLang/locales/types';
 import { multi } from '../../../lib/MultiLang';
 import { Ad, Offer } from '../../../generated/graphql';
 import { useMutation } from 'react-apollo-hooks';
-import gql from 'graphql-tag';
 import Router from 'next/router';
 import GeneralModal, {
   MainAppObject,
@@ -14,6 +13,7 @@ import AdFeatures from './AdFeatures';
 import { AdPortlet } from './styles';
 import AdOffers from './AdOffers';
 import moment from 'moment';
+import { AD_DELETE_MUTATION } from '../AdDetail';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -22,14 +22,6 @@ export interface AdSummaryProps {
   right?: ReactNode;
   offer?: Offer;
 }
-
-export const AD_DELETE_MUTATION = gql`
-  mutation AD_DELETE_MUTATION($id: ID!) {
-    deleteAd(id: $id) {
-      id
-    }
-  }
-`;
 
 const AdSummary = ({
   translations,
@@ -57,7 +49,7 @@ const AdSummary = ({
     } else if (ad.category) {
       title += carCategory[ad.category.name];
     } else {
-      title += 'Anything';
+      title += translations.general.anything;
     }
     return title;
   }

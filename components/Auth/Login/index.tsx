@@ -23,6 +23,12 @@ const LOGIN_MUTATION = gql`
     login(email: $email, password: $password) {
       id
       language
+      cars {
+        id
+      }
+      ads {
+        id
+      }
     }
   }
 `;
@@ -37,19 +43,27 @@ class Login extends Component<MultiProps, LoginState> {
     e.preventDefault();
     await login();
     this.setState({ email: '', password: '' });
-    Router.push('/'); // On redirige l'utilisateur vers la home page après qu'il se soit connecté.
   };
 
   handleChange = (e: FormEvent<any>) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
 
-  handleLanguage(data: any) {
+  async handleLanguage(data: any) {
     let locale = 'fr';
-    if (data.language === 'ENGLISH') {
+    if (data.login.language === 'ENGLISH') {
       locale = 'en';
     }
     this.props.changeLocale(locale);
+  }
+
+  async handlePostLogin(data: any) {
+    this.handleLanguage(data);
+    let page = '/myAds';
+    if (data.login.ads.length < data.login.cars.length) {
+      page = '/cars';
+    }
+    Router.push(page);
   }
 
   render() {
@@ -62,7 +76,7 @@ class Login extends Component<MultiProps, LoginState> {
         mutation={LOGIN_MUTATION}
         variables={this.state}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
-        onCompleted={data => this.handleLanguage(data)}
+        onCompleted={data => this.handlePostLogin(data)}
       >
         {(handleMutation, { loading, error }) => (
           <StyledLogin>

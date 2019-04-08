@@ -31,13 +31,14 @@ const YouMayLike = ({
   return (
     <CarSummaries>
       <p>{translations.offers.youMayLike}:</p>
-      {data.suggestions.map((suggestion: any) => (
-        <CarSummary
-          key={suggestion.offer.id}
-          car={suggestion.offer.car}
-          offer={suggestion.offer}
-        />
-      ))}
+      {data.suggestions &&
+        data.suggestions.map((suggestion: any) => (
+          <CarSummary
+            key={suggestion.offer.id}
+            car={suggestion.offer.car}
+            offer={suggestion.offer}
+          />
+        ))}
       <Paging
         pageIndex={pageIndexMayLike}
         setPageIndex={setPageIndexMayLike}

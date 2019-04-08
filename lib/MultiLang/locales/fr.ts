@@ -92,6 +92,7 @@ const translations: Translations = {
     Ad: 'Annonce',
     offers: 'Offres',
     cancel: 'Annuler',
+    anything: "N'importe quel",
     create: 'Créer',
     update: 'Modifier',
     delete: 'Supprimer',

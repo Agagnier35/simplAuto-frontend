@@ -1,5 +1,14 @@
 import React, { ReactNode, useState } from 'react';
-import { Container, Title, Arrow, Arrows, Header, Body, Left } from './styles';
+import {
+  Container,
+  Title,
+  Arrow,
+  Arrows,
+  Header,
+  Body,
+  Left,
+  Right,
+} from './styles';
 import Carousel from 'react-bootstrap/Carousel';
 import {
   TiChevronRight as ArrowRightIcon,
@@ -14,6 +23,7 @@ export interface PortletProps {
   pages: ReactNode[];
   image?: ReactNode;
   left?: ReactNode;
+  right?: ReactNode;
   interval: number;
   className?: string;
   href?: UrlObject;
@@ -26,6 +36,7 @@ const Portlet = ({
   image,
   interval,
   left,
+  right,
   className,
   href,
   style,
@@ -86,6 +97,7 @@ const Portlet = ({
             <Carousel.Item key={index}>{Component}</Carousel.Item>
           ))}
         </Carousel>
+        {right && <Right>{right}</Right>}
       </Body>
     </Container>
   );

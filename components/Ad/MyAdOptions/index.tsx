@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -11,6 +11,12 @@ import { ButtonWrapper } from './styles';
 import { BUY_TOP_AD_MUTATION, BUY_URGENT_AD_MUTATION } from './Mutations';
 import { FaTrophy, FaExclamationCircle, FaEdit } from 'react-icons/fa';
 import { MdCancel } from 'react-icons/md';
+import GeneralModal, {
+  MainAppObject,
+  ModalAction,
+} from '../../General/GeneralModal';
+import { AD_DELETE_MUTATION } from '../AdDetail';
+import Router from 'next/router';
 
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
@@ -21,6 +27,19 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
   const pricesQuery = useQuery(PRICES_QUERY);
   const handleBuyTopAd = useMutation(BUY_TOP_AD_MUTATION);
   const handleBuyUrgentAd = useMutation(BUY_URGENT_AD_MUTATION);
+  const [modalShow, setModalShow] = useState(false);
+
+  const deleteAd = useMutation(AD_DELETE_MUTATION, {
+    variables: {
+      id: ad.id,
+    },
+  });
+
+  async function handleDeleteAd() {
+    await deleteAd();
+    setModalShow(false);
+    Router.push('/myAds');
+  }
 
   if (loggedQuery.loading || pricesQuery.loading) return null;
 
@@ -29,6 +48,13 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
   return (
     <>
       <ButtonWrapper>
+        <GeneralModal
+          modalSubject={MainAppObject.ad}
+          actionType={ModalAction.delete}
+          show={modalShow}
+          onClose={() => setModalShow(false)}
+          onConfirm={() => handleDeleteAd()}
+        />
         <StripeCheckout
           amount={prices.topAd}
           name={translations.Stripe.TopAdName}
@@ -64,7 +90,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
         </StripeCheckout>
 
         <ButtonToolbar>
-          <Button variant="warning">
+          <Button variant="warning" onClick={() => setModalShow(true)}>
             {translations.general.delete} <MdCancel />
           </Button>
           <Button variant="secondary">

@@ -75,7 +75,7 @@ class Signup extends Component<MultiProps, SignupState> {
       longitude: 0,
       latitude: 0,
     },
-    radius: 0,
+    radius: 100,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -459,18 +459,18 @@ class Signup extends Component<MultiProps, SignupState> {
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={profile.female}
+                            value={Gender.Female}
                           />
-                          {Gender.Female}
+                          {profile.female}
                         </label>
                         <label htmlFor="gender">
                           <input
                             type="radio"
                             name="gender"
                             onChange={this.handleChange}
-                            value={profile.other}
+                            value={Gender.Other}
                           />
-                          {Gender.Other}
+                          {profile.other}
                         </label>
                       </div>
                       <Form.Group>
