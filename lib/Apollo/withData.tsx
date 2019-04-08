@@ -23,6 +23,8 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   } else {
     requestHeaders = headers;
   }
+  console.log('Header:');
+  console.log(requestHeaders);
 
   const request = async (operation: any) => {
     await operation.setContext({
