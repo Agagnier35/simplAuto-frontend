@@ -36,11 +36,19 @@ Install the dependencies by running :
 npm install
 ```
 
-You can now start the app with :
+Generate the Typescript types from database's schema and servers's schema :
+
+```Shell
+npm run generate
+```
+
+You can now start the app in development mode with :
 
 ```Shell
 npm run dev
 ```
+
+## Scripts
 
 The project will be available at http://localhost:7777
 
