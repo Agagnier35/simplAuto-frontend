@@ -62,9 +62,6 @@ const SearchUser = (props: SearchUserProps) => {
     },
   });
 
-  console.log(data);
-  // if (!data || !data.users) return null;
-
   let count;
   let users;
   if (data.users) {
@@ -115,7 +112,7 @@ const SearchUser = (props: SearchUserProps) => {
         {loading && <Loading style={{ marginLeft: '1.5rem' }} />}
         {users &&
           users.length > 0 &&
-          users.map((user: User) => <UserSummary user={user} />)}
+          users.map((user: User) => <UserSummary key={user.id} user={user} />)}
         {count > MAX_USER_PER_PAGE && (
           <Paging
             pageIndex={pageIndexUser}

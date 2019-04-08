@@ -191,6 +191,7 @@ export default interface Translations {
     carLimitReached: string;
   };
   cars: {
+    cars: string;
     addCar: string;
     details: string;
     title: string;
@@ -390,5 +391,30 @@ export default interface Translations {
     offerPrice: string;
     days: string;
     daysOnMarket: string;
+  };
+  admin: {
+    users: string;
+    stats: string;
+    overall: string;
+    carResearch: string;
+    location: string;
+    radius: string;
+    results: string;
+    api: string;
+    averagePrice: string;
+    lowestPrice: string;
+    highestPrice: string;
+    averageDom: string;
+    lowestDom: string;
+    highestDom: string;
+    app: string;
+    numberSold: string;
+    top10MakeModel: string;
+    top10Fastest: string;
+    bestSeller: string;
+    vehiculesCount: string;
+    adsCount: string;
+    activeUsers: string;
+    inactiveUsers: string;
   };
 }
