@@ -31,7 +31,13 @@ const CarSummary = ({
   ...otherProps
 }: CarSummaryProp) => {
   const pages = offer
-    ? [<GeneralCarInfos car={car} refetchQuery={refetchQuery} price={offer.price} />]
+    ? [
+        <GeneralCarInfos
+          car={car}
+          refetchQuery={refetchQuery}
+          price={offer.price}
+        />,
+      ]
     : [<GeneralCarInfos car={car} refetchQuery={refetchQuery} />];
 
   if (car.features && car.features.length > 0) {
