@@ -432,6 +432,9 @@ const translations: Translations = {
     BasicStatistics: 'Statistiques de base',
     PremiumStatistics: 'Éventail complet de statistiques',
   },
+  conversation: {
+    noConversations: "Vous n'avez pas de conversations",
+  },
 };
 
 module.exports = translations;

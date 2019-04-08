@@ -30,7 +30,7 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
   const [currentImage, setCurrentImage] = useState('');
 
   const meQuery = useQuery(LOGGED_IN_QUERY);
-  const isMyOffer = meQuery.data.me.id === convo.seller.id;
+  const isMyOffer = convo && meQuery.data.me.id === convo.seller.id;
   const isMyAd = !isMyOffer;
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
@@ -193,7 +193,7 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
 
   return (
     <Card>
-      {convo && (
+      {convo && convo.status !== ConversationStatus.Deleted && (
         <>
           <h2>{isMyOffer ? getBuyerName() : getSellerName()}</h2>
           <Container className="chat">

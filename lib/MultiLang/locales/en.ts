@@ -428,6 +428,9 @@ const translations: Translations = {
     days: 'days',
     daysOnMarket: 'Days on market',
   },
+  conversation: {
+    noConversations: 'You have no conversations',
+  },
 };
 
 module.exports = translations;

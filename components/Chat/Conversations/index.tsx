@@ -4,15 +4,20 @@ import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from '../ConversationsList';
-import { Row, Col } from 'react-bootstrap';
 import { Conversation } from '../../../generated/graphql';
 import ChatSection from '../ChatSection';
+import { multi } from '../../../lib/MultiLang';
+import Translations from '../../../lib/MultiLang/locales/types';
+
+export interface ConversationProps {
+  translations: Translations;
+}
 
 interface ConversationsState {
   currentConvo: Conversation | null;
 }
 
-class Conversations extends Component<{}, ConversationsState> {
+class Conversations extends Component<ConversationProps, ConversationsState> {
   state = {
     currentConvo: null,
   };
@@ -23,6 +28,9 @@ class Conversations extends Component<{}, ConversationsState> {
 
   render() {
     const { currentConvo } = this.state;
+    const {
+      translations: { conversation },
+    } = this.props;
     return (
       <Query query={GET_USER_CONVERSATIONS_QUERY}>
         {({ data, loading, error }) => {
@@ -30,23 +38,25 @@ class Conversations extends Component<{}, ConversationsState> {
           if (error) return <ErrorMessage error={error} />;
           if (!data.me.conversations) return null;
           return (
-            <Row>
-              <Col>
-                <ConversationsList
-                  onClickCallback={this.handleSelectConversation}
-                  conversations={data.me.conversations}
-                />
-              </Col>
-              <Col>
-                {
-                  <ChatSection
-                    convo={
-                      currentConvo ? currentConvo : data.me.conversations[0]
-                    }
-                  />
+            <div style={{ display: 'flex' }}>
+              <p hidden={data.me.conversations !== undefined}>
+                {conversation.noConversations}
+              </p>
+
+              <ConversationsList
+                onClickCallback={this.handleSelectConversation}
+                conversations={data.me.conversations}
+                selectedConvo={
+                  currentConvo ? currentConvo : data.me.conversations[0]
                 }
-              </Col>
-            </Row>
+              />
+
+              {data.me.conversations && (
+                <ChatSection
+                  convo={currentConvo ? currentConvo : data.me.conversations[0]}
+                />
+              )}
+            </div>
           );
         }}
       </Query>
@@ -54,4 +64,4 @@ class Conversations extends Component<{}, ConversationsState> {
   }
 }
 
-export default Conversations;
+export default multi(Conversations);

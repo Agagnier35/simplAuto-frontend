@@ -7,6 +7,7 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
       conversationCount
       conversations {
         id
+        status
         buyer {
           id
           firstName

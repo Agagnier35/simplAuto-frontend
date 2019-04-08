@@ -391,4 +391,7 @@ export default interface Translations {
     days: string;
     daysOnMarket: string;
   };
+  conversation: {
+    noConversations: string;
+  };
 }

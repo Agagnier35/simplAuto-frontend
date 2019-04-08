@@ -61,6 +61,8 @@ export const DaySpacer = styled.div`
 `;
 
 export const Card = styled(BSCard)`
+  min-width: 550px;
+  height: calc(100vh - 4rem - 242px);
   .form-control {
     border-right: none;
     border-left: none;
