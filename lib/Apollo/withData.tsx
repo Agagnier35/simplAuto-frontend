@@ -16,7 +16,13 @@ import {
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
-  const { host, ...requestHeaders }: any = headers;
+  let requestHeaders: any;
+  if (headers && headers.host) {
+    const { host, ...rest }: any = headers;
+    requestHeaders = rest;
+  } else {
+    requestHeaders = headers;
+  }
 
   const request = async (operation: any) => {
     await operation.setContext({
