@@ -4,7 +4,7 @@ import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from '../ConversationsList';
-import { Conversation } from '../../../generated/graphql';
+import { Conversation, Offer } from '../../../generated/graphql';
 import ChatSection from '../ChatSection';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
@@ -14,20 +14,20 @@ export interface ConversationProps {
 }
 
 interface ConversationsState {
-  currentConvo: Conversation | null;
+  currentOffer: Offer | null;
 }
 
 class Conversations extends Component<ConversationProps, ConversationsState> {
   state = {
-    currentConvo: null,
+    currentOffer: null,
   };
 
-  handleSelectConversation = (convo: Conversation) => {
-    this.setState({ currentConvo: convo });
+  handleSelectConversation = (offer: Offer) => {
+    this.setState({ currentOffer: offer });
   };
 
   render() {
-    const { currentConvo } = this.state;
+    const { currentOffer } = this.state;
     const {
       translations: { conversation },
     } = this.props;
@@ -42,18 +42,19 @@ class Conversations extends Component<ConversationProps, ConversationsState> {
               <p hidden={data.me.conversations !== undefined}>
                 {conversation.noConversations}
               </p>
-
               <ConversationsList
                 onClickCallback={this.handleSelectConversation}
                 conversations={data.me.conversations}
-                selectedConvo={
-                  currentConvo ? currentConvo : data.me.conversations[0]
+                selectedOffer={
+                  currentOffer ? currentOffer : data.me.conversations[0].offer
                 }
               />
 
               {data.me.conversations && (
                 <ChatSection
-                  convo={currentConvo ? currentConvo : data.me.conversations[0]}
+                  offer={
+                    currentOffer ? currentOffer : data.me.conversations[0].offer
+                  }
                 />
               )}
             </div>

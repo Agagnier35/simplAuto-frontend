@@ -3,6 +3,8 @@ import {
   Message,
   ConversationStatus,
   Conversation,
+  Offer,
+  User,
 } from '../../../generated/graphql';
 
 import { InputGroup, Form } from 'react-bootstrap';
@@ -21,16 +23,17 @@ import { FaImage } from 'react-icons/fa';
 import { DaySpacer, Card, Container, MessageStyle, Time } from './style';
 
 interface ChatSectionProps extends MultiProps {
-  convo: Conversation;
+  offer: Offer;
 }
 
-const ChatSection = ({ convo, translations }: ChatSectionProps) => {
+const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
 
   const meQuery = useQuery(LOGGED_IN_QUERY);
-  const isMyOffer = convo && meQuery.data.me.id === convo.seller.id;
+  const isMyOffer =
+    offer.conversation && meQuery.data.me.id === offer.conversation.seller.id;
   const isMyAd = !isMyOffer;
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
@@ -39,12 +42,12 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
-      conversationID: convo && convo.id,
+      conversationID: offer.conversation && offer.conversation.id,
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
       const offerQuery = {
         query: OFFER_BY_ID,
-        variables: { id: convo.offer.id },
+        variables: { id: offer.id },
       };
       const message: Message = subscriptionData.data.messageSubscription;
       message.sender;
@@ -58,7 +61,7 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
           // Theres no variables -> inside conversations
           data.me.conversations = data.me.conversations.map(
             (conversation: Conversation) => {
-              if (conversation.offer.id === convo.offer.id) {
+              if (conversation.offer.id === offer.id) {
                 conversation.messages.push(message);
               }
               return conversation;
@@ -76,8 +79,13 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
     setCurrentMessage(e.currentTarget.value);
   }
 
-  async function sendMessage(text: string, image: string) {
+  async function sendMessage(
+    e: React.FormEvent<any>,
+    text: string,
+    image: string,
+  ) {
     if (currentMessage.length > 0 || currentImage !== '') {
+      e.preventDefault();
       setCurrentMessage('');
       setCurrentImage('');
       await handleSendMessage({
@@ -85,7 +93,7 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
           data: {
             text,
             image,
-            conversationID: convo && convo.id,
+            conversationID: offer.conversation && offer.conversation.id,
           },
         },
       });
@@ -106,7 +114,7 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
       variables: {
         data: {
           status,
-          id: convo && convo.id,
+          id: offer.conversation && offer.conversation.id,
         },
         refetchQueries: { OFFER_BY_ID },
       },
@@ -144,20 +152,28 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
     }
   }
 
-  function getSellerName() {
-    return convo.seller.firstName + ' ' + convo.seller.lastName;
+  function getUserName(user: User) {
+    if (user.companyName !== '') {
+      return user.companyName;
+    } else {
+      return user.firstName + ' ' + user.lastName;
+    }
   }
 
-  function getBuyerName() {
-    return convo.buyer.firstName + ' ' + convo.buyer.lastName;
+  function getSellerName(convo: Conversation) {
+    return getUserName(convo.seller);
+  }
+
+  function getBuyerName(convo: Conversation) {
+    return getUserName(convo.buyer);
   }
 
   useEffect(() => {
     scrollToBottom();
-  }, [convo && convo.messages.length]);
+  }, [offer.conversation && offer.conversation.messages.length]);
 
   function isSelfOrSeller(message: Message) {
-    const conversation = convo as Conversation;
+    const conversation = offer.conversation as Conversation;
     const senderIsSelf = message.sender.id === meQuery.data.me.id;
     const selfNotBuyerOrSeller = !isMyOffer && !isMyAd;
     const senderIsSeller = message.sender.id === conversation.seller.id;
@@ -193,68 +209,83 @@ const ChatSection = ({ convo, translations }: ChatSectionProps) => {
 
   return (
     <Card>
-      {convo && convo.status !== ConversationStatus.Deleted && (
-        <>
-          <h2>{isMyOffer ? getBuyerName() : getSellerName()}</h2>
-          <Container className="chat">
-            {convo.messages.map((message: Message, index: number) => (
-              <React.Fragment key={message.id}>
-                {getDaySpacer(convo, index)}
-                <MessageStyle isSelfOrSeller={isSelfOrSeller(message)}>
-                  {isSelfOrSeller(message) && (
-                    <Time>{moment(message.updatedAt).format('LT')}</Time>
-                  )}
-                  {message.image && message.image !== '' && (
-                    <img className="chatImage" src={message.image} />
-                  )}
-                  {message.text && message.text !== '' && <p>{message.text}</p>}
-                  {!isSelfOrSeller(message) && (
-                    <Time>{moment(message.updatedAt).format('LT')}</Time>
-                  )}
-                </MessageStyle>
-              </React.Fragment>
-            ))}
-          </Container>
-          <Form onSubmit={() => sendMessage(currentMessage, currentImage)}>
-            <InputGroup>
-              <Form.Control
-                aria-describedby="inputGroupAppend"
-                required
-                type="text"
-                value={currentMessage}
-                onChange={handleChange}
-                placeholder={translations.Chat.sendPlaceholder}
-              />
-              <img className="imagePreview" src={currentImage} />
-              <InputGroup.Append>
-                <InputGroup.Text className="image-button">
-                  <input
-                    id="upload"
-                    type="file"
-                    ref={ref => (upload = ref)}
-                    style={{ display: 'none' }}
-                    accept="image/*"
-                    onChange={handlePictureChange}
-                  />
-                  <FaImage
-                    onClick={() => {
-                      if (upload) upload.click();
-                    }}
-                  />
-                </InputGroup.Text>
-              </InputGroup.Append>
-              <InputGroup.Append>
-                <InputGroup.Text
-                  className="send-button"
-                  onClick={() => sendMessage(currentMessage, currentImage)}
-                >
-                  {translations.Chat.send}
-                </InputGroup.Text>
-              </InputGroup.Append>
-            </InputGroup>
-          </Form>
-        </>
-      )}
+      {offer.conversation &&
+        offer.conversation.status !== ConversationStatus.Deleted && (
+          <>
+            <h2>
+              {isMyOffer
+                ? getBuyerName(offer.conversation)
+                : getSellerName(offer.conversation)}
+            </h2>
+            <Container className="chat">
+              {offer.conversation.messages.map(
+                (message: Message, index: number) => (
+                  <React.Fragment key={message.id}>
+                    {getDaySpacer(offer.conversation, index)}
+                    <MessageStyle isSelfOrSeller={isSelfOrSeller(message)}>
+                      {isSelfOrSeller(message) && (
+                        <Time>{moment(message.updatedAt).format('LT')}</Time>
+                      )}
+                      {message.image && message.image !== '' && (
+                        <img className="chatImage" src={message.image} />
+                      )}
+                      {message.text && message.text !== '' && (
+                        <p>{message.text}</p>
+                      )}
+                      {!isSelfOrSeller(message) && (
+                        <Time>{moment(message.updatedAt).format('LT')}</Time>
+                      )}
+                    </MessageStyle>
+                  </React.Fragment>
+                ),
+              )}
+            </Container>
+            <Form
+              onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                sendMessage(e, currentMessage, currentImage)
+              }
+            >
+              <InputGroup>
+                <Form.Control
+                  aria-describedby="inputGroupAppend"
+                  required
+                  type="text"
+                  value={currentMessage}
+                  onChange={handleChange}
+                  placeholder={translations.Chat.sendPlaceholder}
+                />
+                <img className="imagePreview" src={currentImage} />
+                <InputGroup.Append>
+                  <InputGroup.Text className="image-button">
+                    <input
+                      id="upload"
+                      type="file"
+                      ref={ref => (upload = ref)}
+                      style={{ display: 'none' }}
+                      accept="image/*"
+                      onChange={handlePictureChange}
+                    />
+                    <FaImage
+                      onClick={() => {
+                        if (upload) upload.click();
+                      }}
+                    />
+                  </InputGroup.Text>
+                </InputGroup.Append>
+                <InputGroup.Append>
+                  <InputGroup.Text
+                    className="send-button"
+                    onClick={(
+                      e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+                    ) => sendMessage(e, currentMessage, currentImage)}
+                  >
+                    {translations.Chat.send}
+                  </InputGroup.Text>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form>
+          </>
+        )}
     </Card>
   );
 };
