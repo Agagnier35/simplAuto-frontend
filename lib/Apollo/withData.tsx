@@ -18,7 +18,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
 
   const request = async (operation: any) => {
     await operation.setContext({
-      headers,
+      headers: { cookie: headers && headers.cookie },
       fetchOptions: {
         credentials: 'include',
       },
