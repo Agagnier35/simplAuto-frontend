@@ -13,6 +13,9 @@ import GeneralModal, {
   ModalAction,
 } from '../../General/GeneralModal';
 import { MdCancel } from 'react-icons/md';
+import { PAGE_CARS_QUERY } from '../Cars/Queries';
+import { paging5pages } from '../../General/Preferences';
+import Router from 'next/router';
 
 export interface CarSummaryProp {
   translations: Translations;
@@ -32,12 +35,12 @@ const CarSummary = ({
 }: CarSummaryProp) => {
   const pages = offer
     ? [
-        <GeneralCarInfos
-          car={car}
-          refetchQuery={refetchQuery}
-          price={offer.price}
-        />,
-      ]
+      <GeneralCarInfos
+        car={car}
+        refetchQuery={refetchQuery}
+        price={offer.price}
+      />,
+    ]
     : [<GeneralCarInfos car={car} refetchQuery={refetchQuery} />];
 
   if (car.features && car.features.length > 0) {
@@ -50,6 +53,10 @@ const CarSummary = ({
     variables: {
       id: carID,
     },
+    refetchQueries: [{
+      query: PAGE_CARS_QUERY,
+      variables: { pageNumber: 0, pageSize: paging5pages },
+    }]
   });
 
   async function handleDeleteCar(carID: string) {
@@ -59,6 +66,7 @@ const CarSummary = ({
       },
     });
     setModalShow(false);
+    Router.push("/cars");
   }
 
   return (

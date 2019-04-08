@@ -54,18 +54,18 @@ const OfferModal = ({
     variables: getCreateOfferPayload(),
     refetchQueries: [
       {
-        query: CAR_BY_ID,
-        variables: {
-          id: car.id,
-          pageNumberOffer: pageIndexOffer,
-          pageSizeOffer: paging10pages,
-        },
-      },
-      {
         query: MATCHING_ADS_QUERY,
         variables: {
           id: car.id,
           pageNumberOffer: pageIndexAd,
+          pageSizeOffer: paging10pages,
+        },
+      },
+      {
+        query: CAR_BY_ID,
+        variables: {
+          id: car.id,
+          pageNumberOffer: pageIndexOffer,
           pageSizeOffer: paging10pages,
         },
       },
