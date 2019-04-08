@@ -17,8 +17,10 @@ export default class PrivateComponent<
   State = {}
 > extends React.Component<Props, State> {
   static async getInitialProps(ctx: any) {
-    const { user }: any = await checkLoggedIn(ctx.apolloClient);
-    console.log(user);
+    const userReturn: any = await checkLoggedIn(ctx.apolloClient);
+    const user = userReturn.user;
+    console.log('user private');
+    console.log(userReturn);
 
     if (!user || !user.me) {
       // Not logged in

@@ -19,16 +19,12 @@ interface LoginState {
 }
 
 const LOGIN_MUTATION = gql`
-  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+  mutation LOGIN_MUTATION($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       id
       language
-      cars {
-        id
-      }
-      ads {
-        id
-      }
+      adCount
+      carCount
     }
   }
 `;
@@ -49,7 +45,7 @@ class Login extends Component<MultiProps, LoginState> {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as any);
   };
 
-  async handleLanguage(data: any) {
+  handleLanguage(data: any) {
     let locale = 'fr';
     if (data.login.language === 'ENGLISH') {
       locale = 'en';
@@ -57,10 +53,11 @@ class Login extends Component<MultiProps, LoginState> {
     this.props.changeLocale(locale);
   }
 
-  async handlePostLogin(data: any) {
+  handlePostLogin(data: any) {
     this.handleLanguage(data);
+    console.log(data);
     let page = '/myAds';
-    if (data.login.ads.length < data.login.cars.length) {
+    if (data.login.adCount < data.login.carCount) {
       page = '/cars';
     }
     Router.push(page);
