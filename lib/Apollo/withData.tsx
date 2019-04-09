@@ -53,6 +53,9 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
     headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
+    fetchOptions: {
+      credentials: 'include',
+    },
   });
 
   const wsLink = process.browser
