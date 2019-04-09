@@ -15,7 +15,9 @@ export default (apolloClient: ApolloClient<any>) =>
       console.log(e.networkError);
       console.log('Response:---------------------');
       console.log(e.networkError.response);
-      console.log('Header:----------------------');
-      console.log(e.networkError.response.header);
+      Object.keys(e.networkError.response).forEach(item => {
+        console.log(item + ': -----------------');
+        console.log(e.networkError.response[item]);
+      });
       return { user: null };
     });
