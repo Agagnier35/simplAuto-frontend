@@ -12,6 +12,7 @@ import {
   wsEndpoint,
   wsProdEndpoint,
 } from '../../config';
+import fetch from 'isomorphic-unfetch';
 
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
@@ -19,13 +20,16 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   console.log('headers');
   console.log(headers);
 
+  // Polyfill fetch() on the server (used by apollo-client)
+  if (!process.browser) {
+    global.fetch = fetch;
+  }
+
   const request = async (operation: any) => {
     await operation.setContext({
       headers,
       credentials: 'include',
-      fetchOptions: {
-        credentials: 'include',
-      },
+      uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     });
   };
 
@@ -56,9 +60,6 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
     headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
-    fetchOptions: {
-      credentials: 'include',
-    },
   });
 
   const wsLink = process.browser
