@@ -16,6 +16,6 @@ export default (apolloClient: ApolloClient<any>) =>
       console.log('Response:---------------------');
       console.log(e.networkError.response);
       console.log('Header:----------------------');
-      console.log(e.networkError.response.url.header);
+      console.log(e.networkError.response.header);
       return { user: null };
     });
