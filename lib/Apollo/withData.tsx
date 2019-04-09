@@ -19,6 +19,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   const request = async (operation: any) => {
     await operation.setContext({
       headers,
+      credentials: 'include',
       fetchOptions: {
         credentials: 'include',
       },
@@ -84,6 +85,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
 
   return new ApolloClient({
     cache,
+    ssrMode: !process.browser,
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
