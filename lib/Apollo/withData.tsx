@@ -16,6 +16,9 @@ import {
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
+  console.log('headers');
+  console.log(headers);
+
   const request = async (operation: any) => {
     await operation.setContext({
       headers,
