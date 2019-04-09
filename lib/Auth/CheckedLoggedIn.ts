@@ -11,7 +11,5 @@ export default (apolloClient: ApolloClient<any>) =>
       return { user: data };
     })
     .catch(e => {
-      console.log('REEEEEEEEE');
-      console.log(e.networkError.response.Response);
       return { user: null };
     });
