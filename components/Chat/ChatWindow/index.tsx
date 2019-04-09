@@ -225,8 +225,8 @@ const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
           <>
             <h2>
               {isMyOffer
-                ? getSellerName(offer.conversation)
-                : getBuyerName(offer.conversation)}
+                ? getBuyerName(offer.conversation)
+                : getSellerName(offer.conversation)}
             </h2>
             <Container className="chat">
               {offer.conversation.messages.map(

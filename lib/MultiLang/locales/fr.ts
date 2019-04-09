@@ -312,7 +312,7 @@ const translations: Translations = {
     title: 'Messagerie',
     send: 'Envoyer',
     sendPlaceholder: 'Envoyer un message',
-    hideChat: 'Masquer/démasquer la conversation',
+    hideChat: 'Mettre en sourdine/activer la conversation',
   },
   Home: {
     BannerTitle: 'Trop facile',

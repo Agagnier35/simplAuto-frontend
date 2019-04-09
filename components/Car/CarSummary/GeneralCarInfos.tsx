@@ -89,7 +89,6 @@ const GeneralCarInfos = ({
   const permissions = data.me.permissions;
   const isAdmin = permissions.includes(Permission.Admin);
   const isOwner = car.owner && data.me.id === car.owner.id;
-  console.log(isOwner);
 
   return (
     <>
