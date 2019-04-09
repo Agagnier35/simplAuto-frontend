@@ -18,6 +18,9 @@ import GeneralModal, {
   ModalAction,
 } from '../../General/GeneralModal';
 import Router from 'next/router';
+import { MdCancel } from 'react-icons/md';
+import { PAGE_CARS_QUERY } from '../Cars/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface GeneralCarInfosProps extends MultiProps {
   car: Car;
@@ -37,12 +40,18 @@ const GeneralCarInfos = ({
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
     update: updateAfterDelete,
+    refetchQueries: [
+      {
+        query: PAGE_CARS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
 
   async function handleDeleteCar() {
     await deleteCar();
     setShowDeleteModal(false);
-    // TODO: Might have to route on an other page if on a cardetail page
+    Router.push('/cars');
   }
 
   function updateAfterDelete(cache: any, payload: any) {
@@ -115,15 +124,18 @@ const GeneralCarInfos = ({
               </Col>
             </Row>
           </Col>
-          {(isAdmin || (isOwner !== null && isOwner)) && (
-            <Col md={2}>
-              <ButtonRow>
-                <Button onClick={() => setShowDeleteModal(true)}>
-                  {translations.general.options.delete}
+          <Col md={2}>
+            <ButtonRow>
+              {(isAdmin || (isOwner !== null && isOwner)) && (
+                <Button
+                  onClick={() => setShowDeleteModal(true)}
+                  variant="warning"
+                >
+                  {translations.general.options.delete} <MdCancel />
                 </Button>
-              </ButtonRow>
-            </Col>
-          )}
+              )}
+            </ButtonRow>
+          </Col>
         </Row>
       </Col>
       <GeneralModal
