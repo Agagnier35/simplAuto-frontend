@@ -10,7 +10,7 @@ import { AD_DETAIL_QUERY, AD_OFFER_SUGGESTION_QUERY } from './Queries';
 import gql from 'graphql-tag';
 import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
-import { Tab, TabBadge } from '../Ads/styles';
+import { Tab } from '../Ads/styles';
 import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
 import AdStats from './AdStats';

@@ -12,10 +12,10 @@ import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
   UPDATE_CONVERSATION_MUTATION,
-} from '../../Chat/Chat/Mutations';
+} from '../Chat/Mutations';
 
 import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
-import { MESSAGE_SUBSCRIPTION } from '../../Chat/Chat/Subscriptions';
+import { MESSAGE_SUBSCRIPTION } from '../Chat/Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import moment from 'moment';
@@ -26,14 +26,13 @@ interface ChatSectionProps extends MultiProps {
   offer: Offer;
 }
 
-const ChatSection = ({ offer, translations }: ChatSectionProps) => {
+const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
 
   const meQuery = useQuery(LOGGED_IN_QUERY);
-  const isMyOffer =
-    offer.conversation && meQuery.data.me.id === offer.conversation.seller.id;
+  const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
   const isMyAd = !isMyOffer;
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
@@ -100,6 +99,22 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     }
   }
 
+  function getUserName(user: User) {
+    if (user.companyName !== '') {
+      return user.companyName;
+    } else {
+      return user.firstName + ' ' + user.lastName;
+    }
+  }
+
+  function getSellerName(convo: Conversation) {
+    return getUserName(convo.seller);
+  }
+
+  function getBuyerName(convo: Conversation) {
+    return getUserName(convo.buyer);
+  }
+
   async function toggleConversationStatus(
     e: FormEvent<HTMLFormElement> | any,
     chatStatus: ConversationStatus,
@@ -145,27 +160,24 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     }
   }
 
+  function handleUpdateMessageCache(cache: any, payload: any) {
+    const offerQuery = {
+      query: OFFER_BY_ID,
+      variables: { id: offer.id },
+    };
+    const data = cache.readQuery(offerQuery);
+    const message = payload.data.sendMessage;
+
+    data.offer.conversation.messages.push(message);
+
+    cache.writeQuery({ ...offerQuery, data });
+  }
+
   function scrollToBottom() {
     const chatBottomElement = document.querySelector('.chat');
     if (chatBottomElement) {
       chatBottomElement.scrollTop = chatBottomElement.scrollHeight;
     }
-  }
-
-  function getUserName(user: User) {
-    if (user.companyName !== '') {
-      return user.companyName;
-    } else {
-      return user.firstName + ' ' + user.lastName;
-    }
-  }
-
-  function getSellerName(convo: Conversation) {
-    return getUserName(convo.seller);
-  }
-
-  function getBuyerName(convo: Conversation) {
-    return getUserName(convo.buyer);
   }
 
   useEffect(() => {
@@ -206,7 +218,6 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       }
     }
   }
-
   return (
     <Card>
       {offer.conversation &&
@@ -214,8 +225,8 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
           <>
             <h2>
               {isMyOffer
-                ? getBuyerName(offer.conversation)
-                : getSellerName(offer.conversation)}
+                ? getSellerName(offer.conversation)
+                : getBuyerName(offer.conversation)}
             </h2>
             <Container className="chat">
               {offer.conversation.messages.map(
@@ -290,4 +301,4 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
   );
 };
 
-export default multi(ChatSection);
+export default multi(ChatWindow);

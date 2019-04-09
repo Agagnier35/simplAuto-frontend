@@ -4,10 +4,10 @@ import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from '../ConversationsList';
-import { Conversation, Offer } from '../../../generated/graphql';
-import ChatSection from '../ChatSection';
+import { Offer } from '../../../generated/graphql';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
+import ChatWindow from '../ChatWindow';
 
 export interface ConversationProps {
   translations: Translations;
@@ -51,7 +51,7 @@ class Conversations extends Component<ConversationProps, ConversationsState> {
               />
 
               {data.me.conversations && (
-                <ChatSection
+                <ChatWindow
                   offer={
                     currentOffer ? currentOffer : data.me.conversations[0].offer
                   }
