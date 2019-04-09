@@ -23,15 +23,13 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
   }
 
   const request = async (operation: any) => {
-    const signedHeaders = {
-      ...headers,
-      cookie: ctx && ctx.req ? ctx.req.headers.cookie || '' : document.cookie,
-    };
-    console.log('HEADERS------');
-    console.log(signedHeaders);
     await operation.setContext({
-      headers: signedHeaders,
+      headers,
       credentials: 'include',
+      fetchOptions: {
+        credentials: 'include',
+        withCredentials: true,
+      },
       uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     });
   };
@@ -63,6 +61,10 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
     headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
+    fetchOptions: {
+      credentials: 'include',
+      withCredentials: true,
+    },
   });
 
   const wsLink = process.browser
@@ -74,6 +76,10 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
           connectionParams: {
             ...headers,
             credentials: 'include',
+            fetchOptions: {
+              credentials: 'include',
+              withCredentials: true,
+            },
           },
         },
       })
