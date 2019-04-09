@@ -16,19 +16,9 @@ import {
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
-  let requestHeaders: any;
-  if (headers && headers.host) {
-    const { host, ...rest }: any = headers;
-    requestHeaders = rest;
-  } else {
-    requestHeaders = headers;
-  }
-  console.log('Header:');
-  console.log(requestHeaders);
-
   const request = async (operation: any) => {
     await operation.setContext({
-      headers: requestHeaders,
+      headers,
       fetchOptions: {
         credentials: 'include',
       },
@@ -104,7 +94,6 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
         }
       }),
       requestLink,
-
       link,
     ]),
   });
