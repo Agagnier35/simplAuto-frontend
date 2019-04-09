@@ -1,7 +1,7 @@
 import withApollo, { InitApolloOptions } from 'next-with-apollo';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import { HttpLink, createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink, Observable, split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
@@ -48,7 +48,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
       }),
   );
 
-  const httpLink = new HttpLink({
+  const httpLink = createHttpLink({
     headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
