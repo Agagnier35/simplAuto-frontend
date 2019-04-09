@@ -14,11 +14,8 @@ import {
 } from '../../config';
 import fetch from 'isomorphic-unfetch';
 
-export function createClient({ headers }: InitApolloOptions<{}>) {
+export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
-
-  console.log('headers');
-  console.log(headers);
 
   // Polyfill fetch() on the server (used by apollo-client)
   if (!process.browser) {
@@ -26,8 +23,14 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   }
 
   const request = async (operation: any) => {
+    const signedHeaders = {
+      ...headers,
+      cookie: ctx && ctx.req ? ctx.req.headers.cookie || '' : document.cookie,
+    };
+    console.log('HEADERS------');
+    console.log(signedHeaders);
     await operation.setContext({
-      headers,
+      headers: signedHeaders,
       credentials: 'include',
       uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     });
