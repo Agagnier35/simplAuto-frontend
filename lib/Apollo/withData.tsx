@@ -34,6 +34,15 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
     cookie: ctx && ctx.req ? nookies.get(ctx) : nookies.get({} as any),
   };
 
+  console.log('HEADERS-----------');
+  console.log(headers);
+  if (ctx && ctx.req) {
+    console.log('REQUEST-----------');
+    console.log(ctx.req);
+  }
+  console.log('SIGNED HEADERS-----------');
+  console.log(signedHeaders);
+
   const request = async (operation: Operation) => {
     await operation.setContext({
       headers: signedHeaders,
