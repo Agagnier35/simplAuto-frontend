@@ -70,7 +70,13 @@ const Cars = ({ translations }: MultiProps) => {
 
           {data.me.carCount > 0 ? (
             <>
-              <CarList cars={data.me.cars} />
+              <CarList
+                cars={data.me.cars}
+                refetchQuery={{
+                  query: PAGE_CARS_QUERY,
+                  variables: { pageNumber: pageIndex, pageSize: paging5pages },
+                }}
+              />
               <Paging
                 pageIndex={pageIndex}
                 setPageIndex={setPageIndex}

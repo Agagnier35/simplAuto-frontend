@@ -81,16 +81,16 @@ const CarSummary = ({
         }
         pages={pages}
         image={<img src={car.photos[0]} />}
-        right={
-          <Button
-            onClick={() => {
-              setModalShow(true);
-            }}
-            variant="warning"
-          >
-            {translations.general.delete} <MdCancel />
-          </Button>
-        }
+        // right={
+        //   <Button
+        //     onClick={() => {
+        //       setModalShow(true);
+        //     }}
+        //     variant="warning"
+        //   >
+        //     {translations.general.delete} <MdCancel />
+        //   </Button>
+        // }
       />
     </>
   );

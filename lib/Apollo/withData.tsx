@@ -24,34 +24,17 @@ import nookies from 'nookies';
 export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
-  // Polyfill fetch() on the server (used by apollo-client)
-  if (!process.browser) {
-    global.fetch = fetch;
-  }
-
-  const signedHeaders = {
-    ...headers,
-    cookie: ctx && ctx.req ? nookies.get(ctx) : nookies.get({} as any),
-  };
-
-  console.log('HEADERS-----------');
+  console.log('headers1 =');
   console.log(headers);
-  if (ctx && ctx.req) {
-    console.log('REQUEST-----------');
-    console.log(ctx.req);
-  }
-  console.log('SIGNED HEADERS-----------');
-  console.log(signedHeaders);
 
-  const request = async (operation: Operation) => {
-    await operation.setContext({
-      headers: signedHeaders,
-      credentials: 'include',
-      fetchOptions: {
-        credentials: 'include',
-        withCredentials: true,
-      },
-      uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+  const request = async (operation: any) => {
+    await operation.setContext((test: any) => {
+      return {
+        headers,
+        fetchOptions: {
+          credentials: 'include',
+        },
+      };
     });
   };
 
@@ -79,12 +62,11 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
   );
 
   const httpLink = createHttpLink({
-    headers: signedHeaders,
+    headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
     fetchOptions: {
       credentials: 'include',
-      withCredentials: true,
     },
   });
 
@@ -95,11 +77,10 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
         options: {
           reconnect: true,
           connectionParams: {
-            ...signedHeaders,
+            ...Headers,
             credentials: 'include',
             fetchOptions: {
               credentials: 'include',
-              withCredentials: true,
             },
           },
         },
