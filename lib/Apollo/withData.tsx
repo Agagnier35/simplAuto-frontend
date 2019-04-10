@@ -16,12 +16,21 @@ import {
 export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
+  console.log('headers1 =');
+  console.log(headers);
+
+  if (headers) {
+    headers.host = 'localhost:4009999';
+  }
+
   const request = async (operation: any) => {
-    await operation.setContext({
-      headers,
-      fetchOptions: {
-        credentials: 'include',
-      },
+    await operation.setContext((test: any) => {
+      return {
+        headers,
+        fetchOptions: {
+          credentials: 'include',
+        },
+      };
     });
   };
 

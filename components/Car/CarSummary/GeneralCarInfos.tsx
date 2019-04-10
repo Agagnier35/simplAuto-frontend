@@ -18,6 +18,7 @@ import GeneralModal, {
   ModalAction,
 } from '../../General/GeneralModal';
 import Router from 'next/router';
+import { MdCancel } from 'react-icons/md';
 
 export interface GeneralCarInfosProps extends MultiProps {
   car: Car;
@@ -59,19 +60,21 @@ const GeneralCarInfos = ({
           user: { ...data.user, cars, carCount: data.user.carCount - 1 },
         },
       });
-    } else if (false) {
+    } else if (Router.pathname === '/cars') {
       const data = cache.readQuery(refetchQuery);
 
       const id = payload.data.deleteCar.id;
-      const cars = data.user.cars.filter((car: Car) => car.id !== id);
+      const cars = data.me.cars.filter((car: Car) => car.id !== id);
 
       cache.writeQuery({
         ...refetchQuery,
         data: {
           ...data,
-          user: { ...data.user, cars, carCount: data.user.carCount - 1 },
+          me: { ...data.me, cars, carCount: data.me.carCount - 1 },
         },
       });
+    } else if (Router.pathname === '/car') {
+      Router.push('/cars');
     }
   }
 
@@ -117,8 +120,11 @@ const GeneralCarInfos = ({
           <Col md={2}>
             <ButtonRow>
               {(isAdmin || isOwner) && (
-                <Button onClick={() => setShowDeleteModal(true)}>
-                  {translations.general.options.delete}
+                <Button
+                  variant="warning"
+                  onClick={() => setShowDeleteModal(true)}
+                >
+                  {translations.general.options.delete} <MdCancel />
                 </Button>
               )}
             </ButtonRow>
