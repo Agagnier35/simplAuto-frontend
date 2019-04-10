@@ -21,8 +21,8 @@ export default class PrivateComponent<
     // console.log('user private');
     // console.log(user);
 
-    console.log('ctx && ctx.req && ctx.req.headers.cookie =');
-    console.log(ctx && ctx.req && ctx.req.headers.cookie);
+    console.log('ctx && ctx.req && ctx.req.headers =');
+    console.log(ctx && ctx.req && ctx.req.headers);
 
     if (!user || !user.me) {
       // Not logged in

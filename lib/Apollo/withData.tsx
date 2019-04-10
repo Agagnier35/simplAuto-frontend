@@ -19,10 +19,6 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   console.log('headers1 =');
   console.log(headers);
 
-  if (headers) {
-    headers.host = 'localhost:4009999';
-  }
-
   const request = async (operation: any) => {
     await operation.setContext((test: any) => {
       return {
