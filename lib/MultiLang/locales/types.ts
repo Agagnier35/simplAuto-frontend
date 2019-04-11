@@ -13,6 +13,7 @@ export default interface Translations {
     clientType: string;
     facebookLogin: string;
     googleLogin: string;
+    location: string;
   };
   confirmation: {
     title: string;

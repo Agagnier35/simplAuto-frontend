@@ -502,6 +502,7 @@ class Signup extends Component<MultiProps, SignupState> {
                         onSuggestSelect={(suggest: Suggest) =>
                           this.handleGeoLocChange(suggest)
                         }
+                        placeholder={signup.location}
                       />
                       <div
                         style={redText}

@@ -13,6 +13,7 @@ const translations: Translations = {
     clientType: 'Type de compte',
     facebookLogin: 'Connexion avec Facebook',
     googleLogin: 'Connexion avec Google',
+    location: 'Votre adresse',
   },
   confirmation: {
     title: 'Accepter une offre',
