@@ -18,23 +18,16 @@ import {
   wsEndpoint,
   wsProdEndpoint,
 } from '../../config';
-import fetch from 'isomorphic-unfetch';
-import nookies from 'nookies';
 
-export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
+export function createClient({ headers }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
-  console.log('headers1 =');
-  console.log(headers);
-
   const request = async (operation: any) => {
-    await operation.setContext((test: any) => {
-      return {
-        headers,
-        fetchOptions: {
-          credentials: 'include',
-        },
-      };
+    await operation.setContext({
+      headers,
+      fetchOptions: {
+        credentials: 'include',
+      },
     });
   };
 

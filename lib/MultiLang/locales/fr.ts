@@ -418,6 +418,7 @@ const translations: Translations = {
     marketAverage: 'Moyenne du marché',
     appAverage: 'Moyenne de SimplAuto',
     offerPrice: `Prix de l'offre`,
+    askedPrice: 'Intervalle de prix recherchée',
     daysOnMarket: 'Jours sur le marché',
     days: 'jours',
   },

@@ -16,13 +16,14 @@ if (process.browser) {
   am4core.useTheme(am4themes_animated.default);
 }
 
-export interface DaysOnMarketChartProps extends MultiProps {
+export interface AdPriceChartProps extends MultiProps {
   stats: Statistics;
   theme: StyledComponentTheme;
-  days: number;
+  priceLower: number;
+  priceHigher: number;
 }
 
-class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
+class AdPriceChart extends React.Component<AdPriceChartProps> {
   chart = null;
 
   componentDidMount() {
@@ -44,19 +45,27 @@ class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
   }
 
   createChart() {
-    const { stats, translations, days } = this.props;
-    const { averageTimeOnMarketAPI, averageTimeOnMarketApp } = stats;
-    const chart = am4core.create('daysOnMarketChart', am4charts.RadarChart);
+    const { stats, translations, priceLower, priceHigher } = this.props;
+    const { averagePriceAPI, averagePriceApp } = stats;
+    const chart = am4core.create('chartdiv', am4charts.RadarChart);
 
-    const maxDays =
-      averageTimeOnMarketAPI > averageTimeOnMarketApp
-        ? averageTimeOnMarketAPI
-        : averageTimeOnMarketApp;
-    const minDays =
-      averageTimeOnMarketAPI < averageTimeOnMarketApp
-        ? averageTimeOnMarketAPI
-        : averageTimeOnMarketApp;
-    const upperBound = maxDays > 0 ? maxDays * 1.1 : 1;
+    let maxPrice = averagePriceAPI;
+    if (maxPrice < averagePriceApp) {
+      maxPrice = averagePriceApp;
+    }
+    if (maxPrice < priceHigher) {
+      maxPrice = priceHigher;
+    }
+
+    let minPrice = averagePriceAPI;
+    if (minPrice > averagePriceApp) {
+      minPrice = averagePriceApp;
+    }
+    if (minPrice > priceLower) {
+      minPrice = priceLower;
+    }
+
+    const upperBound = maxPrice > 0 ? maxPrice * 1.1 : 1;
     const lowerBound = 0;
 
     chart.paddingRight = 50;
@@ -65,17 +74,20 @@ class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
     chart.data = [
       {
         category: translations.stats.marketAverage,
-        value: averageTimeOnMarketAPI,
+        value1: 0,
+        value2: averagePriceAPI,
         full: upperBound,
       },
       {
         category: translations.stats.appAverage,
-        value: averageTimeOnMarketApp,
+        value1: 0,
+        value2: averagePriceApp,
         full: upperBound,
       },
       {
-        category: translations.stats.daysOnMarket,
-        value: days,
+        category: translations.stats.askedPrice,
+        value1: priceLower ? priceLower : lowerBound,
+        value2: priceHigher ? priceHigher : upperBound,
         full: upperBound,
       },
     ];
@@ -86,7 +98,7 @@ class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
     chart.innerRadius = am4core.percent(40);
 
     // Set number format
-    //chart.numberFormatter.numberFormat = `#.#'${translations.stats.days}'`;
+    chart.numberFormatter.numberFormat = "#.#'$'";
 
     // Create axes
     const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis() as any);
@@ -125,7 +137,8 @@ class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
     series1.columns.template.radarColumn.cornerRadius = 20;
 
     const series2 = chart.series.push(new am4charts.RadarColumnSeries());
-    series2.dataFields.valueX = 'value';
+    series2.dataFields.openValueX = 'value1';
+    series2.dataFields.valueX = 'value2';
     series2.dataFields.categoryY = 'category';
     series2.clustered = false;
     series2.columns.template.strokeWidth = 0;
@@ -149,10 +162,8 @@ class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
   }
 
   public render() {
-    return (
-      <div id="daysOnMarketChart" style={{ width: '100%', height: '400px' }} />
-    );
+    return <div id="chartdiv" style={{ width: '100%', height: '400px' }} />;
   }
 }
 
-export default multi(withTheme(DaysOnMarketChart));
+export default multi(withTheme(AdPriceChart));
