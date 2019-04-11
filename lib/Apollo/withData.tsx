@@ -3,7 +3,13 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink, createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
-import { ApolloLink, Observable, split } from 'apollo-link';
+import {
+  ApolloLink,
+  Observable,
+  split,
+  Operation,
+  NextLink,
+} from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import {
@@ -13,31 +19,29 @@ import {
   wsProdEndpoint,
 } from '../../config';
 import fetch from 'isomorphic-unfetch';
+import nookies from 'nookies';
 
 export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
   const cache = new InMemoryCache({});
 
-  // Polyfill fetch() on the server (used by apollo-client)
-  if (!process.browser) {
-    global.fetch = fetch;
-  }
+  console.log('headers1 =');
+  console.log(headers);
 
   const request = async (operation: any) => {
-    await operation.setContext({
-      headers,
-      credentials: 'include',
-      fetchOptions: {
-        credentials: 'include',
-        withCredentials: true,
-      },
-      uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    await operation.setContext((test: any) => {
+      return {
+        headers,
+        fetchOptions: {
+          credentials: 'include',
+        },
+      };
     });
   };
 
   const requestLink = new ApolloLink(
-    (operation, forward) =>
+    (operation: Operation, forward: NextLink | undefined) =>
       new Observable(observer => {
-        let handle: any;
+        let handle: ZenObservable.Subscription;
         Promise.resolve(operation)
           .then(oper => request(oper))
           .then(() => {
@@ -63,7 +67,6 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
     credentials: 'include',
     fetchOptions: {
       credentials: 'include',
-      withCredentials: true,
     },
   });
 
@@ -74,11 +77,10 @@ export function createClient({ headers, ctx }: InitApolloOptions<{}>) {
         options: {
           reconnect: true,
           connectionParams: {
-            ...headers,
+            ...Headers,
             credentials: 'include',
             fetchOptions: {
               credentials: 'include',
-              withCredentials: true,
             },
           },
         },
