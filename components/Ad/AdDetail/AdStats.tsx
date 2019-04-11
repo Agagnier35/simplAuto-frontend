@@ -1,49 +1,50 @@
 import React from 'react';
-import Translations from '../../../lib/MultiLang/locales/types';
 import { useQuery } from 'react-apollo-hooks';
 import { AD_STATS_QUERY } from './Queries';
-import Loading from '../../General/Loading';
-import ErrorMessage from '../../General/ErrorMessage';
 import { multi } from '../../../lib/MultiLang';
-import { Statistics } from '../../../generated/graphql';
+import { Statistics, Ad } from '../../../generated/graphql';
+import moment from 'moment';
+import { Row, Col, Card } from 'react-bootstrap';
+import DaysOnMarketChart from '../../Stats/DaysOnMarketChart';
+import AdPriceRangeChart from '../../Stats/AdPriceRangeChart/AdPriceRangeChart';
+import ErrorMessage from '../../General/ErrorMessage';
+import Translations from '../../../lib/MultiLang/locales/types';
 
 export interface AdStatsProps {
-  adID: string;
+  ad: Ad;
   translations: Translations;
 }
 
-const AdStats = ({ adID, translations }: AdStatsProps) => {
+const AdStats = ({ ad, translations }: AdStatsProps) => {
   const { data, loading, error } = useQuery(AD_STATS_QUERY, {
-    variables: { id: adID },
+    variables: { id: ad.id },
   });
 
   const stats: Statistics = data.statsForAds;
-  const { stats: statsT } = translations;
 
-  if (loading) return <Loading />;
+  if (loading) return null;
   if (error) return <ErrorMessage error={error} />;
 
+  const days = moment(ad.createdAt).diff(moment.now(), 'days');
+
   return (
-    <div>
-      <div>
-        <p>{statsT.market}:</p>
-        <p>
-          {statsT.avgPrice}: {stats.averagePriceAPI}$
-        </p>
-        <p>
-          {statsT.avgTime}: {stats.averageTimeOnMarketAPI}
-        </p>
-      </div>
-      <div>
-        <p>{statsT.app}:</p>
-        <p>
-          {statsT.avgPrice}: {stats.averagePriceApp}$
-        </p>
-        <p>
-          {statsT.avgTime}: {stats.averageTimeOnMarketApp}
-        </p>
-      </div>
-    </div>
+    <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
+      <Card.Body>
+        <Card.Title>{translations.admin.stats}</Card.Title>
+        <Row style={{ marginTop: '1rem' }}>
+          <Col md={12} lg={6}>
+            <AdPriceRangeChart
+              stats={stats}
+              priceLower={ad.priceLowerBound}
+              priceHigher={ad.priceHigherBound}
+            />
+          </Col>
+          <Col md={12} lg={6}>
+            <DaysOnMarketChart stats={stats} days={days} />
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
   );
 };
 

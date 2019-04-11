@@ -76,11 +76,9 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             right={isMyAd && <MyAdOptions ad={data.ad} />}
           />
         </Card>
-        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <Card.Body>
-            <AdStats adID={adID} />
-          </Card.Body>
-        </Card>
+
+        <AdStats ad={data.ad} />
+
         <Tab className="active">
           {translations.offers.receivedOffers}
           <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
