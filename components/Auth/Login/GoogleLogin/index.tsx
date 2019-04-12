@@ -74,7 +74,6 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   responseGoogleFailed = (failure: any) => {
-    // Afficher quelque chose pour signifier à l'utilisateur que l'opération a échoué
     console.log(failure);
   };
 
