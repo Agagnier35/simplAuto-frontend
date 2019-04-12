@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
+import Translations from '../../../lib/MultiLang/locales/types';
 import { AdUpdateInput } from '../../../generated/graphql';
 import StyledForm from '../../Car/CarAdd/Form';
 import { Form, Button, Card } from 'react-bootstrap';
@@ -11,10 +12,11 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
-import CreateAdFormValidation, {
-  MIN_CAR_YEAR,
-  MAX_MILEAGE_ALLOWED,
-} from '../../../lib/FormValidator/CreateAdFormValidation';
+import {
+  minCarYear,
+  maxMileage,
+} from '../../../components/General/Preferences';
+import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -33,6 +35,13 @@ interface UpdateAdState extends AdUpdateInput {
     priceLowerBound: boolean;
     priceHigherBound: boolean;
   }>;
+}
+
+export interface CarPageProps {
+  translations: Translations;
+  query: {
+    id: String;
+  };
 }
 
 type KeyValue = { [key: string]: any };
@@ -338,7 +347,7 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     defaultValue={this.fieldToString(
                                       this.state.yearLowerBound,
                                     )}
-                                    min={MIN_CAR_YEAR}
+                                    min={minCarYear}
                                     max={new Date().getFullYear()}
                                     onBlur={() =>
                                       this.fieldTouched('yearLowerBound')
@@ -376,7 +385,7 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                     defaultValue={this.fieldToString(
                                       this.state.yearHigherBound,
                                     )}
-                                    min={MIN_CAR_YEAR}
+                                    min={minCarYear}
                                     max={new Date().getFullYear()}
                                     onBlur={() =>
                                       this.fieldTouched('yearHigherBound')
@@ -419,7 +428,7 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       this.state.mileageLowerBound,
                                     )}
                                     min={0}
-                                    max={MAX_MILEAGE_ALLOWED}
+                                    max={maxMileage}
                                     onBlur={() =>
                                       this.fieldTouched('mileageLowerBound')
                                     }
@@ -459,7 +468,7 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                       this.state.mileageHigherBound,
                                     )}
                                     min={0}
-                                    max={MAX_MILEAGE_ALLOWED}
+                                    max={maxMileage}
                                     onBlur={() =>
                                       this.fieldTouched('mileageHigherBound')
                                     }

@@ -14,6 +14,8 @@ import { AdPortlet } from './styles';
 import AdOffers from './AdOffers';
 import moment from 'moment';
 import { AD_DELETE_MUTATION } from '../AdDetail';
+import { Dropdown } from 'react-bootstrap';
+import Link from 'next/link';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -96,31 +98,6 @@ const AdSummary = ({
         }
         interval={3000}
         pages={pages}
-        left={
-          hasPermission() && (
-            <Dropdown>
-              <More size="sm" variant="light" id="dropdown-basic">
-                <MoreIcon />
-              </More>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setModalShow(true)}>
-                  {general.options.delete}
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Link
-                    href={{
-                      pathname: '/updateAd',
-                      search: `?adId=${ad.id}`,
-                    }}
-                    passHref
-                  >
-                    {general.options.modify}
-                  </Link>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          )
-        }
       />
     </>
   );

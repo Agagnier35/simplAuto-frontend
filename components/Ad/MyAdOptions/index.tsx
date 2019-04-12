@@ -17,6 +17,7 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import { AD_DELETE_MUTATION } from '../AdDetail';
 import Router from 'next/router';
+import Link from 'next/link';
 
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
@@ -93,9 +94,15 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           <Button variant="warning" onClick={() => setModalShow(true)}>
             {translations.general.delete} <MdCancel />
           </Button>
-          <Button variant="secondary">
-            {translations.GeneralModalContent.edit} <FaEdit />
-          </Button>
+
+          <Link
+            href={{ pathname: '/updateAd', search: `?adId=${ad.id}` }}
+            passHref
+          >
+            <Button variant="secondary">
+              {translations.GeneralModalContent.edit} <FaEdit />
+            </Button>
+          </Link>
         </ButtonToolbar>
       </ButtonWrapper>
     </>
