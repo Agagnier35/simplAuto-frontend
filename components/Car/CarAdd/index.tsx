@@ -388,22 +388,20 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                         </Card.Title>
                         <div className="label-wrapper no-grow">
                           {fetchedDropdownFeatures.map((feature: any) => (
-                            <>
-                              <Select
-                                key={feature.id}
-                                options={this.getFeaturesName(
-                                  carFeature[feature.name],
-                                )}
-                                accessor="name"
-                                handleChange={(item: any) =>
-                                  this.handleChange('features', {
-                                    value: item.id,
-                                    category: feature.name,
-                                  })
-                                }
-                                label={carFeatureCategory[feature.name]}
-                              />
-                            </>
+                            <Select
+                              key={feature.id}
+                              options={this.getFeaturesName(
+                                carFeature[feature.name],
+                              )}
+                              accessor="name"
+                              handleChange={(item: any) =>
+                                this.handleChange('features', {
+                                  value: item.id,
+                                  category: feature.name,
+                                })
+                              }
+                              label={carFeatureCategory[feature.name]}
+                            />
                           ))}
                           <span>{general.description}: </span>
                           <textarea

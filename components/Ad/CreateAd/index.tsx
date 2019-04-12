@@ -156,9 +156,24 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     return data;
   };
 
+  getFeaturesName = (carFeature: any) => {
+    let features: string[] = [];
+    Object.keys(carFeature).map((item: string) => {
+      features.push(carFeature[item]);
+    });
+    return features;
+  };
+
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory, ad },
+      translations: {
+        carLabel,
+        cars,
+        general,
+        carFeatureCategory,
+        ad,
+        carFeature,
+      },
     } = this.props;
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
@@ -397,7 +412,9 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                           {fetchedDropdownFeatures.map((feature: any) => (
                             <Select
                               key={feature.id}
-                              options={feature.features}
+                              options={this.getFeaturesName(
+                                carFeature[feature.name],
+                              )}
                               accessor="name"
                               handleChange={(item: any) =>
                                 this.handleChange('features', {
