@@ -37,17 +37,18 @@ interface UpdateAdState extends AdUpdateInput {
   }>;
 }
 
-export interface CarPageProps {
-  translations: Translations;
-  query: {
-    id: String;
-  };
+interface UpdateAdProps extends MultiProps {
+  query: { id: String };
 }
 
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
 
-class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
+class UpdateAd extends Component<
+  MultiProps,
+  Dictionnary<AdUpdateInput>,
+  UpdateAdProps
+> {
   state: UpdateAdState = {
     id: '',
     features: null,
@@ -230,17 +231,27 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
 
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory, ad },
+      translations: {
+        ad,
+        carLabel,
+        carFeatureCategory,
+        cars,
+        profile,
+        general,
+      },
+      query: { id },
     } = this.props;
+
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     const touched = { ...this.state.touched };
     const createAdFormValidation = new CreateAdFormValidation(general); // Réutilisation du même que pour créer car le contrôle se fait exactement de la même faço
+
     return (
       <Query
         query={AD_DETAIL_QUERY}
-        variables={{ id: this.props.adId }}
+        variables={{ id: query.id }}
         onCompleted={data => this.fillState(data)}
       >
         {({ loading, error }) => {
@@ -291,12 +302,7 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   defaultValue={this.getDefaultManufacturer(
                                     data.manufacturers,
                                   )}
-                                  label={
-                                    <span>
-                                      {cars.manufacturer}
-                                      <span style={{ color: 'red' }}>*</span>
-                                    </span>
-                                  }
+                                  label={<span>{cars.manufacturer}</span>}
                                 />
                                 <Select
                                   options={this.getModelsForManufacturer(data)}
@@ -310,12 +316,7 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   defaultValue={this.getDefaultModel(
                                     data.manufacturers,
                                   )}
-                                  label={
-                                    <span>
-                                      {cars.model}
-                                      <span style={{ color: 'red' }}>*</span>
-                                    </span>
-                                  }
+                                  label={<span>{cars.model}</span>}
                                 />
                                 <Select
                                   options={data.carCategories}
@@ -328,18 +329,12 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                   defaultValue={this.getDefaultCategory(
                                     data.carCategories,
                                   )}
-                                  label={
-                                    <span>
-                                      {cars.category}
-                                      <span style={{ color: 'red' }}>*</span>
-                                    </span>
-                                  }
+                                  label={<span>{cars.category}</span>}
                                 />
 
                                 <label>
                                   <span>
                                     {cars.year} {general.min}
-                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -377,7 +372,6 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.year} {general.max}
-                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -417,7 +411,6 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.mileage} {general.min}
-                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -457,7 +450,6 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.mileage} {general.max}
-                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -499,7 +491,6 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.price} {general.min}
-                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
@@ -536,7 +527,6 @@ class UpdateAd extends Component<MultiProps, Dictionnary<AdUpdateInput>> {
                                 <label>
                                   <span>
                                     {cars.price} {general.max}
-                                    <span style={{ color: 'red' }}>*</span>
                                   </span>
                                   <Form.Control
                                     type="text"
