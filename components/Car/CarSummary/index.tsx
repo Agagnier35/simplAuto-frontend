@@ -18,6 +18,7 @@ export interface CarSummaryProp {
   translations: Translations;
   car: Car;
   offer?: Offer;
+  refetchQuery?: any;
   carID: string;
 }
 
@@ -26,11 +27,18 @@ const CarSummary = ({
   car,
   offer,
   carID,
+  refetchQuery,
   ...otherProps
 }: CarSummaryProp) => {
   const pages = offer
-    ? [<GeneralCarInfos car={car} price={offer.price} />]
-    : [<GeneralCarInfos car={car} />];
+    ? [
+        <GeneralCarInfos
+          car={car}
+          refetchQuery={refetchQuery}
+          price={offer.price}
+        />,
+      ]
+    : [<GeneralCarInfos car={car} refetchQuery={refetchQuery} />];
 
   if (car.features && car.features.length > 0) {
     pages.push(<CarFeatures car={car} />);
@@ -73,16 +81,16 @@ const CarSummary = ({
         }
         pages={pages}
         image={<img src={car.photos[0]} />}
-        right={
-          <Button
-            onClick={() => {
-              setModalShow(true);
-            }}
-            variant="warning"
-          >
-            {translations.general.delete} <MdCancel />
-          </Button>
-        }
+        // right={
+        //   <Button
+        //     onClick={() => {
+        //       setModalShow(true);
+        //     }}
+        //     variant="warning"
+        //   >
+        //     {translations.general.delete} <MdCancel />
+        //   </Button>
+        // }
       />
     </>
   );

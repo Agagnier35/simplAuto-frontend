@@ -70,8 +70,10 @@ const redText = {
 };
 
 interface ProfileProps extends MultiProps {
-  query: {
-    id: string;
+  user: {
+    me: {
+      id: string;
+    };
   };
 }
 
@@ -261,21 +263,20 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
   render() {
     const {
       translations: { profile, general },
-      query,
+      user,
     } = this.props;
 
     const touched = { ...this.state.touched };
-
     const profileFormValidation = new ProfileFormValidation(general);
     return (
       <>
         <Query
           query={USER_BY_ID}
-          variables={{ id: query.id }}
+          variables={{ id: user.me.id }}
           onCompleted={data => this.fillState(data)}
         >
           {({ data, loading, error }) => {
-            if (loading || !data.me) return <Loading />;
+            if (loading || !data.user) return <Loading />;
             if (error) return <ErrorMessage error={error} />;
             return (
               <Mutation
@@ -285,7 +286,7 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
                   {
                     query: USER_BY_ID,
                     variables: {
-                      id: query.id,
+                      id: user.me.id,
                     },
                   },
                 ]}

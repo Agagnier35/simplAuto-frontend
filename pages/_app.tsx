@@ -25,6 +25,7 @@ interface Props {
 export const USER_LANGUAGE = gql`
   {
     me {
+      id
       language
     }
   }

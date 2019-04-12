@@ -56,8 +56,8 @@ class DaysOnMarketChart extends React.Component<DaysOnMarketChartProps> {
       averageTimeOnMarketAPI < averageTimeOnMarketApp
         ? averageTimeOnMarketAPI
         : averageTimeOnMarketApp;
-    const upperBound = maxDays * 1.1;
-    const lowerBound = minDays * 0;
+    const upperBound = maxDays > 0 ? maxDays * 1.1 : 1;
+    const lowerBound = 0;
 
     chart.paddingRight = 50;
     chart.paddingLeft = 50;

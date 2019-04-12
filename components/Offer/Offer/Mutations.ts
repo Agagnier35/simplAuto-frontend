@@ -33,6 +33,14 @@ export const REFUSE_OFFER_MUTATION = gql`
   }
 `;
 
+export const DELETE_OFFER_MUTATION = gql`
+  mutation DELETE_OFFER_MUTATION($id: ID!) {
+    deleteOffer(id: $id) {
+      id
+    }
+  }
+`;
+
 export const ACCEPT_OFFER_EMAIL_MUTATION = gql`
   mutation ACCEPT_OFFER_EMAIL_MUTATION($id: ID!) {
     sendNotificationEmail(id: $id)

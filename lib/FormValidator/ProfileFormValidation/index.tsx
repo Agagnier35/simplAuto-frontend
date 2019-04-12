@@ -1,8 +1,8 @@
 import BasicFormValidation from '../BasicFormValidation';
 import {
   Date as SchemaDate,
-  Location,
   ClientType,
+  LocationInput,
 } from '../../../generated/graphql';
 import { ProfileState } from '../../../components/User/Profile';
 import { minBirthYear, minAge } from '../../../components/General/Preferences';
@@ -36,12 +36,12 @@ class ProfileFormValidation extends BasicFormValidation {
     // On veut seulement vérifier que le user a plus de 16 ans et moins de de 120 ans
     return (
       birthDate &&
-      birthDate.year > minBirthYear &&
+      birthDate.year >= minBirthYear &&
       birthDate.year <= new Date().getFullYear() - minAge
     );
   };
 
-  isLocationValid = (location: Location) => {
+  isLocationValid = (location: LocationInput) => {
     return (
       location.name !== '' &&
       location.longitude !== 0 &&

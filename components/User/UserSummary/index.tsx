@@ -1,12 +1,19 @@
 import React from 'react';
 import { multi } from '../../../lib/MultiLang';
 import { User, ClientType } from '../../../generated/graphql';
-import { Container, Name, Field, StatusBadge, StatusWrapper } from './styles';
+import {
+  Container,
+  Name,
+  Field,
+  StatusBadge,
+  StatusWrapper,
+  A,
+} from './styles';
 import { Row, Col, Dropdown } from 'react-bootstrap';
 import { More } from '../../Ad/AdSummary/styles';
 import { IoIosMore as MoreIcon } from 'react-icons/io';
 import moment from 'moment';
-import { FaUserSlash, FaUserEdit } from 'react-icons/fa';
+import { FaUserSlash, FaUserEdit, FaUser } from 'react-icons/fa';
 import { useMutation } from 'react-apollo-hooks';
 import { BAN_USER_MUTATION } from '../../Admin/SearchUser/Mutations';
 import Link from 'next/link';
@@ -50,6 +57,15 @@ const UserSummary = ({ user }: UserSummaryProps) => {
             </More>
             <Dropdown.Menu>
               <Link
+                href={{ pathname: '/user', query: { id: user.id } }}
+                passHref
+              >
+                <Dropdown.Item as="a">
+                  <FaUser />
+                  Voir
+                </Dropdown.Item>
+              </Link>
+              <Link
                 href={{
                   pathname: '/profile',
                   query: { id: user.id },
@@ -58,14 +74,14 @@ const UserSummary = ({ user }: UserSummaryProps) => {
               >
                 <Dropdown.Item as="a">
                   <FaUserEdit />
-                  modify
+                  Modifier
                 </Dropdown.Item>
               </Link>
               <Dropdown.Item
                 onClick={() => banUser({ variables: { id: user.id } })}
               >
                 <FaUserSlash />
-                ban
+                Bannir
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

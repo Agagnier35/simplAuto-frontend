@@ -9,7 +9,7 @@ import { multi, MultiProps } from '../../../lib/MultiLang';
 import { IoMdCar } from 'react-icons/io';
 import { Query, Mutation } from 'react-apollo';
 import Notifications from '../Notifications';
-import CommonDataManager, { appName } from '../Preferences';
+import { appName } from '../Preferences';
 import { ClientType, Permission } from '../../../generated/graphql';
 
 export const LOGGED_IN_QUERY = gql`
@@ -54,8 +54,8 @@ Router.onRouteChangeError = () => {
 };
 
 const handleLogout = async (logout: () => void) => {
-  Router.push('/');
   await logout();
+  Router.push('/');
 };
 
 const Header: React.SFC<MultiProps> = ({
@@ -72,7 +72,7 @@ const Header: React.SFC<MultiProps> = ({
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Query query={LOGGED_IN_QUERY} pollInterval={10000}>
+          <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
               if (loading) return null;
               if (data && data.me) {
@@ -94,13 +94,10 @@ const Header: React.SFC<MultiProps> = ({
                           <Nav.Item as="a">Premium</Nav.Item>
                         </Link>
                       )}
-                      <Link
-                        href={{
-                          pathname: '/profile',
-                          query: { id: data.me.id },
-                        }}
-                        passHref
-                      >
+                      <Link href="/conversations" passHref prefetch>
+                        <Nav.Item as="a">{general.myConversations}</Nav.Item>
+                      </Link>
+                      <Link href="/profile" passHref>
                         <a className="firstName">
                           {data.me.clientType === ClientType.Individual
                             ? data.me.firstName.charAt(0)

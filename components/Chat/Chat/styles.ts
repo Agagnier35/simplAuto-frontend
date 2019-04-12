@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { User } from '../../../generated/graphql';
 import { Card as BSCard } from 'react-bootstrap';
 
 export const Container = styled.section`
@@ -9,7 +8,7 @@ export const Container = styled.section`
   padding: 1rem;
 `;
 
-export const Message = styled('div')<{
+export const MessageStyle = styled('div')<{
   isSelfOrSeller: boolean | null | undefined;
 }>`
   color: black;

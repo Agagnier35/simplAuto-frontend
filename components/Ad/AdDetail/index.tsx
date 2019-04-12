@@ -76,11 +76,9 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             right={isMyAd && <MyAdOptions ad={data.ad} />}
           />
         </Card>
-        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <Card.Body>
-            <AdStats adID={adID} />
-          </Card.Body>
-        </Card>
+
+        <AdStats ad={data.ad} />
+
         <Tab className="active">
           {translations.offers.receivedOffers}
           <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
@@ -101,18 +99,20 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
           <div hidden={data.ad.offerCount !== 0}>
             <p>{translations.offers.noMatch}</p>
           </div>
-          <div
-            hidden={
-              youMayLikeQuery.loading || data.ad.offers.length === paging5pages
-            }
-          >
-            <YouMayLike
-              translations={translations}
-              data={youMayLikeQuery.data}
-              error={youMayLikeQuery.error}
-              pageIndexMayLike={pageIndexMayLike}
-              setPageIndexMayLike={setPageIndexMayLike}
-            />
+          <div hidden={data.ad.offers.length === paging5pages}>
+            {youMayLikeQuery.data &&
+              youMayLikeQuery.data.suggestions &&
+              youMayLikeQuery.data.suggestions[0] &&
+              youMayLikeQuery.data.suggestions[0].totalLength > 0 && (
+                <YouMayLike
+                  translations={translations}
+                  data={youMayLikeQuery.data}
+                  loading={youMayLikeQuery.loading}
+                  error={youMayLikeQuery.error}
+                  pageIndexMayLike={pageIndexMayLike}
+                  setPageIndexMayLike={setPageIndexMayLike}
+                />
+              )}
           </div>
         </Card>
       </div>

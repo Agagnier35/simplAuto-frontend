@@ -32,7 +32,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
 
   const meQuery = useQuery(LOGGED_IN_QUERY);
   const isMyOffer = offer.creator && meQuery.data.me.id === offer.creator.id;
-  const isMyAd = offer.ad.creator && meQuery.data.me.id === offer.ad.creator.id;
+  const isMyAd = !isMyOffer;
 
   const handleSendMessage = useMutation(SEND_MESSAGE_MUTATION);
   const handleUpdateConversation = useMutation(UPDATE_CONVERSATION_MUTATION);
@@ -52,7 +52,20 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
-        data.offer.conversation.messages.push(message);
+        if (offerQuery.variables) {
+          // We're in an offer
+          data.offer.conversation.messages.push(message);
+        } else {
+          // Theres no variables -> inside conversations
+          data.me.conversations = data.me.conversations.map(
+            (conversation: Conversation) => {
+              if (conversation.offer.id === offer.id) {
+                conversation.messages.push(message);
+              }
+              return conversation;
+            },
+          );
+        }
       }
 
       client.cache.writeQuery({ ...offerQuery, data });
@@ -194,7 +207,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                 (message: Message, index: number) => (
                   <React.Fragment key={message.id}>
                     {getDaySpacer(offer.conversation, index)}
-                    <Chat.Message isSelfOrSeller={isSelfOrSeller(message)}>
+                    <Chat.MessageStyle isSelfOrSeller={isSelfOrSeller(message)}>
                       {isSelfOrSeller(message) && (
                         <Chat.Time>
                           {moment(message.updatedAt).format('LT')}
@@ -211,7 +224,7 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                           {moment(message.updatedAt).format('LT')}
                         </Chat.Time>
                       )}
-                    </Chat.Message>
+                    </Chat.MessageStyle>
                   </React.Fragment>
                 ),
               )}

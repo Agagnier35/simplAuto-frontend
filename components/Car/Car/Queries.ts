@@ -4,6 +4,9 @@ export const CAR_BY_ID = gql`
   query CAR_BY_ID($id: ID!, $pageNumberOffer: Int, $pageSizeOffer: Int) {
     car(id: $id) {
       id
+      owner {
+        id
+      }
       manufacturer {
         id
         name

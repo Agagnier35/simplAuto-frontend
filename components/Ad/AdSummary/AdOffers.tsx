@@ -14,6 +14,7 @@ import AdSummaryItem from './AdSummaryItem';
 import { IoIosTimer as KilometerIcon } from 'react-icons/io';
 import { useQuery } from 'react-apollo-hooks';
 import { AD_OFFER_SUGGESTION_QUERY } from '../AdDetail/Queries';
+import ErrorMessage from '../../General/ErrorMessage';
 import { myTopOffers } from '../../General/Preferences';
 
 export interface AdOffersProps extends MultiProps {
@@ -42,6 +43,8 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
     }
   }
 
+  if (error) return <ErrorMessage error={error} />;
+
   return (
     <Col md={12}>
       {ad.offers &&
@@ -65,7 +68,8 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
             <OfferPrice>{offer.price} $</OfferPrice>
           </AdOfferItem>
         ))}
-      {ad.offers.length < myTopOffers &&
+      {ad.offers &&
+        ad.offers.length < myTopOffers &&
         !loading &&
         !error &&
         data.suggestions &&
@@ -91,6 +95,13 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
               <OfferPrice>{suggestion.offer.price} $</OfferPrice>
             </AdOfferItem>
           ))}
+      <p
+        hidden={
+          loading || (ad.offers && ad.offers.length > 0) || !data.suggestions
+        }
+      >
+        {translations.offers.noOffers}
+      </p>
     </Col>
   );
 };
