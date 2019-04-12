@@ -74,7 +74,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   responseGoogleFailed = (failure: any) => {
-    console.log(failure);
+    Router.push('/login');
   };
 
   getSignupPayload = () => {
