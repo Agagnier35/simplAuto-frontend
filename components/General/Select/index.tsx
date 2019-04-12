@@ -95,7 +95,7 @@ class Select extends React.Component<SelectProps, SelectState> {
                 key={index}
                 onClick={() => this.handleSelect(option)}
               >
-                {option[accessor]}
+                {option[accessor] ? option[accessor] : option}
               </BootStrapDropdown.Item>
             ))}
           </BootStrapDropdown.Menu>

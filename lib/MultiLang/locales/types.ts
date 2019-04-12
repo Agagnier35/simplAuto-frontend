@@ -100,6 +100,7 @@ export default interface Translations {
       english: string;
       french: string;
     };
+    description: string;
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
@@ -325,6 +326,10 @@ export default interface Translations {
     tires: string;
   };
   carFeature: Dictionary<{
+    motor: Dictionary<{
+      2: string;
+      2.5: string;
+    }>;
     color: Dictionary<{
       black: string;
       blue: string;
@@ -389,6 +394,7 @@ export default interface Translations {
     marketAverage: string;
     appAverage: string;
     offerPrice: string;
+    askedPrice: string;
     days: string;
     daysOnMarket: string;
   };

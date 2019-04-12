@@ -55,7 +55,6 @@ class Login extends Component<MultiProps, LoginState> {
 
   handlePostLogin(data: any) {
     this.handleLanguage(data);
-    console.log(data);
     let page = '/myAds';
     if (data.login.adCount < data.login.carCount) {
       page = '/cars';

@@ -13,7 +13,7 @@ const AdFeatures = ({ ad, translations }: AdFeaturesProps) => {
   const { carFeature, carFeatureCategory } = translations;
 
   function getFeatureValue(feature: CarFeature) {
-    if (feature.category.type === CarFeatureType.TrueFalse) {
+    if (feature.category.type === CarFeatureType.True_False) {
       return carFeature[feature.name];
     }
 
