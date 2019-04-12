@@ -73,6 +73,14 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
     return { data: userInfos };
   };
 
+  handlePostLogin = (data: any) => {
+    let page = '/myAds';
+    if (data.login.adCount < data.login.carCount) {
+      page = '/cars';
+    }
+    Router.push(page);
+  };
+
   render() {
     const { translations } = this.props;
     return (
@@ -80,6 +88,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         mutation={FACEBOOK_LOGIN_MUTATION}
         variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+        onCompleted={data => this.handlePostLogin(data)}
       >
         {handleMutation => (
           <FacebookLogin

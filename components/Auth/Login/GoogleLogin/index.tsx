@@ -77,6 +77,14 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
     Router.push('/login');
   };
 
+  handlePostLogin = (data: any) => {
+    let page = '/myAds';
+    if (data.login.adCount < data.login.carCount) {
+      page = '/cars';
+    }
+    Router.push(page);
+  };
+
   getSignupPayload = () => {
     const { ...userInfos } = this.state;
     return { data: userInfos };
@@ -89,6 +97,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
         mutation={GOOGLE_LOGIN_MUTATION}
         variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+        onCompleted={data => this.handlePostLogin(data)}
       >
         {handleMutation => (
           <GoogleLogin
