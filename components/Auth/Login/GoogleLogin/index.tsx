@@ -63,9 +63,9 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
       response.profileObj.givenName
     ) {
       this.setState({
-        firstName: response.profileObj.email,
+        firstName: response.profileObj.givenName,
         lastName: response.profileObj.familyName,
-        email: response.profileObj.givenName,
+        email: response.profileObj.email,
         googleID: response.googleId,
       });
       googleLogin();
