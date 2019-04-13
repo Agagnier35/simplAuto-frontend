@@ -51,14 +51,11 @@ class GeneralModal extends Component<GeneralModalProps> {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {GeneralModalContent.title}
+            {GeneralModalContent[actionType]}
+            {GeneralModalContent[modalSubject]}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>
-            {GeneralModalContent[actionType]}
-            {GeneralModalContent[modalSubject]}
-          </h4>
           <p>{GeneralModalContent.content}</p>
         </Modal.Body>
         <Modal.Footer>

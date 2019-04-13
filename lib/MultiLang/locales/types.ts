@@ -48,6 +48,7 @@ export default interface Translations {
     notificationMessage: string;
   };
   general: {
+    yourOffers: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -257,6 +258,7 @@ export default interface Translations {
     to: string;
     youHaveBeenOffered: string;
     youHaveOffered: string;
+    add: string;
   };
   GeneralModalContent: {
     title: string;

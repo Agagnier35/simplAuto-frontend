@@ -54,6 +54,7 @@ const translations: Translations = {
     notificationMessage: 'Nouveau message',
   },
   general: {
+    yourOffers: 'Vos offres',
     email: 'Courriel',
     password: 'Mot de passe',
     confirmPassword: 'Confirmer mot de passe',
@@ -308,6 +309,7 @@ const translations: Translations = {
     to: 'À',
     youHaveBeenOffered: 'Vous vous etes fait offert',
     youHaveOffered: 'Vous avez offert',
+    add: 'Ajouter',
   },
   Chat: {
     title: 'Messagerie',
