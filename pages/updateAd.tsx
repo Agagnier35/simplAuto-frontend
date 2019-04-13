@@ -9,8 +9,8 @@ export interface AdProps {
   };
 }
 
-const UpdateAdPage = ({ query }: AdProps) => {
-  return <UpdateAd adId={query.id} />;
+const UpdateAdPage = (query: AdProps) => {
+  return <UpdateAd query={query} />;
 };
 
 export default UpdateAdPage;
