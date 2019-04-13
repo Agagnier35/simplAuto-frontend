@@ -146,10 +146,13 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     }
   };
 
-  getFeaturesName = (carFeature: any) => {
-    let features: string[] = [];
-    Object.keys(carFeature).map((item: string) => {
-      features.push(carFeature[item]);
+  getFeaturesName = (carFeature: any, feature: any) => {
+    let features: any[] = [];
+    Object.keys(carFeature).map((item: string, i: number) => {
+      features.push({
+        name: carFeature[item],
+        id: feature.features[i].id,
+      });
     });
     return features;
   };
@@ -392,6 +395,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               key={feature.id}
                               options={this.getFeaturesName(
                                 carFeature[feature.name],
+                                feature,
                               )}
                               accessor="name"
                               handleChange={(item: any) =>
