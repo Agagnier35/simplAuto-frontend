@@ -179,32 +179,37 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
   };
 
   getCreateAdPayload = () => {
-    const { touched, ...state } = this.state;
+    const {
+      manufacturerID,
+      modelID,
+      categoryID,
+      yearLowerBound,
+      yearHigherBound,
+      mileageLowerBound,
+      mileageHigherBound,
+      priceLowerBound,
+      priceHigherBound,
+    } = this.state;
     let features: string[] = [];
     if (this.state.features) {
       features = this.state.features.map(feature => feature.value);
     }
+
     const data: AdCreateInput = {};
     if (features) data.features = features;
-    if (state.manufacturerID) data.manufacturerID = this.state.manufacturerID;
-    if (state.modelID) data.modelID = this.state.modelID;
-    if (state.categoryID) data.categoryID = this.state.categoryID;
-    if (state.yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
-    if (state.yearHigherBound) {
-      data.yearHigherBound = this.state.yearHigherBound;
-    }
-    if (state.mileageLowerBound) {
+    if (manufacturerID) data.manufacturerID = this.state.manufacturerID;
+    if (modelID) data.modelID = this.state.modelID;
+    if (categoryID) data.categoryID = this.state.categoryID;
+    if (yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
+    if (yearHigherBound) data.yearHigherBound = this.state.yearHigherBound;
+    if (mileageLowerBound) {
       data.mileageLowerBound = this.state.mileageLowerBound;
     }
-    if (state.mileageHigherBound) {
+    if (mileageHigherBound) {
       data.mileageHigherBound = this.state.mileageHigherBound;
     }
-    if (state.priceLowerBound) {
-      data.priceLowerBound = this.state.priceLowerBound;
-    }
-    if (state.priceHigherBound) {
-      data.priceHigherBound = this.state.priceHigherBound;
-    }
+    if (priceLowerBound) data.priceLowerBound = this.state.priceLowerBound;
+    if (priceHigherBound) data.priceHigherBound = this.state.priceHigherBound;
     return { data };
   };
 
@@ -518,7 +523,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                       <Card>
                         <Card.Body>
                           <Card.Title>
-                            <span className="card-number">5</span>
+                            <span className="card-number">4</span>
                             {general.submit}
                           </Card.Title>
                           <Button
