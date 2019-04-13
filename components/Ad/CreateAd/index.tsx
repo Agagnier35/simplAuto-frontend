@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StyledForm from '../../Car/CarAdd/Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
-import { AdCreateInput } from '../../../generated/graphql';
+import { AdCreateInput, CarFeature } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -160,10 +160,13 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     return data;
   };
 
-  getFeaturesName = (carFeature: any) => {
-    let features: string[] = [];
-    Object.keys(carFeature).map((item: string) => {
-      features.push(carFeature[item]);
+  getFeaturesName = (carFeature: any, feature: any) => {
+    let features: any[] = [];
+    Object.keys(carFeature).map((item: string, i: number) => {
+      features.push({
+        name: carFeature[item],
+        id: feature.features[i].id,
+      });
     });
     return features;
   };
@@ -420,6 +423,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                               key={feature.id}
                               options={this.getFeaturesName(
                                 carFeature[feature.name],
+                                feature,
                               )}
                               accessor="name"
                               handleChange={(item: any) =>
