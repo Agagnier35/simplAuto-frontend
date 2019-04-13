@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StyledForm from '../../Car/CarAdd/Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
-import { AdCreateInput } from '../../../generated/graphql';
+import { AdCreateInput, CarFeatureCategory } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -22,7 +22,14 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-export interface CreateAdState extends Dictionary<AdCreateInput> {
+interface CreateAdFeature {
+  value: string;
+  category: string;
+}
+
+export interface CreateAdState {
+  features: CreateAdFeature[] | null;
+  [key: string]: any;
   priceLowerBound: number | null;
   priceHigherBound: number | null;
   manufacturerID: string | null;
@@ -32,7 +39,6 @@ export interface CreateAdState extends Dictionary<AdCreateInput> {
   mileageHigherBound: number | null;
   yearLowerBound: number | null;
   yearHigherBound: number | null;
-  features: string[] | null;
   touched: Dictionary<{
     yearLowerBound: boolean;
     yearHigherBound: boolean;
@@ -92,7 +98,8 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     );
 
     const featureExists = featureIndex > -1;
-    const isDefaultValue = value.value === translations.general.none;
+    const isDefaultValue =
+      value.value === translations.general.none || value.value === '0';
 
     if (featureExists) {
       if (isDefaultValue || value.isCheckbox) {
@@ -109,7 +116,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
         this.setState({
           features: [
             ...features.slice(0, featureIndex),
-            value.value,
+            value,
             ...features.slice(featureIndex + 1),
           ],
         });
@@ -118,7 +125,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     // Add it
     else if (!isDefaultValue) {
       this.setState({
-        features: [...features, value.value],
+        features: [...features, value],
       });
     }
   };
@@ -126,21 +133,27 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
   handleChange = (key: string, value: any) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
+    } else if (value.value === '0') {
+      this.setState({ [key]: null });
     } else {
       // Not a feature
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
-      if (key === 'manufacturerID') {
-        this.setState({ modelID: '' });
-      }
+    }
+    if (key === 'manufacturerID') {
+      this.handleChange('modelID', {
+        value: '0',
+      });
     }
   };
 
   getModelsForManufacturer = (data: any) => {
     const { manufacturerID } = this.state;
-    if (manufacturerID) {
-      return data.manufacturers.find((item: any) => item.id === manufacturerID)
-        .models;
+    if (manufacturerID && manufacturerID !== '0') {
+      const models = data.manufacturers.find(
+        (item: any) => item.id === manufacturerID,
+      ).models;
+      return models;
     }
     return [];
   };
@@ -151,16 +164,66 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     this.setState({ touched });
   };
 
+  getOptions = (value: any, data: any) => {
+    let options = data;
+    const unselect = [
+      {
+        id: '0',
+        name: this.props.translations.general.defaultUnselect,
+      },
+    ];
+    if (value) {
+      options = unselect.concat(data);
+    }
+    return options;
+  };
+
   getCreateAdPayload = () => {
-    const { touched, ...data } = this.state;
-    return data;
+    const { touched, ...state } = this.state;
+    let features: string[] = [];
+    if (this.state.features) {
+      features = this.state.features.map(feature => feature.value);
+    }
+    const data: AdCreateInput = {};
+    if (features) data.features = features;
+    if (state.manufacturerID) data.manufacturerID = this.state.manufacturerID;
+    if (state.modelID) data.modelID = this.state.modelID;
+    if (state.categoryID) data.categoryID = this.state.categoryID;
+    if (state.yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
+    if (state.yearHigherBound) {
+      data.yearHigherBound = this.state.yearHigherBound;
+    }
+    if (state.mileageLowerBound) {
+      data.mileageLowerBound = this.state.mileageLowerBound;
+    }
+    if (state.mileageHigherBound) {
+      data.mileageHigherBound = this.state.mileageHigherBound;
+    }
+    if (state.priceLowerBound) {
+      data.priceLowerBound = this.state.priceLowerBound;
+    }
+    if (state.priceHigherBound) {
+      data.priceHigherBound = this.state.priceHigherBound;
+    }
+    return { data };
+  };
+
+  featureHasValue = (featureCategory: CarFeatureCategory) => {
+    let featureIndex = -1;
+    if (this.state.features) {
+      featureIndex = this.state.features.findIndex(
+        (feature: CreateAdFeature) => feature.category === featureCategory.name,
+      );
+    }
+
+    return featureIndex > -1;
   };
 
   render() {
     const {
       translations: { carLabel, cars, general, carFeatureCategory, ad },
     } = this.props;
-    const { manufacturerID } = this.state;
+    const { manufacturerID, categoryID, modelID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     const touched = { ...this.state.touched };
@@ -198,7 +261,10 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                         </Card.Title>
                         <div className="label-wrapper">
                           <Select
-                            options={data.manufacturers}
+                            options={this.getOptions(
+                              manufacturerID,
+                              data.manufacturers,
+                            )}
                             accessor="name"
                             handleChange={(item: any) =>
                               this.handleChange('manufacturerID', {
@@ -207,16 +273,23 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             }
                           />
                           <Select
-                            options={this.getModelsForManufacturer(data)}
+                            options={this.getOptions(
+                              modelID,
+                              this.getModelsForManufacturer(data),
+                            )}
                             disabled={!manufacturerID}
                             accessor="name"
                             selected={manufacturerID}
+                            reset={true}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
                           />
                           <Select
-                            options={data.carCategories}
+                            options={this.getOptions(
+                              categoryID,
+                              data.carCategories,
+                            )}
                             accessor="name"
                             handleChange={(item: any) =>
                               this.handleChange('categoryID', {
@@ -394,20 +467,27 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                           {general.features}
                         </Card.Title>
                         <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map((feature: any) => (
-                            <Select
-                              key={feature.id}
-                              options={feature.features}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('features', {
-                                  value: item.id,
-                                  category: feature.name,
-                                })
-                              }
-                              label={`${carFeatureCategory[feature.name]} :`}
-                            />
-                          ))}
+                          {fetchedDropdownFeatures.map(
+                            (featureCategory: any) => (
+                              <Select
+                                key={featureCategory.id}
+                                options={this.getOptions(
+                                  this.featureHasValue(featureCategory),
+                                  featureCategory.features,
+                                )}
+                                accessor="name"
+                                handleChange={(item: any) =>
+                                  this.handleChange('features', {
+                                    value: item.id,
+                                    category: featureCategory.name,
+                                  })
+                                }
+                                label={`${
+                                  carFeatureCategory[featureCategory.name]
+                                } :`}
+                              />
+                            ),
+                          )}
                         </div>
                       </Card.Body>
                     </Card>

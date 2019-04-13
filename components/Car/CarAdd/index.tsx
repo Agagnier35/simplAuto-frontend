@@ -3,7 +3,7 @@ import StyledForm from './Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
-import { CarCreateInput } from '../../../generated/graphql';
+import { CarCreateInput, CarFeatureCategory } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card, InputGroup } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -156,7 +156,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       );
 
       const featureExists = featureIndex > -1;
-      const isDefaultValue = value.value === translations.general.none;
+      const isDefaultValue =
+        value.value === translations.general.none || value.value === '0';
 
       if (featureExists) {
         if (isDefaultValue || value.isCheckbox) {
@@ -206,6 +207,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       description: this.state.description,
       photos: this.state.photos,
     };
+    console.log(data);
     return { data };
   };
 
@@ -216,6 +218,31 @@ class CarAdd extends Component<MultiProps, CarAddState> {
         .models;
     }
     return [];
+  };
+
+  featureHasValue = (featureCategory: CarFeatureCategory) => {
+    let featureIndex = -1;
+    if (this.state.features) {
+      featureIndex = this.state.features.findIndex(
+        feature => feature.category === featureCategory.name,
+      );
+    }
+
+    return featureIndex > -1;
+  };
+
+  getOptions = (value: any, data: any) => {
+    let options = data;
+    const unselect = [
+      {
+        id: '0',
+        name: this.props.translations.general.defaultUnselect,
+      },
+    ];
+    if (value) {
+      options = unselect.concat(data);
+    }
+    return options;
   };
 
   fieldTouched = (key: string) => {
@@ -286,6 +313,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               options={this.getModelsForManufacturer(data)}
                               disabled={!manufacturerID}
                               accessor="name"
+                              reset={true}
                               selected={manufacturerID}
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
@@ -379,20 +407,25 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           {general.features}
                         </Card.Title>
                         <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map((feature: any) => (
-                            <Select
-                              key={feature.id}
-                              options={feature.features}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('features', {
-                                  value: item.id,
-                                  category: feature.name,
-                                })
-                              }
-                              label={carFeatureCategory[feature.name]}
-                            />
-                          ))}
+                          {fetchedDropdownFeatures.map(
+                            (featureCategory: any) => (
+                              <Select
+                                key={featureCategory.id}
+                                options={this.getOptions(
+                                  this.featureHasValue(featureCategory),
+                                  featureCategory.features,
+                                )}
+                                accessor="name"
+                                handleChange={(item: any) =>
+                                  this.handleChange('features', {
+                                    value: item.id,
+                                    category: featureCategory.name,
+                                  })
+                                }
+                                label={carFeatureCategory[featureCategory.name]}
+                              />
+                            ),
+                          )}
                           <span>Description :</span>
                           <textarea
                             id="description"
