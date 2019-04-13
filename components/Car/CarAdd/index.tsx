@@ -403,14 +403,19 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               label={carFeatureCategory[feature.name]}
                             />
                           ))}
-                          <span>{general.description}: </span>
-                          <textarea
-                            id="description"
-                            cols={50}
-                            rows={2}
-                            placeholder={cars.descriptionPlaceholder}
-                            onChange={this.handleInputChange}
-                          />
+                          <label>
+                            {general.description}
+                            <div>
+                              <textarea
+                                className="form-control"
+                                id="description"
+                                cols={50}
+                                rows={5}
+                                placeholder={cars.descriptionPlaceholder}
+                                onChange={this.handleInputChange}
+                              />
+                            </div>
+                          </label>
                         </div>
                       </Card.Body>
                     </Card>
