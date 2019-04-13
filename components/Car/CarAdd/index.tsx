@@ -12,7 +12,7 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { CarAddFormValidation } from '../../../lib/FormValidator/CarAddFormValidation';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import { minCarYear } from '../../General/Preferences';
+import { minCarYear, maxMileage } from '../../General/Preferences';
 
 interface CarAddState {
   features: any[];
@@ -146,6 +146,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     }
   };
 
+  getFeaturesName = (carFeature: any) => {
+    let features: string[] = [];
+    Object.keys(carFeature).map((item: string) => {
+      features.push(carFeature[item]);
+    });
+    return features;
+  };
+
   handleChange = (key: string, value: any) => {
     const { translations } = this.props;
     const features = this.state.features;
@@ -226,7 +234,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory },
+      translations: { carLabel, cars, general, carFeatureCategory, carFeature },
     } = this.props;
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
@@ -351,7 +359,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               type="number"
                               id="mileage"
                               min={0}
-                              max={300000}
+                              max={maxMileage}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
                               onBlur={() => this.fieldTouched('mileage')}
@@ -382,7 +390,9 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           {fetchedDropdownFeatures.map((feature: any) => (
                             <Select
                               key={feature.id}
-                              options={feature.features}
+                              options={this.getFeaturesName(
+                                carFeature[feature.name],
+                              )}
                               accessor="name"
                               handleChange={(item: any) =>
                                 this.handleChange('features', {
@@ -393,7 +403,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               label={carFeatureCategory[feature.name]}
                             />
                           ))}
-                          <span>Description :</span>
+                          <span>{general.description}: </span>
                           <textarea
                             id="description"
                             cols={50}

@@ -106,6 +106,7 @@ const translations: Translations = {
       english: 'Anglais',
       french: 'Français',
     },
+    description: 'Description',
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
@@ -354,6 +355,10 @@ const translations: Translations = {
     tires: 'Pneus',
   },
   carFeature: {
+    motor: {
+      2: '2.0L',
+      2.5: '2.5L',
+    },
     color: {
       black: 'Noir',
       blue: 'Bleu',

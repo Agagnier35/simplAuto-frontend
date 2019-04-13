@@ -57,7 +57,8 @@ const Cars = ({ translations }: MultiProps) => {
             {renderCarSpots()}
           </Wrapper>
           <Wrapper style={{ marginBottom: '1rem' }}>
-            {data.me.carCount < data.me.carLimit && (
+            {(data.me.carCount < data.me.carLimit ||
+              meQuery.data.me.permissions.includes(Permission.Premium)) && (
               <Link href="/addcar" prefetch>
                 <a>
                   <Button>{translations.cars.addCar}</Button>
