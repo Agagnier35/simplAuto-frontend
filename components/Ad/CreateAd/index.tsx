@@ -14,7 +14,7 @@ import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 import { minCarYear } from '../../General/Preferences';
 
-const CREATE_AD_MUTATION = gql`
+const CREATE_ADD_MUTATION = gql`
   mutation CREATE_AD_MUTATION($data: AdCreateInput!) {
     createAd(data: $data) {
       id

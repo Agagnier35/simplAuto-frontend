@@ -38,17 +38,13 @@ interface UpdateAdState extends AdUpdateInput {
 }
 
 interface UpdateAdProps extends MultiProps {
-  query: { id: String };
+  adId: String;
 }
 
 type KeyValue = { [key: string]: any };
 type Dictionnary<T> = T & KeyValue;
 
-class UpdateAd extends Component<
-  MultiProps,
-  Dictionnary<AdUpdateInput>,
-  UpdateAdProps
-> {
+class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
   state: UpdateAdState = {
     id: '',
     features: null,
@@ -231,17 +227,9 @@ class UpdateAd extends Component<
 
   render() {
     const {
-      translations: {
-        ad,
-        carLabel,
-        carFeatureCategory,
-        cars,
-        profile,
-        general,
-      },
-      query: { id },
+      translations: { ad, carLabel, carFeatureCategory, cars, general },
+      adId,
     } = this.props;
-
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
@@ -251,7 +239,7 @@ class UpdateAd extends Component<
     return (
       <Query
         query={AD_DETAIL_QUERY}
-        variables={{ id: query.id }}
+        variables={{ id: adId }}
         onCompleted={data => this.fillState(data)}
       >
         {({ loading, error }) => {

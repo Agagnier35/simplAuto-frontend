@@ -5,12 +5,12 @@ import Translations from '../lib/MultiLang/locales/types';
 export interface AdProps {
   translations: Translations;
   query: {
-    adId: string;
+    id: string;
   };
 }
 
 const UpdateAdPage = ({ query }: AdProps) => {
-  return <UpdateAd adId={query.adId} />;
+  return <UpdateAd adId={query.id} />;
 };
 
 export default UpdateAdPage;
