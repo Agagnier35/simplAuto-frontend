@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { multi, MultiProps } from '../../../lib/MultiLang';
-import Translations from '../../../lib/MultiLang/locales/types';
 import { AdUpdateInput } from '../../../generated/graphql';
 import StyledForm from '../../Car/CarAdd/Form';
 import { Form, Button, Card } from 'react-bootstrap';

@@ -109,44 +109,42 @@ const translations: Translations = {
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
-          emptyError: 'First name cannot be empty.',
-          containsNumberError: 'First name cannot contain a number.',
+          emptyError: 'First name is empty.',
+          containsNumberError: 'First name contains number.',
         },
         lastNameError: {
-          emptyError: 'Last name cannot be empty.',
-          containsNumberError: 'Last name cannot contain a number.',
+          emptyError: 'Last name is empty.',
+          containsNumberError: 'Last name contains number.',
         },
         emailError: {
-          invalidEmailError: 'Email format is invalid.',
+          invalidEmailError: 'Email format invalid.',
         },
         passwordError: {
-          emptyError: 'Password cannot be empty.',
+          emptyError: 'Password is empty.',
         },
         confirmPasswordError: {
-          emptyError: 'Confirmation password cannot be empty.',
+          emptyError: 'Confirmation is empty.',
           matchingError: 'Passwords do not match.',
         },
         locationError: {
-          emptyError: 'Location cannot be empty.',
+          emptyError: 'Location is empty.',
           matchingError:
             'Invalid Location, please select an element in the list',
         },
         birthDateError: {
-          invalidYearError: 'The year is invalid.',
+          invalidYearError: 'Year is invalid.',
         },
       },
       createAdFormFieldsErrors: {
         yearLowerBound: {
           yearLowerBoundTooLow: 'Year min too low',
-          yearLowerBoundTooHigh:
-            'Year min cannot be greater than the current year',
+          yearLowerBoundTooHigh: 'Year min greater than the current year',
           numberNotIntegerError:
             'Year min must be an integer (no comma or dot in the number)',
         },
         yearHigherBound: {
           yearHigherBoundTooLow: 'Year max too low',
-          yearHigherBoundTooHigh:
-            'Year max cannot be greater than the current year',
+          yearHigherBoundTooHigh: 'Year max greater than the current year',
           numberNotIntegerError:
             'Year max must be an integer (no comma or dot in the number)',
           yearLowerBoundHigherThanYearHigherBoundError:
@@ -180,21 +178,21 @@ const translations: Translations = {
       },
       cadAddFormFieldsErrors: {
         year: {
-          emptyError: 'Year cannot be empty',
+          emptyError: 'Year is empty',
           numberNotIntegerError:
             'Year must be an integer (no comma or dot in the number)',
           yearTooLowError: 'Year is too low.',
           yearTooHighError: 'Year too high',
         },
         mileage: {
-          emptyError: 'Mileage cannot be empty',
+          emptyError: 'Mileage is empty',
           numberNotIntegerError:
             'Mileage must be an integer (no comma or dot in the number)',
           mileageLesserThanZeroError: 'Mileage must be greater than 0',
           mileageTooHighError: 'Mileage too high',
         },
         photos: {
-          atLeastOnePhotoError: 'You must add at least one photo',
+          atLeastOnePhotoError: 'Add at least one photo',
         },
       },
     },
