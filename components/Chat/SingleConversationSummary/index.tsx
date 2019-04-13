@@ -2,7 +2,7 @@ import React from 'react';
 import { multi } from '../../../lib/MultiLang';
 import { useQuery } from 'react-apollo-hooks';
 import { LOGGED_IN_QUERY } from '../../General/Header';
-import { Col, Row, Nav } from 'react-bootstrap';
+import { Col, Row, Nav, Button } from 'react-bootstrap';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { ContainerConversation, Body, Header, Title } from './style';
@@ -40,11 +40,13 @@ const SingleConversationSummary = ({
   }
 
   function getSellerName() {
-    return translations.offers.from + ': ' + getUserName(conversation.seller);
+    // return translations.offers.from + ': ' + getUserName(conversation.seller);
+    return getUserName(conversation.seller);
   }
 
   function getBuyerName() {
-    return translations.offers.to + ': ' + getUserName(conversation.buyer);
+    // return translations.offers.to + ': ' + getUserName(conversation.buyer);
+    return getUserName(conversation.buyer);
   }
 
   return (
@@ -54,37 +56,21 @@ const SingleConversationSummary = ({
         <Header>
           <Title className="portlet-title">
             <div>
-              <Link
-                href={`/offer?id=${conversation.offer.id}`}
-                passHref
-                prefetch
-              >
-                <Nav.Item as="a">
-                  {isMyOffer
-                    ? translations.offers.youHaveOffered + ': '
-                    : translations.offers.youHaveBeenOffered + ': '}
-                  {conversation.offer.car.manufacturer.name}{' '}
-                  {conversation.offer.car.model.name}
-                </Nav.Item>
-              </Link>
+              <Nav.Item>
+                {isMyOffer
+                  ? translations.offers.youHaveOffered + ': '
+                  : translations.offers.youHaveBeenOffered + ': '}
+                {conversation.offer.car.manufacturer.name}{' '}
+                {conversation.offer.car.model.name}
+              </Nav.Item>
             </div>
           </Title>
-          <Col xs md={15}>
-            <Row>
-              <Col md={12}>
-                <Row>
-                  <Col md={12}>
-                    <Row>
-                      <div>{isMyOffer ? getBuyerName() : getSellerName()}</div>
-                    </Row>
-                    <Row>
-                      <div>{conversation.offer.price}$</div>
-                    </Row>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
+          <div>{isMyOffer ? getBuyerName() : getSellerName()}</div>
+          <Link href={`/offer?id=${conversation.offer.id}`} passHref prefetch>
+            <Button as="a" variant="success">
+              Voir l'offre
+            </Button>
+          </Link>
         </Header>
       </Body>
     </ContainerConversation>

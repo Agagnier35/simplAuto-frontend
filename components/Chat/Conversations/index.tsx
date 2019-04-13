@@ -22,39 +22,60 @@ class Conversations extends Component<ConversationProps, ConversationsState> {
     currentOffer: null,
   };
 
-  handleSelectConversation = (offer: Offer) => {
+  handleSelectConversation = (offer: Offer | null) => {
     this.setState({ currentOffer: offer });
   };
 
+  setSelectedAsFirstConversation = (data: any) => {
+    if (
+      window.innerWidth > 900 &&
+      !this.state.currentOffer &&
+      data.me.conversations &&
+      data.me.conversations.length > 0
+    ) {
+      this.setState({ currentOffer: data.me.conversations[0].offer });
+    }
+  };
+
   render() {
-    const { currentOffer } = this.state;
     const {
       translations: { conversation },
     } = this.props;
     return (
-      <Query query={GET_USER_CONVERSATIONS_QUERY}>
+      <Query
+        query={GET_USER_CONVERSATIONS_QUERY}
+        onCompleted={this.setSelectedAsFirstConversation}
+      >
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
-          if (!data.me.conversations) return null;
+          if (!data.me.conversations || data.me.conversations.length === 0) {
+            return <p>{conversation.noConversations}</p>;
+          }
+          const currentConversation = data.me.conversations.find(
+            (conversation: any) =>
+              this.state.currentOffer &&
+              conversation.offer.id === this.state.currentOffer.id,
+          );
+
+          let currentOffer = null;
+          if (currentConversation) {
+            currentOffer = currentConversation.offer;
+          }
           return (
             <div style={{ display: 'flex' }}>
-              <p hidden={data.me.conversations !== undefined}>
-                {conversation.noConversations}
-              </p>
               <ConversationsList
                 onClickCallback={this.handleSelectConversation}
                 conversations={data.me.conversations}
-                selectedOffer={
-                  currentOffer ? currentOffer : data.me.conversations[0].offer
-                }
+                selectedOffer={currentOffer}
               />
 
-              {data.me.conversations && (
+              {currentOffer && data.me.conversations.length > 0 && (
                 <ChatWindow
-                  offer={
-                    currentOffer ? currentOffer : data.me.conversations[0].offer
+                  handleSelectConversation={(offer: any) =>
+                    this.handleSelectConversation(offer)
                   }
+                  offer={currentOffer}
                 />
               )}
             </div>

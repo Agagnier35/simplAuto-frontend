@@ -7,7 +7,7 @@ import {
   User,
 } from '../../../generated/graphql';
 
-import { InputGroup, Form } from 'react-bootstrap';
+import { InputGroup, Form, Button } from 'react-bootstrap';
 import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
@@ -19,14 +19,28 @@ import { MESSAGE_SUBSCRIPTION } from '../Chat/Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import moment from 'moment';
-import { FaImage } from 'react-icons/fa';
-import { DaySpacer, Card, Container, MessageStyle, Time } from './style';
+import { FaImage, FaArrowLeft } from 'react-icons/fa';
+import {
+  DaySpacer,
+  Card,
+  Container,
+  MessageStyle,
+  Time,
+  ChatTitle,
+} from './style';
+import { GET_USER_CONVERSATIONS_QUERY } from '../Conversations/Queries';
+import { More } from '../../Ad/AdSummary/styles';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
+  handleSelectConversation: (offer: any) => void;
 }
 
-const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
+const ChatWindow = ({
+  offer,
+  translations,
+  handleSelectConversation,
+}: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
@@ -45,28 +59,22 @@ const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
       const offerQuery = {
-        query: OFFER_BY_ID,
-        variables: { id: offer.id },
+        query: GET_USER_CONVERSATIONS_QUERY,
       };
       const message: Message = subscriptionData.data.messageSubscription;
       message.sender;
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
-        if (offerQuery.variables) {
-          // We're in an offer
-          data.offer.conversation.messages.push(message);
-        } else {
-          // Theres no variables -> inside conversations
-          data.me.conversations = data.me.conversations.map(
-            (conversation: Conversation) => {
-              if (conversation.offer.id === offer.id) {
-                conversation.messages.push(message);
-              }
-              return conversation;
-            },
-          );
-        }
+        // Theres no variables -> inside conversations
+        data.me.conversations = data.me.conversations.map(
+          (conversation: Conversation) => {
+            if (conversation.offer.id === offer.id) {
+              conversation.messages.push(message);
+            }
+            return conversation;
+          },
+        );
       }
 
       client.cache.writeQuery({ ...offerQuery, data });
@@ -115,27 +123,6 @@ const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
     return getUserName(convo.buyer);
   }
 
-  async function toggleConversationStatus(
-    e: FormEvent<HTMLFormElement> | any,
-    chatStatus: ConversationStatus,
-  ) {
-    e.preventDefault();
-    let status = ConversationStatus.Opened;
-    if (status === chatStatus) {
-      status = ConversationStatus.Deleted;
-    }
-
-    await handleUpdateConversation({
-      variables: {
-        data: {
-          status,
-          id: offer.conversation && offer.conversation.id,
-        },
-        refetchQueries: { OFFER_BY_ID },
-      },
-    });
-  }
-
   async function getURLsFromCloud(file: any) {
     const data = new FormData();
     data.append('file', file as any);
@@ -158,19 +145,6 @@ const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
     } else {
       setCurrentImage('');
     }
-  }
-
-  function handleUpdateMessageCache(cache: any, payload: any) {
-    const offerQuery = {
-      query: OFFER_BY_ID,
-      variables: { id: offer.id },
-    };
-    const data = cache.readQuery(offerQuery);
-    const message = payload.data.sendMessage;
-
-    data.offer.conversation.messages.push(message);
-
-    cache.writeQuery({ ...offerQuery, data });
   }
 
   function scrollToBottom() {
@@ -219,15 +193,25 @@ const ChatWindow = ({ offer, translations }: ChatSectionProps) => {
     }
   }
   return (
-    <Card>
+    <Card currentOffer={offer}>
       {offer.conversation &&
         offer.conversation.status !== ConversationStatus.Deleted && (
           <>
-            <h2>
-              {isMyOffer
-                ? getBuyerName(offer.conversation)
-                : getSellerName(offer.conversation)}
-            </h2>
+            <ChatTitle>
+              <More
+                size="sm"
+                variant="light"
+                id="dropdown-basic"
+                onClick={() => handleSelectConversation(null)}
+              >
+                <FaArrowLeft />
+              </More>
+              <h2>
+                {isMyOffer
+                  ? getBuyerName(offer.conversation)
+                  : getSellerName(offer.conversation)}
+              </h2>
+            </ChatTitle>
             <Container className="chat">
               {offer.conversation.messages.map(
                 (message: Message, index: number) => (
