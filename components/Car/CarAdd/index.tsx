@@ -13,6 +13,8 @@ import Router from 'next/router';
 import { CarAddFormValidation } from '../../../lib/FormValidator/CarAddFormValidation';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import { minCarYear, maxMileage } from '../../General/Preferences';
+import { PAGE_CARS_QUERY } from '../Cars/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 interface CarAddState {
   features: any[];
@@ -135,7 +137,9 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   handleCreateCar = async (e: any, createCar: any) => {
     e.preventDefault();
-    await createCar();
+    const { data } = await createCar();
+    const carID = data.createCar.id;
+    Router.push(`/car?id=${carID}`);
   };
 
   handleInputChange = (e: any) => {
@@ -257,12 +261,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
             <Mutation
               mutation={CAR_ADD_MUTATION}
               variables={this.getCreateCarPayload()}
+              refetchQueries={[
+                {
+                  query: PAGE_CARS_QUERY,
+                  variables: { pageNumber: 0, pageSize: paging5pages },
+                },
+              ]}
             >
               {(createCar, mutation) => {
-                if (mutation.data && mutation.data.createCar) {
-                  const carID = mutation.data.createCar.id;
-                  Router.push(`/car?id=${carID}`);
-                }
                 return (
                   <StyledForm
                     onSubmit={e => this.handleCreateCar(e, createCar)}
