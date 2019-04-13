@@ -1,18 +1,19 @@
 import React from 'react';
 import SingleConversationSummary from '../SingleConversationSummary';
 import { Card } from 'react-bootstrap';
-import { ConversationsStyle } from './style';
+import { ConversationsStyle, Container } from './style';
 import { ConversationStatus } from '../../../generated/graphql';
 
 const ConversationsList = (props: any) => {
   return (
-    <div>
+    <Container currentOffer={props.selectedOffer}>
       {props.conversations.map((conversation: any) => (
         <ConversationsStyle>
           <Card
             key={conversation.id}
             hidden={conversation.status === ConversationStatus.Deleted}
             className={
+              props.selectedOffer &&
               conversation.id === props.selectedOffer.conversation.id
                 ? 'isSelected'
                 : ''
@@ -25,7 +26,7 @@ const ConversationsList = (props: any) => {
           </Card>
         </ConversationsStyle>
       ))}
-    </div>
+    </Container>
   );
 };
 

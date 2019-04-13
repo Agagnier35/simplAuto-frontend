@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 import { Card as BSCard } from 'react-bootstrap';
+import { Offer } from '../../../generated/graphql';
 
 export const Container = styled.section`
-  min-height: 100%;
   overflow: scroll;
   padding: 1rem;
+  background: white;
+  flex-grow: 1;
+
+  .input-group {
+    input {
+      height: 50px;
+    }
+  }
 `;
 
 export const MessageStyle = styled('div')<{
@@ -60,9 +68,14 @@ export const DaySpacer = styled.div`
   }
 `;
 
-export const Card = styled(BSCard)`
-  min-width: 550px;
-  height: calc(100vh - 4rem - 242px);
+export const Card = styled(BSCard)<{ currentOffer: Offer | null }>`
+  height: calc(100vh - 4rem - 132px);
+  flex-grow: 1000;
+
+  @media (max-width: 900px) {
+    display: ${props => (props.currentOffer ? 'flex' : 'none')};
+  }
+
   .form-control {
     border-right: none;
     border-left: none;
@@ -110,8 +123,28 @@ export const Card = styled(BSCard)`
   }
 
   h2 {
-    padding: 1rem;
-    border-bottom: 1px solid #ced4da;
     margin: 0;
+  }
+
+  .input-group {
+    input {
+      height: 50px;
+    }
+  }
+`;
+
+export const ChatTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ced4da;
+
+  button {
+    margin-right: 1rem;
+
+    @media (min-width: 901px) {
+      display: none;
+    }
   }
 `;

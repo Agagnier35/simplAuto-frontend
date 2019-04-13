@@ -39,6 +39,7 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
             }
             messages {
               id
+              updatedAt
               sender {
                 id
                 firstName
@@ -57,11 +58,14 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
           }
           price
           car {
+            id
             photos
             manufacturer {
+              id
               name
             }
             model {
+              id
               name
             }
             year
@@ -69,6 +73,7 @@ export const GET_USER_CONVERSATIONS_QUERY = gql`
         }
         messages {
           id
+          updatedAt
           sender {
             id
             firstName

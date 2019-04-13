@@ -4,34 +4,35 @@ export const ContainerConversation = styled.div`
   min-height: 110px;
   display: flex;
   flex-flow: row wrap;
-  border-bottom-style: solid;
-  border-right-style: solid;
-  border-color: black;
-  border-width: 0.05rem;
-  border-radius: 5px;
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  .btn {
+    float: right;
+  }
 `;
 
 export const Body = styled.div`
   padding: 1.5rem;
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: row;
+  flex-grow: 1;
 
   & > img {
     border-radius: 100px;
-    width: 120px;
-    max-height: 120px;
-    height: 100%;
+    width: 80px;
+    height: 80px;
+    background: white;
     object-fit: contain;
     object-position: center;
-    box-shadow: inset -8px 9px 23px -12px #0000001c;
+    box-shadow: inset 0 0 14px 2px #00000026;
     display: inline-block;
   }
 `;
 
 export const Header = styled.div`
   padding-left: 1.5rem;
-  max-width: 23rem;
-  min-width: 23rem;
+  flex-grow: 1;
 `;
 
 export const Title = styled.div`
