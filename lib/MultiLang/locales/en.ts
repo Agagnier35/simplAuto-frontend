@@ -426,6 +426,7 @@ const translations: Translations = {
     marketAverage: 'Market average',
     appAverage: 'SimplAuto average',
     offerPrice: `Offer's price`,
+    askedPrice: 'Researched price range',
     days: 'days',
     daysOnMarket: 'Days on market',
   },

@@ -52,8 +52,8 @@ class OfferPriceChart extends React.Component<OfferPriceChartProps> {
       averagePriceAPI > averagePriceApp ? averagePriceAPI : averagePriceApp;
     const minPrice =
       averagePriceAPI < averagePriceApp ? averagePriceAPI : averagePriceApp;
-    const upperBound = maxPrice * 1.1;
-    const lowerBound = minPrice * 0;
+    const upperBound = maxPrice > 0 ? maxPrice * 1.1 : 1;
+    const lowerBound = 0;
 
     chart.paddingRight = 50;
     chart.paddingLeft = 50;

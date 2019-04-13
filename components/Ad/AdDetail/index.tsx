@@ -85,11 +85,9 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             right={isMyAd && <MyAdOptions ad={data.ad} />}
           />
         </Card>
-        <Card style={{ marginBottom: '2rem', overflow: 'hidden' }}>
-          <Card.Body>
-            <AdStats adID={adID} />
-          </Card.Body>
-        </Card>
+
+        <AdStats ad={data.ad} />    
+    
         <Tab className="active">{translations.offers.receivedOffers}</Tab>
         <Card style={{ overflow: 'hidden' }}>
           <CarSummaries hidden={data.ad.offers && data.ad.offers.length === 0}>
