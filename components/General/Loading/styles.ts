@@ -4,6 +4,8 @@ const StyledLoading = styled.div`
   position: relative;
   height: 32px;
   width: 32px;
+  margin-left: auto;
+  margin-right: auto;
 
   .dots {
     width: 0;
