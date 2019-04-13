@@ -72,6 +72,10 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
     return { data: userInfos };
   };
 
+  responseFacebookFailed = (failure: any) => {
+    Router.push('/login');
+  };
+
   handlePostLogin = (data: any) => {
     let page = '/myAds';
     if (data.login.adCount < data.login.carCount) {
@@ -96,6 +100,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
             language="fr_CA"
             textButton={translations.signup.facebookLogin}
             fields="first_name,name,last_name,email,gender,birthday,picture"
+            onFailure={(failure: any) => this.responseFacebookFailed(failure)}
             callback={response =>
               this.responseFacebook(response, handleMutation)
             }
