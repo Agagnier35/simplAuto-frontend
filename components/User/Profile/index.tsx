@@ -239,8 +239,9 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
     update: () => void,
   ) => {
     e.preventDefault();
-    await update();
+    const data = await update();
     this.setState({ confirmPassword: '', password: '' });
+    this.handleLanguage(data);
   };
 
   fillState = (data: any) => {
@@ -290,7 +291,6 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
                     },
                   },
                 ]}
-                onCompleted={data => this.handleLanguage(data)}
               >
                 {(handleMutation, { loading, error }) => {
                   if (loading) return <Loading />;

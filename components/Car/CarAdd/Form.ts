@@ -83,13 +83,13 @@ const Form = styled.form`
   .carousel-control-next-icon::after {
     content: '>';
     font-size: 55px;
-    color: red;
+    color: ${props => props.theme.colors.primary};
   }
 
   .carousel-control-prev-icon::after {
     content: '<';
     font-size: 55px;
-    color: red;
+    color: ${props => props.theme.colors.primary};
   }
 
   .carousel-control-prev-icon,

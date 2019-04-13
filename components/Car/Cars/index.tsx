@@ -65,8 +65,7 @@ const Cars = ({ translations }: MultiProps) => {
                 </a>
               </Link>
             )}
-
-            {data.me.carLimit < 5 && <BuyCarSpot />}
+            {data.me.carLimit < 5 && data.me.carCount >= 2 && <BuyCarSpot />}
           </Wrapper>
 
           {data.me.carCount > 0 ? (

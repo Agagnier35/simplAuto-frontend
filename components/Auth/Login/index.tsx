@@ -37,7 +37,8 @@ class Login extends Component<MultiProps, LoginState> {
 
   handleLogin = async (e: FormEvent<HTMLFormElement>, login: () => void) => {
     e.preventDefault();
-    await login();
+    const { data }: any = await login();
+    this.handlePostLogin(data);
     this.setState({ email: '', password: '' });
   };
 
@@ -72,7 +73,6 @@ class Login extends Component<MultiProps, LoginState> {
         mutation={LOGIN_MUTATION}
         variables={this.state}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
-        onCompleted={data => this.handlePostLogin(data)}
       >
         {(handleMutation, { loading, error }) => (
           <StyledLogin>

@@ -54,6 +54,7 @@ const translations: Translations = {
     notificationMessage: 'New message',
   },
   general: {
+    yourOffers: 'Your offers',
     email: 'Email',
     password: 'Password',
     confirmPassword: 'Confirm password',
@@ -300,6 +301,7 @@ const translations: Translations = {
       '- the offer has been accepted for the price on this offer\n' +
       '- the offer has been accepted for the proposed addons on this offer\n' +
       '- the offer has been accepted based on the informations given by the seller\n',
+    add: 'Add',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

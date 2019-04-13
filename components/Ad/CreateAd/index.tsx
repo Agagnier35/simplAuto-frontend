@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StyledForm from '../../Car/CarAdd/Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
-import { AdCreateInput } from '../../../generated/graphql';
+import { AdCreateInput, CarFeature } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -13,6 +13,8 @@ import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 import { minCarYear } from '../../General/Preferences';
+import { paging5pages } from '../../General/Preferences';
+import { PAGE_ADS_QUERY } from '../MyAds/Queries';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -67,7 +69,9 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
 
   handleCreateAd = async (e: any, createAd: any) => {
     e.preventDefault();
-    await createAd();
+    const { data } = await createAd();
+    const adID = data.createAd.id;
+    Router.push(`/adDetail?id=${adID}`);
   };
 
   checkFormValidation = () => {
@@ -131,7 +135,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
       if (key === 'manufacturerID') {
-        this.setState({ modelID: '' });
+        this.setState({ modelID: null });
       }
     }
   };
@@ -156,10 +160,13 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
     return data;
   };
 
-  getFeaturesName = (carFeature: any) => {
-    let features: string[] = [];
-    Object.keys(carFeature).map((item: string) => {
-      features.push(carFeature[item]);
+  getFeaturesName = (carFeature: any, feature: any) => {
+    let features: any[] = [];
+    Object.keys(carFeature).map((item: string, i: number) => {
+      features.push({
+        name: carFeature[item],
+        id: feature.features[i].id,
+      });
     });
     return features;
   };
@@ -195,12 +202,14 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
             <Mutation
               mutation={CREATE_ADD_MUTATION}
               variables={{ data: this.getCreateAdPayload() }}
+              refetchQueries={[
+                {
+                  query: PAGE_ADS_QUERY,
+                  variables: { pageNumber: 0, pageSize: paging5pages },
+                },
+              ]}
             >
               {(createAd, mutation) => {
-                if (mutation.data && mutation.data.createAd) {
-                  const adID = mutation.data.createAd.id;
-                  Router.push(`/adDetail?id=${adID}`);
-                }
                 return (
                   <StyledForm onSubmit={e => this.handleCreateAd(e, createAd)}>
                     <h1>{ad.createAdTitle}</h1>
@@ -414,6 +423,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                               key={feature.id}
                               options={this.getFeaturesName(
                                 carFeature[feature.name],
+                                feature,
                               )}
                               accessor="name"
                               handleChange={(item: any) =>
@@ -455,7 +465,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                       <Card>
                         <Card.Body>
                           <Card.Title>
-                            <span className="card-number">5</span>
+                            <span className="card-number">4</span>
                             {general.submit}
                           </Card.Title>
                           <Button

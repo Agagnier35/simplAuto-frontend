@@ -54,6 +54,7 @@ const translations: Translations = {
     notificationMessage: 'Nouveau message',
   },
   general: {
+    yourOffers: 'Vos offres',
     email: 'Courriel',
     password: 'Mot de passe',
     confirmPassword: 'Confirmer mot de passe',
@@ -316,6 +317,7 @@ const translations: Translations = {
       '- offre acceptée selon le prix convenu\n' +
       '- offre acceptée selon les addons convenu\n' +
       '- offre acceptée selon la description fournie\n',
+    add: 'Ajouter',
   },
   Chat: {
     title: 'Messagerie',
