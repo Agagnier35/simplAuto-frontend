@@ -7,7 +7,7 @@ import { stripeKey } from '../../../config';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { PRICES_QUERY } from './Queries';
 import { Prices, Permission } from '../../../generated/graphql';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { FaCheck as CheckMark, FaTimesCircle as XSign } from 'react-icons/fa';
 import StyledForm from './style';
 
@@ -94,7 +94,9 @@ const Premium = ({ translations }: PremiumProps) => {
           token={(res: any) =>
             handleGoPremium({ variables: { stripeToken: res.id } })
           }
-        />
+        >
+          <Button>Premium</Button>
+        </StripeCheckout>
       )}
     </StyledForm>
   );

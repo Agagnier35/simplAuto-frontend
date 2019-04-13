@@ -452,67 +452,63 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
                                 onChange={this.handleChangeRadius}
                               />
                             </div>
-                            <div
-                              hidden={
-                                data.user.clientType === ClientType.Company
-                              }
-                            >
-                              <p>{profile.birth}: </p>
-                              <Form.Control
-                                type="date"
-                                name="birthDate"
-                                className="inputNeedSpace"
-                                isInvalid={
-                                  this.state.touched.birthDate &&
-                                  !profileFormValidation.isBirthDateValid(
-                                    this.state.birthDate,
-                                  )
-                                }
-                                onBlur={() => this.fieldTouched('birthDate')}
-                                defaultValue={this.getDefaultDate(
-                                  data.user.birthDate,
+                            {data.user.clientType !== ClientType.Company && (
+                              <div>
+                                <p>{profile.birth}: </p>
+                                <Form.Control
+                                  type="date"
+                                  name="birthDate"
+                                  className="inputNeedSpace"
+                                  isInvalid={
+                                    this.state.touched.birthDate &&
+                                    !profileFormValidation.isBirthDateValid(
+                                      this.state.birthDate,
+                                    )
+                                  }
+                                  onBlur={() => this.fieldTouched('birthDate')}
+                                  defaultValue={this.getDefaultDate(
+                                    data.user.birthDate,
+                                  )}
+                                  onChange={this.handleChangeDate}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {profileFormValidation.birthDateError()}
+                                </Form.Control.Feedback>
+                              </div>
+                            )}
+                            {data.user.clientType !== ClientType.Company && (
+                              <div>
+                                <p>{profile.sex}: </p>
+                                {Object.values(Gender).map(
+                                  (gender: Gender, i: number) => {
+                                    const temp = [
+                                      profile.male,
+                                      profile.female,
+                                      profile.other,
+                                    ];
+                                    return (
+                                      <div key={gender}>
+                                        <Form.Control
+                                          type="radio"
+                                          name="gender"
+                                          className="radioSelector"
+                                          key={gender}
+                                          value={gender}
+                                          checked={
+                                            this.state.gender === gender ||
+                                            data.user.gender === gender
+                                          }
+                                          onChange={this.handleChange}
+                                        />
+                                        <p className="radioNeedSpace" key={i}>
+                                          {temp[i]}{' '}
+                                        </p>
+                                      </div>
+                                    );
+                                  },
                                 )}
-                                onChange={this.handleChangeDate}
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                {profileFormValidation.birthDateError()}
-                              </Form.Control.Feedback>
-                            </div>
-                            <div
-                              hidden={
-                                data.user.clientType === ClientType.Company
-                              }
-                            >
-                              <p>{profile.sex}: </p>
-                              {Object.values(Gender).map(
-                                (gender: Gender, i: number) => {
-                                  const temp = [
-                                    profile.male,
-                                    profile.female,
-                                    profile.other,
-                                  ];
-                                  return (
-                                    <div key={gender}>
-                                      <Form.Control
-                                        type="radio"
-                                        name="gender"
-                                        className="radioSelector"
-                                        key={gender}
-                                        value={gender}
-                                        checked={
-                                          this.state.gender === gender ||
-                                          data.user.gender === gender
-                                        }
-                                        onChange={this.handleChange}
-                                      />
-                                      <p className="radioNeedSpace" key={i}>
-                                        {temp[i]}{' '}
-                                      </p>
-                                    </div>
-                                  );
-                                },
-                              )}
-                            </div>
+                              </div>
+                            )}
                             <div>
                               <p>{general.langage}: </p>
                               {Object.values(UserLanguage).map(
