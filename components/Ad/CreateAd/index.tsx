@@ -13,6 +13,8 @@ import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
 import { minCarYear } from '../../General/Preferences';
+import { paging5pages } from '../../General/Preferences';
+import { PAGE_ADS_QUERY } from '../MyAds/Queries';
 
 const CREATE_ADD_MUTATION = gql`
   mutation CREATE_ADD_MUTATION($data: AdCreateInput!) {
@@ -67,7 +69,9 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
 
   handleCreateAd = async (e: any, createAd: any) => {
     e.preventDefault();
-    await createAd();
+    const { data } = await createAd();
+    const adID = data.createAd.id;
+    Router.push(`/adDetail?id=${adID}`);
   };
 
   checkFormValidation = () => {
@@ -195,12 +199,14 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
             <Mutation
               mutation={CREATE_ADD_MUTATION}
               variables={{ data: this.getCreateAdPayload() }}
+              refetchQueries={[
+                {
+                  query: PAGE_ADS_QUERY,
+                  variables: { pageNumber: 0, pageSize: paging5pages },
+                },
+              ]}
             >
               {(createAd, mutation) => {
-                if (mutation.data && mutation.data.createAd) {
-                  const adID = mutation.data.createAd.id;
-                  Router.push(`/adDetail?id=${adID}`);
-                }
                 return (
                   <StyledForm onSubmit={e => this.handleCreateAd(e, createAd)}>
                     <h1>{ad.createAdTitle}</h1>
