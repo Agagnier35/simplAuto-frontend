@@ -202,7 +202,9 @@ const OfferModal = ({
             <Form.Label>{translations.offers.otherAddons}</Form.Label>
             <InputGroup>
               <InputGroup.Prepend onClick={handleOtherAddonClick}>
-                <InputGroup.Text id="inputGroupPrepend">+</InputGroup.Text>
+                <InputGroup.Text id="inputGroupPrepend">
+                  {translations.offers.add}
+                </InputGroup.Text>
               </InputGroup.Prepend>
               <Form.Control
                 placeholder={translations.offers.specify}

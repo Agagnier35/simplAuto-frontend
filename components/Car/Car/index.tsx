@@ -113,7 +113,7 @@ const Car = ({ translations, query }: CarPageProps) => {
         onClick={() => setOfferMode(true)}
         className={isOfferMode ? 'active' : ''}
       >
-        {translations.general.offers}
+        {translations.general.yourOffers}
         <TabBadge>{carQuery.data.car.offers.length}</TabBadge>
       </Tab>
       {!isOfferMode && (

@@ -54,6 +54,7 @@ const translations: Translations = {
     notificationMessage: 'New message',
   },
   general: {
+    yourOffers: 'Your offers',
     email: 'Email',
     password: 'Password',
     confirmPassword: 'Confirm password',
@@ -292,6 +293,7 @@ const translations: Translations = {
     to: 'To',
     youHaveBeenOffered: 'You have been offered',
     youHaveOffered: 'You have offered',
+    add: 'Add',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',

@@ -131,7 +131,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
       // TODO Might need to handle feature deletion
       this.setState({ [key]: value.value });
       if (key === 'manufacturerID') {
-        this.setState({ modelID: '' });
+        this.setState({ modelID: null });
       }
     }
   };
@@ -455,7 +455,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                       <Card>
                         <Card.Body>
                           <Card.Title>
-                            <span className="card-number">5</span>
+                            <span className="card-number">4</span>
                             {general.submit}
                           </Card.Title>
                           <Button
