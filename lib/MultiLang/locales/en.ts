@@ -137,41 +137,41 @@ const translations: Translations = {
       },
       createAdFormFieldsErrors: {
         yearLowerBound: {
-          yearLowerBoundTooLow: 'Year min too low',
-          yearLowerBoundTooHigh: 'Year min greater than the current year',
+          yearLowerBoundTooLow: 'Year too low',
+          yearLowerBoundTooHigh: 'Year greater than the current year',
           numberNotIntegerError:
-            'Year min must be an integer (no comma or dot in the number)',
+            'Year must be an integer (no comma or dot in the number)',
         },
         yearHigherBound: {
-          yearHigherBoundTooLow: 'Year max too low',
-          yearHigherBoundTooHigh: 'Year max greater than the current year',
+          yearHigherBoundTooLow: 'Year too low',
+          yearHigherBoundTooHigh: 'Year greater than the current year',
           numberNotIntegerError:
-            'Year max must be an integer (no comma or dot in the number)',
+            'Year must be an integer (no comma or dot in the number)',
           yearLowerBoundHigherThanYearHigherBoundError:
             'Year max must be higher than year min',
         },
         mileageLowerBound: {
-          mileageLowerBoundTooLow: 'Mileage min must be positive',
-          mileageLowerBoundTooHigh: 'Mileage min too high',
+          mileageLowerBoundTooLow: 'Mileage must be positive',
+          mileageLowerBoundTooHigh: 'Mileage too high',
           numberNotIntegerError:
-            'Mileage min must be an integer (no comma or dot in the number)',
+            'Mileage must be an integer (no comma or dot in the number)',
         },
         mileageHigherBound: {
-          mileageHigherBoundTooLow: 'Mileage max must be positive',
-          mileageHigherBoundTooHigh: 'Mileage max too high ',
+          mileageHigherBoundTooLow: 'Mileage must be positive',
+          mileageHigherBoundTooHigh: 'Mileage too high ',
           numberNotIntegerError:
-            'Mileage min must be an integer (no comma or dot in the number)',
+            'Mileage must be an integer (no comma or dot in the number)',
           mileageLowerBoundHigherThanMileageHigherBoundError:
             'Mileage max must be higher than mileage min',
         },
         priceLowerBound: {
-          priceLowerBoundTooLowError: 'Price min must be positive',
+          priceLowerBoundTooLowError: 'Price must be positive',
           numberNotIntegerError:
-            'Price min must be an integer (no comma or dot in the number)',
+            'Price must be an integer (no comma or dot in the number)',
         },
         priceHigherBound: {
           numberNotIntegerError:
-            'Price max must be an integer (no comma or dot in the number)',
+            'Price must be an integer (no comma or dot in the number)',
           priceLowerBoundHigherThanPriceHigherBoundError:
             'Price max must be higher than price min',
         },
@@ -181,7 +181,7 @@ const translations: Translations = {
           emptyError: 'Year is empty',
           numberNotIntegerError:
             'Year must be an integer (no comma or dot in the number)',
-          yearTooLowError: 'Year is too low.',
+          yearTooLowError: 'Year too low.',
           yearTooHighError: 'Year too high',
         },
         mileage: {
