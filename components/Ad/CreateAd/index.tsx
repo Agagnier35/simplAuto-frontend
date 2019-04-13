@@ -179,37 +179,32 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
   };
 
   getCreateAdPayload = () => {
-    const {
-      manufacturerID,
-      modelID,
-      categoryID,
-      yearLowerBound,
-      yearHigherBound,
-      mileageLowerBound,
-      mileageHigherBound,
-      priceLowerBound,
-      priceHigherBound,
-    } = this.state;
+    const { touched, ...state } = this.state;
     let features: string[] = [];
     if (this.state.features) {
       features = this.state.features.map(feature => feature.value);
     }
-
     const data: AdCreateInput = {};
     if (features) data.features = features;
-    if (manufacturerID) data.manufacturerID = this.state.manufacturerID;
-    if (modelID) data.modelID = this.state.modelID;
-    if (categoryID) data.categoryID = this.state.categoryID;
-    if (yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
-    if (yearHigherBound) data.yearHigherBound = this.state.yearHigherBound;
-    if (mileageLowerBound) {
+    if (state.manufacturerID) data.manufacturerID = this.state.manufacturerID;
+    if (state.modelID) data.modelID = this.state.modelID;
+    if (state.categoryID) data.categoryID = this.state.categoryID;
+    if (state.yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
+    if (state.yearHigherBound) {
+      data.yearHigherBound = this.state.yearHigherBound;
+    }
+    if (state.mileageLowerBound) {
       data.mileageLowerBound = this.state.mileageLowerBound;
     }
-    if (mileageHigherBound) {
+    if (state.mileageHigherBound) {
       data.mileageHigherBound = this.state.mileageHigherBound;
     }
-    if (priceLowerBound) data.priceLowerBound = this.state.priceLowerBound;
-    if (priceHigherBound) data.priceHigherBound = this.state.priceHigherBound;
+    if (state.priceLowerBound) {
+      data.priceLowerBound = this.state.priceLowerBound;
+    }
+    if (state.priceHigherBound) {
+      data.priceHigherBound = this.state.priceHigherBound;
+    }
     return { data };
   };
 
@@ -247,7 +242,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
           return (
             <Mutation
               mutation={CREATE_ADD_MUTATION}
-              variables={{ data: this.getCreateAdPayload() }}
+              variables={this.getCreateAdPayload()}
             >
               {(createAd, mutation) => {
                 if (mutation.data && mutation.data.createAd) {
