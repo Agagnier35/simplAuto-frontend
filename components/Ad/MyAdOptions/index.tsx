@@ -17,6 +17,8 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import { AD_DELETE_MUTATION } from '../AdDetail';
 import Router from 'next/router';
+import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
@@ -33,6 +35,12 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
     variables: {
       id: ad.id,
     },
+    refetchQueries: [
+      {
+        query: AD_DETAIL_QUERY,
+        variables: { id: ad.id, pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
 
   async function handleDeleteAd() {

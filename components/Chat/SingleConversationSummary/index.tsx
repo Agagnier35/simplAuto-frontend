@@ -7,13 +7,13 @@ import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import { ContainerConversation, Body, Header, Title } from './style';
 import Link from 'next/link';
-import { Conversation } from '../../../generated/graphql';
+import { Conversation, Offer, User } from '../../../generated/graphql';
 import Translations from '../../../lib/MultiLang/locales/types';
 
 export interface SingleConversationSummaryProps {
   translations: Translations;
   conversation: Conversation;
-  onClickCallback: (convo: Conversation) => void;
+  onClickCallback: (offer: Offer) => void;
 }
 
 const SingleConversationSummary = ({
@@ -28,27 +28,23 @@ const SingleConversationSummary = ({
   if (loggedQuery.error) return <ErrorMessage error={loggedQuery.error} />;
 
   function handleSelectConvo() {
-    onClickCallback(conversation);
+    onClickCallback(conversation.offer);
+  }
+
+  function getUserName(user: User) {
+    if (user.companyName !== '') {
+      return user.companyName;
+    } else {
+      return user.firstName + ' ' + user.lastName;
+    }
   }
 
   function getSellerName() {
-    return (
-      translations.offers.from +
-      ': ' +
-      conversation.seller.firstName +
-      ' ' +
-      conversation.seller.lastName
-    );
+    return translations.offers.from + ': ' + getUserName(conversation.seller);
   }
 
   function getBuyerName() {
-    return (
-      translations.offers.to +
-      ': ' +
-      conversation.buyer.firstName +
-      ' ' +
-      conversation.buyer.lastName
-    );
+    return translations.offers.to + ': ' + getUserName(conversation.buyer);
   }
 
   return (

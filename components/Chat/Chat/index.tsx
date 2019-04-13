@@ -77,8 +77,13 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     setCurrentMessage(e.currentTarget.value);
   }
 
-  async function sendMessage(text: string, image: string) {
+  async function sendMessage(
+    e: React.FormEvent<any>,
+    text: string,
+    image: string,
+  ) {
     if (currentMessage.length > 0 || currentImage !== '') {
+      e.preventDefault();
       setCurrentMessage('');
       setCurrentImage('');
       await handleSendMessage({
@@ -229,7 +234,11 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                 ),
               )}
             </Chat.Container>
-            <Form onSubmit={() => sendMessage(currentMessage, currentImage)}>
+            <Form
+              onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                sendMessage(e, currentMessage, currentImage)
+              }
+            >
               <InputGroup>
                 <Form.Control
                   aria-describedby="inputGroupAppend"
@@ -260,7 +269,9 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                 <InputGroup.Append>
                   <InputGroup.Text
                     className="send-button"
-                    onClick={() => sendMessage(currentMessage, currentImage)}
+                    onClick={(
+                      e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+                    ) => sendMessage(e, currentMessage, currentImage)}
                   >
                     {translations.Chat.send}
                   </InputGroup.Text>

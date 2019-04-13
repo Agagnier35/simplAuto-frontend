@@ -13,7 +13,9 @@ const ConversationsList = (props: any) => {
             key={conversation.id}
             hidden={conversation.status === ConversationStatus.Deleted}
             className={
-              conversation.id === props.selectedConvo.id ? 'isSelected' : ''
+              conversation.id === props.selectedOffer.conversation.id
+                ? 'isSelected'
+                : ''
             }
           >
             <SingleConversationSummary

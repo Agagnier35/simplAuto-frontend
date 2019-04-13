@@ -19,6 +19,8 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import Router from 'next/router';
 import { MdCancel } from 'react-icons/md';
+import { PAGE_CARS_QUERY } from '../Cars/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface GeneralCarInfosProps extends MultiProps {
   car: Car;
@@ -38,12 +40,18 @@ const GeneralCarInfos = ({
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
     update: updateAfterDelete,
+    refetchQueries: [
+      {
+        query: PAGE_CARS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
 
   async function handleDeleteCar() {
     await deleteCar();
     setShowDeleteModal(false);
-    // TODO: Might have to route on an other page if on a cardetail page
+    Router.push('/cars');
   }
 
   function updateAfterDelete(cache: any, payload: any) {
