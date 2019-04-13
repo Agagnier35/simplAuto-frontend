@@ -570,9 +570,6 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                         category: feature.name,
                                       })
                                     }
-                                    // ------------------------------
-                                    // DEFAULT FEATURES
-                                    // ------------------------------
                                     defaultValue={this.getDefaultFeature(
                                       feature.features,
                                     )}
@@ -597,10 +594,6 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                     key={feature.id}
                                     type="checkbox"
                                     label={carFeatureCategory[feature.name]}
-                                    // ------------------------------
-                                    // DEFAULT FEATURES
-                                    // ------------------------------
-                                    // isChecked
                                     defaultChecked={this.isFeatureChecked(
                                       fetchedCheckboxFeatures,
                                     )}
