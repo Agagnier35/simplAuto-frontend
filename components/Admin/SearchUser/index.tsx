@@ -97,7 +97,7 @@ const SearchUser = (props: SearchUserProps) => {
           </Actions>
         </Header>
         <TableHeader>
-          <Col xs={3}>ClientType</Col>
+          <Col xs={3}>Name</Col>
           <Col xs={8} md={4}>
             Email
           </Col>

@@ -30,7 +30,7 @@ export const theme: StyledComponentTheme = {
 
 export const globalStyles = `
   
-  @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600');
+  @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,600');
   
   html {
     box-sizing: border-box;
