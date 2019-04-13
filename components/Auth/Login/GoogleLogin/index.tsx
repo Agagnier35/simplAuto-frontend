@@ -69,7 +69,6 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
         googleID: response.googleId,
       });
       googleLogin();
-      Router.push('/myAds');
     }
   };
 

@@ -64,7 +64,6 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         facebookID: response.userID,
       });
       facebookLogin();
-      Router.push('/myAds');
     }
   };
 
