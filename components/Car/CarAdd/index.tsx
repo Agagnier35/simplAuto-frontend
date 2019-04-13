@@ -34,6 +34,7 @@ interface CarAddState {
     year: boolean;
     mileage: boolean;
   }>;
+  loadingPhotos: boolean;
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -94,22 +95,24 @@ class CarAdd extends Component<MultiProps, CarAddState> {
         year: false,
         mileage: false,
       },
+      loadingPhotos: false,
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handlePictureChange(event: any) {
+  async handlePictureChange(event: any) {
+    this.setState({ loadingPhotos: true });
     const files = event.target.files;
     if (files.length > 0) {
-      const photos = this.getURLsFromCloud(files);
-      this.setState({ photos });
+      await this.getURLsFromCloud(files);
     } else {
       this.setState({
         photos: [],
       });
     }
+    this.setState({ loadingPhotos: false });
   }
 
   getURLsFromCloud = async (files: any) => {
@@ -463,13 +466,17 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <input
                               id="photos"
                               type="file"
-                              accept="x-png,image/jpeg"
+                              accept="image/*"
                               multiple
                               onChange={this.handlePictureChange}
                             />
                           </label>
+                          {this.state.loadingPhotos && <Loading />}
                           <div className="carousel">
-                            <Carousel items={this.state.photos} />
+                            {this.state.photos &&
+                              this.state.photos.length > 0 && (
+                                <Carousel items={this.state.photos} />
+                              )}
                           </div>
                         </Card.Body>
                       </Card>
