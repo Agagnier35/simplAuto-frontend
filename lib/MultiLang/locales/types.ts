@@ -257,6 +257,9 @@ export default interface Translations {
     to: string;
     youHaveBeenOffered: string;
     youHaveOffered: string;
+    acceptedOfferCloseBtn: string;
+    acceptedOfferTitle: string;
+    acceptedOfferInstruction: string;
   };
   GeneralModalContent: {
     title: string;
@@ -294,6 +297,7 @@ export default interface Translations {
     hideChat: string;
   };
   Notifications: {
+    acceptedOffer: string;
     newOffer: string;
     newOfferMessage: (x: number) => string;
   };

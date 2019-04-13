@@ -292,6 +292,14 @@ const translations: Translations = {
     to: 'To',
     youHaveBeenOffered: 'You have been offered',
     youHaveOffered: 'You have offered',
+    acceptedOfferCloseBtn: 'Close',
+    acceptedOfferTitle: 'Accepted offer',
+    acceptedOfferInstruction:
+      'instuction coming from the contract that the buyer has signed :\n\n' +
+      '- 3 buisness days to go try out the vehicle\n' +
+      '- the offer has been accepted for the price on this offer\n' +
+      '- the offer has been accepted for the proposed addons on this offer\n' +
+      '- the offer has been accepted based on the informations given by the seller\n',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -330,7 +338,8 @@ const translations: Translations = {
     hideChat: 'Mute/unmute chat',
   },
   Notifications: {
-    newOffer: 'You have a new offer !',
+    acceptedOffer: 'One of your offers has been accepted!',
+    newOffer: 'You have a new offer!',
     newOfferMessage: (x: number) =>
       `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
   },

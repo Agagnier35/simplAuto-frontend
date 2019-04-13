@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   FaBell as NotificationIcon,
   FaEnvelope as MessageIcon,
+  FaCheck as AcceptIcon,
 } from 'react-icons/fa';
 import { Wrapper, Badge, Popup, Notification, Icon, Time } from './styles';
 import {
@@ -27,6 +28,9 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
       case NotificationType.New_Offer:
         // TODO change to link to single conversation
         return { pathname: '/offer', query: { id: notification.objectID } };
+      case NotificationType.Accepted_Offer:
+        // TODO change to link to single conversation
+        return { pathname: '/offer', query: { id: notification.objectID } };
       default:
         return {
           pathname: '/',
@@ -39,6 +43,8 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
         return <MessageIcon />;
       case NotificationType.New_Offer:
         return <OfferIcon />;
+      case NotificationType.Accepted_Offer:
+        return <AcceptIcon />;
       default:
         return null;
     }
@@ -50,6 +56,8 @@ const Notifications = ({ notifications, translations }: NotificationsProps) => {
         return translations.Notifications.newOfferMessage(notification.count);
       case NotificationType.New_Offer:
         return translations.Notifications.newOffer;
+      case NotificationType.Accepted_Offer:
+        return translations.Notifications.acceptedOffer;
       default:
         return '';
     }
