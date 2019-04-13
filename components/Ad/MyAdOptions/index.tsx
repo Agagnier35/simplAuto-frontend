@@ -94,7 +94,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           <Button variant="warning" onClick={() => setModalShow(true)}>
             {translations.general.delete} <MdCancel />
           </Button>
-          {console.log(ad.id)}
+
           <Link href={{ pathname: '/updateAd', query: { id: ad.id } }} passHref>
             <Button variant="secondary">
               {translations.GeneralModalContent.edit} <FaEdit />

@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
-import gql from 'graphql-tag';
-import { multi, MultiProps } from '../../../lib/MultiLang';
-import Translations from '../../../lib/MultiLang/locales/types';
-import { AdUpdateInput } from '../../../generated/graphql';
 import StyledForm from '../../Car/CarAdd/Form';
+import { multi, MultiProps } from '../../../lib/MultiLang';
+import { Mutation, Query } from 'react-apollo';
+import { AdUpdateInput } from '../../../generated/graphql';
+import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import Select from '../../General/Select';
 import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
-import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
-import {
-  minCarYear,
-  maxMileage,
-} from '../../../components/General/Preferences';
+import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
+import { minCarYear } from '../../General/Preferences';
+import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -26,8 +23,19 @@ const UPDATE_AD_MUTATION = gql`
   }
 `;
 
-interface UpdateAdState extends AdUpdateInput {
-  touched: Dictionnary<{
+export interface UpdateAdState extends Dictionary<AdUpdateInput> {
+  id: string;
+  priceLowerBound: number | null;
+  priceHigherBound: number | null;
+  manufacturerID: string | null;
+  modelID: string | null;
+  categoryID: string | null;
+  mileageLowerBound: number | null;
+  mileageHigherBound: number | null;
+  yearLowerBound: number | null;
+  yearHigherBound: number | null;
+  features: string[] | null;
+  touched: Dictionary<{
     yearLowerBound: boolean;
     yearHigherBound: boolean;
     mileageLowerBound: boolean;
@@ -38,13 +46,10 @@ interface UpdateAdState extends AdUpdateInput {
 }
 
 interface UpdateAdProps extends MultiProps {
-  adId: String;
+  adId: string;
 }
 
-type KeyValue = { [key: string]: any };
-type Dictionnary<T> = T & KeyValue;
-
-class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
+class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
   state: UpdateAdState = {
     id: '',
     features: null,
@@ -67,13 +72,23 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
     },
   };
 
-  isFirstRender: Boolean = true;
-
-  // Get l'offre, puis mettre les infos dans le state.
-
   handleUpdateAd = async (e: any, updateAd: any) => {
     e.preventDefault();
     await updateAd();
+  };
+
+  checkFormValidation = () => {
+    let isValid = false;
+    Object.keys(this.state).map(item => {
+      if (
+        item !== 'touched' &&
+        this.state[item] &&
+        this.state[item].length !== 0
+      ) {
+        isValid = true;
+      }
+    });
+    return isValid;
   };
 
   handleFeaturesChange = (value: any) => {
@@ -115,26 +130,6 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
     }
   };
 
-  fillState = (data: any) => {
-    if (this.isFirstRender) {
-      const featuresIds = data.ad.features.map((ft: any) => ft.id);
-      this.setState({
-        id: data.ad.id,
-        features: featuresIds,
-        manufacturerID: data.ad.manufacturer.id,
-        modelID: data.ad.model.id,
-        categoryID: data.ad.category.id,
-        yearLowerBound: data.ad.yearLowerBound,
-        yearHigherBound: data.ad.yearHigherBound,
-        mileageLowerBound: data.ad.mileageLowerBound,
-        mileageHigherBound: data.ad.mileageHigherBound,
-        priceLowerBound: data.ad.priceLowerBound,
-        priceHigherBound: data.ad.priceHigherBound,
-      });
-      this.isFirstRender = false;
-    }
-  };
-
   handleChange = (key: string, value: any) => {
     if (key === 'features') {
       this.handleFeaturesChange(value);
@@ -157,94 +152,35 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
     return [];
   };
 
-  fieldToString = (field: number | null | undefined) => {
-    if (!field) {
-      return '';
-    }
-
-    return field.toString();
-  };
-
-  getDefaultManufacturer = (manufacturers: any) => {
-    const manufacturer = manufacturers.find(
-      (mnf: any) => mnf.id === this.state.manufacturerID,
-    );
-    return manufacturer;
-  };
-
-  getDefaultModel = (manufacturers: any) => {
-    const model = this.getDefaultManufacturer(manufacturers).models.find(
-      (mdl: any) => mdl.id === this.state.modelID,
-    );
-    return model;
-  };
-
-  getDefaultCategory = (carCategories: any) => {
-    const carCategory = carCategories.find(
-      (carCtg: any) => carCtg.id === this.state.categoryID,
-    );
-    return carCategory;
-  };
-
-  getDefaultFeature = (features: any) => {
-    let defaultFeature = undefined;
-    features.map((ft1: any) => {
-      if (this.state.features) {
-        this.state.features.map((ft2: any) => {
-          ft2 === ft1.id ? (defaultFeature = ft1) : null;
-        });
-      } else {
-        defaultFeature = undefined;
-      }
-    });
-
-    return defaultFeature;
-  };
-
-  isFeatureChecked = (fetchedCheckboxFeatures: any) => {
-    fetchedCheckboxFeatures.map((feature: any) => {
-      if (this.state.features) {
-        this.state.features.map((ft2: any) => {
-          if (feature.id === ft2) {
-            return true;
-          }
-        });
-      }
-    });
-    return false;
-  };
-
   fieldTouched = (key: string) => {
     const touched = { ...this.state.touched };
     touched[key] = true;
     this.setState({ touched });
   };
 
-  getPayload = () => {
-    const { touched, ...rest } = this.state;
-    return rest;
+  getUpdateAdPayload = () => {
+    const { touched, ...data } = this.state;
+    return data;
   };
 
   render() {
     const {
-      translations: { ad, carLabel, carFeatureCategory, cars, general },
+      translations: { carLabel, cars, general, carFeatureCategory, ad },
       adId,
     } = this.props;
+
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
     const touched = { ...this.state.touched };
-    const createAdFormValidation = new CreateAdFormValidation(general); // Réutilisation du même que pour créer car le contrôle se fait exactement de la même faço
-
+    const createAdFormValidation = new CreateAdFormValidation(general);
     return (
-      <Query
-        query={AD_DETAIL_QUERY}
-        variables={{ id: adId }}
-        onCompleted={data => this.fillState(data)}
-      >
-        {({ loading, error }) => {
+      <Query query={AD_DETAIL_QUERY} variables={{ id: adId }}>
+        {({ loading, error, data }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
+          const adDetail = data;
+          console.log(adDetail);
           return (
             <Query query={GET_FEATURES_QUERY}>
               {({ loading, error, data }) => {
@@ -259,16 +195,16 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                 return (
                   <Mutation
                     mutation={UPDATE_AD_MUTATION}
-                    variables={{ data: this.getPayload() }}
+                    variables={{ data: this.getUpdateAdPayload() }}
                   >
-                    {(createAd, mutation) => {
+                    {(updateAd, mutation) => {
                       if (mutation.data && mutation.data.createAd) {
                         const adID = mutation.data.createAd.id;
                         Router.push(`/adDetail?id=${adID}`);
                       }
                       return (
                         <StyledForm
-                          onSubmit={e => this.handleUpdateAd(e, createAd)}
+                          onSubmit={e => this.handleUpdateAd(e, updateAd)}
                         >
                           <h1>{ad.createAdTitle}</h1>
                           <ErrorMessage error={mutation.error} />
@@ -287,24 +223,19 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  defaultValue={this.getDefaultManufacturer(
-                                    data.manufacturers,
-                                  )}
-                                  label={<span>{cars.manufacturer}</span>}
+                                  defaultValue={adDetail.ad.manufacturer}
                                 />
                                 <Select
                                   options={this.getModelsForManufacturer(data)}
                                   disabled={!manufacturerID}
                                   accessor="name"
+                                  selected={manufacturerID}
                                   handleChange={(item: any) =>
                                     this.handleChange('modelID', {
                                       value: item.id,
                                     })
                                   }
-                                  defaultValue={this.getDefaultModel(
-                                    data.manufacturers,
-                                  )}
-                                  label={<span>{cars.model}</span>}
+                                  defaultValue={adDetail.ad.model}
                                 />
                                 <Select
                                   options={data.carCategories}
@@ -314,24 +245,16 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                       value: item.id,
                                     })
                                   }
-                                  defaultValue={this.getDefaultCategory(
-                                    data.carCategories,
-                                  )}
-                                  label={<span>{cars.category}</span>}
+                                  defaultValue={adDetail.ad.category}
                                 />
 
                                 <label>
-                                  <span>
-                                    {cars.year} {general.min}
-                                  </span>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder={`${cars.year} ${general.min}`}
-                                    defaultValue={this.fieldToString(
-                                      this.state.yearLowerBound,
-                                    )}
                                     min={minCarYear}
                                     max={new Date().getFullYear()}
+                                    defaultValue={adDetail.ad.yearLowerBound}
                                     onBlur={() =>
                                       this.fieldTouched('yearLowerBound')
                                     }
@@ -358,17 +281,12 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                 </label>
 
                                 <label>
-                                  <span>
-                                    {cars.year} {general.max}
-                                  </span>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder={`${cars.year} ${general.max}`}
-                                    defaultValue={this.fieldToString(
-                                      this.state.yearHigherBound,
-                                    )}
                                     min={minCarYear}
                                     max={new Date().getFullYear()}
+                                    defaultValue={adDetail.ad.yearHigherBound}
                                     onBlur={() =>
                                       this.fieldTouched('yearHigherBound')
                                     }
@@ -397,19 +315,12 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                 </label>
 
                                 <label>
-                                  <span>
-                                    {cars.mileage} {general.min}
-                                  </span>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder={`${cars.mileage} ${
                                       general.min
                                     }`}
-                                    defaultValue={this.fieldToString(
-                                      this.state.mileageLowerBound,
-                                    )}
-                                    min={0}
-                                    max={maxMileage}
+                                    defaultValue={adDetail.ad.mileageLowerBound}
                                     onBlur={() =>
                                       this.fieldTouched('mileageLowerBound')
                                     }
@@ -436,19 +347,14 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                 </label>
 
                                 <label>
-                                  <span>
-                                    {cars.mileage} {general.max}
-                                  </span>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder={`${cars.mileage} ${
                                       general.max
                                     }`}
-                                    defaultValue={this.fieldToString(
-                                      this.state.mileageHigherBound,
-                                    )}
-                                    min={0}
-                                    max={maxMileage}
+                                    defaultValue={
+                                      adDetail.ad.mileageHigherBound
+                                    }
                                     onBlur={() =>
                                       this.fieldTouched('mileageHigherBound')
                                     }
@@ -477,16 +383,10 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                 </label>
 
                                 <label>
-                                  <span>
-                                    {cars.price} {general.min}
-                                  </span>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder={`${cars.price} ${general.min}`}
-                                    defaultValue={this.fieldToString(
-                                      this.state.priceLowerBound,
-                                    )}
-                                    min={0}
+                                    defaultValue={adDetail.ad.priceLowerBound}
                                     onBlur={() =>
                                       this.fieldTouched('priceLowerBound')
                                     }
@@ -513,16 +413,10 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                 </label>
 
                                 <label>
-                                  <span>
-                                    {cars.price} {general.max}
-                                  </span>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder={`${cars.price} ${general.max}`}
-                                    defaultValue={this.fieldToString(
-                                      this.state.priceHigherBound,
-                                    )}
-                                    min={0}
+                                    defaultValue={adDetail.ad.priceHigherBound}
                                     onBlur={() =>
                                       this.fieldTouched('priceHigherBound')
                                     }
@@ -559,25 +453,46 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                 {general.features}
                               </Card.Title>
                               <div className="label-wrapper no-grow">
-                                {fetchedDropdownFeatures.map((feature: any) => (
-                                  <Select
-                                    key={feature.id}
-                                    options={feature.features}
-                                    accessor="name"
-                                    handleChange={(item: any) =>
-                                      this.handleChange('features', {
-                                        value: item.id,
-                                        category: feature.name,
-                                      })
-                                    }
-                                    defaultValue={this.getDefaultFeature(
-                                      feature.features,
+                                {adDetail.features
+                                  ? fetchedDropdownFeatures.map(
+                                      (feature: any) => (
+                                        <Select
+                                          key={feature.id}
+                                          options={feature.features}
+                                          accessor="name"
+                                          defaultValue={
+                                            adDetail.ad.features.feature
+                                          }
+                                          handleChange={(item: any) =>
+                                            this.handleChange('features', {
+                                              value: item.id,
+                                              category: feature.name,
+                                            })
+                                          }
+                                          label={`${
+                                            carFeatureCategory[feature.name]
+                                          } :`}
+                                        />
+                                      ),
+                                    )
+                                  : fetchedDropdownFeatures.map(
+                                      (feature: any) => (
+                                        <Select
+                                          key={feature.id}
+                                          options={feature.features}
+                                          accessor="name"
+                                          handleChange={(item: any) =>
+                                            this.handleChange('features', {
+                                              value: item.id,
+                                              category: feature.name,
+                                            })
+                                          }
+                                          label={`${
+                                            carFeatureCategory[feature.name]
+                                          } :`}
+                                        />
+                                      ),
                                     )}
-                                    label={`${
-                                      carFeatureCategory[feature.name]
-                                    } :`}
-                                  />
-                                ))}
                               </div>
                             </Card.Body>
                           </Card>
@@ -588,24 +503,48 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                   <span className="card-number">3</span>
                                   {carLabel.addons}
                                 </Card.Title>
-
-                                {fetchedCheckboxFeatures.map((feature: any) => (
-                                  <Form.Check
-                                    key={feature.id}
-                                    type="checkbox"
-                                    label={carFeatureCategory[feature.name]}
-                                    defaultChecked={this.isFeatureChecked(
-                                      fetchedCheckboxFeatures,
-                                    )}
-                                    onClick={() =>
-                                      this.handleChange('features', {
-                                        value: feature.features[0].id,
-                                        category: feature.name,
-                                        isCheckbox: true,
-                                      })
-                                    }
-                                  />
-                                ))}
+                                <div>
+                                  {adDetail.features
+                                    ? fetchedCheckboxFeatures.map(
+                                        (feature: any) => (
+                                          <Form.Check
+                                            key={feature.id}
+                                            type="checkbox"
+                                            label={
+                                              carFeatureCategory[feature.name]
+                                            }
+                                            defaultChecked={
+                                              adDetail.ad.features.feature
+                                            }
+                                            onClick={() =>
+                                              this.handleChange('features', {
+                                                value: feature.features[0].id,
+                                                category: feature.name,
+                                                isCheckbox: true,
+                                              })
+                                            }
+                                          />
+                                        ),
+                                      )
+                                    : fetchedCheckboxFeatures.map(
+                                        (feature: any) => (
+                                          <Form.Check
+                                            key={feature.id}
+                                            type="checkbox"
+                                            label={
+                                              carFeatureCategory[feature.name]
+                                            }
+                                            onClick={() =>
+                                              this.handleChange('features', {
+                                                value: feature.features[0].id,
+                                                category: feature.name,
+                                                isCheckbox: true,
+                                              })
+                                            }
+                                          />
+                                        ),
+                                      )}
+                                </div>
                               </Card.Body>
                             </Card>
                             <Card>
@@ -618,6 +557,11 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
                                   variant="primary"
                                   className="formSubmit"
                                   type="submit"
+                                  disabled={
+                                    !createAdFormValidation.isCreateAdFormStateValid(
+                                      this.state,
+                                    ) || !this.checkFormValidation()
+                                  }
                                 >
                                   {ad.createAdAction}
                                 </Button>
@@ -637,5 +581,4 @@ class UpdateAd extends Component<UpdateAdProps, Dictionnary<AdUpdateInput>> {
     );
   }
 }
-
 export default multi(UpdateAd);

@@ -10,7 +10,8 @@ export interface AdProps {
 }
 
 const UpdateAdPage = (query: AdProps) => {
-  return <UpdateAd query={query} />;
+  console.log(query);
+  return <UpdateAd adId={query.query.id} />;
 };
 
 export default UpdateAdPage;
