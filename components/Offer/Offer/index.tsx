@@ -186,7 +186,6 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
           <div className="noPrint">
             {(isMyOffer || isMyAd) && (
               <>
-                {console.log(offer)}
                 <OfferCreator
                   offer={offer}
                   button={
