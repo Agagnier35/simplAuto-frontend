@@ -72,6 +72,20 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
     },
   };
 
+  updateState = (adDetail: any) => {
+    this.state.id = adDetail.ad.id;
+    this.state.features = adDetail.ad.features;
+    this.state.manufacturerID = adDetail.ad.manufacturer.id;
+    this.state.modelID = adDetail.ad.model.id;
+    this.state.categoryID = adDetail.ad.category.id;
+    this.state.yearLowerBound = adDetail.ad.yearLowerBound;
+    this.state.yearHigherBound = adDetail.ad.yearHigherBound;
+    this.state.mileageLowerBound = adDetail.ad.mileageLowerBound;
+    this.state.mileageHigherBound = adDetail.ad.mileageHigherBound;
+    this.state.priceLowerBound = adDetail.ad.priceLowerBound;
+    this.state.priceHigherBound = adDetail.ad.priceHigherBound;
+  };
+
   handleUpdateAd = async (e: any, updateAd: any) => {
     e.preventDefault();
     await updateAd();
@@ -180,6 +194,7 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
           const adDetail = data;
+          this.updateState(adDetail);
           console.log(adDetail);
           return (
             <Query query={GET_FEATURES_QUERY}>
