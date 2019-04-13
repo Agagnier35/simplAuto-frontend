@@ -309,6 +309,14 @@ const translations: Translations = {
     to: 'À',
     youHaveBeenOffered: 'Vous vous etes fait offert',
     youHaveOffered: 'Vous avez offert',
+    acceptedOfferCloseBtn: 'Fermer',
+    acceptedOfferTitle: 'Offre acceptée',
+    acceptedOfferInstruction:
+      'instruction venant de la confirmation du contract :\n' +
+      '- 3 jours ouvrables pour venir essayer la voiture\n' +
+      '- offre acceptée selon le prix convenu\n' +
+      '- offre acceptée selon les addons convenu\n' +
+      '- offre acceptée selon la description fournie\n',
     add: 'Ajouter',
   },
   Chat: {
@@ -334,7 +342,8 @@ const translations: Translations = {
     HowToSellThird: 'Faites une offre',
   },
   Notifications: {
-    newOffer: 'Vous avez une nouvelle offre !',
+    acceptedOffer: 'Une de vos offres a été acceptée!',
+    newOffer: 'Vous avez une nouvelle offre!',
     newOfferMessage: (x: number) =>
       `Vous avez ${x} ${
         x > 1 ? 'nouveaux messages' : 'nouveau message'
