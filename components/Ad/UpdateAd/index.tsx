@@ -284,7 +284,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
         cars,
         general,
         carFeatureCategory,
-        ad,
+        Ads,
         carFeature,
       },
     } = this.props;
@@ -336,7 +336,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
               {(updateAd, mutation) => {
                 return (
                   <StyledForm onSubmit={e => this.handleUpdateAd(e, updateAd)}>
-                    <h1>Update ad</h1>
+                    <h1>{Ads.updateAd}</h1>
                     <ErrorMessage error={mutation.error} />
                     <Card>
                       <Card.Body>
@@ -360,6 +360,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                                 value: item.id,
                               })
                             }
+                            label={cars.manufacturer}
                           />
                           <Select
                             options={this.getOptions(
@@ -367,6 +368,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               this.getModelsForManufacturer(data),
                             )}
                             disabled={!manufacturerID}
+                            label={cars.model}
                             accessor="name"
                             selected={this.findInitialModel(data)}
                             reset={true}
@@ -382,6 +384,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               data.carCategories,
                             )}
                             accessor="name"
+                            label={cars.category}
                             selected={
                               this.state.categoryID
                                 ? data.carCategories.find(
@@ -398,6 +401,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                           />
 
                           <label>
+                            {Ads.lowerYear}
                             <Form.Control
                               defaultValue={
                                 this.state.yearLowerBound
@@ -428,6 +432,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                           </label>
 
                           <label>
+                            {Ads.higherYear}
                             <Form.Control
                               type="number"
                               defaultValue={
@@ -459,6 +464,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.lowerMileage}
                             <Form.Control
                               type="number"
                               defaultValue={
@@ -486,6 +492,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.higherMileage}
                             <Form.Control
                               type="number"
                               defaultValue={
@@ -515,6 +522,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.lowerPrice}
                             <Form.Control
                               type="number"
                               defaultValue={
@@ -542,6 +550,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.higherPrice}
                             <Form.Control
                               type="number"
                               defaultValue={
@@ -653,7 +662,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               ) || !this.checkFormValidation()
                             }
                           >
-                            Modifier
+                            {general.options.modify}
                           </Button>
                         </Card.Body>
                       </Card>

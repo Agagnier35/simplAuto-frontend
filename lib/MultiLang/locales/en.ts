@@ -265,6 +265,7 @@ const translations: Translations = {
     higherYear: 'Higher Year',
     features: 'features',
     addAds: 'Create an Ad',
+    updateAd: 'Update your Ad',
     title: 'Ads',
     noAds: 'No ads yet',
     noMatchingAds: 'There are no ads correponding to your car in your area',

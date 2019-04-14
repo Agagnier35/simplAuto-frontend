@@ -274,6 +274,7 @@ const translations: Translations = {
     higherYear: 'année maximum',
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
+    updateAd: 'Modifier votre annonce',
     title: 'Annonces',
     noAds: `Vous n'avez pas d'annonce`,
     noMatchingAds:
