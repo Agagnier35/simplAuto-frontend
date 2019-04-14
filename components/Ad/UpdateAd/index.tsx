@@ -183,33 +183,25 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
   };
 
   getUpdateAdPayload = () => {
-    const { touched, ...state } = this.state;
     let features: string[] = [];
     if (this.state.features) {
       features = this.state.features.map(feature => feature.value);
     }
-    const data: AdUpdateInput = { id: state.id as string };
-    if (features) data.features = features;
-    if (state.manufacturerID) data.manufacturerID = this.state.manufacturerID;
-    if (state.modelID) data.modelID = this.state.modelID;
-    if (state.categoryID) data.categoryID = this.state.categoryID;
-    if (state.yearLowerBound) data.yearLowerBound = this.state.yearLowerBound;
-    if (state.yearHigherBound) {
-      data.yearHigherBound = this.state.yearHigherBound;
-    }
-    if (state.mileageLowerBound) {
-      data.mileageLowerBound = this.state.mileageLowerBound;
-    }
-    if (state.mileageHigherBound) {
-      data.mileageHigherBound = this.state.mileageHigherBound;
-    }
-    if (state.priceLowerBound) {
-      data.priceLowerBound = this.state.priceLowerBound;
-    }
-    if (state.priceHigherBound) {
-      data.priceHigherBound = this.state.priceHigherBound;
-    }
-    return { data };
+    return {
+      data: {
+        features,
+        manufacturerID: this.state.manufacturerID,
+        modelID: this.state.modelID,
+        categoryID: this.state.categoryID,
+        yearLowerBound: this.state.yearLowerBound,
+        yearHigherBound: this.state.yearHigherBound,
+        mileageLowerBound: this.state.mileageLowerBound,
+        mileageHigherBound: this.state.mileageHigherBound,
+        priceLowerBound: this.state.priceLowerBound,
+        priceHigherBound: this.state.priceHigherBound,
+        id: this.state.id,
+      },
+    };
   };
 
   getFeaturesName = (carFeature: any, feature: any) => {
@@ -390,6 +382,14 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               data.carCategories,
                             )}
                             accessor="name"
+                            selected={
+                              this.state.categoryID
+                                ? data.carCategories.find(
+                                    carCategory =>
+                                      carCategory.id === this.state.categoryID,
+                                  )
+                                : undefined
+                            }
                             handleChange={(item: any) =>
                               this.handleChange('categoryID', {
                                 value: item.id,
