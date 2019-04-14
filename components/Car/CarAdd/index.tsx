@@ -273,7 +273,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory, carFeature },
+      translations: {
+        carLabel,
+        cars,
+        general,
+        carFeatureCategory,
+        carFeature,
+        carCategory,
+      },
     } = this.props;
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
@@ -335,8 +342,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               options={this.getModelsForManufacturer(data)}
                               disabled={!manufacturerID}
                               accessor="name"
-                              reset={true}
-                              selected={manufacturerID}
+                              selected={modelID}
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
                               }
@@ -350,7 +356,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           </InputGroup>
                           <InputGroup>
                             <Select
-                              options={data.carCategories}
+                              options={data.carCategories.map((c: any) => ({
+                                id: c.id,
+                                name: carCategory[c.name],
+                              }))}
                               accessor="name"
                               handleChange={(item: any) =>
                                 this.handleChange('categoryID', item.id)

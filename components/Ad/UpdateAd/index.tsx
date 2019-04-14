@@ -230,9 +230,9 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
     const ad = data.ad;
     this.setState({
       features: ad.features
-        ? ad.features.map(feature => ({
-            value: feature.id,
-            category: feature.category.name,
+        ? ad.features.map((f: any) => ({
+            value: f.id,
+            category: f.category.name,
           }))
         : null,
       manufacturerID: ad.manufacturer ? ad.manufacturer.id : null,
@@ -251,12 +251,12 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
   findInitialModel = (data: any) => {
     if (this.state.manufacturerID && this.state.modelID) {
       const currentManufacturer = data.manufacturers.find(
-        manufacturer => manufacturer.id === this.state.manufacturerID,
+        (m: any) => m.id === this.state.manufacturerID,
       );
 
       if (currentManufacturer) {
         return currentManufacturer.models.find(
-          model => model.id === this.state.modelID,
+          (m: any) => m.id === this.state.modelID,
         );
       }
     }
@@ -286,6 +286,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
         carFeatureCategory,
         Ads,
         carFeature,
+        carCategory,
       },
     } = this.props;
     const { manufacturerID, categoryID, modelID } = this.state;
@@ -352,8 +353,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                             )}
                             accessor="name"
                             selected={data.manufacturers.find(
-                              manufacturer =>
-                                manufacturer.id === this.state.manufacturerID,
+                              (m: any) => m.id === this.state.manufacturerID,
                             )}
                             handleChange={(item: any) =>
                               this.handleChange('manufacturerID', {
@@ -381,15 +381,17 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                           <Select
                             options={this.getOptions(
                               categoryID,
-                              data.carCategories,
+                              data.carCategories.map((c: any) => ({
+                                id: c.id,
+                                name: carCategory[c.name],
+                              })),
                             )}
                             accessor="name"
                             label={cars.category}
                             selected={
                               this.state.categoryID
                                 ? data.carCategories.find(
-                                    carCategory =>
-                                      carCategory.id === this.state.categoryID,
+                                    (c: any) => c.id === this.state.categoryID,
                                   )
                                 : undefined
                             }

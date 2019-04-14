@@ -242,6 +242,8 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
         carFeatureCategory,
         ad,
         carFeature,
+        carCategory,
+        Ads,
       },
     } = this.props;
     const { manufacturerID, categoryID, modelID } = this.state;
@@ -263,14 +265,13 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
           return (
             <Mutation
               mutation={CREATE_ADD_MUTATION}
-              variables={{ data: this.getCreateAdPayload() }}
+              variables={this.getCreateAdPayload()}
               refetchQueries={[
                 {
                   query: PAGE_ADS_QUERY,
                   variables: { pageNumber: 0, pageSize: paging5pages },
                 },
               ]}
-              variables={this.getCreateAdPayload()}
             >
               {(createAd, mutation) => {
                 return (
@@ -295,6 +296,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                                 value: item.id,
                               })
                             }
+                            label={cars.manufacturer}
                           />
                           <Select
                             options={this.getOptions(
@@ -303,16 +305,20 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             )}
                             disabled={!manufacturerID}
                             accessor="name"
-                            selected={manufacturerID}
+                            selected={modelID}
                             reset={true}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
+                            label={cars.model}
                           />
                           <Select
                             options={this.getOptions(
                               categoryID,
-                              data.carCategories,
+                              data.carCategories.map((c: any) => ({
+                                id: c.id,
+                                name: carCategory[c.name],
+                              })),
                             )}
                             accessor="name"
                             handleChange={(item: any) =>
@@ -320,9 +326,11 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                                 value: item.id,
                               })
                             }
+                            label={cars.category}
                           />
 
                           <label>
+                            {Ads.lowerYear}
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.min}`}
@@ -349,6 +357,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                           </label>
 
                           <label>
+                            {Ads.higherYear}
                             <Form.Control
                               type="number"
                               placeholder={`${cars.year} ${general.max}`}
@@ -378,6 +387,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.lowerMileage}
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.min}`}
@@ -403,6 +413,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.higherMileage}
                             <Form.Control
                               type="number"
                               placeholder={`${cars.mileage} ${general.max}`}
@@ -430,6 +441,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.lowerPrice}
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.min}`}
@@ -455,6 +467,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             </Form.Control.Feedback>{' '}
                           </label>
                           <label>
+                            {Ads.higherPrice}
                             <Form.Control
                               type="number"
                               placeholder={`${cars.price} ${general.max}`}

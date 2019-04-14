@@ -44,7 +44,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
       latitude: 0,
       longitude: 0,
     },
-    radius: 0,
+    radius: 100,
     gender: Gender.Other,
     birthDate: {
       day: 1,

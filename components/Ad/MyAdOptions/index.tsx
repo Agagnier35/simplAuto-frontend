@@ -127,7 +127,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           {translations.general.delete} <MdCancel />
         </Button>
         <Link href={{ pathname: '/updateAd', query: { id: ad.id } }}>
-          <Button variant="secondary" as="a">
+          <Button variant="secondary">
             {translations.GeneralModalContent.edit} <FaEdit />
           </Button>
         </Link>
