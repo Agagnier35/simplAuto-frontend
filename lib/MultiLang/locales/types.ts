@@ -207,7 +207,28 @@ export default interface Translations {
     individual: string;
   };
   carFeatureCategory: { [key: string]: string };
-  carCategory: { [key: string]: string };
+  carCategory: Dictionary<{
+    SUV: string;
+    Sedan: string;
+    Pickup: string;
+    Wagon: string;
+    Hatchback: string;
+    Coupe: string;
+    Convertible: string;
+    Chassis: string;
+    Truck: string;
+    Van: string;
+    Crossover: string;
+    'Incomplete - Cutaway': string;
+    Bus: string;
+    Incomplete: string;
+    Liftback: string;
+    'Motorcycle - Street': string;
+    'Motorcycle - Scooter': string;
+    'Motorcycle - Sport': string;
+    Minivan: string;
+    'Truck - Tractor': string;
+  }>;
   carLabel: {
     title: string;
     carAddSumbit: string;

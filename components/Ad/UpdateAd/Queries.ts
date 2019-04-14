@@ -28,6 +28,7 @@ export const UPDATE_AD_QUERY = gql`
         category {
           id
           name
+          type
         }
       }
     }

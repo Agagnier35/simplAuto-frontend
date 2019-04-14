@@ -56,6 +56,7 @@ export const USER_QUERY = gql`
           category {
             id
             name
+            type
           }
         }
         offers {
@@ -91,6 +92,7 @@ export const USER_QUERY = gql`
             category {
               id
               name
+              type
             }
           }
           urgentExpiry
@@ -146,6 +148,7 @@ export const USER_QUERY = gql`
           category {
             id
             name
+            type
           }
         }
         urgentExpiry

@@ -31,6 +31,7 @@ export const AD_DETAIL_QUERY = gql`
         category {
           id
           name
+          type
         }
       }
       urgentExpiry
@@ -68,6 +69,7 @@ export const AD_DETAIL_QUERY = gql`
             category {
               id
               name
+              type
             }
           }
         }
@@ -111,6 +113,7 @@ export const AD_OFFER_SUGGESTION_QUERY = gql`
             category {
               id
               name
+              type
             }
           }
         }

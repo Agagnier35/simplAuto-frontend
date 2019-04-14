@@ -29,6 +29,7 @@ export const CAR_BY_ID = gql`
         category {
           id
           name
+          type
         }
       }
       offerCount
@@ -60,6 +61,7 @@ export const CAR_BY_ID = gql`
             category {
               id
               name
+              type
             }
           }
           urgentExpiry
@@ -108,6 +110,7 @@ export const MATCHING_ADS_QUERY = gql`
           category {
             id
             name
+            type
           }
         }
         urgentExpiry

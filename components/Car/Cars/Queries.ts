@@ -25,6 +25,15 @@ export const PAGE_CARS_QUERY = gql`
           id
           name
         }
+        features {
+          id
+          name
+          category {
+            id
+            name
+            type
+          }
+        }
         year
         description
         photos
