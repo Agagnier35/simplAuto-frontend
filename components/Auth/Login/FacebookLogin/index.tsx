@@ -16,6 +16,8 @@ const FACEBOOK_LOGIN_MUTATION = gql`
   mutation FACEBOOK_LOGIN_MUTATION($data: UserSignupInput!) {
     facebookLogin(data: $data) {
       id
+      carCount
+      adCount
     }
   }
 `;
