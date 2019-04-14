@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StyledForm from '../../Car/CarAdd/Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
-import { AdUpdateInput } from '../../../generated/graphql';
+import { AdUpdateInput, CarFeatureCategory } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -12,9 +12,9 @@ import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
-import { minCarYear } from '../../General/Preferences';
+import { minCarYear, paging5pages } from '../../General/Preferences';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
-import { string } from 'prop-types';
+import { PAGE_ADS_QUERY } from '../MyAds/Queries';
 
 const UPDATE_AD_MUTATION = gql`
   mutation UPDATE_AD_MUTATION($data: AdUpdateInput!) {
@@ -75,16 +75,6 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
 
   updateState = (adDetail: any) => {
     this.state.id = adDetail.id;
-    this.state.features = adDetail.features;
-    this.state.manufacturerID = adDetail.manufacturer.id;
-    this.state.modelID = adDetail.model.id;
-    this.state.categoryID = adDetail.category.id;
-    this.state.yearLowerBound = adDetail.yearLowerBound;
-    this.state.yearHigherBound = adDetail.yearHigherBound;
-    this.state.mileageLowerBound = adDetail.mileageLowerBound;
-    this.state.mileageHigherBound = adDetail.mileageHigherBound;
-    this.state.priceLowerBound = adDetail.priceLowerBound;
-    this.state.priceHigherBound = adDetail.priceHigherBound;
   };
 
   handleUpdateAd = async (e: any, updateAd: any) => {
@@ -93,7 +83,7 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
   };
 
   getFeature = (adFeature: any[], everyFeature: any[]) => {
-    let itemSelected = null;
+    let itemSelected = undefined;
     everyFeature.map((oneFeature: any) => {
       adFeature.map((myFeature: any) => {
         if (myFeature.id === oneFeature.id) {
@@ -102,6 +92,23 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
       });
     });
     return itemSelected;
+  };
+
+  getFeaturesName = (carFeature: any, feature: any) => {
+    let features: any[] = [];
+    const unselect = [
+      {
+        id: '0',
+        name: this.props.translations.general.defaultUnselect,
+      },
+    ];
+    Object.keys(carFeature).map((item: string, i: number) => {
+      features.push({
+        name: carFeature[item],
+        id: feature.features[i].id,
+      });
+    });
+    return unselect.concat(features);
   };
 
   checkFormValidation = () => {
@@ -187,12 +194,20 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
 
   getUpdateAdPayload = () => {
     const { touched, ...data } = this.state;
-    return data;
+    const item: AdUpdateInput = data;
+    return { data: item };
   };
 
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory, ad },
+      translations: {
+        carLabel,
+        cars,
+        general,
+        carFeatureCategory,
+        ad,
+        carFeature,
+      },
       adId,
     } = this.props;
 
@@ -222,7 +237,13 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
                 return (
                   <Mutation
                     mutation={UPDATE_AD_MUTATION}
-                    variables={{ data: this.getUpdateAdPayload() }}
+                    refetchQueries={[
+                      {
+                        query: PAGE_ADS_QUERY,
+                        variables: { pageNumber: 0, pageSize: paging5pages },
+                      },
+                    ]}
+                    variables={this.getUpdateAdPayload()}
                   >
                     {(updateAd, mutation) => {
                       if (mutation.data && mutation.data.createAd) {
@@ -478,26 +499,31 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
                                 {general.features}
                               </Card.Title>
                               <div className="label-wrapper no-grow">
-                                {fetchedDropdownFeatures.map((feature: any) => (
-                                  <Select
-                                    key={feature.id}
-                                    options={feature.features}
-                                    accessor="name"
-                                    defaultValue={this.getFeature(
-                                      adDetail.features,
-                                      feature.features,
-                                    )}
-                                    handleChange={(item: any) =>
-                                      this.handleChange('features', {
-                                        value: item.id,
-                                        category: feature.name,
-                                      })
-                                    }
-                                    label={`${
-                                      carFeatureCategory[feature.name]
-                                    } :`}
-                                  />
-                                ))}
+                                {fetchedDropdownFeatures.map(
+                                  (featureCategory: any) => (
+                                    <Select
+                                      key={featureCategory.id}
+                                      options={this.getFeaturesName(
+                                        carFeature[featureCategory.name],
+                                        featureCategory,
+                                      )}
+                                      accessor="name"
+                                      defaultValue={this.getFeature(
+                                        adDetail.features,
+                                        featureCategory.features,
+                                      )}
+                                      handleChange={(item: any) =>
+                                        this.handleChange('features', {
+                                          value: item.id,
+                                          category: featureCategory.name,
+                                        })
+                                      }
+                                      label={`${
+                                        carFeatureCategory[featureCategory.name]
+                                      } :`}
+                                    />
+                                  ),
+                                )}
                               </div>
                             </Card.Body>
                           </Card>
@@ -509,53 +535,33 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
                                   {carLabel.addons}
                                 </Card.Title>
                                 <div>
-                                  {adDetail.features
-                                    ? fetchedCheckboxFeatures.map(
-                                        (feature: any) => (
-                                          <Form.Check
-                                            key={feature.id}
-                                            type="checkbox"
-                                            label={
-                                              carFeatureCategory[feature.name]
-                                            }
-                                            defaultChecked={
-                                              adDetail.features.feature
-                                            }
-                                            onClick={() =>
-                                              this.handleChange('features', {
-                                                value: feature.features[0].id,
-                                                category: feature.name,
-                                                isCheckbox: true,
-                                              })
-                                            }
-                                          />
-                                        ),
-                                      )
-                                    : fetchedCheckboxFeatures.map(
-                                        (feature: any) => (
-                                          <Form.Check
-                                            key={feature.id}
-                                            type="checkbox"
-                                            label={
-                                              carFeatureCategory[feature.name]
-                                            }
-                                            onClick={() =>
-                                              this.handleChange('features', {
-                                                value: feature.features[0].id,
-                                                category: feature.name,
-                                                isCheckbox: true,
-                                              })
-                                            }
-                                          />
-                                        ),
-                                      )}
+                                  {fetchedCheckboxFeatures.map(
+                                    (feature: any) => (
+                                      <Form.Check
+                                        key={feature.id}
+                                        type="checkbox"
+                                        label={carFeatureCategory[feature.name]}
+                                        defaultChecked={this.getFeature(
+                                          adDetail.features,
+                                          feature.features,
+                                        )}
+                                        onClick={() =>
+                                          this.handleChange('features', {
+                                            value: feature.features[0].id,
+                                            category: feature.name,
+                                            isCheckbox: true,
+                                          })
+                                        }
+                                      />
+                                    ),
+                                  )}
                                 </div>
                               </Card.Body>
                             </Card>
                             <Card>
                               <Card.Body>
                                 <Card.Title>
-                                  <span className="card-number">5</span>
+                                  <span className="card-number">4</span>
                                   {general.submit}
                                 </Card.Title>
                                 <Button

@@ -23,7 +23,7 @@ const CREATE_ADD_MUTATION = gql`
   }
 `;
 
-interface CreateAdFeature {
+export interface CreateAdFeature {
   value: string;
   category: string;
 }
@@ -263,7 +263,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
           return (
             <Mutation
               mutation={CREATE_ADD_MUTATION}
-              variables={{ data: this.getCreateAdPayload() }}
               refetchQueries={[
                 {
                   query: PAGE_ADS_QUERY,
@@ -504,7 +503,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                                   this.getFeaturesName(
                                     carFeature[featureCategory.name],
                                     featureCategory,
-                                  )
+                                  ),
                                 )}
                                 accessor="name"
                                 handleChange={(item: any) =>
