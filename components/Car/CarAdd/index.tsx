@@ -3,7 +3,7 @@ import StyledForm from './Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
-import { CarCreateInput } from '../../../generated/graphql';
+import { CarCreateInput, CarFeatureCategory } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card, InputGroup } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -12,9 +12,12 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { CarAddFormValidation } from '../../../lib/FormValidator/CarAddFormValidation';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import { minCarYear, maxMileage } from '../../General/Preferences';
+import {
+  minCarYear,
+  maxMileage,
+  paging5pages,
+} from '../../General/Preferences';
 import { PAGE_CARS_QUERY } from '../Cars/Queries';
-import { paging5pages } from '../../General/Preferences';
 
 interface CarAddState {
   features: any[];
@@ -174,7 +177,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       );
 
       const featureExists = featureIndex > -1;
-      const isDefaultValue = value.value === translations.general.none;
+      const isDefaultValue =
+        value.value === translations.general.none || value.value === '0';
 
       if (featureExists) {
         if (isDefaultValue || value.isCheckbox) {
@@ -234,6 +238,31 @@ class CarAdd extends Component<MultiProps, CarAddState> {
         .models;
     }
     return [];
+  };
+
+  featureHasValue = (featureCategory: CarFeatureCategory) => {
+    let featureIndex = -1;
+    if (this.state.features) {
+      featureIndex = this.state.features.findIndex(
+        feature => feature.category === featureCategory.name,
+      );
+    }
+
+    return featureIndex > -1;
+  };
+
+  getOptions = (value: any, data: any) => {
+    let options = data;
+    const unselect = [
+      {
+        id: '0',
+        name: this.props.translations.general.defaultUnselect,
+      },
+    ];
+    if (value) {
+      options = unselect.concat(data);
+    }
+    return options;
   };
 
   fieldTouched = (key: string) => {
@@ -306,6 +335,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               options={this.getModelsForManufacturer(data)}
                               disabled={!manufacturerID}
                               accessor="name"
+                              reset={true}
                               selected={manufacturerID}
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
@@ -399,36 +429,36 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           {general.features}
                         </Card.Title>
                         <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map((feature: any) => (
-                            <Select
-                              key={feature.id}
-                              options={this.getFeaturesName(
-                                carFeature[feature.name],
-                                feature,
-                              )}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('features', {
-                                  value: item.id,
-                                  category: feature.name,
-                                })
-                              }
-                              label={carFeatureCategory[feature.name]}
-                            />
-                          ))}
-                          <label>
-                            {general.description}
-                            <div>
-                              <textarea
-                                className="form-control"
-                                id="description"
-                                cols={50}
-                                rows={5}
-                                placeholder={cars.descriptionPlaceholder}
-                                onChange={this.handleInputChange}
+                          {fetchedDropdownFeatures.map(
+                            (featureCategory: any) => (
+                              <Select
+                                key={featureCategory.id}
+                                options={this.getOptions(
+                                  this.featureHasValue(featureCategory),
+                                  this.getFeaturesName(
+                                    carFeature[featureCategory.name],
+                                    featureCategory,
+                                  ),
+                                )}
+                                accessor="name"
+                                handleChange={(item: any) =>
+                                  this.handleChange('features', {
+                                    value: item.id,
+                                    category: featureCategory.name,
+                                  })
+                                }
+                                label={carFeatureCategory[featureCategory.name]}
                               />
-                            </div>
-                          </label>
+                            ),
+                          )}
+                          <span>Description :</span>
+                          <textarea
+                            id="description"
+                            cols={50}
+                            rows={2}
+                            placeholder={cars.descriptionPlaceholder}
+                            onChange={this.handleInputChange}
+                          />
                         </div>
                       </Card.Body>
                     </Card>

@@ -13,6 +13,7 @@ const translations: Translations = {
     clientType: 'Account type',
     facebookLogin: 'Login with Facebook',
     googleLogin: 'Login with Google',
+    location: 'Your adress',
   },
   confirmation: {
     title: 'Accept an offer',
@@ -92,7 +93,7 @@ const translations: Translations = {
     myCars: 'My cars',
     disconnect: 'Logout',
     Ad: 'Ad',
-    offers: 'Offers',
+    offers: 'Your offers',
     delete: 'Delete',
     cancel: 'Cancel',
     create: 'Create',
