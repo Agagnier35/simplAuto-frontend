@@ -55,6 +55,7 @@ const translations: Translations = {
     notificationMessage: 'Nouveau message',
   },
   general: {
+    yourOffers: 'Vos offres',
     email: 'Courriel',
     password: 'Mot de passe',
     confirmPassword: 'Confirmer mot de passe',
@@ -107,6 +108,7 @@ const translations: Translations = {
       english: 'Anglais',
       french: 'Français',
     },
+    description: 'Description',
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
@@ -308,12 +310,21 @@ const translations: Translations = {
     to: 'À',
     youHaveBeenOffered: 'Vous vous etes fait offert',
     youHaveOffered: 'Vous avez offert',
+    acceptedOfferCloseBtn: 'Fermer',
+    acceptedOfferTitle: 'Offre acceptée',
+    acceptedOfferInstruction:
+      'instruction venant de la confirmation du contract :\n' +
+      '- 3 jours ouvrables pour venir essayer la voiture\n' +
+      '- offre acceptée selon le prix convenu\n' +
+      '- offre acceptée selon les addons convenu\n' +
+      '- offre acceptée selon la description fournie\n',
+    add: 'Ajouter',
   },
   Chat: {
     title: 'Messagerie',
     send: 'Envoyer',
     sendPlaceholder: 'Envoyer un message',
-    hideChat: 'Masquer/démasquer la conversation',
+    hideChat: 'Mettre en sourdine/activer la conversation',
   },
   Home: {
     BannerTitle: 'Trop facile',
@@ -332,7 +343,8 @@ const translations: Translations = {
     HowToSellThird: 'Faites une offre',
   },
   Notifications: {
-    newOffer: 'Vous avez une nouvelle offre !',
+    acceptedOffer: 'Une de vos offres a été acceptée!',
+    newOffer: 'Vous avez une nouvelle offre!',
     newOfferMessage: (x: number) =>
       `Vous avez ${x} ${
         x > 1 ? 'nouveaux messages' : 'nouveau message'
@@ -355,6 +367,10 @@ const translations: Translations = {
     tires: 'Pneus',
   },
   carFeature: {
+    motor: {
+      2: '2.0L',
+      2.5: '2.5L',
+    },
     color: {
       black: 'Noir',
       blue: 'Bleu',

@@ -30,11 +30,15 @@ const PagingView = ({
 
   return (
     <ButtonToolbar>
-      <Button variant="light" onClick={onBack}>
+      <Button variant="light" onClick={onBack} disabled={pageIndex === 0}>
         <FaArrowLeft />
       </Button>
       {pageIndex + 1}
-      <Button variant="light" onClick={onNext}>
+      <Button
+        variant="light"
+        onClick={onNext}
+        disabled={maxItems < itemsByPage * (pageIndex + 1)}
+      >
         <FaArrowRight />
       </Button>
     </ButtonToolbar>

@@ -4,56 +4,78 @@ import { GET_USER_CONVERSATIONS_QUERY } from './Queries';
 import Loading from '../../General/Loading';
 import ErrorMessage from '../../General/ErrorMessage';
 import ConversationsList from '../ConversationsList';
-import { Conversation } from '../../../generated/graphql';
-import ChatSection from '../ChatSection';
+import { Offer } from '../../../generated/graphql';
 import { multi } from '../../../lib/MultiLang';
 import Translations from '../../../lib/MultiLang/locales/types';
+import ChatWindow from '../ChatWindow';
 
 export interface ConversationProps {
   translations: Translations;
 }
 
 interface ConversationsState {
-  currentConvo: Conversation | null;
+  currentOffer: Offer | null;
 }
 
 class Conversations extends Component<ConversationProps, ConversationsState> {
   state = {
-    currentConvo: null,
+    currentOffer: null,
   };
 
-  handleSelectConversation = (convo: Conversation) => {
-    this.setState({ currentConvo: convo });
+  handleSelectConversation = (offer: Offer | null) => {
+    this.setState({ currentOffer: offer });
+  };
+
+  setSelectedAsFirstConversation = (data: any) => {
+    if (
+      window.innerWidth > 900 &&
+      !this.state.currentOffer &&
+      data.me.conversations &&
+      data.me.conversations.length > 0
+    ) {
+      this.setState({ currentOffer: data.me.conversations[0].offer });
+    }
   };
 
   render() {
-    const { currentConvo } = this.state;
     const {
       translations: { conversation },
     } = this.props;
     return (
-      <Query query={GET_USER_CONVERSATIONS_QUERY}>
+      <Query
+        query={GET_USER_CONVERSATIONS_QUERY}
+        onCompleted={this.setSelectedAsFirstConversation}
+      >
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
-          if (!data.me.conversations) return null;
+          if (!data.me.conversations || data.me.conversations.length === 0) {
+            return <p>{conversation.noConversations}</p>;
+          }
+          const currentConversation = data.me.conversations.find(
+            (conversation: any) =>
+              this.state.currentOffer &&
+              conversation.offer.id === this.state.currentOffer.id,
+          );
+
+          let currentOffer = null;
+          if (currentConversation) {
+            currentOffer = currentConversation.offer;
+          }
           return (
             <div style={{ display: 'flex' }}>
-              <p hidden={data.me.conversations !== undefined}>
-                {conversation.noConversations}
-              </p>
-
               <ConversationsList
                 onClickCallback={this.handleSelectConversation}
                 conversations={data.me.conversations}
-                selectedConvo={
-                  currentConvo ? currentConvo : data.me.conversations[0]
-                }
+                selectedOffer={currentOffer}
               />
 
-              {data.me.conversations && (
-                <ChatSection
-                  convo={currentConvo ? currentConvo : data.me.conversations[0]}
+              {currentOffer && data.me.conversations.length > 0 && (
+                <ChatWindow
+                  handleSelectConversation={(offer: any) =>
+                    this.handleSelectConversation(offer)
+                  }
+                  offer={currentOffer}
                 />
               )}
             </div>

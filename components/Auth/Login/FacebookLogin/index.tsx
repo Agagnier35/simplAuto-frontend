@@ -10,6 +10,7 @@ import {
   Location,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
+import Router from 'next/router';
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation FACEBOOK_LOGIN_MUTATION($data: UserSignupInput!) {
@@ -71,6 +72,18 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
     return { data: userInfos };
   };
 
+  responseFacebookFailed = (failure: any) => {
+    Router.push('/login');
+  };
+
+  handlePostLogin = (data: any) => {
+    let page = '/myAds';
+    if (data.login.adCount < data.login.carCount) {
+      page = '/cars';
+    }
+    Router.push(page);
+  };
+
   render() {
     const { translations } = this.props;
     return (
@@ -78,6 +91,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         mutation={FACEBOOK_LOGIN_MUTATION}
         variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
+        onCompleted={data => this.handlePostLogin(data)}
       >
         {handleMutation => (
           <FacebookLogin
@@ -86,6 +100,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
             language="fr_CA"
             textButton={translations.signup.facebookLogin}
             fields="first_name,name,last_name,email,gender,birthday,picture"
+            onFailure={(failure: any) => this.responseFacebookFailed(failure)}
             callback={response =>
               this.responseFacebook(response, handleMutation)
             }

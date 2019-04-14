@@ -10,7 +10,7 @@ import { AD_DETAIL_QUERY, AD_OFFER_SUGGESTION_QUERY } from './Queries';
 import gql from 'graphql-tag';
 import { CarSummaries } from '../../Car/Car/styles';
 import CarSummary from '../../Car/CarSummary';
-import { Tab, TabBadge } from '../Ads/styles';
+import { Tab } from '../Ads/styles';
 import AdSummary from '../AdSummary';
 import Paging from '../../General/Paging';
 import AdStats from './AdStats';
@@ -51,6 +51,15 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
     },
   });
 
+  function youMayLikeCheck() {
+    return (
+      youMayLikeQuery.data &&
+      youMayLikeQuery.data.suggestions &&
+      youMayLikeQuery.data.suggestions[0] &&
+      youMayLikeQuery.data.suggestions[0].totalLength > 0
+    );
+  }
+
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
 
@@ -79,10 +88,7 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
 
         <AdStats ad={data.ad} />
 
-        <Tab className="active">
-          {translations.offers.receivedOffers}
-          <TabBadge>{data.ad && data.ad.offerCount}</TabBadge>
-        </Tab>
+        <Tab className="active">{translations.offers.receivedOffers}</Tab>
         <Card style={{ overflow: 'hidden' }}>
           <CarSummaries hidden={data.ad.offers && data.ad.offers.length === 0}>
             {data.ad.offers &&
@@ -100,20 +106,24 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             <p>{translations.offers.noMatch}</p>
           </div>
           <div hidden={data.ad.offers.length === paging5pages}>
-            {youMayLikeQuery.data &&
-              youMayLikeQuery.data.suggestions &&
-              youMayLikeQuery.data.suggestions[0] &&
-              youMayLikeQuery.data.suggestions[0].totalLength > 0 && (
-                <YouMayLike
-                  translations={translations}
-                  data={youMayLikeQuery.data}
-                  loading={youMayLikeQuery.loading}
-                  error={youMayLikeQuery.error}
-                  pageIndexMayLike={pageIndexMayLike}
-                  setPageIndexMayLike={setPageIndexMayLike}
-                />
-              )}
+            {youMayLikeCheck() && (
+              <YouMayLike
+                translations={translations}
+                data={youMayLikeQuery.data}
+                loading={youMayLikeQuery.loading}
+                error={youMayLikeQuery.error}
+                pageIndexMayLike={pageIndexMayLike}
+                setPageIndexMayLike={setPageIndexMayLike}
+              />
+            )}
           </div>
+          <p
+            hidden={
+              data.ad.offers && data.ad.offers.length > 0 && !youMayLikeCheck()
+            }
+          >
+            {translations.offers.noOffers}
+          </p>
         </Card>
       </div>
     </>

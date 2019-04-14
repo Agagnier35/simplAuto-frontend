@@ -29,10 +29,10 @@ const Admin = ({ translations, client }: AdminPageProps) => {
       >
         {translations.admin.stats}
       </Tab>
-      <Card style={{ overflow: 'hidden' }} hidden={tabIndex !== 0}>
+      <Card hidden={tabIndex !== 0}>
         <SearchUser />
       </Card>
-      <Card style={{ overflow: 'hidden' }} hidden={tabIndex !== 1}>
+      <Card hidden={tabIndex !== 1}>
         <Stats client={client} />
       </Card>
     </>

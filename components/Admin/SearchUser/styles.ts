@@ -13,7 +13,7 @@ export const Header = styled.div`
   font-size: 2rem;
   display: flex;
   align-items: center;
-  margin: -0.5rem;
+  margin: 0 -0.5rem;
   padding: 1.5rem;
   justify-content: space-between;
 
