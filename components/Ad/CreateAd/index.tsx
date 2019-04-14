@@ -12,8 +12,7 @@ import Router from 'next/router';
 import { GET_FEATURES_QUERY } from '../../Car/CarAdd';
 import { Dictionary } from '../../../lib/Types/Dictionary';
 import CreateAdFormValidation from '../../../lib/FormValidator/CreateAdFormValidation';
-import { minCarYear } from '../../General/Preferences';
-import { paging5pages } from '../../General/Preferences';
+import { minCarYear, paging5pages } from '../../General/Preferences';
 import { PAGE_ADS_QUERY } from '../MyAds/Queries';
 
 const CREATE_ADD_MUTATION = gql`
@@ -498,7 +497,10 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                                 key={featureCategory.id}
                                 options={this.getOptions(
                                   this.featureHasValue(featureCategory),
-                                  featureCategory.features,
+                                  this.getFeaturesName(
+                                    carFeature[featureCategory.name],
+                                    featureCategory,
+                                  )
                                 )}
                                 accessor="name"
                                 handleChange={(item: any) =>

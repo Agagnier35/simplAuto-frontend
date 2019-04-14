@@ -12,9 +12,12 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { CarAddFormValidation } from '../../../lib/FormValidator/CarAddFormValidation';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import { minCarYear, maxMileage } from '../../General/Preferences';
+import {
+  minCarYear,
+  maxMileage,
+  paging5pages,
+} from '../../General/Preferences';
 import { PAGE_CARS_QUERY } from '../Cars/Queries';
-import { paging5pages } from '../../General/Preferences';
 
 interface CarAddState {
   features: any[];
@@ -432,7 +435,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                                 key={featureCategory.id}
                                 options={this.getOptions(
                                   this.featureHasValue(featureCategory),
-                                  featureCategory.features,
+                                  this.getFeaturesName(
+                                    carFeature[featureCategory.name],
+                                    featureCategory,
+                                  ),
                                 )}
                                 accessor="name"
                                 handleChange={(item: any) =>
