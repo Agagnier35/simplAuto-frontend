@@ -46,6 +46,7 @@ const UPDATE_AD_MUTATION = gql`
         id
         name
         category {
+          id
           name
         }
       }
@@ -236,7 +237,12 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
   setInitialAdData = (data: any) => {
     const ad = data.ad;
     this.setState({
-      features: ad.features ? null : null,
+      features: ad.features
+        ? ad.features.map(feature => ({
+            value: feature.id,
+            category: feature.category.name,
+          }))
+        : null,
       manufacturerID: ad.manufacturer ? ad.manufacturer.id : null,
       modelID: ad.model ? ad.model.id : null,
       categoryID: ad.category ? ad.category.id : null,
@@ -251,13 +257,11 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
   };
 
   findInitialModel = (data: any) => {
-    console.log(this.state);
     if (this.state.manufacturerID && this.state.modelID) {
-      console.log(this.state.modelID);
       const currentManufacturer = data.manufacturers.find(
         manufacturer => manufacturer.id === this.state.manufacturerID,
       );
-      console.log(currentManufacturer);
+
       if (currentManufacturer) {
         return currentManufacturer.models.find(
           model => model.id === this.state.modelID,
@@ -265,6 +269,20 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
       }
     }
     return undefined;
+  };
+
+  findInitialFeature = (featureCategory: CarFeatureCategory) => {
+    if (this.state.features && this.state.features.length > 0) {
+      const feature = this.state.features.find(
+        feature => feature.category === featureCategory.name,
+      );
+
+      if (feature) {
+        return featureCategory.features.find(
+          featureChoice => featureChoice.id === feature.value,
+        );
+      }
+    }
   };
 
   render() {
@@ -287,7 +305,6 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
     return (
       <Query query={GET_FEATURES_QUERY}>
         {({ loading, error, data }) => {
-          console.log(data);
           if (loading || !data.carFeatureCategories) return <Loading />;
           if (error) return <ErrorMessage error={error} />;
           fetchedCheckboxFeatures = data.carFeatureCategories.filter(
@@ -575,6 +592,9 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                                   ),
                                 )}
                                 accessor="name"
+                                selected={this.findInitialFeature(
+                                  featureCategory,
+                                )}
                                 handleChange={(item: any) =>
                                   this.handleChange('features', {
                                     value: item.id,
