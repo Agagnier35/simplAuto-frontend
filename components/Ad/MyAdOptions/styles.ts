@@ -4,7 +4,12 @@ export const ButtonWrapper = styled.div`
   display: flex;
   flex-flow: column;
 
-  span button {
+  & > * {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  button {
     width: 100%;
   }
 `;

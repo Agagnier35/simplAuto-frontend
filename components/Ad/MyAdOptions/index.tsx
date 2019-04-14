@@ -19,6 +19,7 @@ import { AD_DELETE_MUTATION } from '../AdDetail';
 import Router from 'next/router';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 import { paging5pages } from '../../General/Preferences';
+import moment from 'moment';
 
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
@@ -49,6 +50,26 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
     Router.push('/myAds');
   }
 
+  function isUrgent(ad: Ad) {
+    if (!ad.urgentExpiry) {
+      return false;
+    }
+    const a = moment(Date.now());
+    const b = new Date(ad.urgentExpiry);
+
+    return a.diff(b, 'days') < 7;
+  }
+
+  function isTop(ad: Ad) {
+    if (!ad.topExpiry) {
+      return false;
+    }
+    const a = moment(Date.now());
+    const b = new Date(ad.topExpiry);
+
+    return a.diff(b, 'days') < 7;
+  }
+
   if (loggedQuery.loading || pricesQuery.loading) return null;
 
   const prices: Prices = pricesQuery.data.getPrices;
@@ -63,48 +84,50 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           onClose={() => setModalShow(false)}
           onConfirm={() => handleDeleteAd()}
         />
-        <StripeCheckout
-          amount={prices.topAd}
-          name={translations.Stripe.TopAdName}
-          description={translations.Stripe.TopAdDescription}
-          currency="CAD"
-          email={loggedQuery.data.me.email}
-          stripeKey={stripeKey}
-          token={(res: any) =>
-            handleBuyTopAd({ variables: { stripeToken: res.id, id: ad.id } })
-          }
-        >
-          <Button variant="primary">
-            {translations.ad.buyTopAd} <FaTrophy />
-          </Button>
-        </StripeCheckout>
+        {!isTop(ad) && (
+          <StripeCheckout
+            amount={prices.topAd}
+            name={translations.Stripe.TopAdName}
+            description={translations.Stripe.TopAdDescription}
+            currency="CAD"
+            email={loggedQuery.data.me.email}
+            stripeKey={stripeKey}
+            token={(res: any) =>
+              handleBuyTopAd({ variables: { stripeToken: res.id, id: ad.id } })
+            }
+          >
+            <Button variant="primary">
+              {translations.ad.buyTopAd} <FaTrophy />
+            </Button>
+          </StripeCheckout>
+        )}
 
-        <StripeCheckout
-          amount={prices.urgentAd}
-          name={translations.Stripe.UrgentAdName}
-          description={translations.Stripe.UrgentAdDescription}
-          currency="CAD"
-          email={loggedQuery.data.me.email}
-          stripeKey={stripeKey}
-          token={(res: any) =>
-            handleBuyUrgentAd({
-              variables: { stripeToken: res.id, id: ad.id },
-            })
-          }
-        >
-          <Button variant="secondary" style={{ margin: '0.5rem 0' }}>
-            {translations.ad.buyUrgentAd} <FaExclamationCircle />
-          </Button>
-        </StripeCheckout>
+        {!isUrgent(ad) && (
+          <StripeCheckout
+            amount={prices.urgentAd}
+            name={translations.Stripe.UrgentAdName}
+            description={translations.Stripe.UrgentAdDescription}
+            currency="CAD"
+            email={loggedQuery.data.me.email}
+            stripeKey={stripeKey}
+            token={(res: any) =>
+              handleBuyUrgentAd({
+                variables: { stripeToken: res.id, id: ad.id },
+              })
+            }
+          >
+            <Button variant="secondary">
+              {translations.ad.buyUrgentAd} <FaExclamationCircle />
+            </Button>
+          </StripeCheckout>
+        )}
 
-        <ButtonToolbar>
-          <Button variant="danger" onClick={() => setModalShow(true)}>
-            {translations.general.delete} <MdCancel />
-          </Button>
-          <Button variant="secondary">
-            {translations.GeneralModalContent.edit} <FaEdit />
-          </Button>
-        </ButtonToolbar>
+        <Button variant="danger" onClick={() => setModalShow(true)}>
+          {translations.general.delete} <MdCancel />
+        </Button>
+        <Button variant="secondary">
+          {translations.GeneralModalContent.edit} <FaEdit />
+        </Button>
       </ButtonWrapper>
     </>
   );

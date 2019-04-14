@@ -14,6 +14,7 @@ import {
   APISection,
   AppSection,
   BestSellerSection,
+  UserRankWrapper,
 } from './styles';
 import { useQuery } from 'react-apollo-hooks';
 import { ADMIN_STATS, MANUFACTURERS, ADMIN_RESEARCH } from './Queries';
@@ -25,6 +26,10 @@ import ApolloClient from 'apollo-client';
 import UserSummary from '../../User/UserSummary';
 import Top10CarSummary from '../Top10Car';
 import Loading from '../../General/Loading';
+import MinMaxAvgPriceChart from '../../Stats/MinMaxAvgPriceChart';
+import MinMaxAvgDaysChart from '../../Stats/MinMaxAvgDaysChart';
+import { ListContainer } from '../Top10Car/style';
+import { FirstPlace } from '../../Ad/AdSummary/styles';
 
 interface AdminStatsProps {
   translations: Translations;
@@ -149,23 +154,6 @@ const Stats = ({ translations, client }: AdminStatsProps) => {
         <OverallStats>
           {overallData && overallData.adminStats && (
             <>
-              <SubTitle>{admin.top10MakeModel}</SubTitle>
-              {overallData.adminStats.top10MostSoldMakeModel.map(
-                (t: Top10Car) => (
-                  <Top10CarSummary key={t.make.id + t.model.id} car={t} />
-                ),
-              )}
-              <SubTitle>{admin.top10Fastest}</SubTitle>
-              {overallData.adminStats.top10FastestSold.map((t: Top10Car) => (
-                <Top10CarSummary key={t.make.id + t.model.id} car={t} />
-              ))}
-              <BestSellerSection>
-                <SubTitle>{admin.bestSeller}</SubTitle>
-                <UserSummary user={overallData.adminStats.bestSeller} />
-                {overallData.adminStats.top10FastestSold.map((t: Top10Car) => (
-                  <Top10CarSummary key={t.make.id + t.model.id} car={t} />
-                ))}
-              </BestSellerSection>
               <h6>
                 {admin.vehiculesCount}:{' '}
                 {overallData.adminStats.allVehiculesCount}
@@ -180,6 +168,41 @@ const Stats = ({ translations, client }: AdminStatsProps) => {
                 {admin.inactiveUsers}:{' '}
                 {overallData.adminStats.inactiveUsersCount}
               </h6>
+              <SubTitle>{admin.top10MakeModel}</SubTitle>
+              <ListContainer>
+                {overallData.adminStats.top10MostSoldMakeModel.map(
+                  (t: Top10Car) => (
+                    <Top10CarSummary key={t.make.id + t.model.id} car={t} />
+                  ),
+                )}
+              </ListContainer>
+              <SubTitle>{admin.top10Fastest}</SubTitle>
+              <ListContainer>
+                {overallData.adminStats.top10FastestSold.map((t: Top10Car) => (
+                  <Top10CarSummary key={t.make.id + t.model.id} car={t} />
+                ))}
+              </ListContainer>
+              <BestSellerSection>
+                <SubTitle>{admin.bestSeller}</SubTitle>
+                <UserRankWrapper>
+                  <div className="image-wrapper">
+                    <FirstPlace>1</FirstPlace>
+                  </div>
+                  <div style={{ flexGrow: 2 }}>
+                    <UserSummary
+                      className="user"
+                      user={overallData.adminStats.bestSeller}
+                    />
+                  </div>
+                </UserRankWrapper>
+                <ListContainer>
+                  {overallData.adminStats.top10FastestSold.map(
+                    (t: Top10Car) => (
+                      <Top10CarSummary key={t.make.id + t.model.id} car={t} />
+                    ),
+                  )}
+                </ListContainer>
+              </BestSellerSection>
             </>
           )}
         </OverallStats>
@@ -246,67 +269,27 @@ const Stats = ({ translations, client }: AdminStatsProps) => {
               Search
             </Search>
           </ResearchForm>
-          <ResearchResults hidden={!researchSubmittedOnce}>
-            <Title>{admin.results}</Title>
-            <APISection>
-              <SubTitle>{admin.api}</SubTitle>
-              <h6>
-                {admin.averagePrice}:{' '}
-                {researchResults.adminStatisticsCar.averagePriceAPI}
-              </h6>
-              <h6>
-                {admin.lowestPrice}:{' '}
-                {researchResults.adminStatisticsCar.lowestPriceSoldAPI}
-              </h6>
-              <h6>
-                {admin.highestPrice}:{' '}
-                {researchResults.adminStatisticsCar.highestPriceSoldAPI}
-              </h6>
-              <h6>
-                {admin.averageDom}:{' '}
-                {researchResults.adminStatisticsCar.averageTimeOnMarketAPI}
-              </h6>
-              <h6>
-                {admin.lowestDom}:{' '}
-                {researchResults.adminStatisticsCar.lowestTimeOnMarketAPI}
-              </h6>
-              <h6>
-                {admin.highestDom}:{' '}
-                {researchResults.adminStatisticsCar.highestTimeOnMarketAPI}
-              </h6>
-            </APISection>
-            <AppSection>
-              <SubTitle>{admin.app}</SubTitle>
+          {researchSubmittedOnce && (
+            <ResearchResults>
+              <Title>{admin.results}</Title>
               <h5>
                 {admin.numberSold}:{' '}
                 {researchResults.adminStatisticsCar.soldOnApp}
               </h5>
-              <h6>
-                {admin.averagePrice}:{' '}
-                {researchResults.adminStatisticsCar.averagePriceApp}
-              </h6>
-              <h6>
-                {admin.lowestPrice}:{' '}
-                {researchResults.adminStatisticsCar.lowestPriceSoldApp}
-              </h6>
-              <h6>
-                {admin.highestPrice}:{' '}
-                {researchResults.adminStatisticsCar.highestPriceSoldApp}
-              </h6>
-              <h6>
-                {admin.averageDom}:{' '}
-                {researchResults.adminStatisticsCar.averageTimeOnMarketApp}
-              </h6>
-              <h6>
-                {admin.lowestDom}:{' '}
-                {researchResults.adminStatisticsCar.lowestTimeOnMarketApp}
-              </h6>
-              <h6>
-                {admin.highestDom}:{' '}
-                {researchResults.adminStatisticsCar.highestTimeOnMarketApp}
-              </h6>
-            </AppSection>
-          </ResearchResults>
+              <APISection>
+                <SubTitle>{admin.price}: </SubTitle>
+                <MinMaxAvgPriceChart
+                  stats={researchResults.adminStatisticsCar}
+                />
+              </APISection>
+              <AppSection>
+                <SubTitle>{admin.dom}: </SubTitle>
+                <MinMaxAvgDaysChart
+                  stats={researchResults.adminStatisticsCar}
+                />
+              </AppSection>
+            </ResearchResults>
+          )}
         </>
       )}
     </Container>

@@ -418,12 +418,10 @@ export default interface Translations {
     radius: string;
     results: string;
     api: string;
+    price: string;
     averagePrice: string;
-    lowestPrice: string;
-    highestPrice: string;
+    dom: string;
     averageDom: string;
-    lowestDom: string;
-    highestDom: string;
     app: string;
     numberSold: string;
     top10MakeModel: string;

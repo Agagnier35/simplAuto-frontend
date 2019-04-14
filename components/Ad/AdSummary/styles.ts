@@ -9,7 +9,7 @@ export const AdPortlet = styled(Portlet)<{ isUrgent: boolean }>`
   }
 
   border: ${props => (props.isUrgent ? '3px solid #1aac81' : 'none')};
-  background: ${props => (props.isUrgent ? '#1aac8126' : 'transparent')};
+  background: ${props => (props.isUrgent ? '#1aac8138' : 'transparent')};
 `;
 
 export const ColorCol = styled(Col)`
