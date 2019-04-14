@@ -8,6 +8,8 @@ import {
   Date as BirthDate,
   ClientType,
   Location,
+  LocationInput,
+  UserLanguage,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 import Router from 'next/router';
@@ -25,12 +27,13 @@ interface LoginGoogleState {
   lastName: string;
   email: string;
   password: string;
-  location: Location;
+  location: LocationInput;
   radius: number;
   gender: Gender;
   birthDate: BirthDate;
   googleID: string;
   clientType: ClientType;
+  language: UserLanguage;
 }
 
 class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
@@ -53,6 +56,10 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
     },
     googleID: '',
     clientType: ClientType.Individual,
+    language:
+      this.props.currentLocale === 'en'
+        ? UserLanguage.English
+        : UserLanguage.French,
   };
 
   responseGoogle = (response: any, googleLogin: () => void) => {

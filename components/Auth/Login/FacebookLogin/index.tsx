@@ -7,7 +7,8 @@ import {
   Gender,
   Date as BirthDate,
   ClientType,
-  Location,
+  UserLanguage,
+  LocationInput,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 import Router from 'next/router';
@@ -25,8 +26,9 @@ interface LoginFacebookState {
   lastName: string;
   email: string;
   password: string;
-  location: Location;
+  location: LocationInput;
   radius: number;
+  language: UserLanguage;
   gender: Gender;
   birthDate: BirthDate;
   facebookID: string;
@@ -53,6 +55,10 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
     },
     facebookID: '',
     clientType: ClientType.Individual,
+    language:
+      this.props.currentLocale === 'en'
+        ? UserLanguage.English
+        : UserLanguage.French,
   };
 
   responseFacebook = (response: any, facebookLogin: () => void) => {
