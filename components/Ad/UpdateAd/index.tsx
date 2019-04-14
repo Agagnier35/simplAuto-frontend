@@ -623,6 +623,9 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               key={feature.id}
                               type="checkbox"
                               label={carFeatureCategory[feature.name]}
+                              defaultChecked={
+                                this.findInitialFeature(feature) ? true : false
+                              }
                               onClick={() =>
                                 this.handleChange('features', {
                                   value: feature.features[0].id,
