@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StyledForm from '../../Car/CarAdd/Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { Mutation, Query } from 'react-apollo';
-import { AdUpdateInput, CarFeatureCategory } from '../../../generated/graphql';
+import { AdUpdateInput } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -51,7 +51,7 @@ interface UpdateAdProps extends MultiProps {
 }
 
 class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
-  state: UpdateAdState = {
+  state: Dictionary<UpdateAdState> = {
     id: '',
     features: null,
     manufacturerID: null,
@@ -75,11 +75,22 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
 
   updateState = (adDetail: any) => {
     this.state.id = adDetail.id;
+    this.state.features = adDetail.features;
+    this.state.manufacturerID = adDetail.manufacturer.id;
+    this.state.modelID = adDetail.model.id;
+    this.state.categoryID = adDetail.category.id;
+    this.state.yearLowerBound = adDetail.yearLowerBound;
+    this.state.yearHigherBound = adDetail.yearHigherBound;
+    this.state.mileageLowerBound = adDetail.mileageLowerBound;
+    this.state.mileageHigherBound = adDetail.mileageHigherBound;
+    this.state.priceLowerBound = adDetail.priceLowerBound;
+    this.state.priceHigherBound = adDetail.priceHigherBound;
   };
 
   handleUpdateAd = async (e: any, updateAd: any) => {
     e.preventDefault();
     await updateAd();
+    console.log('DOMNe');
   };
 
   getFeature = (adFeature: any[], everyFeature: any[]) => {
@@ -133,7 +144,8 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
     );
 
     const featureExists = featureIndex > -1;
-    const isDefaultValue = value.value === translations.general.none;
+    const isDefaultValue =
+      value.value === translations.general.none || value.value === '0';
 
     if (featureExists) {
       if (isDefaultValue || value.isCheckbox) {
@@ -170,6 +182,7 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
     } else {
       // Not a feature
       // TODO Might need to handle feature deletion
+      console.log(value.value);
       this.setState({ [key]: value.value });
       if (key === 'manufacturerID') {
         this.setState({ modelID: '' });
@@ -195,6 +208,7 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
   getUpdateAdPayload = () => {
     const { touched, ...data } = this.state;
     const item: AdUpdateInput = data;
+    console.log(item);
     return { data: item };
   };
 
