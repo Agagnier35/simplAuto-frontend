@@ -41,6 +41,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { PAGE_ADS_QUERY } from '../../Ad/MyAds/Queries';
 import { paging5pages } from '../../General/Preferences';
+import AcceptedOfferModal from '../AcceptedOfferModal';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -57,6 +58,9 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   const offer = data.offer as Offer;
 
   const [showModal, setshowModal] = useState(false);
+  const [showAcceptedModal, setshowAcceptedModal] = useState(
+    offer.status === OfferStatus.Accepted,
+  );
 
   const handleCreateConversation = useMutation(CREATE_CONVERSATION_MUTATION, {
     variables: {
@@ -235,6 +239,10 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
             show={showModal}
             onClose={() => setshowModal(false)}
             onConfirm={handleConfirmation}
+          />
+          <AcceptedOfferModal
+            show={showAcceptedModal}
+            onClose={() => setshowAcceptedModal(false)}
           />
         </Col>
       </Row>

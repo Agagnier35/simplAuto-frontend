@@ -1,9 +1,15 @@
 import withApollo, { InitApolloOptions } from 'next-with-apollo';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import { HttpLink, createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
-import { ApolloLink, Observable, split } from 'apollo-link';
+import {
+  ApolloLink,
+  Observable,
+  split,
+  Operation,
+  NextLink,
+} from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import {
@@ -26,9 +32,9 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
   };
 
   const requestLink = new ApolloLink(
-    (operation, forward) =>
+    (operation: Operation, forward: NextLink | undefined) =>
       new Observable(observer => {
-        let handle: any;
+        let handle: ZenObservable.Subscription;
         Promise.resolve(operation)
           .then(oper => request(oper))
           .then(() => {
@@ -48,10 +54,13 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
       }),
   );
 
-  const httpLink = new HttpLink({
+  const httpLink = createHttpLink({
     headers,
     uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     credentials: 'include',
+    fetchOptions: {
+      credentials: 'include',
+    },
   });
 
   const wsLink = process.browser
@@ -61,8 +70,11 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
         options: {
           reconnect: true,
           connectionParams: {
-            ...headers,
+            ...Headers,
             credentials: 'include',
+            fetchOptions: {
+              credentials: 'include',
+            },
           },
         },
       })
@@ -84,6 +96,7 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
 
   return new ApolloClient({
     cache,
+    ssrMode: !process.browser,
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
@@ -94,7 +107,6 @@ export function createClient({ headers }: InitApolloOptions<{}>) {
         }
       }),
       requestLink,
-
       link,
     ]),
   });

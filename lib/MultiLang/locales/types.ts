@@ -13,6 +13,7 @@ export default interface Translations {
     clientType: string;
     facebookLogin: string;
     googleLogin: string;
+    location: string;
   };
   confirmation: {
     title: string;
@@ -48,6 +49,7 @@ export default interface Translations {
     notificationMessage: string;
   };
   general: {
+    yourOffers: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -100,6 +102,7 @@ export default interface Translations {
       english: string;
       french: string;
     };
+    description: string;
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
@@ -256,6 +259,10 @@ export default interface Translations {
     to: string;
     youHaveBeenOffered: string;
     youHaveOffered: string;
+    acceptedOfferCloseBtn: string;
+    acceptedOfferTitle: string;
+    acceptedOfferInstruction: string;
+    add: string;
   };
   GeneralModalContent: {
     title: string;
@@ -293,6 +300,7 @@ export default interface Translations {
     hideChat: string;
   };
   Notifications: {
+    acceptedOffer: string;
     newOffer: string;
     newOfferMessage: (x: number) => string;
   };
@@ -325,6 +333,10 @@ export default interface Translations {
     tires: string;
   };
   carFeature: Dictionary<{
+    motor: Dictionary<{
+      2: string;
+      2.5: string;
+    }>;
     color: Dictionary<{
       black: string;
       blue: string;
@@ -389,6 +401,7 @@ export default interface Translations {
     marketAverage: string;
     appAverage: string;
     offerPrice: string;
+    askedPrice: string;
     days: string;
     daysOnMarket: string;
   };

@@ -3,7 +3,7 @@ import StyledForm from './Form';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import Carousel from './Carousel';
 import { Mutation, Query } from 'react-apollo';
-import { CarCreateInput } from '../../../generated/graphql';
+import { CarCreateInput, CarFeatureCategory } from '../../../generated/graphql';
 import gql from 'graphql-tag';
 import { Form, Button, Card, InputGroup } from 'react-bootstrap';
 import Loading from '../../General/Loading';
@@ -12,7 +12,12 @@ import Select from '../../General/Select';
 import Router from 'next/router';
 import { CarAddFormValidation } from '../../../lib/FormValidator/CarAddFormValidation';
 import { Dictionary } from '../../../lib/Types/Dictionary';
-import { minCarYear } from '../../General/Preferences';
+import {
+  minCarYear,
+  maxMileage,
+  paging5pages,
+} from '../../General/Preferences';
+import { PAGE_CARS_QUERY } from '../Cars/Queries';
 
 interface CarAddState {
   features: any[];
@@ -32,6 +37,7 @@ interface CarAddState {
     year: boolean;
     mileage: boolean;
   }>;
+  loadingPhotos: boolean;
 }
 
 export const GET_FEATURES_QUERY = gql`
@@ -88,22 +94,24 @@ class CarAdd extends Component<MultiProps, CarAddState> {
         year: false,
         mileage: false,
       },
+      loadingPhotos: false,
     };
 
     this.handlePictureChange = this.handlePictureChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handlePictureChange(event: any) {
+  async handlePictureChange(event: any) {
+    this.setState({ loadingPhotos: true });
     const files = event.target.files;
     if (files.length > 0) {
-      const photos = this.getURLsFromCloud(files);
-      this.setState({ photos });
+      await this.getURLsFromCloud(files);
     } else {
       this.setState({
         photos: [],
       });
     }
+    this.setState({ loadingPhotos: false });
   }
 
   getURLsFromCloud = async (files: any) => {
@@ -131,7 +139,9 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   handleCreateCar = async (e: any, createCar: any) => {
     e.preventDefault();
-    await createCar();
+    const { data } = await createCar();
+    const carID = data.createCar.id;
+    Router.push(`/car?id=${carID}`);
   };
 
   handleInputChange = (e: any) => {
@@ -140,6 +150,17 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     } else {
       this.setState({ [e.target.id]: e.target.value });
     }
+  };
+
+  getFeaturesName = (carFeature: any, feature: any) => {
+    let features: any[] = [];
+    Object.keys(carFeature).map((item: string, i: number) => {
+      features.push({
+        name: carFeature[item],
+        id: feature.features[i].id,
+      });
+    });
+    return features;
   };
 
   handleChange = (key: string, value: any) => {
@@ -152,7 +173,8 @@ class CarAdd extends Component<MultiProps, CarAddState> {
       );
 
       const featureExists = featureIndex > -1;
-      const isDefaultValue = value.value === translations.general.none;
+      const isDefaultValue =
+        value.value === translations.general.none || value.value === '0';
 
       if (featureExists) {
         if (isDefaultValue || value.isCheckbox) {
@@ -214,6 +236,31 @@ class CarAdd extends Component<MultiProps, CarAddState> {
     return [];
   };
 
+  featureHasValue = (featureCategory: CarFeatureCategory) => {
+    let featureIndex = -1;
+    if (this.state.features) {
+      featureIndex = this.state.features.findIndex(
+        feature => feature.category === featureCategory.name,
+      );
+    }
+
+    return featureIndex > -1;
+  };
+
+  getOptions = (value: any, data: any) => {
+    let options = data;
+    const unselect = [
+      {
+        id: '0',
+        name: this.props.translations.general.defaultUnselect,
+      },
+    ];
+    if (value) {
+      options = unselect.concat(data);
+    }
+    return options;
+  };
+
   fieldTouched = (key: string) => {
     const touched = { ...this.state.touched };
     touched[key] = true;
@@ -222,7 +269,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory },
+      translations: { carLabel, cars, general, carFeatureCategory, carFeature },
     } = this.props;
     const { manufacturerID } = this.state;
     let fetchedCheckboxFeatures: any;
@@ -245,12 +292,14 @@ class CarAdd extends Component<MultiProps, CarAddState> {
             <Mutation
               mutation={CAR_ADD_MUTATION}
               variables={this.getCreateCarPayload()}
+              refetchQueries={[
+                {
+                  query: PAGE_CARS_QUERY,
+                  variables: { pageNumber: 0, pageSize: paging5pages },
+                },
+              ]}
             >
               {(createCar, mutation) => {
-                if (mutation.data && mutation.data.createCar) {
-                  const carID = mutation.data.createCar.id;
-                  Router.push(`/car?id=${carID}`);
-                }
                 return (
                   <StyledForm
                     onSubmit={e => this.handleCreateCar(e, createCar)}
@@ -282,6 +331,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               options={this.getModelsForManufacturer(data)}
                               disabled={!manufacturerID}
                               accessor="name"
+                              reset={true}
                               selected={manufacturerID}
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
@@ -347,7 +397,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               type="number"
                               id="mileage"
                               min={0}
-                              max={300000}
+                              max={maxMileage}
                               placeholder={cars.mileage}
                               onChange={this.handleInputChange}
                               onBlur={() => this.fieldTouched('mileage')}
@@ -375,20 +425,28 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           {general.features}
                         </Card.Title>
                         <div className="label-wrapper no-grow">
-                          {fetchedDropdownFeatures.map((feature: any) => (
-                            <Select
-                              key={feature.id}
-                              options={feature.features}
-                              accessor="name"
-                              handleChange={(item: any) =>
-                                this.handleChange('features', {
-                                  value: item.id,
-                                  category: feature.name,
-                                })
-                              }
-                              label={carFeatureCategory[feature.name]}
-                            />
-                          ))}
+                          {fetchedDropdownFeatures.map(
+                            (featureCategory: any) => (
+                              <Select
+                                key={featureCategory.id}
+                                options={this.getOptions(
+                                  this.featureHasValue(featureCategory),
+                                  this.getFeaturesName(
+                                    carFeature[featureCategory.name],
+                                    featureCategory,
+                                  ),
+                                )}
+                                accessor="name"
+                                handleChange={(item: any) =>
+                                  this.handleChange('features', {
+                                    value: item.id,
+                                    category: featureCategory.name,
+                                  })
+                                }
+                                label={carFeatureCategory[featureCategory.name]}
+                              />
+                            ),
+                          )}
                           <span>Description :</span>
                           <textarea
                             id="description"
@@ -438,13 +496,17 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                             <input
                               id="photos"
                               type="file"
-                              accept="x-png,image/jpeg"
+                              accept="image/*"
                               multiple
                               onChange={this.handlePictureChange}
                             />
                           </label>
+                          {this.state.loadingPhotos && <Loading />}
                           <div className="carousel">
-                            <Carousel items={this.state.photos} />
+                            {this.state.photos &&
+                              this.state.photos.length > 0 && (
+                                <Carousel items={this.state.photos} />
+                              )}
                           </div>
                         </Card.Body>
                       </Card>

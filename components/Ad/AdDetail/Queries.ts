@@ -41,6 +41,12 @@ export const AD_DETAIL_QUERY = gql`
         id
         car {
           id
+          owner {
+            id
+            firstName
+            lastName
+            companyName
+          }
           manufacturer {
             id
             name
@@ -81,6 +87,9 @@ export const AD_OFFER_SUGGESTION_QUERY = gql`
         id
         car {
           id
+          owner {
+            id
+          }
           manufacturer {
             id
             name

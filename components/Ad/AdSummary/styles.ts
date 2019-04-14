@@ -8,8 +8,8 @@ export const AdPortlet = styled(Portlet)<{ isUrgent: boolean }>`
     color: ${props => props.theme.colors.secondaryDarker};
   }
 
-  box-shadow: ${props =>
-    props.isUrgent ? 'inset 0 0 3px 2px #1aac81' : 'none'};
+  border: ${props => (props.isUrgent ? '3px solid #1aac81' : 'none')};
+  background: ${props => (props.isUrgent ? '#1aac8126' : 'transparent')};
 `;
 
 export const ColorCol = styled(Col)`

@@ -1,31 +1,46 @@
 import React, { useState, FormEvent, useEffect } from 'react';
 import {
-  Offer,
   Message,
   ConversationStatus,
   Conversation,
+  Offer,
+  User,
 } from '../../../generated/graphql';
 
-import * as Chat from './styles';
 import { InputGroup, Form, Button } from 'react-bootstrap';
 import { useMutation, useSubscription, useQuery } from 'react-apollo-hooks';
 import {
   SEND_MESSAGE_MUTATION,
   UPDATE_CONVERSATION_MUTATION,
-} from './Mutations';
+} from '../Chat/Mutations';
 
 import { OFFER_BY_ID } from '../../Offer/Offer/Queries';
-import { MESSAGE_SUBSCRIPTION } from './Subscriptions';
+import { MESSAGE_SUBSCRIPTION } from '../Chat/Subscriptions';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { LOGGED_IN_QUERY } from '../../General/Header';
 import moment from 'moment';
-import { FaEyeSlash as HideIcon, FaImage } from 'react-icons/fa';
+import { FaImage, FaArrowLeft } from 'react-icons/fa';
+import {
+  DaySpacer,
+  Card,
+  Container,
+  MessageStyle,
+  Time,
+  ChatTitle,
+} from './style';
+import { GET_USER_CONVERSATIONS_QUERY } from '../Conversations/Queries';
+import { More } from '../../Ad/AdSummary/styles';
 
 interface ChatSectionProps extends MultiProps {
   offer: Offer;
+  handleSelectConversation: (offer: any) => void;
 }
 
-const ChatSection = ({ offer, translations }: ChatSectionProps) => {
+const ChatWindow = ({
+  offer,
+  translations,
+  handleSelectConversation,
+}: ChatSectionProps) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [refreshCount, forceRefresh] = useState(0);
   const [currentImage, setCurrentImage] = useState('');
@@ -44,28 +59,22 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
       const offerQuery = {
-        query: OFFER_BY_ID,
-        variables: { id: offer.id },
+        query: GET_USER_CONVERSATIONS_QUERY,
       };
       const message: Message = subscriptionData.data.messageSubscription;
       message.sender;
       const data = client.cache.readQuery(offerQuery) as any; // sketch
 
       if (data) {
-        if (offerQuery.variables) {
-          // We're in an offer
-          data.offer.conversation.messages.push(message);
-        } else {
-          // Theres no variables -> inside conversations
-          data.me.conversations = data.me.conversations.map(
-            (conversation: Conversation) => {
-              if (conversation.offer.id === offer.id) {
-                conversation.messages.push(message);
-              }
-              return conversation;
-            },
-          );
-        }
+        // Theres no variables -> inside conversations
+        data.me.conversations = data.me.conversations.map(
+          (conversation: Conversation) => {
+            if (conversation.offer.id === offer.id) {
+              conversation.messages.push(message);
+            }
+            return conversation;
+          },
+        );
       }
 
       client.cache.writeQuery({ ...offerQuery, data });
@@ -98,25 +107,20 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     }
   }
 
-  async function toggleConversationStatus(
-    e: FormEvent<HTMLFormElement> | any,
-    chatStatus: ConversationStatus,
-  ) {
-    e.preventDefault();
-    let status = ConversationStatus.Opened;
-    if (status === chatStatus) {
-      status = ConversationStatus.Deleted;
+  function getUserName(user: User) {
+    if (user.companyName !== '') {
+      return user.companyName;
+    } else {
+      return user.firstName + ' ' + user.lastName;
     }
+  }
 
-    await handleUpdateConversation({
-      variables: {
-        data: {
-          status,
-          id: offer.conversation && offer.conversation.id,
-        },
-        refetchQueries: { OFFER_BY_ID },
-      },
-    });
+  function getSellerName(convo: Conversation) {
+    return getUserName(convo.seller);
+  }
+
+  function getBuyerName(convo: Conversation) {
+    return getUserName(convo.buyer);
   }
 
   async function getURLsFromCloud(file: any) {
@@ -141,19 +145,6 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
     } else {
       setCurrentImage('');
     }
-  }
-
-  function handleUpdateMessageCache(cache: any, payload: any) {
-    const offerQuery = {
-      query: OFFER_BY_ID,
-      variables: { id: offer.id },
-    };
-    const data = cache.readQuery(offerQuery);
-    const message = payload.data.sendMessage;
-
-    data.offer.conversation.messages.push(message);
-
-    cache.writeQuery({ ...offerQuery, data });
   }
 
   function scrollToBottom() {
@@ -192,31 +183,43 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
         moment(previousMessage.updatedAt).format('L');
       if (!isSameDay) {
         return (
-          <Chat.DaySpacer>
+          <DaySpacer>
             <hr />
             <span>{moment(currentMessage.updatedAt).format('L')}</span>
             <hr />
-          </Chat.DaySpacer>
+          </DaySpacer>
         );
       }
     }
   }
   return (
-    <Chat.Card>
+    <Card currentOffer={offer}>
       {offer.conversation &&
         offer.conversation.status !== ConversationStatus.Deleted && (
           <>
-            <h2>{translations.Chat.title}</h2>
-            <Chat.Container className="chat">
+            <ChatTitle>
+              <More
+                size="sm"
+                variant="light"
+                id="dropdown-basic"
+                onClick={() => handleSelectConversation(null)}
+              >
+                <FaArrowLeft />
+              </More>
+              <h2>
+                {isMyOffer
+                  ? getBuyerName(offer.conversation)
+                  : getSellerName(offer.conversation)}
+              </h2>
+            </ChatTitle>
+            <Container className="chat">
               {offer.conversation.messages.map(
                 (message: Message, index: number) => (
                   <React.Fragment key={message.id}>
                     {getDaySpacer(offer.conversation, index)}
-                    <Chat.MessageStyle isSelfOrSeller={isSelfOrSeller(message)}>
+                    <MessageStyle isSelfOrSeller={isSelfOrSeller(message)}>
                       {isSelfOrSeller(message) && (
-                        <Chat.Time>
-                          {moment(message.updatedAt).format('LT')}
-                        </Chat.Time>
+                        <Time>{moment(message.updatedAt).format('LT')}</Time>
                       )}
                       {message.image && message.image !== '' && (
                         <img className="chatImage" src={message.image} />
@@ -225,15 +228,13 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                         <p>{message.text}</p>
                       )}
                       {!isSelfOrSeller(message) && (
-                        <Chat.Time>
-                          {moment(message.updatedAt).format('LT')}
-                        </Chat.Time>
+                        <Time>{moment(message.updatedAt).format('LT')}</Time>
                       )}
-                    </Chat.MessageStyle>
+                    </MessageStyle>
                   </React.Fragment>
                 ),
               )}
-            </Chat.Container>
+            </Container>
             <Form
               onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                 sendMessage(e, currentMessage, currentImage)
@@ -280,21 +281,8 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
             </Form>
           </>
         )}
-      {offer.conversation && (
-        <Button
-          variant="warning"
-          onClick={(e: any) => {
-            if (offer.conversation && offer.conversation.status) {
-              toggleConversationStatus(e, offer.conversation.status);
-            }
-          }}
-        >
-          <HideIcon />
-          {translations.Chat.hideChat}
-        </Button>
-      )}
-    </Chat.Card>
+    </Card>
   );
 };
 
-export default multi(ChatSection);
+export default multi(ChatWindow);

@@ -13,6 +13,7 @@ const translations: Translations = {
     clientType: 'Account type',
     facebookLogin: 'Login with Facebook',
     googleLogin: 'Login with Google',
+    location: 'Your adress',
   },
   confirmation: {
     title: 'Accept an offer',
@@ -54,6 +55,7 @@ const translations: Translations = {
     notificationMessage: 'New message',
   },
   general: {
+    yourOffers: 'Your offers',
     email: 'Email',
     password: 'Password',
     confirmPassword: 'Confirm password',
@@ -91,7 +93,7 @@ const translations: Translations = {
     myCars: 'My cars',
     disconnect: 'Logout',
     Ad: 'Ad',
-    offers: 'Offers',
+    offers: 'Your offers',
     delete: 'Delete',
     cancel: 'Cancel',
     create: 'Create',
@@ -106,6 +108,7 @@ const translations: Translations = {
       english: 'English',
       french: 'French',
     },
+    description: 'Description',
     formFieldsErrors: {
       signupFormFieldsErrors: {
         firstNameError: {
@@ -291,6 +294,15 @@ const translations: Translations = {
     to: 'To',
     youHaveBeenOffered: 'You have been offered',
     youHaveOffered: 'You have offered',
+    acceptedOfferCloseBtn: 'Close',
+    acceptedOfferTitle: 'Accepted offer',
+    acceptedOfferInstruction:
+      'instuction coming from the contract that the buyer has signed :\n\n' +
+      '- 3 buisness days to go try out the vehicle\n' +
+      '- the offer has been accepted for the price on this offer\n' +
+      '- the offer has been accepted for the proposed addons on this offer\n' +
+      '- the offer has been accepted based on the informations given by the seller\n',
+    add: 'Add',
   },
   GeneralModalContent: {
     title: 'Confirmation Dialog',
@@ -326,10 +338,11 @@ const translations: Translations = {
     title: 'Chat',
     send: 'Send',
     sendPlaceholder: 'Send a message',
-    hideChat: 'Hide/unhide chat',
+    hideChat: 'Mute/unmute chat',
   },
   Notifications: {
-    newOffer: 'You have a new offer !',
+    acceptedOffer: 'One of your offers has been accepted!',
+    newOffer: 'You have a new offer!',
     newOfferMessage: (x: number) =>
       `You have ${x} new message${x > 1 ? 's' : ''} on an offer`,
   },
@@ -362,6 +375,10 @@ const translations: Translations = {
     tires: 'Tires',
   },
   carFeature: {
+    motor: {
+      2: '2.0L',
+      2.5: '2.5L',
+    },
     color: {
       black: 'Black',
       blue: 'Blue',
@@ -426,6 +443,7 @@ const translations: Translations = {
     marketAverage: 'Market average',
     appAverage: 'SimplAuto average',
     offerPrice: `Offer's price`,
+    askedPrice: 'Researched price range',
     days: 'days',
     daysOnMarket: 'Days on market',
   },

@@ -18,6 +18,9 @@ import GeneralModal, {
   ModalAction,
 } from '../../General/GeneralModal';
 import Router from 'next/router';
+import { MdCancel } from 'react-icons/md';
+import { PAGE_CARS_QUERY } from '../Cars/Queries';
+import { paging5pages } from '../../General/Preferences';
 
 export interface GeneralCarInfosProps extends MultiProps {
   car: Car;
@@ -37,12 +40,18 @@ const GeneralCarInfos = ({
   const deleteCar = useMutation(DELETE_CAR_MUTATION, {
     variables: { id: car.id },
     update: updateAfterDelete,
+    refetchQueries: [
+      {
+        query: PAGE_CARS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
 
   async function handleDeleteCar() {
     await deleteCar();
     setShowDeleteModal(false);
-    // TODO: Might have to route on an other page if on a cardetail page
+    Router.push('/cars');
   }
 
   function updateAfterDelete(cache: any, payload: any) {
@@ -59,6 +68,21 @@ const GeneralCarInfos = ({
           user: { ...data.user, cars, carCount: data.user.carCount - 1 },
         },
       });
+    } else if (Router.pathname === '/cars') {
+      const data = cache.readQuery(refetchQuery);
+
+      const id = payload.data.deleteCar.id;
+      const cars = data.me.cars.filter((car: Car) => car.id !== id);
+
+      cache.writeQuery({
+        ...refetchQuery,
+        data: {
+          ...data,
+          me: { ...data.me, cars, carCount: data.me.carCount - 1 },
+        },
+      });
+    } else if (Router.pathname === '/car') {
+      Router.push('/cars');
     }
   }
 
@@ -66,6 +90,7 @@ const GeneralCarInfos = ({
 
   const permissions = data.me.permissions;
   const isAdmin = permissions.includes(Permission.Admin);
+  const isOwner = car.owner && data.me.id === car.owner.id;
 
   return (
     <>
@@ -102,9 +127,12 @@ const GeneralCarInfos = ({
           </Col>
           <Col md={2}>
             <ButtonRow>
-              {isAdmin && (
-                <Button onClick={() => setShowDeleteModal(true)}>
-                  {translations.general.options.delete}
+              {(isAdmin || isOwner) && (
+                <Button
+                  variant="warning"
+                  onClick={() => setShowDeleteModal(true)}
+                >
+                  {translations.general.options.delete} <MdCancel />
                 </Button>
               )}
             </ButtonRow>

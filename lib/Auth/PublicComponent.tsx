@@ -18,7 +18,6 @@ export default class PublicComponent<
 > extends React.Component<Props, State> {
   static async getInitialProps(ctx: any) {
     const { user }: any = await checkLoggedIn(ctx.apolloClient);
-    console.log(user);
 
     if (user && user.me) {
       // Already Logged in
