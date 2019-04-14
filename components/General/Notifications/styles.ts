@@ -41,6 +41,15 @@ export const Popup = styled.div`
   overflow: hidden;
   transition: 0.5s ease;
   max-height: ${(props: { isOpen: boolean }) => (props.isOpen ? '60vh' : '0')};
+
+  @media (max-width: 767px) {
+    position: fixed;
+    top: 72px;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    font-size: 1rem;
+  }
 `;
 
 export const Notification = styled.div`
