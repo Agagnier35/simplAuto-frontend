@@ -30,7 +30,7 @@ const translations: Translations = {
     read: "Je confirme avoir lu l'entente",
   },
   profile: {
-    profilePage: 'Mon profile',
+    profilePage: 'Mon profil',
     firstName: 'Prénom',
     lastName: 'Nom',
     companyName: 'Nom de compagnie',
@@ -259,6 +259,8 @@ const translations: Translations = {
     createAdAction: 'Publier votre annonce',
     buyTopAd: 'Rendre prioritaire',
     buyUrgentAd: 'Rendre urgente',
+    AdSuggestion:
+      'Voici les acheteurs qui seraient intéressé par votre véhicule:',
   },
   Ads: {
     lowerPrice: 'prix minimum',

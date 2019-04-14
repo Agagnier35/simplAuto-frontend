@@ -498,6 +498,7 @@ class Signup extends Component<MultiProps, SignupState> {
                       <Form.Label>{profile.location}</Form.Label>
                       <Geosuggest
                         onBlur={() => this.fieldTouched('location')}
+                        placeholder={profile.address}
                         onChange={() => this.handleGeoLocChange(undefined)}
                         onSuggestSelect={(suggest: Suggest) =>
                           this.handleGeoLocChange(suggest)

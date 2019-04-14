@@ -98,7 +98,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
         </StripeCheckout>
 
         <ButtonToolbar>
-          <Button variant="warning" onClick={() => setModalShow(true)}>
+          <Button variant="danger" onClick={() => setModalShow(true)}>
             {translations.general.delete} <MdCancel />
           </Button>
           <Button variant="secondary">
