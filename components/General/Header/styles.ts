@@ -9,6 +9,13 @@ const StyledNav = styled.div`
   width: 100%;
   z-index: 99;
 
+  @media (max-width: 767px) {
+    & > a {
+      position: absolute;
+      height: 72.5px;
+    }
+  }
+
   nav {
     width: 100%;
     max-width: 900px;
@@ -58,6 +65,11 @@ const StyledNav = styled.div`
     padding: 0.5rem 1rem;
     color: white;
     font-size: 0.75rem;
+
+    @media (max-width: 767px) {
+      font-size: 25px;
+      margin-top: 70px;
+    }
 
     a {
       color: ${props => props.theme.colors.primary};
