@@ -48,9 +48,23 @@ You can now start the app in development mode with :
 npm run dev
 ```
 
+The project will be available at http://localhost:7777
+
 ## Scripts
 
-The project will be available at http://localhost:7777
+The following scripts can be executed by typing npm run _the command_
+
+- build: Create a optimized production build
+- start: Run a production build
+- test: Run tests in watch mode (Using Jest)
+- test-win: Run tests in watch mode (For windows)
+- test-ci: Run tests step on CI
+- test:generate-output: Create a test result file for Storybook
+- prebuild:storybook: Configure Storybook
+- storybook: Start Storybook
+- build-storybook: Build storybook for production
+- init-codegen: Reinitialize the codegen settings
+- prettierCI: Run linter on all files
 
 ## Project Structure
 
@@ -178,16 +192,10 @@ export default multi(YourComponent);
 
 ---
 
-## TODOS
-
-1. Setup **nProgress** (Loading bar + spinner on page transitions)
-2. Setup multilang (Using React-intl api)
-3. More **docs** + example on key features
-
----
-
 ## Useful links
 
 - [React TypeScript Guide](https://github.com/piotrwitek/react-redux-typescript-guide#tslintjson)
 - [Authentication in GraphQL](https://www.youtube.com/watch?v=4_Bcw7BULC8)
 - [Multilang](https://medium.freecodecamp.org/internationalization-in-react-7264738274a0)
+
+## Resources
