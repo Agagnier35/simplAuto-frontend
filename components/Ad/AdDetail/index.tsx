@@ -103,27 +103,31 @@ const AdDetail = ({ translations, adID }: AdDetailProps) => {
             />
           </CarSummaries>
           <div hidden={data.ad.offerCount !== 0}>
-            <p>{translations.offers.noMatch}</p>
-          </div>
-          <div hidden={data.ad.offers.length === paging5pages}>
-            {youMayLikeCheck() && (
-              <YouMayLike
-                translations={translations}
-                data={youMayLikeQuery.data}
-                loading={youMayLikeQuery.loading}
-                error={youMayLikeQuery.error}
-                pageIndexMayLike={pageIndexMayLike}
-                setPageIndexMayLike={setPageIndexMayLike}
-              />
+            {data.ad.offerCount > 0 && (
+              <Card.Body>
+                <p style={{ margin: 0 }}>{translations.offers.noMatch}</p>
+              </Card.Body>
             )}
           </div>
-          <p
-            hidden={
-              data.ad.offers && data.ad.offers.length > 0 && !youMayLikeCheck()
-            }
-          >
-            {translations.offers.noOffers}
-          </p>
+          {data.ad.offerCount < paging5pages && (
+            <div>
+              {youMayLikeCheck() && (
+                <YouMayLike
+                  translations={translations}
+                  data={youMayLikeQuery.data}
+                  loading={youMayLikeQuery.loading}
+                  error={youMayLikeQuery.error}
+                  pageIndexMayLike={pageIndexMayLike}
+                  setPageIndexMayLike={setPageIndexMayLike}
+                />
+              )}
+            </div>
+          )}
+          {data.ad.offerCount === 0 && (
+            <Card.Body>
+              <p style={{ margin: 0 }}>{translations.offers.noOffers}</p>
+            </Card.Body>
+          )}
         </Card>
       </div>
     </>

@@ -14,6 +14,7 @@ import { AdPortlet } from './styles';
 import AdOffers from './AdOffers';
 import moment from 'moment';
 import { AD_DELETE_MUTATION } from '../AdDetail';
+import { FaTrophy } from 'react-icons/fa';
 
 export interface AdSummaryProps {
   translations: Translations;
@@ -70,6 +71,16 @@ const AdSummary = ({
     return a.diff(b, 'days') < 7;
   }
 
+  function isTop(ad: Ad) {
+    if (!ad.topExpiry) {
+      return false;
+    }
+    const a = moment(Date.now());
+    const b = new Date(ad.topExpiry);
+
+    return a.diff(b, 'days') < 7;
+  }
+
   const pages = [<GeneralAdInfos ad={ad} right={right} offer={offer} />];
 
   if (ad.features && ad.features.length > 0) {
@@ -88,7 +99,14 @@ const AdSummary = ({
       />
       <AdPortlet
         isUrgent={isUrgent(ad)}
-        title={getTitle()}
+        title={
+          <>
+            {isTop(ad) && (
+              <FaTrophy style={{ marginRight: '1rem', color: '#ffc107' }} />
+            )}
+            {getTitle()}
+          </>
+        }
         href={
           offer
             ? { pathname: '/offer', query: { id: offer.id } }
