@@ -88,6 +88,8 @@ class Select extends React.Component<SelectProps, SelectState> {
             variant="secondary"
             id="dropdown-basic"
           >
+            {console.log('this.props')}
+            {console.log(this.props)}
             {selectedValue !== ''
               ? selectedValue
               : this.props.defaultValue
