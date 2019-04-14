@@ -237,6 +237,7 @@ export default interface Translations {
     higherYear: string;
     features: string;
     addAds: string;
+    updateAd: string;
     title: string;
     noAds: string;
     noMatchingAds: string;

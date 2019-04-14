@@ -20,6 +20,7 @@ import Router from 'next/router';
 import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 import { paging5pages } from '../../General/Preferences';
 import moment from 'moment';
+import Link from 'next/link';
 
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
@@ -125,9 +126,11 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
         <Button variant="danger" onClick={() => setModalShow(true)}>
           {translations.general.delete} <MdCancel />
         </Button>
-        <Button variant="secondary">
-          {translations.GeneralModalContent.edit} <FaEdit />
-        </Button>
+        <Link href={{ pathname: '/updateAd', query: { id: ad.id } }}>
+          <Button variant="secondary" as="a">
+            {translations.GeneralModalContent.edit} <FaEdit />
+          </Button>
+        </Link>
       </ButtonWrapper>
     </>
   );

@@ -48,14 +48,14 @@ class Select extends React.Component<SelectProps, SelectState> {
   }
 
   componentDidUpdate(prevProps: SelectProps) {
-    if (
-      prevProps &&
-      prevProps.selected &&
-      prevProps.selected !== this.props.selected &&
-      this.state.resetValue
-    ) {
-      this.setState({ selectedValue: '' });
-    }
+    // if (
+    //   prevProps &&
+    //   prevProps.selected &&
+    //   prevProps.selected !== this.props.selected &&
+    //   this.state.resetValue
+    // ) {
+    //   this.setState({ selectedValue: '' });
+    // }
   }
 
   handleSelect = (option: any) => {

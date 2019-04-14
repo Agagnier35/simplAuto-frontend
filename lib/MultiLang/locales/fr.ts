@@ -86,7 +86,7 @@ const translations: Translations = {
     },
     resetPw: 'Réinitialiser le mot de passe',
     buy: 'Acheter',
-    myConversations: 'Mes conversations',
+    myConversations: 'Messages',
     sell: 'Vendre',
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
@@ -274,6 +274,7 @@ const translations: Translations = {
     higherYear: 'année maximum',
     features: 'fonctionalités',
     addAds: 'Ajouter un annonce',
+    updateAd: 'Modifier votre annonce',
     title: 'Annonces',
     noAds: `Vous n'avez pas d'annonce`,
     noMatchingAds:
