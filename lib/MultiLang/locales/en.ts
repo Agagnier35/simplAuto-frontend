@@ -227,7 +227,7 @@ const translations: Translations = {
     individual: 'Individual',
   },
   carFeatureCategory: {
-    color: 'color',
+    color: 'Color',
     fuelType: 'Fuel Type',
     doorNumber: 'Door Number',
     seatNumber: 'Seat Number',
