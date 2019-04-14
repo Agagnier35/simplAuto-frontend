@@ -93,14 +93,15 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
   };
 
   getFeature = (adFeature: any[], everyFeature: any[]) => {
+    let itemSelected = null;
     everyFeature.map((oneFeature: any) => {
       adFeature.map((myFeature: any) => {
         if (myFeature.id === oneFeature.id) {
-          console.log(oneFeature);
-          return oneFeature;
+          itemSelected = oneFeature;
         }
       });
     });
+    return itemSelected;
   };
 
   checkFormValidation = () => {
@@ -478,26 +479,24 @@ class UpdateAd extends Component<UpdateAdProps, UpdateAdState> {
                               </Card.Title>
                               <div className="label-wrapper no-grow">
                                 {fetchedDropdownFeatures.map((feature: any) => (
-                                  <>
-                                    <Select
-                                      key={feature.id}
-                                      options={feature.features}
-                                      accessor="name"
-                                      defaultValue={this.getFeature(
-                                        adDetail.features,
-                                        feature.features,
-                                      )}
-                                      handleChange={(item: any) =>
-                                        this.handleChange('features', {
-                                          value: item.id,
-                                          category: feature.name,
-                                        })
-                                      }
-                                      label={`${
-                                        carFeatureCategory[feature.name]
-                                      } :`}
-                                    />
-                                  </>
+                                  <Select
+                                    key={feature.id}
+                                    options={feature.features}
+                                    accessor="name"
+                                    defaultValue={this.getFeature(
+                                      adDetail.features,
+                                      feature.features,
+                                    )}
+                                    handleChange={(item: any) =>
+                                      this.handleChange('features', {
+                                        value: item.id,
+                                        category: feature.name,
+                                      })
+                                    }
+                                    label={`${
+                                      carFeatureCategory[feature.name]
+                                    } :`}
+                                  />
                                 ))}
                               </div>
                             </Card.Body>
