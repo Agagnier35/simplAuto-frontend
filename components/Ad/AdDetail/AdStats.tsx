@@ -6,7 +6,7 @@ import { Statistics, Ad } from '../../../generated/graphql';
 import moment from 'moment';
 import { Row, Col, Card } from 'react-bootstrap';
 import DaysOnMarketChart from '../../Stats/DaysOnMarketChart';
-import AdPriceRangeChart from '../../Stats/AdPriceRangeChart/AdPriceRangeChart';
+import AdPriceRangeChart from '../../Stats/AdPriceRangeChart';
 import ErrorMessage from '../../General/ErrorMessage';
 import Translations from '../../../lib/MultiLang/locales/types';
 

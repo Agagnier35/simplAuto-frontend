@@ -116,3 +116,17 @@ export const AppSection = styled.div`
 `;
 
 export const BestSellerSection = styled.div``;
+
+export const UserRankWrapper = styled.div`
+  display: flex;
+
+  .image-wrapper > span {
+    position: relative;
+    bottom: -8px;
+    right: -8px;
+  }
+
+  .image-wrapper > .user {
+    flex-grow: 2;
+  }
+`;
