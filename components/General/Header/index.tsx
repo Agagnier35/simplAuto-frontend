@@ -61,6 +61,8 @@ const handleLogout = async (logout: () => void) => {
 const Header: React.SFC<MultiProps> = ({
   translations: { general, login, signup },
 }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <StyledNav id="topbar" className="noPrint">
       <Link href="/" passHref>
@@ -70,7 +72,10 @@ const Header: React.SFC<MultiProps> = ({
         </Navbar.Brand>
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="responsive-navbar-nav"
+          onClick={() => setIsOpen(false)}
+        />
         <Navbar.Collapse>
           <Query query={LOGGED_IN_QUERY}>
             {({ data, loading }) => {
@@ -104,7 +109,11 @@ const Header: React.SFC<MultiProps> = ({
                             : data.me.companyName.charAt(0)}
                         </a>
                       </Link>
-                      <Notifications notifications={data.me.notifications} />
+                      <Notifications
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        notifications={data.me.notifications}
+                      />
                     </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}
