@@ -30,7 +30,6 @@ export const LOGGED_IN_QUERY = gql`
         updatedAt
         count
       }
-      permissions
     }
   }
 `;
