@@ -86,7 +86,7 @@ const translations: Translations = {
     },
     resetPw: 'Réinitialiser le mot de passe',
     buy: 'Acheter',
-    myConversations: 'Mes conversations',
+    myConversations: 'Messages',
     sell: 'Vendre',
     myCars: 'Mes voitures',
     myAds: 'Mes annonces',
