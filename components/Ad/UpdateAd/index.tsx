@@ -409,7 +409,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               min={minCarYear}
                               max={new Date().getFullYear()}
                               isInvalid={
-                                touched.yearLowerBound &&
+                                this.state.yearLowerBound !== null &&
                                 !createAdFormValidation.isYearLowerBoundValid(
                                   this.state.yearLowerBound,
                                 )
@@ -439,7 +439,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               min={minCarYear}
                               max={new Date().getFullYear()}
                               isInvalid={
-                                touched.yearHigherBound &&
+                                this.state.yearHigherBound !== null &&
                                 !createAdFormValidation.isYearHigherBoundValid(
                                   this.state.yearLowerBound,
                                   this.state.yearHigherBound,
@@ -468,7 +468,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               }
                               placeholder={`${cars.mileage} ${general.min}`}
                               isInvalid={
-                                touched.mileageLowerBound &&
+                                this.state.mileageLowerBound !== null &&
                                 !createAdFormValidation.isMileageLowerBoundValid(
                                   this.state.mileageLowerBound,
                                 )
@@ -495,7 +495,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               }
                               placeholder={`${cars.mileage} ${general.max}`}
                               isInvalid={
-                                touched.mileageHigherBound &&
+                                this.state.mileageHigherBound !== null &&
                                 !createAdFormValidation.isMileageHigherBoundValid(
                                   this.state.mileageLowerBound,
                                   this.state.mileageHigherBound,
@@ -524,7 +524,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               }
                               placeholder={`${cars.price} ${general.min}`}
                               isInvalid={
-                                touched.priceLowerBound &&
+                                this.state.priceLowerBound !== null &&
                                 !createAdFormValidation.isPriceLowerBoundValid(
                                   this.state.priceLowerBound,
                                 )
@@ -551,7 +551,7 @@ class UpdateAd extends Component<MultiProps, UpdateAdState> {
                               }
                               placeholder={`${cars.price} ${general.max}`}
                               isInvalid={
-                                touched.priceHigherBound &&
+                                this.state.priceHigherBound !== null &&
                                 !createAdFormValidation.isPriceHigherBoundValid(
                                   this.state.priceLowerBound,
                                   this.state.priceHigherBound,
