@@ -19,7 +19,7 @@ import { UrlObject } from 'url';
 import { StyledProps } from 'styled-components';
 
 export interface PortletProps {
-  title: string;
+  title: ReactNode;
   pages: ReactNode[];
   image?: ReactNode;
   left?: ReactNode;
