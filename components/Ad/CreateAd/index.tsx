@@ -500,7 +500,7 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                                   this.getFeaturesName(
                                     carFeature[featureCategory.name],
                                     featureCategory,
-                                  )
+                                  ),
                                 )}
                                 accessor="name"
                                 handleChange={(item: any) =>
