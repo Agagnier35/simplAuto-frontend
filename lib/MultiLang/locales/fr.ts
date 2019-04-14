@@ -29,7 +29,7 @@ const translations: Translations = {
     read: "Je confirme avoir lu l'entente",
   },
   profile: {
-    profilePage: 'Mon profile',
+    profilePage: 'Mon profil',
     firstName: 'Prénom',
     lastName: 'Nom',
     companyName: 'Nom de compagnie',

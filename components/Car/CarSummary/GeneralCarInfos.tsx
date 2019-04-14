@@ -129,7 +129,7 @@ const GeneralCarInfos = ({
             <ButtonRow>
               {(isAdmin || isOwner) && (
                 <Button
-                  variant="warning"
+                  variant="danger"
                   onClick={() => setShowDeleteModal(true)}
                 >
                   {translations.general.options.delete} <MdCancel />
