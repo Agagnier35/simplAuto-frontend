@@ -26,10 +26,6 @@ export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
 }
 
-export const Danger = {
-  background: '#e50000',
-};
-
 const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
   const pricesQuery = useQuery(PRICES_QUERY);
@@ -127,7 +123,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           </StripeCheckout>
         )}
 
-        <Button style={Danger} onClick={() => setModalShow(true)}>
+        <Button variant="danger" onClick={() => setModalShow(true)}>
           {translations.general.delete} <MdCancel />
         </Button>
         <Link href={{ pathname: '/updateAd', query: { id: ad.id } }}>
