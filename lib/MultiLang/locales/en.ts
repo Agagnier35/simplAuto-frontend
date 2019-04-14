@@ -272,6 +272,7 @@ const translations: Translations = {
     createAdAction: 'Publish your ad',
     buyTopAd: 'Make priority',
     buyUrgentAd: 'Make urgent',
+    AdSuggestion: 'Here all the buyers who could be interested in your car:',
   },
   offers: {
     createOffer: 'Make an offer',

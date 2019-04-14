@@ -221,6 +221,7 @@ export default interface Translations {
     createAdAction: string;
     buyUrgentAd: string;
     buyTopAd: string;
+    AdSuggestion: string;
   };
   Ads: {
     lowerPrice: string;

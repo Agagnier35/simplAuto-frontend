@@ -257,6 +257,7 @@ const translations: Translations = {
     createAdAction: 'Publier votre annonce',
     buyTopAd: 'Rendre prioritaire',
     buyUrgentAd: 'Rendre urgente',
+    AdSuggestion: 'Voici les acheteurs qui seraient intéressé par votre véhicule:'
   },
   Ads: {
     lowerPrice: 'prix minimum',

@@ -118,7 +118,7 @@ const Car = ({ translations, query }: CarPageProps) => {
       </Tab>
       {!isOfferMode && (
         <div>
-          <p>Voici les acheteurs qui seraient intéressé par votre véhicule:</p>
+          <p>{translations.ad.AdSuggestion}</p>
           <Card style={{ overflow: 'hidden' }}>
             <AdSummaries
               hidden={
