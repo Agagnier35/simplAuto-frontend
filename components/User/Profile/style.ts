@@ -4,7 +4,10 @@ const ProfileStyle = styled.form`
   margin: 0;
 
   fieldset {
-    border: 1px solid gray;
+    background: white;
+    max-width: 800px;
+    margin: auto;
+    padding: 1.5rem;
     border-radius: 1rem;
     text-align: center;
   }
@@ -19,7 +22,8 @@ const ProfileStyle = styled.form`
   }
 
   h1 {
-    margin-bottom: 0;
+    margin-bottom: 2rem;
+    width: 100%;
     display: inline-block;
   }
 
@@ -89,10 +93,8 @@ const ProfileStyle = styled.form`
     margin-bottom: 0.5%;
   }
 
-  .radioNeedSpace {
-    min-width: 7%;
-    margin-right: 2%;
-    margin-left: 1%;
+  input.inputNeedSpace.form-control {
+    margin: 0;
   }
 
   .wrongPW {
@@ -120,9 +122,9 @@ const ProfileStyle = styled.form`
   }
 
   .nameSection {
-    width: 65%;
     text-align: left;
     display: inline-block;
+    width: 80%;
   }
 
   .secondInfoSection {

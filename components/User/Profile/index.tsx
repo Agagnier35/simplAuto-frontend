@@ -300,8 +300,8 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
                       method="put"
                       onSubmit={e => this.handleUpdateUser(e, handleMutation)}
                     >
-                      <h1>{profile.profilePage}</h1>
                       <fieldset disabled={loading} aria-busy={loading}>
+                        <h1>{profile.profilePage}</h1>
                         <div className="firstInfoSection">
                           <div className="nameSection">
                             <h5>{profile.contactInfo}</h5>
