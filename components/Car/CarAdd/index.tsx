@@ -282,7 +282,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
         carCategory,
       },
     } = this.props;
-    const { manufacturerID } = this.state;
+    const { manufacturerID, modelID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
 

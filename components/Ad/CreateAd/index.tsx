@@ -306,7 +306,6 @@ class CreateAd extends Component<MultiProps, CreateAdState> {
                             disabled={!manufacturerID}
                             accessor="name"
                             selected={modelID}
-                            reset={true}
                             handleChange={(item: any) =>
                               this.handleChange('modelID', { value: item.id })
                             }
