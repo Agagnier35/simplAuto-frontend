@@ -72,7 +72,7 @@ const Header: React.SFC<MultiProps> = ({
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse>
-          <Query query={LOGGED_IN_QUERY}>
+          <Query query={LOGGED_IN_QUERY} pollInterval={10000}>
             {({ data, loading }) => {
               if (loading) return null;
               if (data && data.me) {
