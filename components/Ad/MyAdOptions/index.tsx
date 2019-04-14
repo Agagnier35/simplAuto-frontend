@@ -6,7 +6,7 @@ import { stripeKey } from '../../../config';
 import { multi, MultiProps } from '../../../lib/MultiLang';
 import { PRICES_QUERY } from '../../Premium/Premium/Queries';
 import { Prices, Ad } from '../../../generated/graphql';
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { ButtonWrapper } from './styles';
 import { BUY_TOP_AD_MUTATION, BUY_URGENT_AD_MUTATION } from './Mutations';
 import { FaTrophy, FaExclamationCircle, FaEdit } from 'react-icons/fa';
@@ -25,6 +25,10 @@ import Link from 'next/link';
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
 }
+
+export const Danger = {
+  background: '#e50000',
+};
 
 const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
@@ -123,7 +127,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           </StripeCheckout>
         )}
 
-        <Button variant="danger" onClick={() => setModalShow(true)}>
+        <Button style={Danger} onClick={() => setModalShow(true)}>
           {translations.general.delete} <MdCancel />
         </Button>
         <Link href={{ pathname: '/updateAd', query: { id: ad.id } }}>

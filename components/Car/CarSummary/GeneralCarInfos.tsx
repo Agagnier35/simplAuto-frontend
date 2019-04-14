@@ -21,6 +21,7 @@ import Router from 'next/router';
 import { MdCancel } from 'react-icons/md';
 import { PAGE_CARS_QUERY } from '../Cars/Queries';
 import { paging5pages } from '../../General/Preferences';
+import { Danger } from '../../Ad/MyAdOptions';
 
 export interface GeneralCarInfosProps extends MultiProps {
   car: Car;
@@ -128,10 +129,7 @@ const GeneralCarInfos = ({
           <Col md={2}>
             <ButtonRow>
               {(isAdmin || isOwner) && (
-                <Button
-                  variant="danger"
-                  onClick={() => setShowDeleteModal(true)}
-                >
+                <Button style={Danger} onClick={() => setShowDeleteModal(true)}>
                   {translations.general.options.delete} <MdCancel />
                 </Button>
               )}
