@@ -15,6 +15,7 @@ import { OfferPrice } from '../../Ad/AdSummary/styles';
 import Paging from '../../General/Paging';
 import Link from 'next/link';
 import { paging10pages } from '../../General/Preferences';
+import { TabSubtitle } from './styles';
 
 export interface CarPageProps {
   translations: Translations;
@@ -127,7 +128,7 @@ const Car = ({ translations, query }: CarPageProps) => {
         adsQuery.data.adSuggestion &&
         adsQuery.data.adSuggestion[0] && (
           <div>
-            <p>{translations.ad.AdSuggestion}</p>
+            <TabSubtitle>{translations.ad.AdSuggestion}</TabSubtitle>
             <Card style={{ overflow: 'hidden' }}>
               <AdSummaries
                 hidden={
