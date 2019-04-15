@@ -86,6 +86,14 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     },
     refetchQueries: [
       {
+        query: AD_DETAIL_QUERY,
+        variables: { id: offer.ad.id, pageNumber: 0, pageSize: paging5pages },
+      },
+      {
+        query: AD_OFFER_SUGGESTION_QUERY,
+        variables: { id: offer.ad.id, pageNumber: 0, pageSize: paging5pages },
+      },
+      {
         query: PAGE_ADS_QUERY,
         variables: { pageNumber: 0, pageSize: paging5pages },
       },
@@ -137,8 +145,8 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
   }
 
   async function handleConfirmation() {
-    handleAcceptOffer();
-    handleAcceptOfferEmail();
+    await handleAcceptOffer();
+    await handleAcceptOfferEmail();
     setshowModal(false);
     Router.push('/myAds');
   }
