@@ -69,18 +69,17 @@ const OfferModal = ({
 
   function updateCacheCreateOffer(cache: any, payload: any) {
     const data = cache.readQuery(query);
+    const filteredAdSuggestion = data.adSuggestion.filter(
+      suggestion => suggestion.ad.id === payload.data.createOffer.id,
+    );
 
-    console.log(data);
-    // const id = payload.data.deleteCar.id;
-    // const cars = data.me.cars.filter((car: Car) => car.id !== id);
-
-    // cache.writeQuery({
-    //   ...refetchQuery,
-    //   data: {
-    //     ...data,
-    //     me: { ...data.me, cars, carCount: data.me.carCount - 1 },
-    //   },
-    // });
+    cache.writeQuery({
+      ...query,
+      data: {
+        ...data,
+        adSuggestion: filteredAdSuggestion,
+      },
+    });
   }
 
   const handleUpdateOffer = useMutation(UPDATE_OFFER_MUTATION, {
