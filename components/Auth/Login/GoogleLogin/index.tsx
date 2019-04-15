@@ -20,6 +20,7 @@ const GOOGLE_LOGIN_MUTATION = gql`
       id
       adCount
       carCount
+      language
     }
   }
 `;

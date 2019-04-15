@@ -19,6 +19,7 @@ const FACEBOOK_LOGIN_MUTATION = gql`
       id
       carCount
       adCount
+      language
     }
   }
 `;
