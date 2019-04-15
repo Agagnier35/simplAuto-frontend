@@ -2,7 +2,7 @@ import FacebookLogin from 'react-facebook-login';
 import { Mutation } from 'react-apollo';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { multi, MultiProps } from '../../../../lib/MultiLang';
+import { multi, MultiProps, multiUpdater } from '../../../../lib/MultiLang';
 import {
   Gender,
   Date as BirthDate,
@@ -129,4 +129,4 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
   }
 }
 
-export default multi(LoginFacebook);
+export default multiUpdater(LoginFacebook);
