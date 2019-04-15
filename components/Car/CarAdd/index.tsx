@@ -273,9 +273,16 @@ class CarAdd extends Component<MultiProps, CarAddState> {
 
   render() {
     const {
-      translations: { carLabel, cars, general, carFeatureCategory, carFeature },
+      translations: {
+        carLabel,
+        cars,
+        general,
+        carFeatureCategory,
+        carFeature,
+        carCategory,
+      },
     } = this.props;
-    const { manufacturerID } = this.state;
+    const { manufacturerID, modelID } = this.state;
     let fetchedCheckboxFeatures: any;
     let fetchedDropdownFeatures: any;
 
@@ -335,8 +342,7 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               options={this.getModelsForManufacturer(data)}
                               disabled={!manufacturerID}
                               accessor="name"
-                              reset={true}
-                              selected={manufacturerID}
+                              selected={modelID}
                               handleChange={(item: any) =>
                                 this.handleChange('modelID', item.id)
                               }
@@ -350,7 +356,10 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                           </InputGroup>
                           <InputGroup>
                             <Select
-                              options={data.carCategories}
+                              options={data.carCategories.map((c: any) => ({
+                                id: c.id,
+                                name: carCategory[c.name],
+                              }))}
                               accessor="name"
                               handleChange={(item: any) =>
                                 this.handleChange('categoryID', item.id)
@@ -451,14 +460,19 @@ class CarAdd extends Component<MultiProps, CarAddState> {
                               />
                             ),
                           )}
-                          <span>Description :</span>
-                          <textarea
-                            id="description"
-                            cols={50}
-                            rows={2}
-                            placeholder={cars.descriptionPlaceholder}
-                            onChange={this.handleInputChange}
-                          />
+                          <label>
+                            {general.description}
+                            <div>
+                              <textarea
+                                className="form-control"
+                                id="description"
+                                cols={50}
+                                rows={5}
+                                placeholder={cars.descriptionPlaceholder}
+                                onChange={this.handleInputChange}
+                              />
+                            </div>
+                          </label>
                         </div>
                       </Card.Body>
                     </Card>

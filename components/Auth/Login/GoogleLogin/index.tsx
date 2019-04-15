@@ -2,12 +2,14 @@ import GoogleLogin from 'react-google-login';
 import { Mutation } from 'react-apollo';
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { multi, MultiProps } from '../../../../lib/MultiLang';
+import { multi, MultiProps, multiUpdater } from '../../../../lib/MultiLang';
 import {
   Gender,
   Date as BirthDate,
   ClientType,
   Location,
+  LocationInput,
+  UserLanguage,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 import Router from 'next/router';
@@ -27,12 +29,13 @@ interface LoginGoogleState {
   lastName: string;
   email: string;
   password: string;
-  location: Location;
+  location: LocationInput;
   radius: number;
   gender: Gender;
   birthDate: BirthDate;
   googleID: string;
   clientType: ClientType;
+  language: UserLanguage;
 }
 
 class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
@@ -46,7 +49,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
       latitude: 0,
       longitude: 0,
     },
-    radius: 0,
+    radius: 100,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -55,9 +58,13 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
     },
     googleID: '',
     clientType: ClientType.Individual,
+    language:
+      this.props.currentLocale === 'en'
+        ? UserLanguage.English
+        : UserLanguage.French,
   };
 
-  responseGoogle = (response: any, googleLogin: () => void) => {
+  responseGoogle = async (response: any, googleLogin: () => any) => {
     if (
       response.googleId &&
       response.profileObj.email &&
@@ -70,7 +77,8 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
         email: response.profileObj.email,
         googleID: response.googleId,
       });
-      googleLogin();
+      const { data } = await googleLogin();
+      this.handlePostLogin(data);
     }
   };
 
@@ -79,12 +87,21 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   };
 
   handlePostLogin = (data: any) => {
+    this.handleLanguage(data);
     let page = '/myAds';
-    if (data.login.adCount < data.login.carCount) {
+    if (data.googleLogin.adCount < data.googleLogin.carCount) {
       page = '/cars';
     }
     Router.push(page);
   };
+
+  handleLanguage(data: any) {
+    let locale = 'fr';
+    if (data.googleLogin.language === 'ENGLISH') {
+      locale = 'en';
+    }
+    this.props.changeLocale(locale);
+  }
 
   getSignupPayload = () => {
     const { ...userInfos } = this.state;
@@ -98,7 +115,6 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
         mutation={GOOGLE_LOGIN_MUTATION}
         variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
-        onCompleted={data => this.handlePostLogin(data)}
       >
         {handleMutation => (
           <GoogleLogin
@@ -117,4 +133,4 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   }
 }
 
-export default multi(LoginGoogle);
+export default multiUpdater(LoginGoogle);

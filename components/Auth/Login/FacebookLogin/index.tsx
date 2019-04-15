@@ -7,7 +7,8 @@ import {
   Gender,
   Date as BirthDate,
   ClientType,
-  Location,
+  UserLanguage,
+  LocationInput,
 } from '../../../../generated/graphql';
 import { LOGGED_IN_QUERY } from '../../../General/Header';
 import Router from 'next/router';
@@ -27,8 +28,9 @@ interface LoginFacebookState {
   lastName: string;
   email: string;
   password: string;
-  location: Location;
+  location: LocationInput;
   radius: number;
+  language: UserLanguage;
   gender: Gender;
   birthDate: BirthDate;
   facebookID: string;
@@ -46,7 +48,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
       latitude: 0,
       longitude: 0,
     },
-    radius: 0,
+    radius: 100,
     gender: Gender.Other,
     birthDate: {
       day: 1,
@@ -55,9 +57,13 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
     },
     facebookID: '',
     clientType: ClientType.Individual,
+    language:
+      this.props.currentLocale === 'en'
+        ? UserLanguage.English
+        : UserLanguage.French,
   };
 
-  responseFacebook = (response: any, facebookLogin: () => void) => {
+  responseFacebook = async (response: any, facebookLogin: () => any) => {
     if (response.first_name && response.last_name && response.email) {
       this.setState({
         firstName: response.first_name,
@@ -65,7 +71,8 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         email: response.email,
         facebookID: response.userID,
       });
-      facebookLogin();
+      const { data } = await facebookLogin();
+      this.handlePostLogin(data);
     }
   };
 
@@ -79,12 +86,21 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
   };
 
   handlePostLogin = (data: any) => {
+    this.handleLanguage(data);
     let page = '/myAds';
-    if (data.login.adCount < data.login.carCount) {
+    if (data.facebookLogin.adCount < data.facebookLogin.carCount) {
       page = '/cars';
     }
     Router.push(page);
   };
+
+  handleLanguage(data: any) {
+    let locale = 'fr';
+    if (data.facebookLogin.language === 'ENGLISH') {
+      locale = 'en';
+    }
+    this.props.changeLocale(locale);
+  }
 
   render() {
     const { translations } = this.props;
@@ -93,7 +109,6 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         mutation={FACEBOOK_LOGIN_MUTATION}
         variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
-        onCompleted={data => this.handlePostLogin(data)}
       >
         {handleMutation => (
           <FacebookLogin

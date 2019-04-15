@@ -31,6 +31,7 @@ export const ALL_ADS_QUERY = gql`
         category {
           id
           name
+          type
         }
       }
       urgentExpiry

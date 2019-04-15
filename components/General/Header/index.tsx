@@ -76,7 +76,11 @@ const Header: React.SFC<MultiProps> = ({
           onClick={() => setIsOpen(false)}
         />
         <Navbar.Collapse>
-          <Query query={LOGGED_IN_QUERY}>
+          <Query
+            query={LOGGED_IN_QUERY}
+            pollInterval={10000}
+            fetchPolicy="network-only"
+          >
             {({ data, loading }) => {
               if (loading) return null;
               if (data && data.me) {

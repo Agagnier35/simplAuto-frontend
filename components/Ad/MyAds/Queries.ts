@@ -33,6 +33,7 @@ export const PAGE_ADS_QUERY = gql`
           category {
             id
             name
+            type
           }
         }
         urgentExpiry

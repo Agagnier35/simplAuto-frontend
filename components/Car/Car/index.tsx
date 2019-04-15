@@ -96,83 +96,92 @@ const Car = ({ translations, query }: CarPageProps) => {
       <Card style={{ overflow: 'hidden', marginBottom: '2rem' }}>
         <CarSummary car={carQuery.data.car} />
       </Card>
-      <Tab
-        onClick={() => setOfferMode(false)}
-        className={isOfferMode ? '' : 'active'}
-      >
-        {translations.Ads.title}
-        <TabBadge>
-          {!adsQuery.loading &&
-          adsQuery.data.adSuggestion &&
-          adsQuery.data.adSuggestion[0]
-            ? adsQuery.data.adSuggestion[0].totalLength
-            : 0}
-        </TabBadge>
-      </Tab>
-      <Tab
-        onClick={() => setOfferMode(true)}
-        className={isOfferMode ? 'active' : ''}
-      >
-        {translations.general.yourOffers}
-        <TabBadge>{carQuery.data.car.offers.length}</TabBadge>
-      </Tab>
-      {!isOfferMode && (
-        <div>
-          <p>{translations.ad.AdSuggestion}</p>
-          <Card style={{ overflow: 'hidden' }}>
-            <AdSummaries
-              hidden={
-                adsQuery.loading ||
-                !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
-              }
-            >
-              {adsQuery.data.adSuggestion ? (
-                adsQuery.data.adSuggestion.map((suggestion: any) => (
-                  <div key={suggestion.ad.id}>
-                    <AdSummary
-                      key={suggestion.ad.id}
-                      ad={suggestion.ad}
-                      right={
-                        <Button
-                          onClick={() => {
-                            handleToggleCreateOffer(suggestion.ad);
-                          }}
-                          variant="primary"
-                        >
-                          {translations.offers.createOffer}
-                        </Button>
-                      }
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>{translations.offers.noAdsInYourArea}</p>
-              )}
-              <Paging
-                pageIndex={pageIndexAds}
-                setPageIndex={setPageIndexAds}
-                maxItems={
-                  adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0]
-                    ? adsQuery.data.adSuggestion[0].totalLength
-                    : 0
-                }
-                itemsByPage={paging10pages}
-              />
-            </AdSummaries>
-            <div
-              hidden={
-                adsQuery.loading ||
-                (adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
-              }
-            >
-              {translations.Ads.noMatchingAds}
-            </div>
-            <div hidden={!adsQuery.loading}>
-              <Loading />
-            </div>
-          </Card>
-        </div>
+      {!adsQuery.loading &&
+        adsQuery.data.adSuggestion &&
+        adsQuery.data.adSuggestion[0] && (
+          <Tab
+            onClick={() => setOfferMode(false)}
+            className={isOfferMode ? '' : 'active'}
+          >
+            {translations.Ads.title}
+            <TabBadge>
+              {!adsQuery.loading &&
+              adsQuery.data.adSuggestion &&
+              adsQuery.data.adSuggestion[0]
+                ? adsQuery.data.adSuggestion[0].totalLength
+                : 0}
+            </TabBadge>
+          </Tab>
+        )}
+      {carQuery.data.car.offers.length > 0 && (
+        <Tab
+          onClick={() => setOfferMode(true)}
+          className={isOfferMode ? 'active' : ''}
+        >
+          {translations.general.yourOffers}
+          <TabBadge>{carQuery.data.car.offers.length}</TabBadge>
+        </Tab>
       )}
+      {!isOfferMode &&
+        !adsQuery.loading &&
+        adsQuery.data.adSuggestion &&
+        adsQuery.data.adSuggestion[0] && (
+          <div>
+            <p>{translations.ad.AdSuggestion}</p>
+            <Card style={{ overflow: 'hidden' }}>
+              <AdSummaries
+                hidden={
+                  adsQuery.loading ||
+                  !(adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
+                }
+              >
+                {adsQuery.data.adSuggestion ? (
+                  adsQuery.data.adSuggestion.map((suggestion: any) => (
+                    <div key={suggestion.ad.id}>
+                      <AdSummary
+                        key={suggestion.ad.id}
+                        ad={suggestion.ad}
+                        right={
+                          <Button
+                            onClick={() => {
+                              handleToggleCreateOffer(suggestion.ad);
+                            }}
+                            variant="primary"
+                          >
+                            {translations.offers.createOffer}
+                          </Button>
+                        }
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <p>{translations.offers.noAdsInYourArea}</p>
+                )}
+                <Paging
+                  pageIndex={pageIndexAds}
+                  setPageIndex={setPageIndexAds}
+                  maxItems={
+                    adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0]
+                      ? adsQuery.data.adSuggestion[0].totalLength
+                      : 0
+                  }
+                  itemsByPage={paging10pages}
+                />
+              </AdSummaries>
+              <div
+                hidden={
+                  adsQuery.loading ||
+                  (adsQuery.data.adSuggestion && adsQuery.data.adSuggestion[0])
+                }
+              >
+                {translations.Ads.noMatchingAds}
+              </div>
+              <div hidden={!adsQuery.loading}>
+                <Loading />
+              </div>
+            </Card>
+          </div>
+        )}
       {isOfferMode && (
         <Card style={{ overflow: 'hidden' }}>
           <AdSummaries hidden={carQuery.data.car.offerCount === 0}>

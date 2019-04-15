@@ -21,8 +21,8 @@ export const theme: StyledComponentTheme = {
     primaryDarker: '#178b68',
     secondary: '#f4f4f8',
     secondaryDarker: '#aeb2b7',
-    secondaryHighlight: '#fd397a',
-    secondaryHighlightDarker: '#fd1361',
+    secondaryHighlight: '#e50000',
+    secondaryHighlightDarker: '#ce0000',
     third: '#007bff',
     dark: '#353540',
   },
@@ -133,7 +133,7 @@ export const globalStyles = `
     }
 
     &-danger {
-      background: ${theme.colors.secondaryHighlight};
+      background: "${theme.colors.secondaryHighlight}";
       border: none;
 
       &:hover {

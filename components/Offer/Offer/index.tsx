@@ -270,7 +270,9 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
           />
         </Col>
       </Row>
-      <OfferStats offer={offer} />
+      <div className="noPrint">
+        <OfferStats offer={offer} />
+      </div>
     </div>
   );
 };
