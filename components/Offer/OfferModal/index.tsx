@@ -21,6 +21,7 @@ interface OfferModalProps {
   translations: Translations;
   modalOpened: boolean;
   isEditMode: boolean;
+  query: any;
   ad: Ad;
   car: Car;
   pageIndexAd: number;
@@ -36,6 +37,7 @@ const OfferModal = ({
   isEditMode,
   ad,
   car,
+  query,
   pageIndexAd,
   pageIndexOffer,
   offer,
@@ -61,16 +63,25 @@ const OfferModal = ({
           pageSizeOffer: paging10pages,
         },
       },
-      {
-        query: MATCHING_ADS_QUERY,
-        variables: {
-          id: car.id,
-          pageNumberOffer: pageIndexAd,
-          pageSizeOffer: paging10pages,
-        },
-      },
     ],
+    update: updateCacheCreateOffer,
   });
+
+  function updateCacheCreateOffer(cache: any, payload: any) {
+    const data = cache.readQuery(query);
+
+    console.log(data);
+    // const id = payload.data.deleteCar.id;
+    // const cars = data.me.cars.filter((car: Car) => car.id !== id);
+
+    // cache.writeQuery({
+    //   ...refetchQuery,
+    //   data: {
+    //     ...data,
+    //     me: { ...data.me, cars, carCount: data.me.carCount - 1 },
+    //   },
+    // });
+  }
 
   const handleUpdateOffer = useMutation(UPDATE_OFFER_MUTATION, {
     variables: getUpdateOfferPayload(),

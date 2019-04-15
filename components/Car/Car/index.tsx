@@ -212,6 +212,14 @@ const Car = ({ translations, query }: CarPageProps) => {
 
       {modalOpened && (
         <OfferModal
+          query={{
+            query: MATCHING_ADS_QUERY,
+            variables: {
+              id: query.id,
+              pageNumberAds: pageIndexAds,
+              pageSizeAds: paging10pages,
+            },
+          }}
           modalOpened={modalOpened}
           toggleModal={toggleModal}
           isEditMode={isEditMode}

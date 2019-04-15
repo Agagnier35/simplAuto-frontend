@@ -16,11 +16,16 @@ import moment from 'moment';
 
 export interface NotificationsProps extends MultiProps {
   notifications: NotificationObject[];
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
 }
 
-const Notifications = ({ notifications, translations }: NotificationsProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const Notifications = ({
+  notifications,
+  translations,
+  isOpen,
+  setIsOpen,
+}: NotificationsProps) => {
   function getHref(notification: NotificationObject) {
     switch (notification.type) {
       case NotificationType.Offer_Message:
