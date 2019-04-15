@@ -17,6 +17,8 @@ const FACEBOOK_LOGIN_MUTATION = gql`
   mutation FACEBOOK_LOGIN_MUTATION($data: UserSignupInput!) {
     facebookLogin(data: $data) {
       id
+      carCount
+      adCount
     }
   }
 `;
@@ -61,7 +63,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         : UserLanguage.French,
   };
 
-  responseFacebook = (response: any, facebookLogin: () => void) => {
+  responseFacebook = async (response: any, facebookLogin: () => any) => {
     if (response.first_name && response.last_name && response.email) {
       this.setState({
         firstName: response.first_name,
@@ -69,7 +71,8 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         email: response.email,
         facebookID: response.userID,
       });
-      facebookLogin();
+      const { data } = await facebookLogin();
+      this.handlePostLogin(data);
     }
   };
 
@@ -83,12 +86,21 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
   };
 
   handlePostLogin = (data: any) => {
+    this.handleLanguage(data);
     let page = '/myAds';
     if (data.login.adCount < data.login.carCount) {
       page = '/cars';
     }
     Router.push(page);
   };
+
+  handleLanguage(data: any) {
+    let locale = 'fr';
+    if (data.login.language === 'ENGLISH') {
+      locale = 'en';
+    }
+    this.props.changeLocale(locale);
+  }
 
   render() {
     const { translations } = this.props;
@@ -97,7 +109,6 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
         mutation={FACEBOOK_LOGIN_MUTATION}
         variables={this.getSignupPayload()}
         refetchQueries={[{ query: LOGGED_IN_QUERY }]}
-        onCompleted={data => this.handlePostLogin(data)}
       >
         {handleMutation => (
           <FacebookLogin

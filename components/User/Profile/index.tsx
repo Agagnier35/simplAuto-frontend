@@ -236,10 +236,10 @@ class Profile extends Component<ProfileProps, Dictionary<ProfileState>> {
 
   handleUpdateUser = async (
     e: FormEvent<HTMLFormElement>,
-    update: () => void,
+    update: () => any,
   ) => {
     e.preventDefault();
-    const data = await update();
+    const { data } = await update();
     this.setState({ confirmPassword: '', password: '' });
     this.handleLanguage(data);
   };
