@@ -75,6 +75,7 @@ class Select extends React.Component<SelectProps, SelectState> {
             disabled={disabled}
             variant="secondary"
             id="dropdown-basic"
+            style={{ width: '100%' }}
           >
             {selectedValue !== '' ? selectedValue : general.defaultDropdown}
           </BootStrapDropdown.Toggle>
