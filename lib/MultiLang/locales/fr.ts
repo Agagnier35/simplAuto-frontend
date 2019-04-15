@@ -279,7 +279,7 @@ const translations: Translations = {
     buyTopAd: 'Rendre prioritaire',
     buyUrgentAd: 'Rendre urgente',
     AdSuggestion:
-      'Voici les acheteurs qui seraient intéressé par votre véhicule:',
+      'Voici les acheteurs qui seraient intéressé par votre véhicule',
   },
   Ads: {
     lowerPrice: 'Prix minimum',
