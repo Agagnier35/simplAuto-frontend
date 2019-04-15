@@ -218,12 +218,14 @@ const ChatSection = ({ offer, translations }: ChatSectionProps) => {
                           {moment(message.updatedAt).format('LT')}
                         </Chat.Time>
                       )}
-                      {message.image && message.image !== '' && (
-                        <img className="chatImage" src={message.image} />
-                      )}
-                      {message.text && message.text !== '' && (
-                        <p>{message.text}</p>
-                      )}
+                      <div>
+                        {message.image && message.image !== '' && (
+                          <img className="chatImage" src={message.image} />
+                        )}
+                        {message.text && message.text !== '' && (
+                          <p>{message.text}</p>
+                        )}
+                      </div>
                       {!isSelfOrSeller(message) && (
                         <Chat.Time>
                           {moment(message.updatedAt).format('LT')}

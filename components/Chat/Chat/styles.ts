@@ -95,6 +95,9 @@ export const Card = styled(BSCard)`
   .chatImage {
     max-width: 300px;
     height: 200px;
+    margin-bottom: 1rem;
+    object-fit: contain;
+    border: 1px solid #e5e5e5;
   }
 
   .send-button {

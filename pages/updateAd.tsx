@@ -9,7 +9,7 @@ class UpdateAdPage extends PrivateComponent {
     const { user } = await PrivateComponent.getInitialProps(ctx);
     const ad = await checkAdExists(ctx.apolloClient, ctx.query.id);
 
-    if (!ad || !ad.creator || ad.creator.id !== user.id) {
+    if (!ad || !ad.creator || ad.creator.id !== user.me.id) {
       redirect(ctx, '/login');
     }
     return { ad, user };

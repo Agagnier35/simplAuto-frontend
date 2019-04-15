@@ -7,25 +7,27 @@ import { ConversationStatus } from '../../../generated/graphql';
 const ConversationsList = (props: any) => {
   return (
     <Container currentOffer={props.selectedOffer}>
-      {props.conversations.map((conversation: any) => (
-        <ConversationsStyle>
-          <Card
-            key={conversation.id}
-            hidden={conversation.status === ConversationStatus.Deleted}
-            className={
-              props.selectedOffer &&
-              conversation.id === props.selectedOffer.conversation.id
-                ? 'isSelected'
-                : ''
-            }
-          >
-            <SingleConversationSummary
-              onClickCallback={props.onClickCallback}
-              conversation={conversation}
-            />
-          </Card>
-        </ConversationsStyle>
-      ))}
+      <div style={{ width: '100%' }}>
+        {props.conversations.map((conversation: any) => (
+          <ConversationsStyle>
+            <Card
+              key={conversation.id}
+              hidden={conversation.status === ConversationStatus.Deleted}
+              className={
+                props.selectedOffer &&
+                conversation.id === props.selectedOffer.conversation.id
+                  ? 'isSelected'
+                  : ''
+              }
+            >
+              <SingleConversationSummary
+                onClickCallback={props.onClickCallback}
+                conversation={conversation}
+              />
+            </Card>
+          </ConversationsStyle>
+        ))}
+      </div>
     </Container>
   );
 };

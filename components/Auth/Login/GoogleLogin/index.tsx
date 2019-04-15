@@ -18,8 +18,8 @@ const GOOGLE_LOGIN_MUTATION = gql`
   mutation GOOGLE_LOGIN_MUTATION($data: UserSignupInput!) {
     googleLogin(data: $data) {
       id
-      carCount
       adCount
+      carCount
     }
   }
 `;

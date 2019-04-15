@@ -42,6 +42,10 @@ import Router from 'next/router';
 import { PAGE_ADS_QUERY } from '../../Ad/MyAds/Queries';
 import { paging5pages } from '../../General/Preferences';
 import AcceptedOfferModal from '../AcceptedOfferModal';
+import {
+  AD_DETAIL_QUERY,
+  AD_OFFER_SUGGESTION_QUERY,
+} from '../../Ad/AdDetail/Queries';
 
 export interface OfferPageProps {
   translations: Translations;
@@ -88,12 +92,32 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
     ],
   });
 
-  const handleRefuseOffer = useMutation(REFUSE_OFFER_MUTATION, {
+  const refuseOffer = useMutation(REFUSE_OFFER_MUTATION, {
     variables: {
       id: offer && offer.id,
     },
-    refetchQueries: [{ query: LOGGED_IN_QUERY }],
+    refetchQueries: [
+      {
+        query: AD_DETAIL_QUERY,
+        variables: { id: offer.ad.id, pageNumber: 0, pageSize: paging5pages },
+      },
+      {
+        query: AD_OFFER_SUGGESTION_QUERY,
+        variables: { id: offer.ad.id, pageNumber: 0, pageSize: paging5pages },
+      },
+      {
+        query: PAGE_ADS_QUERY,
+        variables: { pageNumber: 0, pageSize: paging5pages },
+      },
+    ],
   });
+
+  async function handleRefuseOffer() {
+    try {
+      await refuseOffer();
+      Router.push(`/adDetail?id=${offer.ad.id}`);
+    } catch (error) {}
+  }
 
   const handleAcceptOfferEmail = useMutation(ACCEPT_OFFER_EMAIL_MUTATION, {
     variables: {

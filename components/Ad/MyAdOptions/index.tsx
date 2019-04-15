@@ -17,10 +17,10 @@ import GeneralModal, {
 } from '../../General/GeneralModal';
 import { AD_DELETE_MUTATION } from '../AdDetail';
 import Router from 'next/router';
-import { AD_DETAIL_QUERY } from '../AdDetail/Queries';
 import { paging5pages } from '../../General/Preferences';
 import moment from 'moment';
 import Link from 'next/link';
+import { PAGE_ADS_QUERY } from '../MyAds/Queries';
 
 export interface MyAdOptionsProps extends MultiProps {
   ad: Ad;
@@ -39,7 +39,7 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
     },
     refetchQueries: [
       {
-        query: AD_DETAIL_QUERY,
+        query: PAGE_ADS_QUERY,
         variables: { id: ad.id, pageNumber: 0, pageSize: paging5pages },
       },
     ],
@@ -127,9 +127,11 @@ const MyAdOptions = ({ translations, ad }: MyAdOptionsProps) => {
           {translations.general.delete} <MdCancel />
         </Button>
         <Link href={{ pathname: '/updateAd', query: { id: ad.id } }}>
-          <Button variant="secondary">
-            {translations.GeneralModalContent.edit} <FaEdit />
-          </Button>
+          <a>
+            <Button variant="secondary">
+              {translations.GeneralModalContent.edit} <FaEdit />
+            </Button>
+          </a>
         </Link>
       </ButtonWrapper>
     </>

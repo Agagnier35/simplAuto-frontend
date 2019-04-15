@@ -30,7 +30,6 @@ export const LOGGED_IN_QUERY = gql`
         updatedAt
         count
       }
-      permissions
     }
   }
 `;
@@ -61,6 +60,8 @@ const handleLogout = async (logout: () => void) => {
 const Header: React.SFC<MultiProps> = ({
   translations: { general, login, signup },
 }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <StyledNav id="topbar" className="noPrint">
       <Link href="/" passHref>
@@ -70,7 +71,10 @@ const Header: React.SFC<MultiProps> = ({
         </Navbar.Brand>
       </Link>
       <Navbar collapseOnSelect expand="md" bg="light" variant="light">
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="responsive-navbar-nav"
+          onClick={() => setIsOpen(false)}
+        />
         <Navbar.Collapse>
           <Query
             query={LOGGED_IN_QUERY}
@@ -94,9 +98,11 @@ const Header: React.SFC<MultiProps> = ({
                           <Nav.Item as="a">Admin</Nav.Item>
                         </Link>
                       ) : (
-                        <Link href="/premium" passHref prefetch>
-                          <Nav.Item as="a">Premium</Nav.Item>
-                        </Link>
+                        !data.me.permissions.includes(Permission.Premium) && (
+                          <Link href="/premium" passHref prefetch>
+                            <Nav.Item as="a">Premium</Nav.Item>
+                          </Link>
+                        )
                       )}
                       <Link href="/conversations" passHref prefetch>
                         <Nav.Item as="a">{general.myConversations}</Nav.Item>
@@ -108,7 +114,11 @@ const Header: React.SFC<MultiProps> = ({
                             : data.me.companyName.charAt(0)}
                         </a>
                       </Link>
-                      <Notifications notifications={data.me.notifications} />
+                      <Notifications
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        notifications={data.me.notifications}
+                      />
                     </Nav>
                     <Mutation
                       mutation={LOGOUT_MUTATION}
