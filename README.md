@@ -8,7 +8,10 @@ React boilerplate using cutting edge web technologies
 - [How to create a new component](#How-to-create-a-new-component)
 - [Translations](#Translations)
 - [Plugins](#Plugins-for-VS-Code)
-- [TODOS](#TODOS)
+- [Routing](#Routing)
+- [Data](#Data)
+- [SSR](#SSR)
+- [Resources](#Resources)
 
 ## What's included and Why
 
@@ -48,15 +51,29 @@ You can now start the app in development mode with :
 npm run dev
 ```
 
+The project will be available at http://localhost:7777
+
 ## Scripts
 
-The project will be available at http://localhost:7777
+The following scripts can be executed by typing npm run _the command_
+
+- build: Create a optimized production build
+- start: Run a production build
+- test: Run tests in watch mode (Using Jest)
+- test-win: Run tests in watch mode (For windows)
+- test-ci: Run tests step on CI
+- test:generate-output: Create a test result file for Storybook
+- prebuild:storybook: Configure Storybook
+- storybook: Start Storybook
+- build-storybook: Build storybook for production
+- init-codegen: Reinitialize the codegen settings
+- prettierCI: Run linter on all files
 
 ## Project Structure
 
 - **.storybook** : Storybook's configuration
 - **components** : Every React Component that isn't a page
-- **lib** : Reusable utility functions
+- **lib** : Reusable utility functions and modules
 - **node_modules** : Packages from npm
 - **pages** : Every component here will be the starting component for a route matching the name of the file
 - **static** : Every static files served for the website (ie. favicon.png)
@@ -178,16 +195,53 @@ export default multi(YourComponent);
 
 ---
 
-## TODOS
+## Routing
 
-1. Setup **nProgress** (Loading bar + spinner on page transitions)
-2. Setup multilang (Using React-intl api)
-3. More **docs** + example on key features
+To add a new route:
 
----
+- Add a new file to the **/pages** directory
+- If the page needs to be available only to connected users : **extend PrivateComponent**
+- If the page needs to be available only to unconnected users : **extend PublicComponent**
+- Use the <Link /> and _Router_ from Next.js to redirect inside the app
 
-## Useful links
+[See more on Next.js's routing](https://nextjs.org/docs/#routing)
+
+## Data
+
+[Apollo](https://www.apollographql.com/) is our solution for state and data management.
+
+Apollo let's us query and mutate data with the GraphQL Server.
+
+GraphQL works with three principal operations :
+
+- query (_Get_ data from the server)
+- mutation (All of the _Post_, _Put_ and _Delete_ operations)
+- subscription (Listen and react to events from the db, _socket_ implementation )
+
+Inside a React component there's three ways to execute any of those actions.
+
+- Using the apollo client directly (exposed on all pages)
+  - NOT RECOMMENDED
+- Using the <Query />, <Mutation /> or <Subscription /> components
+  - Enables more features
+  - Makes JSX in all components deeply nested and tough to understand for big components
+  - GOOD BUT NOT GREAT
+- Using the new [React Hooks API](https://github.com/trojanowski/react-apollo-hooks)
+  - Only build using function components
+  - Makes code more readable and understandable
+  - Lacks some options
+  - SUGGESTED APPROACH
+
+## SSR
+
+SSR (Server-side rendering) is terrific for having good SEO while using a Javascript Framework because all of the HTML and css can be rendered on the server and served to the user.
+
+Our solution for SSR is using [Next.js](https://nextjs.org/)
+
+Next.js enables SSR, codesplitting and a simple routing system. We believe that using Next.js is the way to go.
+
+## Resources
 
 - [React TypeScript Guide](https://github.com/piotrwitek/react-redux-typescript-guide#tslintjson)
-- [Authentication in GraphQL](https://www.youtube.com/watch?v=4_Bcw7BULC8)
-- [Multilang](https://medium.freecodecamp.org/internationalization-in-react-7264738274a0)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React The Complete Guide](https://www.udemy.com/react-the-complete-guide-incl-redux/)
