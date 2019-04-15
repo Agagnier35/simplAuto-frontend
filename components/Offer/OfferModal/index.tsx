@@ -70,7 +70,7 @@ const OfferModal = ({
   function updateCacheCreateOffer(cache: any, payload: any) {
     const data = cache.readQuery(query);
     const filteredAdSuggestion = data.adSuggestion.filter(
-      suggestion => suggestion.ad.id === payload.data.createOffer.id,
+      suggestion => suggestion.ad.id !== payload.data.createOffer.id,
     );
 
     cache.writeQuery({
