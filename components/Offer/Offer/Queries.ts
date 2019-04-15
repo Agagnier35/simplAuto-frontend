@@ -18,6 +18,7 @@ export const OFFER_BY_ID = gql`
         id
         firstName
         lastName
+        companyName
         clientType
       }
       car {

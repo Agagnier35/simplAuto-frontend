@@ -16,31 +16,33 @@ const OfferAddons = ({ offer, translations, button }: OfferAddonsProps) => {
   if (!offer || !offer.creator) return null;
   const creator = offer.creator;
 
-  if (creator.clientType === ClientType.Individual) {
-    return (
-      <>
-        <Container>
-          <Name>
-            {creator.firstName} {creator.lastName}
-          </Name>
-          <div>
-            <AdSummaryItem
-              icon={<MdAccountCircle />}
-              label={translations.clientType.individual}
-            />
-            <AdSummaryItem
-              icon={<MdEvent />}
-              label={translations.general.memberSince}
-              value={moment(creator.createdAt).format('DD[/]MM[/]YY')}
-            />
-          </div>
-        </Container>
-        {button}
-      </>
-    );
-  }
-  // FaUserFriends
-  return <Container>{creator.companyName}</Container>;
+  return (
+    <>
+      <Container>
+        <Name>
+          {creator.clientType === ClientType.Individual
+            ? `${creator.firstName} ${creator.lastName}`
+            : creator.companyName}
+        </Name>
+        <div>
+          <AdSummaryItem
+            icon={<MdAccountCircle />}
+            label={
+              creator.clientType === ClientType.Individual
+                ? translations.clientType.individual
+                : translations.clientType.company
+            }
+          />
+          <AdSummaryItem
+            icon={<MdEvent />}
+            label={translations.general.memberSince}
+            value={moment(creator.createdAt).format('DD[/]MM[/]YY')}
+          />
+        </div>
+      </Container>
+      {button}
+    </>
+  );
 };
 
 export default multi(OfferAddons);

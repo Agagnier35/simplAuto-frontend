@@ -264,7 +264,9 @@ const MyOffer = ({ translations, query }: OfferPageProps) => {
                 {offer.conversation && <Chat offer={offer} />}
               </>
             )}
-            <OfferAddons offer={offer} />
+            {offer.addons && offer.addons.length > 0 && (
+              <OfferAddons offer={offer} />
+            )}
           </div>
 
           <ConfirmationModal

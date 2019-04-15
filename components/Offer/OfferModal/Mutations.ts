@@ -4,6 +4,9 @@ export const CREATE_OFFER_MUTATION = gql`
   mutation CREATE_OFFER_MUTATION($data: OfferCreateInput!) {
     createOffer(data: $data) {
       id
+      ad {
+        id
+      }
     }
   }
 `;
