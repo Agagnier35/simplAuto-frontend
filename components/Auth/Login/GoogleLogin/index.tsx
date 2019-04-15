@@ -89,7 +89,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
   handlePostLogin = (data: any) => {
     this.handleLanguage(data);
     let page = '/myAds';
-    if (data.login.adCount < data.login.carCount) {
+    if (data.googleLogin.adCount < data.googleLogin.carCount) {
       page = '/cars';
     }
     Router.push(page);
@@ -97,7 +97,7 @@ class LoginGoogle extends Component<MultiProps, LoginGoogleState> {
 
   handleLanguage(data: any) {
     let locale = 'fr';
-    if (data.login.language === 'ENGLISH') {
+    if (data.googleLogin.language === 'ENGLISH') {
       locale = 'en';
     }
     this.props.changeLocale(locale);

@@ -88,7 +88,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
   handlePostLogin = (data: any) => {
     this.handleLanguage(data);
     let page = '/myAds';
-    if (data.login.adCount < data.login.carCount) {
+    if (data.facebookLogin.adCount < data.facebookLogin.carCount) {
       page = '/cars';
     }
     Router.push(page);
@@ -96,7 +96,7 @@ class LoginFacebook extends Component<MultiProps, LoginFacebookState> {
 
   handleLanguage(data: any) {
     let locale = 'fr';
-    if (data.login.language === 'ENGLISH') {
+    if (data.facebookLogin.language === 'ENGLISH') {
       locale = 'en';
     }
     this.props.changeLocale(locale);
