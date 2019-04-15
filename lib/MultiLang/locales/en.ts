@@ -482,7 +482,7 @@ const translations: Translations = {
     api: 'On the market',
     price: 'Prix',
     averagePrice: 'Average Price',
-    dom: 'Time on market',
+    dom: 'Days on market',
     averageDom: 'Average number of days on market',
     app: 'On this app',
     numberSold: 'Number sold',

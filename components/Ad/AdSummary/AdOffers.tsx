@@ -97,7 +97,9 @@ const AdOffers = ({ ad, translations }: AdOffersProps) => {
           ))}
       <p
         hidden={
-          loading || (ad.offers && ad.offers.length > 0) || data.suggestions
+          loading ||
+          (ad.offers && ad.offers.length > 0) ||
+          (data.suggestions && data.suggestions.length > 0)
         }
       >
         {translations.offers.noOffers}
