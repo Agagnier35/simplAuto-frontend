@@ -94,9 +94,11 @@ const Header: React.SFC<MultiProps> = ({
                           <Nav.Item as="a">Admin</Nav.Item>
                         </Link>
                       ) : (
-                        <Link href="/premium" passHref prefetch>
-                          <Nav.Item as="a">Premium</Nav.Item>
-                        </Link>
+                        !data.me.permissions.includes(Permission.Premium) && (
+                          <Link href="/premium" passHref prefetch>
+                            <Nav.Item as="a">Premium</Nav.Item>
+                          </Link>
+                        )
                       )}
                       <Link href="/conversations" passHref prefetch>
                         <Nav.Item as="a">{general.myConversations}</Nav.Item>

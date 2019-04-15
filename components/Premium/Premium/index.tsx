@@ -10,13 +10,24 @@ import { Prices, Permission } from '../../../generated/graphql';
 import { Table, Button } from 'react-bootstrap';
 import { FaCheck as CheckMark, FaTimesCircle as XSign } from 'react-icons/fa';
 import StyledForm from './style';
+import { IS_LOGGED_IN } from '../../../lib/Auth/Queries';
+import Router from 'next/router';
 
 export interface PremiumProps extends MultiProps {}
 
 const Premium = ({ translations }: PremiumProps) => {
   const loggedQuery = useQuery(LOGGED_IN_QUERY);
   const pricesQuery = useQuery(PRICES_QUERY);
-  const handleGoPremium = useMutation(GO_PREMIUM_MUTATION);
+  const goPremium = useMutation(GO_PREMIUM_MUTATION, {
+    refetchQueries: [{ query: IS_LOGGED_IN }],
+  });
+
+  async function handleGoPremium(params: any) {
+    try {
+      await goPremium(params);
+      Router.push('/cars');
+    } catch (error) {}
+  }
 
   if (loggedQuery.loading || pricesQuery.loading) return null;
   const prices: Prices = pricesQuery.data.getPrices;
